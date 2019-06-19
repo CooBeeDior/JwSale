@@ -1,0 +1,17 @@
+build
+packages
+
+# dotnet
+%APPDATA%
+TestResults
+
+*.suo
+*.user
+*.sln.cache
+*.nupkg
+*.testsettings
+*.vsmdi
+TestResult.xml
+/JwSale.Api/bin
+bin
+obj

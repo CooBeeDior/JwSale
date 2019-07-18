@@ -9,8 +9,8 @@ namespace JwSale.Model
     /// 日  期：2019.06.11 10:13
     /// 描  述：UserRoleInfo实体
     /// </summary>
-    [Table("UserRoleInfoEntity")]
-    public class UserRoleInfoEntity : Entity
+    [Table("UserRoleInfo")]
+    public class UserRoleInfo : Entity
     {
         /// <summary>
         /// 用户Id

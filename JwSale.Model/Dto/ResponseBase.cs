@@ -8,7 +8,7 @@ namespace JwSale.Model.Dto
 { 
     public class ResponseBase
     {
-        public bool Sucess { get; set; } = true;
+        public bool Success { get; set; } = true;
 
         public HttpStatusCode Code { get; set; } = HttpStatusCode.OK;
 
@@ -16,7 +16,7 @@ namespace JwSale.Model.Dto
 
     }
 
-    public class ResponseBase<T> : RequestBase
+    public class ResponseBase<T> : ResponseBase
     {
         public T Data { get; set; }
     }

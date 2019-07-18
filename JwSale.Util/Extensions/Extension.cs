@@ -11,6 +11,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using ZXing;
+using ZXing.Common;
+using ZXing.QrCode;
 
 namespace JwSale.Util.Extensions
 {
@@ -466,6 +470,52 @@ namespace JwSale.Util.Extensions
         {
             CheckNotNull(filename, paramName);
             Require<FileNotFoundException>(File.Exists(filename), string.Format(Resources.ParameterCheck_FileNotExists, filename));
+        }
+        public static byte[] ToBuffer(this Stream sm)
+        {
+            sm.Seek(0, SeekOrigin.Begin);
+            byte[] buffer = new byte[sm.Length];
+            sm.Read(buffer, 0, buffer.Length);
+            sm.Seek(0, SeekOrigin.Begin);
+            return buffer;
+        }
+
+        public static async Task<byte[]> ToBufferAsync(this Stream sm)
+        {
+            sm.Seek(0, SeekOrigin.Begin);
+            byte[] buffer = new byte[sm.Length];
+            await sm.ReadAsync(buffer, 0, buffer.Length);
+            sm.Seek(0, SeekOrigin.Begin);
+            return buffer;
+        }
+
+
+        /// <summary>
+        /// 解码二维码
+        /// </summary>
+        /// <param name="sm">待解码的二维码图片</param>
+        /// <returns>扫码结果</returns>
+        public static string DecodeQrCode(this Stream sm)
+        {
+            var buffer = sm.ToBuffer();
+             BarcodeReader reader = new BarcodeReader();
+            reader.Options.CharacterSet = "UTF-8";
+            var result = reader.Decode(buffer);
+            return (result == null) ? null : result.Text;
+        }
+
+
+        /// <summary>
+        /// 解码二维码
+        /// </summary>
+        /// <param name="buffer">待解码的二维码图片</param>
+        /// <returns>扫码结果</returns>
+        public static string DecodeQrCode(this byte[] buffer)
+        {   
+            BarcodeReader reader = new BarcodeReader();
+            reader.Options.CharacterSet = "UTF-8";
+            var result = reader.Decode(buffer);
+            return (result == null) ? null : result.Text;
         }
     }
 }

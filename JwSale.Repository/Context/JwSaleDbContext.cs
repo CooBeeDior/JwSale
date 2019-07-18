@@ -11,18 +11,22 @@ namespace JwSale.Repository.Context
         public JwSaleDbContext(DbContextOptions<JwSaleDbContext> options) : base(options)
         {
         }
-        public DbSet<CustomerInfo> CustomerInfos { get; set; }
+        public DbSet<QrCodeInfo> QrCodeInfos { get; set; }
 
+        public DbSet<FunctionInfo> FunctionInfos { get; set; }
         public DbSet<RoleInfo> RoleInfos { get; set; }
+        public DbSet<RolePermissionInfo> RolePermissionInfos { get; set; }
+        public DbSet<SysDictionary> SysDictionarys { get; set; }
+        public DbSet<SysLog> SysLogs { get; set; }
+
+        public DbSet<UserDataPermissionInfo> UserDataPermissionInfos { get; set; }
+        public DbSet<UserInfo> UserInfos { get; set; }
+        public DbSet<UserPermissionInfo> UserPermissionInfos { get; set; }
+        public DbSet<UserRoleDataPermissionInfo> UserRoleDataPermissionInfos { get; set; }
+        public DbSet<UserRoleInfo> UserRoleInfo { get; set; }
+
+
     }
 
-    public class JwSaleDbContext1 : DbContext
-    {
-        public JwSaleDbContext1(DbContextOptions<JwSaleDbContext1> options) : base(options)
-        {
-        }
-        public DbSet<CustomerInfo> CustomerInfos { get; set; }
 
-        public DbSet<RoleInfo> RoleInfos { get; set; }
-    }
 }

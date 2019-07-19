@@ -140,6 +140,7 @@ namespace JwSale.Api.Controllers
                 response.Code = HttpStatusCode.InternalServerError;
                 response.Message = "添加失败";
             }
+            response.Data = list;
             return await response.ToJsonResultAsync();
 
         }

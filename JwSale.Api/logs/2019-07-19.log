@@ -11443,3 +11443,371 @@ WHERE @@ROWCOUNT = 1 AND [Id] = @p0;
 ?
 [2019-07-19 17:33:02,221] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
 ?
+[2019-07-19 17:33:32,243] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:34:02,268] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:34:32,290] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:35:02,345] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:35:32,366] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:36:02,384] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:36:32,415] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:37:02,407] [DEBUG] [Hangfire.SqlServer.CountersAggregator] 线程:CountersAggregator #1 Aggregating records in 'Counter' table...
+?
+[2019-07-19 17:37:02,449] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:37:32,470] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:38:02,515] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:38:32,547] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:39:02,567] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:39:32,590] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:40:02,610] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:40:32,638] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:41:02,659] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:41:32,694] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:42:02,447] [DEBUG] [Hangfire.SqlServer.CountersAggregator] 线程:CountersAggregator #1 Aggregating records in 'Counter' table...
+?
+[2019-07-19 17:42:02,741] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:42:32,778] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:43:02,800] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:43:32,822] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:44:02,856] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:44:32,894] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:45:02,919] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:45:32,952] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:46:02,980] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:46:33,011] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:47:02,490] [DEBUG] [Hangfire.SqlServer.CountersAggregator] 线程:CountersAggregator #1 Aggregating records in 'Counter' table...
+?
+[2019-07-19 17:47:03,048] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:47:33,107] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:48:03,127] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:48:33,151] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:49:03,170] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:49:33,196] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:50:03,220] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:50:33,244] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:51:03,267] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:51:33,297] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:52:02,524] [DEBUG] [Hangfire.SqlServer.CountersAggregator] 线程:CountersAggregator #1 Aggregating records in 'Counter' table...
+?
+[2019-07-19 17:52:03,317] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 17:52:33,346] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:4120:38fe9af0 heartbeat successfully sent
+?
+[2019-07-19 18:02:30,430] [INFO ] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] 线程:1 User profile is available. Using 'C:\Users\LTL\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+?
+[2019-07-19 18:02:30,697] [INFO ] [Hangfire.SqlServer.SqlServerObjectsInstaller] 线程:1 Start installing Hangfire SQL objects...
+?
+[2019-07-19 18:02:31,171] [INFO ] [Hangfire.SqlServer.SqlServerObjectsInstaller] 线程:1 Hangfire SQL objects installed.
+?
+[2019-07-19 18:02:31,242] [INFO ] [Hangfire.BackgroundJobServer] 线程:1 Starting Hangfire Server using job storage: 'SQL Server: .\SQLEXPRESS@hangfire'
+?
+[2019-07-19 18:02:31,247] [INFO ] [Hangfire.BackgroundJobServer] 线程:1 Using the following options for SQL Server job storage: Queue poll interval: 00:00:15.
+?
+[2019-07-19 18:02:31,254] [INFO ] [Hangfire.BackgroundJobServer] 线程:1 Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+?
+[2019-07-19 18:02:31,307] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:BackgroundServerProcess #1 Execution loop BackgroundServerProcess:0afe0419 has started in 27.0071 ms
+?
+[2019-07-19 18:02:31,844] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:11 Request starting HTTP/1.1 GET http://localhost:59126/api/values  
+?
+[2019-07-19 18:02:31,937] [INFO ] [Hangfire.Server.BackgroundServerProcess] 线程:BackgroundServerProcess #1 Server desktop-b0qbas6:2308:106ea97a successfully announced in 558.4181 ms
+?
+[2019-07-19 18:02:31,975] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ServerHeartbeatProcess #1 Execution loop ServerHeartbeatProcess:acb64eb1 has started in 18.0895 ms
+?
+[2019-07-19 18:02:31,980] [INFO ] [Hangfire.Server.BackgroundServerProcess] 线程:BackgroundServerProcess #1 Server desktop-b0qbas6:2308:106ea97a is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+?
+[2019-07-19 18:02:32,040] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ServerWatchdog #1 Execution loop ServerWatchdog:ec23f8f4 has started in 14.854 ms
+?
+[2019-07-19 18:02:32,041] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ServerJobCancellationWatcher #1 Execution loop ServerJobCancellationWatcher:a0168e57 has started in 45.0839 ms
+?
+[2019-07-19 18:02:32,079] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ExpirationManager #1 Execution loop ExpirationManager:a491ecd3 has started in 28.7287 ms
+?
+[2019-07-19 18:02:32,121] [INFO ] [Hangfire.Server.ServerWatchdog] 线程:ServerWatchdog #1 1 servers were removed due to timeout
+?
+[2019-07-19 18:02:32,128] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'AggregatedCounter' table...
+?
+[2019-07-19 18:02:32,152] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:CountersAggregator #1 Execution loop CountersAggregator:13e58ba4 has started in 53.0456 ms
+?
+[2019-07-19 18:02:32,217] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #1 Execution loop Worker:b2b7098b has started in 65.9711 ms
+?
+[2019-07-19 18:02:32,238] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #2 Execution loop Worker:5b9f8ff1 has started in 75.1505 ms
+?
+[2019-07-19 18:02:32,241] [DEBUG] [Hangfire.SqlServer.CountersAggregator] 线程:CountersAggregator #1 Aggregating records in 'Counter' table...
+?
+[2019-07-19 18:02:32,251] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #3 Execution loop Worker:4fbbc8cf has started in 114.9823 ms
+?
+[2019-07-19 18:02:32,276] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #4 Execution loop Worker:ef44db7d has started in 127.1037 ms
+?
+[2019-07-19 18:02:32,320] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #5 Execution loop Worker:8c1c5a18 has started in 114.9501 ms
+?
+[2019-07-19 18:02:32,343] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #6 Execution loop Worker:4700c639 has started in 173.551 ms
+?
+[2019-07-19 18:02:32,409] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #7 Execution loop Worker:2d44f2c5 has started in 190.9651 ms
+?
+[2019-07-19 18:02:32,504] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #8 Execution loop Worker:cf86ac38 has started in 207.1604 ms
+?
+[2019-07-19 18:02:32,535] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #9 Execution loop Worker:8e9baa76 has started in 290.3946 ms
+?
+[2019-07-19 18:02:32,565] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #12 Execution loop Worker:0f9aeb83 has started in 434.9499 ms
+?
+[2019-07-19 18:02:32,613] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #10 Execution loop Worker:7e9da0e1 has started in 325.9772 ms
+?
+[2019-07-19 18:02:32,713] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #11 Execution loop Worker:5b7f63ff has started in 400.5354 ms
+?
+[2019-07-19 18:02:32,729] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #13 Execution loop Worker:25770e82 has started in 605.8049 ms
+?
+[2019-07-19 18:02:32,791] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'Job' table...
+?
+[2019-07-19 18:02:32,877] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #14 Execution loop Worker:02cce739 has started in 673.0109 ms
+?
+[2019-07-19 18:02:32,923] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #15 Execution loop Worker:9681c3b0 has started in 685.8649 ms
+?
+[2019-07-19 18:02:32,940] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #16 Execution loop Worker:b551ff3f has started in 769.9885 ms
+?
+[2019-07-19 18:02:33,065] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #17 Execution loop Worker:c2ab59f4 has started in 790.1038 ms
+?
+[2019-07-19 18:02:33,112] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #18 Execution loop Worker:096e406f has started in 926.73 ms
+?
+[2019-07-19 18:02:33,229] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #19 Execution loop Worker:bb84538a has started in 957.9287 ms
+?
+[2019-07-19 18:02:33,242] [INFO ] [Hangfire.Server.BackgroundServerProcess] 线程:BackgroundServerProcess #1 Server desktop-b0qbas6:2308:106ea97a all the dispatchers started
+?
+[2019-07-19 18:02:33,272] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #20 Execution loop Worker:0dd3db79 has started in 1126.1523 ms
+?
+[2019-07-19 18:02:33,279] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'List' table...
+?
+[2019-07-19 18:02:33,304] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:DelayedJobScheduler #1 Execution loop DelayedJobScheduler:43f5bbc4 has started in 174.5412 ms
+?
+[2019-07-19 18:02:33,310] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:RecurringJobScheduler #1 Execution loop RecurringJobScheduler:c07d39d9 has started in 122.3071 ms
+?
+[2019-07-19 18:02:33,685] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'Set' table...
+?
+[2019-07-19 18:02:33,796] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'Hash' table...
+?
+[2019-07-19 18:02:34,124] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:11 Request finished in 2281.2507ms 404 
+?
+[2019-07-19 18:03:02,081] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:2308:106ea97a heartbeat successfully sent
+?
+[2019-07-19 18:03:07,872] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:11 Request starting HTTP/1.1 GET http://localhost:59126/swagger/index.html  
+?
+[2019-07-19 18:03:07,997] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:11 Request finished in 152.3582ms 200 text/html
+?
+[2019-07-19 18:03:08,995] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:42 Request starting HTTP/1.1 GET http://localhost:59126/swagger/v1/swagger.json  
+?
+[2019-07-19 18:03:09,299] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:42 Request finished in 309.1618ms 200 application/json;charset=utf-8
+?
+[2019-07-19 18:03:24,478] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:44 Request starting HTTP/1.1 POST http://localhost:59126/api/qrcode/uploadqrcode application/json-patch+json 69
+?
+[2019-07-19 18:03:24,498] [WARN ] [Microsoft.AspNetCore.Cors.Infrastructure.CorsService] 线程:44 The CORS protocol does not allow specifying a wildcard (any) origin and credentials at the same time. Configure the policy by listing individual origins if credentials needs to be supported.
+?
+[2019-07-19 18:03:24,530] [INFO ] [Microsoft.AspNetCore.Cors.Infrastructure.CorsService] 线程:44 CORS policy execution successful.
+?
+[2019-07-19 18:03:25,012] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:44 Route matched with {action = "UploadQrCode", controller = "QrCode"}. Executing action JwSale.Api.Controllers.QrCodeController.UploadQrCode (JwSale.Api)
+?
+[2019-07-19 18:03:25,218] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:44 Executing action method JwSale.Api.Controllers.QrCodeController.UploadQrCode (JwSale.Api) with arguments (JwSale.Model.Dto.Request.QrCode.UploadQrCode) - Validation state: Valid
+?
+[2019-07-19 18:03:27,533] [INFO ] [Microsoft.EntityFrameworkCore.Infrastructure] 线程:44 Entity Framework Core 2.2.4-servicing-10062 initialized 'JwSaleDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+?
+[2019-07-19 18:03:28,941] [INFO ] [Microsoft.EntityFrameworkCore.Database.Command] 线程:42 Executed DbCommand (226ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Guid), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (Size = 4000), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Guid), @p10='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [QrCodeInfo] ([Id], [AddTime], [AddUserId], [AddUserRealName], [Content], [Path], [Remark], [Status], [UpdateTime], [UpdateUserId], [UpdateUserRealName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10);
+SELECT [Version]
+FROM [QrCodeInfo]
+WHERE @@ROWCOUNT = 1 AND [Id] = @p0;
+?
+[2019-07-19 18:03:29,137] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:42 Executed action method JwSale.Api.Controllers.QrCodeController.UploadQrCode (JwSale.Api), returned result Microsoft.AspNetCore.Mvc.JsonResult in 3833.9344ms.
+?
+[2019-07-19 18:03:29,188] [INFO ] [Microsoft.AspNetCore.Mvc.Formatters.Json.Internal.JsonResultExecutor] 线程:42 Executing JsonResult, writing value of type 'JwSale.Model.Dto.ResponseBase`1[[System.Collections.Generic.IList`1[[JwSale.Model.QrCodeInfo, JwSale.Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+?
+[2019-07-19 18:03:29,474] [INFO ] [Microsoft.EntityFrameworkCore.Database.Command] 线程:42 Executed DbCommand (160ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Guid), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000), @p6='?' (DbType = Int32), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Guid), @p9='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [SysLog] ([Id], [AddTime], [AddUserId], [AddUserRealName], [Message], [Name], [Type], [UpdateTime], [UpdateUserId], [UpdateUserRealName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9);
+SELECT [Version]
+FROM [SysLog]
+WHERE @@ROWCOUNT = 1 AND [Id] = @p0;
+?
+[2019-07-19 18:03:29,493] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:42 Executed action JwSale.Api.Controllers.QrCodeController.UploadQrCode (JwSale.Api) in 4473.4753ms
+?
+[2019-07-19 18:03:29,509] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:42 Request finished in 5031.671ms 200 application/json; charset=utf-8
+?
+[2019-07-19 18:03:32,108] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:2308:106ea97a heartbeat successfully sent
+?
+[2019-07-19 18:03:40,786] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:46 Request starting HTTP/1.1 GET http://localhost:59126/0f5d17b3-cf3a-4111-9f4e-e8b86031df0a.png  
+?
+[2019-07-19 18:03:40,861] [INFO ] [Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware] 线程:4 Sending file. Request path: '/0f5d17b3-cf3a-4111-9f4e-e8b86031df0a.png'. Physical path: 'D:\JwSale\JwSale.Api\wwwroot\0f5d17b3-cf3a-4111-9f4e-e8b86031df0a.png'
+?
+[2019-07-19 18:03:40,873] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:4 Request finished in 92.1983ms 200 image/png
+?
+[2019-07-19 18:04:02,133] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:2308:106ea97a heartbeat successfully sent
+?
+[2019-07-19 18:04:17,771] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:46 Request starting HTTP/1.1 POST http://localhost:59126/api/qrcode/uploadqrcodeform multipart/form-data; boundary=--------------------------231061159956691528875253 23868
+?
+[2019-07-19 18:04:17,858] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:46 Route matched with {action = "UploadQrCodeForm", controller = "QrCode"}. Executing action JwSale.Api.Controllers.QrCodeController.UploadQrCodeForm (JwSale.Api)
+?
+[2019-07-19 18:04:17,942] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:46 Executing action method JwSale.Api.Controllers.QrCodeController.UploadQrCodeForm (JwSale.Api) with arguments (System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]) - Validation state: Valid
+?
+[2019-07-19 18:04:23,441] [ERROR] [JwSale.Api.Filters.ExceptionAttribute] 线程:46 D:\JwSale\JwSale.Api\a.png
+?
+System.IO.FileNotFoundException: D:\JwSale\JwSale.Api\a.png
+   at System.Drawing.Image.FromFile(String filename, Boolean useEmbeddedColorManagement)
+   at JwSale.Util.Extensions.Extension.DecodeQrCode(Byte[] buffer) in D:\JwSale\JwSale.Util\Extensions\Extension.cs:line 524
+   at JwSale.Api.Controllers.QrCodeController.UploadQrCodeForm(IList`1 files) in D:\JwSale\JwSale.Api\Controllers\QrCodeController.cs:line 116
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+[2019-07-19 18:04:25,345] [INFO ] [Microsoft.AspNetCore.Mvc.Formatters.Json.Internal.JsonResultExecutor] 线程:46 Executing JsonResult, writing value of type 'JwSale.Model.Dto.ResponseBase'.
+?
+[2019-07-19 18:04:25,352] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:46 Executed action JwSale.Api.Controllers.QrCodeController.UploadQrCodeForm (JwSale.Api) in 7485.3147ms
+?
+[2019-07-19 18:04:25,359] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:46 Request finished in 7643.4804ms 200 application/json; charset=utf-8
+?
+[2019-07-19 18:04:32,157] [DEBUG] [Hangfire.Server.ServerHeartbeatProcess] 线程:ServerHeartbeatProcess #1 Server desktop-b0qbas6:2308:106ea97a heartbeat successfully sent
+?
+[2019-07-19 18:05:10,780] [INFO ] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] 线程:1 User profile is available. Using 'C:\Users\LTL\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+?
+[2019-07-19 18:05:11,123] [INFO ] [Hangfire.SqlServer.SqlServerObjectsInstaller] 线程:1 Start installing Hangfire SQL objects...
+?
+[2019-07-19 18:05:11,611] [INFO ] [Hangfire.SqlServer.SqlServerObjectsInstaller] 线程:1 Hangfire SQL objects installed.
+?
+[2019-07-19 18:05:11,670] [INFO ] [Hangfire.BackgroundJobServer] 线程:1 Starting Hangfire Server using job storage: 'SQL Server: .\SQLEXPRESS@hangfire'
+?
+[2019-07-19 18:05:11,679] [INFO ] [Hangfire.BackgroundJobServer] 线程:1 Using the following options for SQL Server job storage: Queue poll interval: 00:00:15.
+?
+[2019-07-19 18:05:11,685] [INFO ] [Hangfire.BackgroundJobServer] 线程:1 Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+?
+[2019-07-19 18:05:11,725] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:BackgroundServerProcess #1 Execution loop BackgroundServerProcess:cf679405 has started in 19.7141 ms
+?
+[2019-07-19 18:05:12,353] [INFO ] [Hangfire.Server.BackgroundServerProcess] 线程:BackgroundServerProcess #1 Server desktop-b0qbas6:6112:8fbf7f0f successfully announced in 594.4166 ms
+?
+[2019-07-19 18:05:12,383] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ServerHeartbeatProcess #1 Execution loop ServerHeartbeatProcess:0ee8b5cb has started in 21.6713 ms
+?
+[2019-07-19 18:05:12,391] [INFO ] [Hangfire.Server.BackgroundServerProcess] 线程:BackgroundServerProcess #1 Server desktop-b0qbas6:6112:8fbf7f0f is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, Worker, DelayedJobScheduler, RecurringJobScheduler...
+?
+[2019-07-19 18:05:12,459] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ServerWatchdog #1 Execution loop ServerWatchdog:63a202f9 has started in 32.5753 ms
+?
+[2019-07-19 18:05:12,482] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ServerJobCancellationWatcher #1 Execution loop ServerJobCancellationWatcher:6e576c8e has started in 33.7368 ms
+?
+[2019-07-19 18:05:12,551] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:ExpirationManager #1 Execution loop ExpirationManager:2a642d64 has started in 51.9014 ms
+?
+[2019-07-19 18:05:12,554] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:CountersAggregator #1 Execution loop CountersAggregator:f32daf8f has started in 22.5177 ms
+?
+[2019-07-19 18:05:12,571] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'AggregatedCounter' table...
+?
+[2019-07-19 18:05:12,597] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #1 Execution loop Worker:debc0c3f has started in 44.3087 ms
+?
+[2019-07-19 18:05:12,619] [DEBUG] [Hangfire.SqlServer.CountersAggregator] 线程:CountersAggregator #1 Aggregating records in 'Counter' table...
+?
+[2019-07-19 18:05:12,637] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #2 Execution loop Worker:109ea9e4 has started in 63.0168 ms
+?
+[2019-07-19 18:05:12,678] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #3 Execution loop Worker:f151af3b has started in 76.0349 ms
+?
+[2019-07-19 18:05:12,685] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #4 Execution loop Worker:02198ad8 has started in 132.613 ms
+?
+[2019-07-19 18:05:12,704] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #5 Execution loop Worker:13f39baf has started in 155.6325 ms
+?
+[2019-07-19 18:05:12,773] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #6 Execution loop Worker:469af7c6 has started in 219.8637 ms
+?
+[2019-07-19 18:05:12,806] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #7 Execution loop Worker:66a777f3 has started in 235.1259 ms
+?
+[2019-07-19 18:05:12,870] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #8 Execution loop Worker:13b24520 has started in 253.7302 ms
+?
+[2019-07-19 18:05:12,887] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:9 Request starting HTTP/1.1 GET http://localhost:59126/api/values  
+?
+[2019-07-19 18:05:12,930] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:11 Request starting HTTP/1.1 POST http://localhost:59126/api/qrcode/uploadqrcodeform multipart/form-data; boundary=--------------------------289375186355458457441556 23868
+?
+[2019-07-19 18:05:12,952] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #9 Execution loop Worker:200e2d55 has started in 273.0781 ms
+?
+[2019-07-19 18:05:13,008] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #10 Execution loop Worker:551b6cb3 has started in 332.4969 ms
+?
+[2019-07-19 18:05:13,148] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #11 Execution loop Worker:36e7243a has started in 370.7053 ms
+?
+[2019-07-19 18:05:13,183] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #12 Execution loop Worker:735766f6 has started in 391.7325 ms
+?
+[2019-07-19 18:05:13,223] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #13 Execution loop Worker:7c1cac9e has started in 467.0485 ms
+?
+[2019-07-19 18:05:13,301] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #14 Execution loop Worker:55c9e70c has started in 496.7716 ms
+?
+[2019-07-19 18:05:13,329] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #15 Execution loop Worker:4d4e4867 has started in 611.3654 ms
+?
+[2019-07-19 18:05:13,406] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #16 Execution loop Worker:11cb3363 has started in 610.5551 ms
+?
+[2019-07-19 18:05:13,449] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'Job' table...
+?
+[2019-07-19 18:05:13,464] [INFO ] [Hangfire.Server.BackgroundServerProcess] 线程:BackgroundServerProcess #1 Server desktop-b0qbas6:6112:8fbf7f0f all the dispatchers started
+?
+[2019-07-19 18:05:13,475] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #17 Execution loop Worker:1e289408 has started in 610.5551 ms
+?
+[2019-07-19 18:05:13,483] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #18 Execution loop Worker:816e1b3e has started in 629.7401 ms
+?
+[2019-07-19 18:05:13,515] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #19 Execution loop Worker:c1528ce9 has started in 741.1292 ms
+?
+[2019-07-19 18:05:13,522] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:Worker #20 Execution loop Worker:419c9159 has started in 765.5863 ms
+?
+[2019-07-19 18:05:13,558] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:DelayedJobScheduler #1 Execution loop DelayedJobScheduler:1df0ec22 has started in 100.6516 ms
+?
+[2019-07-19 18:05:13,576] [DEBUG] [Hangfire.Processing.BackgroundExecution] 线程:RecurringJobScheduler #1 Execution loop RecurringJobScheduler:4a1e23b2 has started in 63.6109 ms
+?
+[2019-07-19 18:05:13,776] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'List' table...
+?
+[2019-07-19 18:05:13,918] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'Set' table...
+?
+[2019-07-19 18:05:14,052] [DEBUG] [Hangfire.SqlServer.ExpirationManager] 线程:ExpirationManager #1 Removing outdated records from the 'Hash' table...
+?
+[2019-07-19 18:05:14,589] [INFO ] [Microsoft.AspNetCore.Hosting.Internal.WebHost] 线程:9 Request finished in 1717.3038ms 404 
+?
+[2019-07-19 18:05:14,925] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:11 Route matched with {action = "UploadQrCodeForm", controller = "QrCode"}. Executing action JwSale.Api.Controllers.QrCodeController.UploadQrCodeForm (JwSale.Api)
+?
+[2019-07-19 18:05:15,104] [INFO ] [Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker] 线程:11 Executing action method JwSale.Api.Controllers.QrCodeController.UploadQrCodeForm (JwSale.Api) with arguments (System.Collections.Generic.List`1[Microsoft.AspNetCore.Http.IFormFile]) - Validation state: Valid
+?

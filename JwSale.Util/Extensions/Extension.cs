@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,6 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using ThoughtWorks.QRCode.Codec;
+using ThoughtWorks.QRCode.Codec.Data;
 
 namespace JwSale.Util.Extensions
 {
@@ -492,29 +493,23 @@ namespace JwSale.Util.Extensions
         /// <returns></returns>
         public static Bitmap CreateQRCode(this string url, int pixel = 5)
         {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
-            QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(pixel, Color.Black, Color.White, true);
+            QRCodeEncoder qRCodeEncoder = new QRCodeEncoder();
+            //设置二维码编码格式
+            qRCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+            //设置编码测量度
+            qRCodeEncoder.QRCodeScale = 80;
+            //设置编码版本
+            qRCodeEncoder.QRCodeVersion = 7;
+            //设置错误校验
+            qRCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
 
-            return qrCodeImage;
-        }
+            Bitmap img = qRCodeEncoder.Encode(url);
+ 
+            return img;
 
-        /// <summary>
-        /// 生成二维码
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="pixel"></param>
-        /// <returns></returns>
-        public static string CreateQRCodeBase64(this string url, int pixel = 5)
-        {
-            var imgType = Base64QRCode.ImageType.Png;
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
-            Base64QRCode qrCode = new Base64QRCode(qrCodeData);
-            string qrCodeImageAsBase64 = qrCode.GetGraphic(pixel, Color.Black, Color.White, true, imgType);
-            return qrCodeImageAsBase64; 
+         
         }
+ 
 
 
         /// <summary>
@@ -524,8 +519,22 @@ namespace JwSale.Util.Extensions
         /// <returns>扫码结果</returns>
         public static string DecodeQrCode(this byte[] buffer)
         {
-            return "";
-      
+            MemoryStream sm = new MemoryStream();
+            sm.Write(buffer, 0, buffer.Length);
+            Bitmap bitMap = new Bitmap(sm);//实例化位图对象，把文件实例化为带有颜色信息的位图对象  
+            QRCodeDecoder decoder = new QRCodeDecoder();//实例化QRCodeDecoder  
+            //通过.decoder方法把颜色信息转换成字符串信息  
+            var decoderStr = decoder.decode(new QRCodeBitmapImage(bitMap), System.Text.Encoding.UTF8);
+            return decoderStr;
+        }
+
+        public static string DecodeQrCode(this Stream sm)
+        {
+            Bitmap bitMap = new Bitmap(sm);//实例化位图对象，把文件实例化为带有颜色信息的位图对象  
+            QRCodeDecoder decoder = new QRCodeDecoder();//实例化QRCodeDecoder  
+            //通过.decoder方法把颜色信息转换成字符串信息  
+            var decoderStr = decoder.decode(new QRCodeBitmapImage(bitMap), System.Text.Encoding.UTF8);
+            return decoderStr;
         }
     }
 }

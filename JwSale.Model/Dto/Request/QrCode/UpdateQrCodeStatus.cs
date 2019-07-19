@@ -20,6 +20,6 @@ namespace JwSale.Model.Dto.Request.QrCode
         /// 二维码链接
         /// </summary>
         [Required]
-        public string Url { get; set; }
+        public string QrCode { get; set; }
     }
 }

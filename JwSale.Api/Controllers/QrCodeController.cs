@@ -200,7 +200,7 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<QrCodeInfo>>> UpdateQrCodeStatus(UpdateQrCodeStatus updateQrCodeStatus)
         {
             ResponseBase<QrCodeInfo> response = new ResponseBase<QrCodeInfo>();
-            var qrcodeInfo = DbContext.QrCodeInfos.Where(o => o.Content == updateQrCodeStatus.Url).FirstOrDefault();
+            var qrcodeInfo = DbContext.QrCodeInfos.Where(o => o.Content == updateQrCodeStatus.QrCode).FirstOrDefault();
             if (qrcodeInfo == null)
             {
                 response.Success = false;

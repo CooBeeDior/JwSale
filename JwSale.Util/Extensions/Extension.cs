@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,8 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using ZXing;
-using ZXing.Common;
 
 namespace JwSale.Util.Extensions
 {
@@ -488,41 +487,33 @@ namespace JwSale.Util.Extensions
         /// <summary>
         /// 生成二维码
         /// </summary>
-        /// <param name="asset"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="url"></param>
+        /// <param name="pixel"></param>
         /// <returns></returns>
-        public static Bitmap CreateQRCode(this string asset, int width = 1200, int height = 1200)
+        public static Bitmap CreateQRCode(this string url, int pixel = 5)
         {
-            string content = "二维码信息";
-            BitMatrix matrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height);   
-            var white = System.Drawing.ColorTranslator.FromHtml("0xFFFFFFFF");
-            var black = System.Drawing.ColorTranslator.FromHtml("0xFF000000");
-            System.Drawing.Bitmap bmap = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    bmap.SetPixel(x, y, matrix[x, y] ? black : white);
-                }
-            }
-            return bmap;
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+            QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(pixel, Color.Black, Color.White, true);
+
+            return qrCodeImage;
         }
 
         /// <summary>
-        /// 解码二维码
+        /// 生成二维码
         /// </summary>
-        /// <param name="sm">待解码的二维码图片</param>
-        /// <returns>扫码结果</returns>
-        public static string DecodeQrCode(this Stream sm)
-        {                     
- 
-            RGBLuminanceSource rgbLuminanceSource = new RGBLuminanceSource(sm.ToBuffer(), 120,120);
-            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(rgbLuminanceSource));//把可视图片转为二进制图片
-            MultiFormatReader multiFormatReader = new MultiFormatReader();
-            var result = multiFormatReader.decode(binaryBitmap);
-      
-            return (result == null) ? null : result.Text;
+        /// <param name="url"></param>
+        /// <param name="pixel"></param>
+        /// <returns></returns>
+        public static string CreateQRCodeBase64(this string url, int pixel = 5)
+        {
+            var imgType = Base64QRCode.ImageType.Png;
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+            Base64QRCode qrCode = new Base64QRCode(qrCodeData);
+            string qrCodeImageAsBase64 = qrCode.GetGraphic(pixel, Color.Black, Color.White, true, imgType);
+            return qrCodeImageAsBase64; 
         }
 
 
@@ -533,12 +524,8 @@ namespace JwSale.Util.Extensions
         /// <returns>扫码结果</returns>
         public static string DecodeQrCode(this byte[] buffer)
         {
-            RGBLuminanceSource rgbLuminanceSource = new RGBLuminanceSource(buffer, 120, 120);
-            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(rgbLuminanceSource));//把可视图片转为二进制图片
-            MultiFormatReader multiFormatReader = new MultiFormatReader();
-            var result = multiFormatReader.decode(binaryBitmap);
-
-            return (result == null) ? null : result.Text;
+            return "";
+      
         }
     }
 }

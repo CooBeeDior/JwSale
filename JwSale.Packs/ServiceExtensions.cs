@@ -36,10 +36,10 @@ namespace Microsoft.Extensions.DependencyInjection
             manager.LoadPacks(services);
 
 
-            //foreach (var pack in builder.Packs)
-            //{
-            //    services.TryAddSingleton(pack);
-            //}
+            foreach (var pack in builder.Packs)
+            {
+                services.TryAddSingleton(pack);
+            }
 
             return services;
         }

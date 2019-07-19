@@ -14,25 +14,10 @@ namespace JwSale.Api.Controllers
     /// </summary> 
     /// 
     [TypeFilter(typeof(AuthAttribute))]
+    [TypeFilter(typeof(LogAttribute))]
     [TypeFilter(typeof(ExceptionAttribute))]
     public class JwSaleControllerBase : ControllerBase
-    {
-
-        protected UserInfo UserInfo
-        {
-            get
-            {
-                return new UserInfo()
-                {
-                    Id = Guid.Empty,
-                    UserName = "admin",
-                    AddUserRealName = "超级管理员",
-
-                };
-            }
-        }
-
-
+    {  
 
 
         protected JwSaleDbContext DbContext { get; }

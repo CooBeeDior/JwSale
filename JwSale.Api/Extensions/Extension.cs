@@ -1,5 +1,6 @@
 ﻿using JwSale.Api.Util;
 using JwSale.Model.Dto;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,16 @@ namespace JwSale.Api.Extensions
         {
             return Task.FromResult(HttpResponseMessageHelper.GetJsonOk(response, headers));
         }
+
+        public static JsonResult ToJsonResult(this object response)
+        {
+            return new JsonResult(response);
+        }
+        public static Task<JsonResult> ToJsonResultAsync(this object response)
+        {
+            return Task.FromResult(new JsonResult(response));
+        }
+
 
     }
 }

@@ -8,16 +8,16 @@ namespace JwSale.Packs.Packs
     [Pack("Mvc模块")]
     public class MvcPack : JwSalePack
     {
-   
+
         /// <summary>
         /// 将模块服务添加到依赖注入服务容器中
         /// </summary>
         /// <param name="services">依赖注入服务容器</param>
         /// <returns></returns>
         protected override IServiceCollection AddServices(IServiceCollection services)
-        {         
+        {
             services.AddHttpContextAccessor();
-            services.AddMvc();
+            services.AddMvc().AddWebApiConventions();
             return services;
         }
 
@@ -28,7 +28,7 @@ namespace JwSale.Packs.Packs
         protected override void UsePack(IApplicationBuilder app)
         {
             app.UseMvc();
-  
+
         }
     }
 }

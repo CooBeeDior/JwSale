@@ -29,8 +29,8 @@ namespace JwSale.Packs.Packs
                 options.SwaggerDoc("v1", jwSaleOptions?.Swagger?.Info ?? new Info
                 {
                     Version = "v1",
-                    Title = "骏网互联销售系统Api",
-                    Description = "骏网互联销售系统Api",
+                    Title = "扫码Api",
+                    Description = "扫码Api",
 
                 });
                 // 为 Swagger JSON and UI设置xml文档注释路径
@@ -56,8 +56,8 @@ namespace JwSale.Packs.Packs
             //启用中间件服务对swagger-ui，指定Swagger JSON终结点
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "骏网互联销售系统Api v1");
-                options.DocumentTitle = "骏网互联销售系统Api";
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "扫码Api v1");
+                options.DocumentTitle = "扫码Api";
             });
         }
 

@@ -12,6 +12,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using JwSale.Model.Dto.Request.QrCode;
+using Microsoft.AspNetCore.Http;
+using JwSale.Api.Util;
+using System.ComponentModel;
 
 namespace JwSale.Api.Controllers
 {
@@ -20,8 +23,10 @@ namespace JwSale.Api.Controllers
     /// </summary> 
     public class QrCodeController : JwSaleControllerBase
     {
-        public QrCodeController(JwSaleDbContext context) : base(context)
+
+        public QrCodeController(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
         {
+
         }
 
 
@@ -29,27 +34,21 @@ namespace JwSale.Api.Controllers
         /// 上传二维码
         /// </summary>
         /// <returns></returns>
-        [HttpPost("api/QrCode/UploadQrCodeForm")]
-        public async Task<HttpResponseMessage> UploadQrCodeForm()
+        [HttpPost("api/qrcode/uploadqrcodeform")]
+        [Description("上传二维码")]
+        public async Task<ActionResult<ResponseBase>> UploadQrCodeForm(IFormFileCollection formFiles)
         {
             ResponseBase response = new ResponseBase();
-            if (!Request.HasFormContentType)
-            {
-                response.Success = false;
-                response.Code = HttpStatusCode.BadRequest;
-                response.Message = "请表单提交";
-                return await response.ToHttpResponseAsync();
-            }
-            var fileCount = Request.Form.Files.Count;
+            var fileCount = formFiles.Count;
             if (fileCount == 0)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
                 response.Message = "请上传文件";
-                return await response.ToHttpResponseAsync();
+                return await response.ToJsonResultAsync();
             }
 
-            foreach (var item in Request.Form.Files)
+            foreach (var item in formFiles)
             {
                 Guid id = Guid.NewGuid();
                 var buffer = item.OpenReadStream().ToBuffer();
@@ -59,10 +58,10 @@ namespace JwSale.Api.Controllers
                     Content = buffer.DecodeQrCode(),
                     Path = $"{id}{Path.GetExtension(item.Name)}",
                     Status = 0,
-                    AddUserId = UserInfo.Id,
-                    AddUserRealName = UserInfo.AddUserRealName,
-                    UpdateUserId = UserInfo.Id,
-                    UpdateUserRealName = UserInfo.AddUserRealName,
+                    AddUserId = UserHelper.UserInfo.Id,
+                    AddUserRealName = UserHelper.UserInfo.AddUserRealName,
+                    UpdateUserId = UserHelper.UserInfo.Id,
+                    UpdateUserRealName = UserHelper.UserInfo.AddUserRealName,
                     AddTime = DateTime.Now,
                     UpdateTime = DateTime.Now,
                 };
@@ -80,7 +79,7 @@ namespace JwSale.Api.Controllers
                 response.Code = HttpStatusCode.InternalServerError;
                 response.Message = "添加失败";
             }
-            return await response.ToHttpResponseAsync();
+            return await response.ToJsonResultAsync();
 
         }
 
@@ -90,8 +89,9 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <param name="getQrCodeList"></param>
         /// <returns></returns>
-        [HttpPost("api/QrCode/GetQrCodeList")]
-        public async Task<HttpResponseMessage> GetQrCodeList(GetQrCodeList getQrCodeList)
+        [HttpPost("api/qrcode/getqrcodelist")]
+        [Description("获取二维码列表")]
+        public async Task<ActionResult<ResponseBase<IQueryable<QrCodeInfo>>>> GetQrCodeList(GetQrCodeList getQrCodeList)
         {
             ResponseBase<IQueryable<QrCodeInfo>> response = new ResponseBase<IQueryable<QrCodeInfo>>();
 
@@ -102,7 +102,7 @@ namespace JwSale.Api.Controllers
             }
             qrcodeInfos = qrcodeInfos.Skip((getQrCodeList.PageIndex - 1) * getQrCodeList.PageSize).Take(getQrCodeList.PageSize).OrderBy(o => o.AddTime);
             response.Data = qrcodeInfos;
-            return await response.ToHttpResponseAsync();
+            return await response.ToJsonResultAsync();
         }
 
         /// <summary>
@@ -111,12 +111,22 @@ namespace JwSale.Api.Controllers
         /// <param name="id">二维码id</param>
         /// <returns></returns>
         [HttpPost("api/QrCode/GetQrCodeDetail/{id}")]
-        public async Task<HttpResponseMessage> GetQrCodeDetail(Guid id)
+        [Description("获取二维码详情")]
+        public async Task<ActionResult<ResponseBase<QrCodeInfo>>> GetQrCodeDetail(Guid id)
         {
             ResponseBase<QrCodeInfo> response = new ResponseBase<QrCodeInfo>();
             var qrcodeInfo = DbContext.QrCodeInfos.Where(o => o.Id == id).FirstOrDefault();
-            response.Data = qrcodeInfo;
-            return await response.ToHttpResponseAsync();
+            if (qrcodeInfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "记录不存在";
+            }
+            else
+            {
+                response.Data = qrcodeInfo;
+            } 
+            return await response.ToJsonResultAsync();
         }
 
         /// <summary>
@@ -125,7 +135,8 @@ namespace JwSale.Api.Controllers
         /// <param name="updateQrCodeStatus"></param>
         /// <returns></returns>
         [HttpPost("api/QrCode/UpdateQrCodeStatus")]
-        public async Task<HttpResponseMessage> UpdateQrCodeStatus(UpdateQrCodeStatus updateQrCodeStatus)
+        [Description("修改二维码状态")]
+        public async Task<ActionResult<ResponseBase<QrCodeInfo>>> UpdateQrCodeStatus(UpdateQrCodeStatus updateQrCodeStatus)
         {
             ResponseBase<QrCodeInfo> response = new ResponseBase<QrCodeInfo>();
             var qrcodeInfo = DbContext.QrCodeInfos.Where(o => o.Content == updateQrCodeStatus.Url).FirstOrDefault();
@@ -138,14 +149,14 @@ namespace JwSale.Api.Controllers
             else
             {
                 qrcodeInfo.Status = updateQrCodeStatus.Status;
-                qrcodeInfo.UpdateUserId = UserInfo.Id;
-                qrcodeInfo.UpdateUserRealName = UserInfo.RealName;
+                qrcodeInfo.UpdateUserId = UserHelper.UserInfo.Id;
+                qrcodeInfo.UpdateUserRealName = UserHelper.UserInfo.RealName;
                 qrcodeInfo.UpdateTime = DateTime.Now;
                 await DbContext.SaveChangesAsync();
             }
 
             response.Data = qrcodeInfo;
-            return await response.ToHttpResponseAsync();
+            return await response.ToJsonResultAsync();
         }
 
 

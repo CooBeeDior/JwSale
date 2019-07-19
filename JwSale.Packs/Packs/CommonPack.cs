@@ -12,17 +12,17 @@ namespace JwSale.Packs.Packs
     {
         protected virtual void UsePack(IApplicationBuilder app)
         {
-            var env = ServiceLocator.Instance.GetService<IHostingEnvironment>();
+            //var env = ServiceLocator.Instance.GetService<IHostingEnvironment>();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
             app.UseStaticFiles();
  
             //app.UseHttpsRedirection();

@@ -29,7 +29,7 @@ namespace JwSale.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddJwSalePackManager(o => o.AddPackWithPackAttribute<PackAttribute>());
-            var allAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(o=>o.FullName.Contains("JwSale"));
+ 
    
         }
 

@@ -1,8 +1,10 @@
 ﻿using JwSale.Model.Dto;
 using JwSale.Repository.Context;
+using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Linq;
 using System.Net;
 
 namespace JwSale.Api.Filters
@@ -20,8 +22,16 @@ namespace JwSale.Api.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            
+            if (!filterContext.ModelState.IsValid)
+            {
+                var errors = filterContext.ModelState.Values.Select(x => x.Errors);
+                ResponseBase response = new ResponseBase();
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = errors.ToJson();
+                filterContext.Result = new JsonResult(response);
 
+            }
             //ResponseBase response = new ResponseBase();
             //response.Success = false;
             //response.Code = HttpStatusCode.Unauthorized;

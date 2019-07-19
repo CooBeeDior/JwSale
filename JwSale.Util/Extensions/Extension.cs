@@ -1,20 +1,16 @@
 ﻿using JwSale.Util.Properties;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ZXing;
 using ZXing.Common;
-using ZXing.QrCode;
 
 namespace JwSale.Util.Extensions
 {
@@ -67,7 +63,7 @@ namespace JwSale.Util.Extensions
             return toAdDescriptor;
         }
 
-     
+
         /// <summary>
         /// 如果指定服务不存在，创建实例并添加
         /// </summary>
@@ -489,6 +485,29 @@ namespace JwSale.Util.Extensions
             return buffer;
         }
 
+        /// <summary>
+        /// 生成二维码
+        /// </summary>
+        /// <param name="asset"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static Bitmap CreateQRCode(this string asset, int width = 1200, int height = 1200)
+        {
+            string content = "二维码信息";
+            BitMatrix matrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height);   
+            var white = System.Drawing.ColorTranslator.FromHtml("0xFFFFFFFF");
+            var black = System.Drawing.ColorTranslator.FromHtml("0xFF000000");
+            System.Drawing.Bitmap bmap = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    bmap.SetPixel(x, y, matrix[x, y] ? black : white);
+                }
+            }
+            return bmap;
+        }
 
         /// <summary>
         /// 解码二维码
@@ -496,11 +515,13 @@ namespace JwSale.Util.Extensions
         /// <param name="sm">待解码的二维码图片</param>
         /// <returns>扫码结果</returns>
         public static string DecodeQrCode(this Stream sm)
-        {
-            var buffer = sm.ToBuffer();
-             BarcodeReader reader = new BarcodeReader();
-            reader.Options.CharacterSet = "UTF-8";
-            var result = reader.Decode(buffer);
+        {                     
+ 
+            RGBLuminanceSource rgbLuminanceSource = new RGBLuminanceSource(sm.ToBuffer(), 120,120);
+            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(rgbLuminanceSource));//把可视图片转为二进制图片
+            MultiFormatReader multiFormatReader = new MultiFormatReader();
+            var result = multiFormatReader.decode(binaryBitmap);
+      
             return (result == null) ? null : result.Text;
         }
 
@@ -511,10 +532,12 @@ namespace JwSale.Util.Extensions
         /// <param name="buffer">待解码的二维码图片</param>
         /// <returns>扫码结果</returns>
         public static string DecodeQrCode(this byte[] buffer)
-        {   
-            BarcodeReader reader = new BarcodeReader();
-            reader.Options.CharacterSet = "UTF-8";
-            var result = reader.Decode(buffer);
+        {
+            RGBLuminanceSource rgbLuminanceSource = new RGBLuminanceSource(buffer, 120, 120);
+            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(rgbLuminanceSource));//把可视图片转为二进制图片
+            MultiFormatReader multiFormatReader = new MultiFormatReader();
+            var result = multiFormatReader.decode(binaryBitmap);
+
             return (result == null) ? null : result.Text;
         }
     }

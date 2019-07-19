@@ -27,6 +27,7 @@ namespace JwSale.Packs.Packs
         protected override void UsePack(IApplicationBuilder app)
         {
             app.UseMiniProfiler();
+       
         }
     }
 }

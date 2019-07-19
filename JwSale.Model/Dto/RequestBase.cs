@@ -15,17 +15,13 @@ namespace JwSale.Model.Dto
     {
         /// <summary>
         /// 页索引
-        /// </summary>
-        [Required]
-        [MinLength(0)]
-        public int PageIndex { get; set; }
+        /// </summary> 
+        public int PageIndex { get; set; } = 1;
 
         /// <summary>
         /// 页大小
-        /// </summary>
-        [Required]
-        [MinLength(0)]
-        public int PageSize { get; set; }
+        /// </summary> 
+        public int PageSize { get; set; } = 10;
 
     }
 }

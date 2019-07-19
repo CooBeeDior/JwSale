@@ -16,6 +16,7 @@ namespace JwSale.Api.Controllers
     [TypeFilter(typeof(AuthAttribute))]
     [TypeFilter(typeof(LogAttribute))]
     [TypeFilter(typeof(ExceptionAttribute))]
+    [ApiController]
     public class JwSaleControllerBase : ControllerBase
     {  
 

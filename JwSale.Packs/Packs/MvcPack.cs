@@ -17,7 +17,7 @@ namespace JwSale.Packs.Packs
         protected override IServiceCollection AddServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddMvc().AddWebApiConventions();
+            services.AddMvc();
             return services;
         }
 

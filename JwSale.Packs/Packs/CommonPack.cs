@@ -10,7 +10,7 @@ namespace JwSale.Packs.Packs
     [Pack("Common模块")]
     public class CommonPack : JwSalePack
     {
-        protected virtual void UsePack(IApplicationBuilder app)
+        protected override void UsePack(IApplicationBuilder app)
         {
             //var env = ServiceLocator.Instance.GetService<IHostingEnvironment>();
 
@@ -23,6 +23,7 @@ namespace JwSale.Packs.Packs
             //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //    app.UseHsts();
             //}
+            app.UseDefaultFiles();
             app.UseStaticFiles();
  
             //app.UseHttpsRedirection();

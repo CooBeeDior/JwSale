@@ -15,20 +15,79 @@ using JwSale.Model.Dto.Request.QrCode;
 using Microsoft.AspNetCore.Http;
 using JwSale.Api.Util;
 using System.ComponentModel;
+using StackExchange.Profiling;
+using System.Threading;
+using System.Drawing.Imaging;
 
 namespace JwSale.Api.Controllers
 {
     /// <summary>
     /// 二维码
     /// </summary> 
+
     public class QrCodeController : JwSaleControllerBase
     {
 
         public QrCodeController(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
         {
 
-        }
 
+        }
+        /// <summary>
+        /// 上传二维码
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("api/qrcode/uploadqrcode")]
+        [Description("上传二维码")]
+        public async Task<ActionResult<ResponseBase>> UploadQrCode(UploadQrCode uploadQrCode)
+        {
+            ResponseBase<IList<QrCodeInfo>> response = new ResponseBase<IList<QrCodeInfo>>();
+            IList<QrCodeInfo> list = new List<QrCodeInfo>();
+            //var fileCount = formFiles.Count;
+            if (uploadQrCode == null || uploadQrCode.QrCodes == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = "请上传二维码链接";
+                return await response.ToJsonResultAsync();
+            }
+
+            foreach (var item in uploadQrCode.QrCodes)
+            {
+                Guid id = Guid.NewGuid();
+                QrCodeInfo qrCodeInfo = new QrCodeInfo()
+                {
+                    Id = id,
+                    Content = item,
+                    Path = $"{id}.png",
+                    Status = 0,
+                    AddUserId = UserHelper.UserInfo.Id,
+                    AddUserRealName = UserHelper.UserInfo.AddUserRealName,
+                    UpdateUserId = UserHelper.UserInfo.Id,
+                    UpdateUserRealName = UserHelper.UserInfo.AddUserRealName,
+                    AddTime = DateTime.Now,
+                    UpdateTime = DateTime.Now,
+                };
+                list.Add(qrCodeInfo);
+                DbContext.Add(qrCodeInfo);
+                var bitMap = item.CreateQRCode();
+                bitMap.Save(Path.Combine("wwwroot", qrCodeInfo.Path), ImageFormat.Png);
+            }
+
+
+
+
+            int count = await DbContext.SaveChangesAsync();
+            if (count == 0)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.InternalServerError;
+                response.Message = "添加失败";
+            }
+            response.Data = list;
+            return await response.ToJsonResultAsync();
+
+        }
 
         /// <summary>
         /// 上传二维码
@@ -36,11 +95,13 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/qrcode/uploadqrcodeform")]
         [Description("上传二维码")]
-        public async Task<ActionResult<ResponseBase>> UploadQrCodeForm(IFormFileCollection formFiles)
+        public async Task<ActionResult<ResponseBase>> UploadQrCodeForm([FromForm]IList<IFormFile> files)
         {
-            ResponseBase response = new ResponseBase();
-            var fileCount = formFiles.Count;
-            if (fileCount == 0)
+
+            ResponseBase<IList<QrCodeInfo>> response = new ResponseBase<IList<QrCodeInfo>>();
+            IList<QrCodeInfo> list = new List<QrCodeInfo>();
+            //var fileCount = formFiles.Count;
+            if (files == null || files.Count == 0)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
@@ -48,15 +109,15 @@ namespace JwSale.Api.Controllers
                 return await response.ToJsonResultAsync();
             }
 
-            foreach (var item in formFiles)
+            foreach (var file in files)
             {
                 Guid id = Guid.NewGuid();
-                var buffer = item.OpenReadStream().ToBuffer();
+                var buffer = file.OpenReadStream().ToBuffer();
                 QrCodeInfo qrCodeInfo = new QrCodeInfo()
                 {
                     Id = id,
                     Content = buffer.DecodeQrCode(),
-                    Path = $"{id}{Path.GetExtension(item.Name)}",
+                    Path = $"{id}{Path.GetExtension(file.FileName)}",
                     Status = 0,
                     AddUserId = UserHelper.UserInfo.Id,
                     AddUserRealName = UserHelper.UserInfo.AddUserRealName,
@@ -66,7 +127,7 @@ namespace JwSale.Api.Controllers
                     UpdateTime = DateTime.Now,
                 };
                 DbContext.Add(qrCodeInfo);
-
+                list.Add(qrCodeInfo);
                 using (var fs = System.IO.File.Create(Path.Combine("wwwroot", qrCodeInfo.Path)))
                 {
                     fs.Write(buffer, 0, buffer.Length);
@@ -125,7 +186,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Data = qrcodeInfo;
-            } 
+            }
             return await response.ToJsonResultAsync();
         }
 

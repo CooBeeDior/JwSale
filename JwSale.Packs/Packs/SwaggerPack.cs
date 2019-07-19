@@ -8,6 +8,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
+
 namespace JwSale.Packs.Packs
 {
 
@@ -57,7 +59,8 @@ namespace JwSale.Packs.Packs
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "扫码Api v1");
-                options.DocumentTitle = "扫码Api";
+                options.DocumentTitle = "扫码Api"; 
+
             });
         }
 

@@ -46,7 +46,7 @@ namespace JwSale.Api.Filters
             SysLog sysLog = new SysLog()
             {
                 Id = Guid.NewGuid(),
-                Message = $"{requestParams}\r\n{context.Result.ToJson()}",
+                Message = $"{requestParams}",
                 Name = descriptionAttribute?.Description ?? context.HttpContext.Request.Path,
                 Type = 1,
 

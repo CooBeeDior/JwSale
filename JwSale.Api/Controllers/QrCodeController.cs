@@ -155,15 +155,16 @@ namespace JwSale.Api.Controllers
         [Description("获取二维码列表")]
         public async Task<ActionResult<ResponseBase<IQueryable<QrCodeInfo>>>> GetQrCodeList(GetQrCodeList getQrCodeList)
         {
-            ResponseBase<IQueryable<QrCodeInfo>> response = new ResponseBase<IQueryable<QrCodeInfo>>();
+            PageResponseBase<IQueryable<QrCodeInfo>> response = new PageResponseBase<IQueryable<QrCodeInfo>>();
 
             var qrcodeInfos = DbContext.QrCodeInfos.AsQueryable();
             if (!getQrCodeList.Status.IsNull())
             {
                 qrcodeInfos = qrcodeInfos.Where(o => o.Status == getQrCodeList.Status);
             }
+            response.TotalCount = qrcodeInfos.Count();
             qrcodeInfos = qrcodeInfos.Skip((getQrCodeList.PageIndex - 1) * getQrCodeList.PageSize).Take(getQrCodeList.PageSize).OrderBy(o => o.AddTime);
-            response.Data = qrcodeInfos;
+            response.Data = qrcodeInfos;        
             return await response.ToJsonResultAsync();
         }
 

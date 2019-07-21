@@ -12,6 +12,9 @@ namespace JwSale.Packs.Options
     public class JwSaleOptions
     {
 
+        public string TokenKey { get; set; }
+
+
         public SwaggerOptions Swagger { get; set; }
 
 

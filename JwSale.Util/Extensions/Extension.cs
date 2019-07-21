@@ -8,6 +8,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using ThoughtWorks.QRCode.Codec;
 using ThoughtWorks.QRCode.Codec.Data;
@@ -16,6 +18,60 @@ namespace JwSale.Util.Extensions
 {
     public static class Extension
     {
+
+        public static string ToDes(this string encryptString, string key)
+        {
+            try
+            {
+                key = key.Substring(0, 8);
+                byte[] rgbKey = Encoding.UTF8.GetBytes(key);
+                //用于对称算法的初始化向量（默认值）。
+                byte[] rgbIV = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+                byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+                DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
+                MemoryStream mStream = new MemoryStream();
+                CryptoStream cStream = new CryptoStream(mStream, dCSP.CreateEncryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
+                cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                cStream.FlushFinalBlock();
+                return Convert.ToBase64String(mStream.ToArray());
+            }
+            catch
+            { }
+            return null;
+
+        }
+
+        public static string FromDes(this string decryptString, string key)
+        {
+            try
+            {
+                key = key.Substring(0, 8);
+                //用于对称算法的初始化向量（默认值）
+                byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+                byte[] rgbKey = Encoding.UTF8.GetBytes(key);
+                byte[] rgbIV = Keys;
+                byte[] inputByteArray = Convert.FromBase64String(decryptString);
+                DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
+                MemoryStream mStream = new MemoryStream();
+                CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
+                cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                cStream.FlushFinalBlock();
+                return Encoding.UTF8.GetString(mStream.ToArray());
+            }
+            catch
+            { }
+            return null;
+        }
+
+
+
+
+        public static string ToMd5(this string strText)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] result = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(strText));
+            return System.Text.Encoding.Default.GetString(result);
+        }
 
 
         public static TOptions GetOptions<TOptions>(this IConfiguration configuration) where TOptions : class, new()
@@ -504,12 +560,12 @@ namespace JwSale.Util.Extensions
             qRCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
 
             Bitmap img = qRCodeEncoder.Encode(url);
- 
+
             return img;
 
-         
+
         }
- 
+
 
 
         /// <summary>

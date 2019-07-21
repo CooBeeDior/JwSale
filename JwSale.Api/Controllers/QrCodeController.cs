@@ -28,7 +28,7 @@ namespace JwSale.Api.Controllers
     public class QrCodeController : JwSaleControllerBase
     {
 
-        public QrCodeController(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
+        public QrCodeController()
         {
 
 
@@ -61,10 +61,10 @@ namespace JwSale.Api.Controllers
                     Content = item,
                     Path = $"{id}.png",
                     Status = 0,
-                    AddUserId = UserHelper.UserInfo.Id,
-                    AddUserRealName = UserHelper.UserInfo.AddUserRealName,
-                    UpdateUserId = UserHelper.UserInfo.Id,
-                    UpdateUserRealName = UserHelper.UserInfo.AddUserRealName,
+                    AddUserId = UserInfo.Id,
+                    AddUserRealName = UserInfo.AddUserRealName,
+                    UpdateUserId = UserInfo.Id,
+                    UpdateUserRealName = UserInfo.AddUserRealName,
                     AddTime = DateTime.Now,
                     UpdateTime = DateTime.Now,
                 };
@@ -119,10 +119,10 @@ namespace JwSale.Api.Controllers
                     Content = buffer.DecodeQrCode(),
                     Path = $"{id}{Path.GetExtension(file.FileName)}",
                     Status = 0,
-                    AddUserId = UserHelper.UserInfo.Id,
-                    AddUserRealName = UserHelper.UserInfo.AddUserRealName,
-                    UpdateUserId = UserHelper.UserInfo.Id,
-                    UpdateUserRealName = UserHelper.UserInfo.AddUserRealName,
+                    AddUserId = UserInfo.Id,
+                    AddUserRealName = UserInfo.AddUserRealName,
+                    UpdateUserId = UserInfo.Id,
+                    UpdateUserRealName = UserInfo.AddUserRealName,
                     AddTime = DateTime.Now,
                     UpdateTime = DateTime.Now,
                 };
@@ -164,7 +164,7 @@ namespace JwSale.Api.Controllers
             }
             response.TotalCount = qrcodeInfos.Count();
             qrcodeInfos = qrcodeInfos.Skip((getQrCodeList.PageIndex - 1) * getQrCodeList.PageSize).Take(getQrCodeList.PageSize).OrderBy(o => o.AddTime);
-            response.Data = qrcodeInfos;        
+            response.Data = qrcodeInfos;
             return await response.ToJsonResultAsync();
         }
 
@@ -212,8 +212,8 @@ namespace JwSale.Api.Controllers
             else
             {
                 qrcodeInfo.Status = updateQrCodeStatus.Status;
-                qrcodeInfo.UpdateUserId = UserHelper.UserInfo.Id;
-                qrcodeInfo.UpdateUserRealName = UserHelper.UserInfo.RealName;
+                qrcodeInfo.UpdateUserId = UserInfo.Id;
+                qrcodeInfo.UpdateUserRealName = UserInfo.RealName;
                 qrcodeInfo.UpdateTime = DateTime.Now;
                 await DbContext.SaveChangesAsync();
             }

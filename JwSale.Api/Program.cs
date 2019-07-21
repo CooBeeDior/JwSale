@@ -1,7 +1,9 @@
-﻿using JwSale.Model.Dto.Request.QrCode;
+﻿using JwSale.Api.Util;
+using JwSale.Model.Dto.Request.QrCode;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Collections.Generic;
 
 namespace JwSale.Api

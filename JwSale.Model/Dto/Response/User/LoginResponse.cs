@@ -7,7 +7,7 @@ namespace JwSale.Model.Dto.Response.User
     /// <summary>
     /// 登录
     /// </summary>
-    public class LoginResponse : ResponseBase
+    public class LoginResponse : IResponse
     {
         /// <summary>
         /// token

@@ -20,5 +20,8 @@ namespace JwSale.Model.Dto.Response.User
         public DateTime ExpiredTime { get; set; }
 
 
+        public UserInfo UserInfo { get; set; }
+
+
     }
 }

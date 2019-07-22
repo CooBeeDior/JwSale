@@ -17,25 +17,23 @@ namespace JwSale.Api.Controllers
     /// </summary> 
     /// 
     [TypeFilter(typeof(PermissionRequiredAttribute))]
-    [TypeFilter(typeof(LogAttribute))]
+    [TypeFilter(typeof(ValidationModelAttribute))]
     [TypeFilter(typeof(ExceptionAttribute))]
     [ApiController]
     public class JwSaleControllerBase : ControllerBase
     {
         protected JwSaleDbContext DbContext { get; }
 
-        protected UserInfo UserInfo { get; }
+        protected UserInfo UserInfo { get; private set; }
         public JwSaleControllerBase()
         {
             DbContext = ServiceLocator.Instance.GetService<JwSaleDbContext>();
-
-          var accer=  ServiceLocator.Instance.GetService<IHttpContextAccessor>();
-            UserInfo = HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
+            var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
+            UserInfo = accessor.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
         }
 
+      
 
- 
 
-       
     }
 }

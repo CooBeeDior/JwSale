@@ -49,7 +49,7 @@ namespace JwSale.Api.Filters
                 Id = Guid.NewGuid(),
                 Message = $"{requestParams}",
                 Name = moudleInfoAttribute?.Name ?? context.HttpContext.Request.Path,
-                Type = moudleInfoAttribute.Type,
+                Type = moudleInfoAttribute == null ? 0 : moudleInfoAttribute.Type,
 
 
 

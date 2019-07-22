@@ -28,7 +28,7 @@ namespace JwSale.Util.Extensions
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public static IEnumerable<T> ToPage<T>(this IEnumerable<T> source, int pageIndex, int pageSize)
-        {         
+        {
             return source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
         }
 
@@ -126,12 +126,20 @@ namespace JwSale.Util.Extensions
 
 
 
-
+ 
         public static string ToMd5(this string strText)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] result = md5.ComputeHash(System.Text.Encoding.Default.GetBytes(strText));
-            return System.Text.Encoding.Default.GetString(result);
+            byte[] fromData = System.Text.Encoding.UTF8.GetBytes(strText);
+            byte[] targetData = md5.ComputeHash(fromData);
+            string byte2String = null;
+
+            for (int i = 0; i < targetData.Length; i++)
+            {
+                byte2String += targetData[i].ToString("x");
+            }
+
+            return byte2String;
         }
 
 

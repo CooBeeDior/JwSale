@@ -12,6 +12,7 @@ using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,10 +33,10 @@ namespace JwSale.Api.Controllers
         private JwSaleOptions jwSaleOptions;
 
         private IHttpContextAccessor accessor;
-        public UserController(JwSaleDbContext context, IDistributedCache cache, JwSaleOptions jwSaleOptions, IHttpContextAccessor accessor)
+        public UserController(JwSaleDbContext context, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions, IHttpContextAccessor accessor)
         {
             this.cache = cache;
-            this.jwSaleOptions = jwSaleOptions;
+            this.jwSaleOptions = jwSaleOptions.Value;
             this.accessor = accessor;
 
         }
@@ -47,14 +48,14 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [NoPermissionRequired]
         [HttpPost("api/User/Login")]
-        public async Task<HttpResponseMessage> Login(Login login)
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(Login login)
         {
             ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();
 
             var userinfo = DbContext.UserInfos.Where(o => o.UserName == login.UserName).FirstOrDefault();
             if (userinfo != null)
             {
-                if (string.Compare(userinfo.Password.ToMd5(), userinfo.Password, true) == 0)
+                if (userinfo.Password.Equals(login.Password.ToMd5(), StringComparison.CurrentCultureIgnoreCase))
                 {
                     UserToken userToken = new UserToken()
                     {
@@ -71,10 +72,11 @@ namespace JwSale.Api.Controllers
                     LoginResponse loginResponse = new LoginResponse()
                     {
                         Token = token,
-                        ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds)
+                        ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
+                        UserInfo = userinfo
                     };
-
-                    await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson());
+                    var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration =   TimeSpan.FromSeconds(userToken.Expireds) };
+                    await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
                     response.Data = loginResponse;
                 }
                 else
@@ -88,7 +90,7 @@ namespace JwSale.Api.Controllers
                 response.Success = false;
                 response.Message = "用户名不存在";
             }
-            return await response.ToHttpResponseAsync();
+            return await response.ToJsonResultAsync();
         }
 
 
@@ -100,7 +102,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/AddUser")]
         [MoudleInfo("添加用户")]
-        public async Task<HttpResponseMessage> AddUser(AddUser addUser)
+        public async Task<ActionResult<ResponseBase<UserInfo>>> AddUser(AddUser addUser)
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
             if (DbContext.UserInfos.Where(o => o.UserName == addUser.UserName).Any())
@@ -148,7 +150,7 @@ namespace JwSale.Api.Controllers
 
 
             LoginResponse loginResponse = new LoginResponse();
-            return await response.ToHttpResponseAsync();
+            return await response.ToJsonResultAsync();
         }
 
         /// <summary>
@@ -158,7 +160,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/GetUsers")]
         [MoudleInfo("获取用户列表")]
-        public async Task<HttpResponseMessage> GetUsers(GetUsers getUsers)
+        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
         {
             PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
             var userinfos = DbContext.UserInfos.AsEnumerable();
@@ -174,7 +176,7 @@ namespace JwSale.Api.Controllers
             userinfos = userinfos.OrderBy(getUsers.OrderBys).ToPage(getUsers.PageIndex, getUsers.PageSize);
             response.Data = userinfos;
 
-            return await response.ToHttpResponseAsync();
+            return await response.ToJsonResultAsync();
         }
 
 
@@ -185,12 +187,12 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/Logout")]
         [MoudleInfo("退出")]
-        public async Task<HttpResponseMessage> Logout()
+        public async Task<ActionResult> Logout()
         {
             ResponseBase response = new ResponseBase();
 
-            LoginResponse loginResponse = new LoginResponse();
-            return await response.ToHttpResponseAsync();
+
+            return await response.ToJsonResultAsync();
         }
 
     }

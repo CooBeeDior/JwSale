@@ -151,8 +151,12 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<IQueryable<QrCodeInfo>>>> GetQrCodeList(GetQrCodeList getQrCodeList)
         {
             PageResponseBase<IEnumerable<QrCodeInfo>> response = new PageResponseBase<IEnumerable<QrCodeInfo>>();
-
-            var qrcodeInfos = DbContext.QrCodeInfos.AsEnumerable();
+            Guid? id = null;
+            if (UserInfo.RealName != "超级管理员")
+            {
+                id = UserInfo?.Id;
+            }
+            var qrcodeInfos = DbContext.QrCodeInfos.AsEnumerable(id);
             if (!getQrCodeList.Status.IsNull())
             {
                 qrcodeInfos = qrcodeInfos.Where(o => o.Status == getQrCodeList.Status);

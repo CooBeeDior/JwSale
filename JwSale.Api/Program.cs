@@ -14,7 +14,7 @@ namespace JwSale.Api
     {
 
         public static void Main(string[] args)
-        { 
+        {    
             CreateWebHostBuilder(args).Build().Run();
         }
 

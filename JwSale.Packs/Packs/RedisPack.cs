@@ -43,7 +43,7 @@ namespace JwSale.Packs.Packs
         /// <param name="app">Asp应用程序构建器</param>
         protected override void UsePack(IApplicationBuilder app)
         {
-          
+        
         }
     }
 }

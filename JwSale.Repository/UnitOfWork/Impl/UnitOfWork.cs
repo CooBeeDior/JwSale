@@ -101,16 +101,7 @@ namespace JwSale.Repository.UnitOfWork
 
             dbContextTransaction?.Rollback();
 
-            if (dbContext.IsRelationalTransaction())
-            {
-                CleanChanges(dbContext);
-                if (dbContext.Database.CurrentTransaction != null)
-                {
-                    dbContext.Database.CurrentTransaction.Rollback();
-                    dbContext.Database.CurrentTransaction.Dispose();
-                }
-            }
-            dbContext.Database.RollbackTransaction();
+      
 
             HasCommitted = true;
         }

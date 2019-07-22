@@ -90,6 +90,16 @@ namespace JwSale.Repository.Repositorys
             return newEntry.Entity;
         }
 
+        /// 创建实体对象
+        /// </summary>
+        public virtual int BatchCreate(IEnumerable<TEntity> entitys)
+        {
+            DbSet.AddRange(entitys);
+            return dbContext.SaveChanges();
+
+
+        }
+
         public virtual void Delete(TEntity TEntity)
         {
             var entry = dbContext.Entry(TEntity);

@@ -29,7 +29,13 @@ namespace JwSale.Api.Controllers
         {
             DbContext = ServiceLocator.Instance.GetService<JwSaleDbContext>();
 
+          var accer=  ServiceLocator.Instance.GetService<IHttpContextAccessor>();
             UserInfo = HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
         }
+
+
+ 
+
+       
     }
 }

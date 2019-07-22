@@ -1,6 +1,7 @@
 ﻿using JwSale.Util.Properties;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.International.Converters.PinYinConverter;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,66 @@ namespace JwSale.Util.Extensions
 {
     public static class Extension
     {
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> ToPage<T>(this IEnumerable<T> source, int pageIndex, int pageSize)
+        {         
+            return source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        }
+
+        /// <summary>
+        /// 汉字转化为拼音
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string ToPinYin(this string source)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char obj in source)
+            {
+                try
+                {
+                    ChineseChar chineseChar = new ChineseChar(obj);
+                    string t = chineseChar.Pinyins[0].ToString();
+                    sb.Append(t.Substring(0, t.Length - 1));
+                }
+                catch
+                {
+                    sb.Append(obj.ToString());
+                }
+            }
+            return sb.ToString();
+
+        }
+        /// <summary>
+        /// 汉字转化为拼音首字母
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string ToFirstPinYin(this string source)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char obj in source)
+            {
+                try
+                {
+                    ChineseChar chineseChar = new ChineseChar(obj);
+                    string t = chineseChar.Pinyins[0].ToString();
+                    sb.Append(t.Substring(0, t.Length - 1));
+                }
+                catch
+                {
+                    sb.Append(obj.ToString());
+                }
+            }
+            return sb.ToString();
+        }
 
         public static string ToDes(this string encryptString, string key)
         {

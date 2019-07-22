@@ -1,5 +1,6 @@
 ﻿using JwSale.Api.Util;
 using JwSale.Model;
+using JwSale.Packs.Attributes;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -31,7 +32,7 @@ namespace JwSale.Api.Filters
 
             var method = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).MethodInfo;
 
-            var descriptionAttribute = method.GetCustomAttributes(false).Where(o => o.GetType() == typeof(DescriptionAttribute)).FirstOrDefault() as DescriptionAttribute;
+            var moudleInfoAttribute = method.GetCustomAttributes(false).Where(o => o.GetType() == typeof(MoudleInfoAttribute)).FirstOrDefault() as MoudleInfoAttribute;
             string requestParams;
             if (context.HttpContext.Request.Body.CanSeek && context.HttpContext.Request.Body.CanRead)
             {
@@ -47,8 +48,8 @@ namespace JwSale.Api.Filters
             {
                 Id = Guid.NewGuid(),
                 Message = $"{requestParams}",
-                Name = descriptionAttribute?.Description ?? context.HttpContext.Request.Path,
-                Type = 1,
+                Name = moudleInfoAttribute?.Name ?? context.HttpContext.Request.Path,
+                Type = moudleInfoAttribute.Type,
 
 
 

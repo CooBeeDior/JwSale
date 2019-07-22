@@ -10,9 +10,8 @@ namespace JwSale.Model
     /// 描  述：FunctionInfo实体
     /// </summary>
     [Table("FunctionInfo")]
-    public class FunctionInfo: Entity
+    public class FunctionInfo : Entity
     {
-      
         /// <summary>
         /// 功能名称
         /// </summary>
@@ -22,6 +21,10 @@ namespace JwSale.Model
         /// </summary>
         public string Code { get; set; }
         /// <summary>
+        /// 排序
+        /// </summary>
+        public int Order { get; set; }
+        /// <summary>
         /// 父Id
         /// </summary>
         public Guid ParentId { get; set; }
@@ -29,6 +32,6 @@ namespace JwSale.Model
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-   
+
     }
 }

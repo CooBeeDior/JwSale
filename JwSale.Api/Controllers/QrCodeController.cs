@@ -18,27 +18,22 @@ using System.ComponentModel;
 using StackExchange.Profiling;
 using System.Threading;
 using System.Drawing.Imaging;
+using JwSale.Packs.Attributes;
 
 namespace JwSale.Api.Controllers
 {
     /// <summary>
     /// 二维码
     /// </summary> 
-
+    [MoudleInfo("二维码管理")]
     public class QrCodeController : JwSaleControllerBase
-    {
-
-        public QrCodeController()
-        {
-
-
-        }
+    { 
         /// <summary>
         /// 上传二维码
         /// </summary>
         /// <returns></returns>
         [HttpPost("api/qrcode/uploadqrcode")]
-        [Description("上传二维码")]
+        [MoudleInfo("上传二维码")]
         public async Task<ActionResult<ResponseBase>> UploadQrCode(UploadQrCode uploadQrCode)
         {
             ResponseBase<IList<QrCodeInfo>> response = new ResponseBase<IList<QrCodeInfo>>();
@@ -94,7 +89,7 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("api/qrcode/uploadqrcodeform")]
-        [Description("上传二维码")]
+        [MoudleInfo("上传二维码")]
         public async Task<ActionResult<ResponseBase>> UploadQrCodeForm([FromForm]IList<IFormFile> files)
         {
 
@@ -152,18 +147,20 @@ namespace JwSale.Api.Controllers
         /// <param name="getQrCodeList"></param>
         /// <returns></returns>
         [HttpPost("api/qrcode/getqrcodelist")]
-        [Description("获取二维码列表")]
+        [MoudleInfo("获取二维码列表")]
         public async Task<ActionResult<ResponseBase<IQueryable<QrCodeInfo>>>> GetQrCodeList(GetQrCodeList getQrCodeList)
         {
-            PageResponseBase<IQueryable<QrCodeInfo>> response = new PageResponseBase<IQueryable<QrCodeInfo>>();
+            PageResponseBase<IEnumerable<QrCodeInfo>> response = new PageResponseBase<IEnumerable<QrCodeInfo>>();
 
-            var qrcodeInfos = DbContext.QrCodeInfos.AsQueryable();
+            var qrcodeInfos = DbContext.QrCodeInfos.AsEnumerable();
             if (!getQrCodeList.Status.IsNull())
             {
                 qrcodeInfos = qrcodeInfos.Where(o => o.Status == getQrCodeList.Status);
             }
+
             response.TotalCount = qrcodeInfos.Count();
-            qrcodeInfos = qrcodeInfos.Skip((getQrCodeList.PageIndex - 1) * getQrCodeList.PageSize).Take(getQrCodeList.PageSize).OrderBy(o => o.AddTime);
+            qrcodeInfos = qrcodeInfos.OrderBy(getQrCodeList.OrderBys).ToPage(getQrCodeList.PageIndex, getQrCodeList.PageSize);
+
             response.Data = qrcodeInfos;
             return await response.ToJsonResultAsync();
         }
@@ -174,7 +171,7 @@ namespace JwSale.Api.Controllers
         /// <param name="id">二维码id</param>
         /// <returns></returns>
         [HttpPost("api/QrCode/GetQrCodeDetail/{id}")]
-        [Description("获取二维码详情")]
+        [MoudleInfo("获取二维码详情")]
         public async Task<ActionResult<ResponseBase<QrCodeInfo>>> GetQrCodeDetail(Guid id)
         {
             ResponseBase<QrCodeInfo> response = new ResponseBase<QrCodeInfo>();
@@ -198,7 +195,7 @@ namespace JwSale.Api.Controllers
         /// <param name="updateQrCodeStatus"></param>
         /// <returns></returns>
         [HttpPost("api/QrCode/UpdateQrCodeStatus")]
-        [Description("修改二维码状态")]
+        [MoudleInfo("修改二维码状态")]
         public async Task<ActionResult<ResponseBase<QrCodeInfo>>> UpdateQrCodeStatus(UpdateQrCodeStatus updateQrCodeStatus)
         {
             ResponseBase<QrCodeInfo> response = new ResponseBase<QrCodeInfo>();

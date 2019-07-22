@@ -23,5 +23,23 @@ namespace JwSale.Model
         /// </summary> 
         public int PageSize { get; set; } = 10;
 
+
+        public IList<OrderByBase> OrderBys { get; set; }
+
+    }
+
+
+    public class OrderByBase
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 是否升序
+        /// </summary>
+        public bool IsAsc { get; set; }
+
     }
 }

@@ -3,7 +3,9 @@ using JwSale.Repository.Repositorys;
 using JwSale.Repository.UnitOfWork;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace JwSale.Packs.Packs
 {
@@ -18,6 +20,9 @@ namespace JwSale.Packs.Packs
 
             return base.AddServices(services);
         }
+
+
+      
     }
  
 }

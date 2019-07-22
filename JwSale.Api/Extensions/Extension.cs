@@ -1,4 +1,5 @@
 ﻿using JwSale.Api.Util;
+using JwSale.Model;
 using JwSale.Model.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,43 @@ namespace JwSale.Api.Extensions
 {
     public static class Extension
     {
+        public static IEnumerable<T> AsEnumerable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
+        {
+            return source.Where(o => o.AddUserId == userId).AsEnumerable();
+        }
+
+
+        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IList<OrderByBase> orderbys, string defaultOrderby = "AddTime")
+        {
+            if (orderbys == null || orderbys.Count == 0)
+            {
+                if (string.IsNullOrEmpty(defaultOrderby))
+                {
+                    return source;
+                }
+                else
+                {
+                    source = source.OrderByDescending(o => defaultOrderby);
+                }
+
+            }
+            else
+            {
+                foreach (var item in orderbys)
+                {
+                    if (item.IsAsc)
+                    {
+                        source = source.OrderBy(o => item.Name);
+                    }
+                    else
+                    {
+                        source = source.OrderByDescending(o => item.Name);
+                    }
+                }
+            }
+            return source;
+        }
+
         public static HttpResponseMessage ToHttpResponse(this string response, Dictionary<string, string> headers = null)
         {
             return HttpResponseMessageHelper.GetJsonOk(response, headers);

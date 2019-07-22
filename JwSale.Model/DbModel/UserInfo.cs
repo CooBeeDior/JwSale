@@ -68,7 +68,7 @@ namespace JwSale.Model
         /// <summary>
         /// ÏêÏ¸µØÖ·
         /// </summary>
-        public string TouchTime { get; set; }
+        public string Address { get; set; }
         /// <summary>
         /// Í·Ïñ
         /// </summary>

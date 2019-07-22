@@ -191,7 +191,7 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase response = new ResponseBase();
 
-
+            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
             return await response.ToJsonResultAsync();
         }
 

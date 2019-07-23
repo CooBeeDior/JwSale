@@ -25,9 +25,9 @@ namespace JwSale.Api.Controllers
         protected JwSaleDbContext DbContext { get; }
 
         protected UserInfo UserInfo { get; private set; }
-        public JwSaleControllerBase()
+        public JwSaleControllerBase(JwSaleDbContext jwSaleDbContext)
         {
-            DbContext = ServiceLocator.Instance.GetService<JwSaleDbContext>();
+            DbContext = jwSaleDbContext;
             var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
             UserInfo = accessor.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
         }

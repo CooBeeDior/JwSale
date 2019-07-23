@@ -11,6 +11,8 @@ namespace JwSale.Api.Controllers
     /// </summary>
     public class PayController : JwSaleControllerBase
     {
-       
+        public PayController(JwSaleDbContext jwSaleDbContext):base(jwSaleDbContext)
+        {
+        }
     }
 }

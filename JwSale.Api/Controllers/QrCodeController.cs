@@ -27,7 +27,10 @@ namespace JwSale.Api.Controllers
     /// </summary> 
     [MoudleInfo("二维码管理")]
     public class QrCodeController : JwSaleControllerBase
-    { 
+    {
+        public QrCodeController(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
+        {
+        }
         /// <summary>
         /// 上传二维码
         /// </summary>

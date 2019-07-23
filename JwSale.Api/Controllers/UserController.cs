@@ -33,7 +33,7 @@ namespace JwSale.Api.Controllers
         private JwSaleOptions jwSaleOptions;
 
         private IHttpContextAccessor accessor;
-        public UserController(JwSaleDbContext context, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions, IHttpContextAccessor accessor)
+        public UserController(JwSaleDbContext context, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions, IHttpContextAccessor accessor) : base(context)
         {
             this.cache = cache;
             this.jwSaleOptions = jwSaleOptions.Value;
@@ -57,37 +57,46 @@ namespace JwSale.Api.Controllers
             {
                 if (userinfo.Password.Equals(login.Password.ToMd5(), StringComparison.CurrentCultureIgnoreCase))
                 {
-                    UserToken userToken = new UserToken()
+                    if (userinfo.Status != 0)
                     {
-                        UserId = userinfo.Id,
-                        UserName = userinfo.UserName,
-                        Ip = accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
-                        Expireds = 60 * 60 * 24 * 7,
-                        AddTime = DateTime.Now
-                    };
-
-
-                    string token = UserHelper.GenerateToken(userToken, jwSaleOptions.TokenKey);
-
-                    LoginResponse loginResponse = new LoginResponse()
+                        response.Success = false;
+                        response.Code = HttpStatusCode.BadRequest;
+                        response.Message = "用户被禁用，请联系管理员开启";
+                    }
+                    else
                     {
-                        Token = token,
-                        ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
-                        UserInfo = userinfo
-                    };
-                    var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration =   TimeSpan.FromSeconds(userToken.Expireds) };
-                    await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
-                    response.Data = loginResponse;
+                        UserToken userToken = new UserToken()
+                        {
+                            UserId = userinfo.Id,
+                            UserName = userinfo.UserName,
+                            Ip = accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                            Expireds = 60 * 60 * 24 * 7,
+                            AddTime = DateTime.Now
+                        };
+                        string token = UserHelper.GenerateToken(userToken, jwSaleOptions.TokenKey);
+
+                        LoginResponse loginResponse = new LoginResponse()
+                        {
+                            Token = token,
+                            ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
+                            UserInfo = userinfo
+                        };
+                        var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
+                        await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
+                        response.Data = loginResponse;
+                    }
                 }
                 else
                 {
                     response.Success = false;
+                    response.Code = HttpStatusCode.BadRequest;
                     response.Message = "密码错误";
                 }
             }
             else
             {
                 response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
                 response.Message = "用户名不存在";
             }
             return await response.ToJsonResultAsync();
@@ -179,6 +188,115 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
+
+        /// <summary>
+        /// 设置用户状态
+        /// </summary>
+        /// <param name="setUserStatus"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetUserStatus")]
+        [MoudleInfo("设置用户状态")]
+        public async Task<ActionResult<ResponseBase>> SetUserStatus(SetUserStatus setUserStatus)
+        {
+            ResponseBase response = new ResponseBase();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserStatus.UserId).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.Status = setUserStatus.Status;
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
+
+            }
+            return await response.ToJsonResultAsync();
+        }
+
+        /// <summary>
+        /// 重置用户密码
+        /// </summary>
+        /// <param name="resetUserPwd"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/ResetUserPwd")]
+        [MoudleInfo("重置用户密码")]
+        public async Task<ActionResult<ResponseBase<string>>> ResetUserPwd(ResetUserPwd resetUserPwd)
+        {
+            ResponseBase<string> response = new ResponseBase<string>();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == resetUserPwd.UserId).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.Password = resetUserPwd.Password.ToMd5();
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
+
+
+                await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName));
+                response.Data = resetUserPwd.Password;
+
+            }
+            return await response.ToJsonResultAsync();
+
+        }
+
+        /// <summary>
+        /// 修改用户简介
+        /// </summary>
+        /// <param name="setUserProfile"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetUserProfile")]
+        [MoudleInfo("修改用户简介")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserProfile(SetUserProfile setUserProfile)
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserProfile.UserId).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.Phone = setUserProfile.Phone;
+                userinfo.Email = setUserProfile.Email;
+                userinfo.RealName = setUserProfile.RealName;
+                userinfo.RealNamePin = setUserProfile.RealName?.ToPinYin();
+                userinfo.Qq = setUserProfile.Qq;
+                userinfo.WxNo = setUserProfile.WxNo;
+                userinfo.TelPhone = setUserProfile.TelPhone;
+                userinfo.PositionName = setUserProfile.PositionName;
+                userinfo.Province = setUserProfile.Province;
+                userinfo.City = setUserProfile.City;
+                userinfo.Area = setUserProfile.Area;
+                userinfo.Address = setUserProfile.Address;
+                userinfo.HeadImageUrl = setUserProfile.HeadImageUrl;
+                userinfo.Remark = setUserProfile.Remark;
+
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
+
+                response.Data = userinfo;
+
+            }
+            return await response.ToJsonResultAsync();
+
+        }
 
 
         /// <summary>

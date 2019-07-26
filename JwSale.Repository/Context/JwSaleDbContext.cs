@@ -23,7 +23,7 @@ namespace JwSale.Repository.Context
         public DbSet<UserInfo> UserInfos { get; set; }
         public DbSet<UserPermissionInfo> UserPermissionInfos { get; set; }
         public DbSet<UserRoleDataPermissionInfo> UserRoleDataPermissionInfos { get; set; }
-        public DbSet<UserRoleInfo> UserRoleInfo { get; set; }
+        public DbSet<UserRoleInfo> UserRoleInfos { get; set; }
 
 
     }

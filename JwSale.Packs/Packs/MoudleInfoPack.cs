@@ -36,7 +36,7 @@ namespace JwSale.Packs.Packs
                     if (repositoryFunctionInfo.Count() == 0)
                     {
                         DateTime dateNow = DateTime.Now;
-                        Guid userId = Guid.Empty;
+                        Guid userId = Guid.NewGuid();
                         string userRealName = "超级管理员";
                         IList<FunctionInfo> functionInfos = new List<FunctionInfo>();
                         foreach (var assembly in AssemblyFinder.AllAssembly)
@@ -54,7 +54,7 @@ namespace JwSale.Packs.Packs
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = name,
-                                        Code = name.ToMd5(),
+                                        Code = name.ToPinYin(),
                                         ParentId = parentId,
                                         Order = moudleInfoAttribute.Order,
                                         AddTime = dateNow,
@@ -72,7 +72,7 @@ namespace JwSale.Packs.Packs
                                 foreach (var method in methods)
                                 {
                                     var methodMoudleInfoAttribute = method.GetCustomAttribute<MoudleInfoAttribute>();
-                                    if (functionInfos.Where(o => o.Name == methodMoudleInfoAttribute.Name && o.ParentId == parentId).Count() > 0)
+                                    if (!methodMoudleInfoAttribute.IsFunction || functionInfos.Where(o => o.Name == methodMoudleInfoAttribute.Name && o.ParentId == parentId).Count() > 0)
                                     {
                                         continue;
                                     }
@@ -80,7 +80,7 @@ namespace JwSale.Packs.Packs
                                     {
                                         Id = Guid.NewGuid(),
                                         Name = methodMoudleInfoAttribute.Name,
-                                        Code = methodMoudleInfoAttribute.Name.ToMd5(),
+                                        Code = string.IsNullOrEmpty(methodMoudleInfoAttribute.Code) ? methodMoudleInfoAttribute.Name.ToPinYin() : methodMoudleInfoAttribute.Code,
                                         ParentId = parentId,
                                         Order = moudleInfoAttribute.Order,
                                         AddTime = dateNow,

@@ -23,9 +23,9 @@ using JwSale.Packs.Attributes;
 namespace JwSale.Api.Controllers
 {
     /// <summary>
-    /// 二维码
+    /// 二维码管理
     /// </summary> 
-    [MoudleInfo("二维码管理")]
+    [MoudleInfo("二维码管理", 3)]
     public class QrCodeController : JwSaleControllerBase
     {
         public QrCodeController(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)

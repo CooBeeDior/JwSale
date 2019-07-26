@@ -5,12 +5,14 @@ using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Request.User;
 using JwSale.Model.Dto.Response.User;
+using JwSale.Model.Enums;
 using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using System;
@@ -23,9 +25,9 @@ using System.Threading.Tasks;
 namespace JwSale.Api.Controllers
 {
     /// <summary>
-    /// 用户
+    /// 用户管理
     /// </summary>
-    [MoudleInfo("用户管理")]
+    [MoudleInfo("用户管理",1)]
     public class UserController : JwSaleControllerBase
     {
         private IDistributedCache cache;
@@ -46,6 +48,7 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
+        [MoudleInfo("登录", false)]
         [NoPermissionRequired]
         [HttpPost("api/User/Login")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(Login login)
@@ -75,12 +78,46 @@ namespace JwSale.Api.Controllers
                         };
                         string token = UserHelper.GenerateToken(userToken, jwSaleOptions.TokenKey);
 
+                        var permissions = await (
+                            from u in DbContext.UserInfos.AsNoTracking()
+                            join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
+                            join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
+                            join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
+                            join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
+                            where u.Id == userinfo.Id
+                            select new BriefInfo()
+                            {
+                                Code = f.Code,
+                                Name = f.Name
+                            }).Union(
+                                from u in DbContext.UserInfos.AsNoTracking()
+                                join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                                join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                                where u.Id == userinfo.Id && up.Type == (short)PermissionType.Increase
+                                select new BriefInfo()
+                                {
+                                    Code = f.Code,
+                                    Name = f.Name
+                                }).Except(
+                                  from u in DbContext.UserInfos.AsNoTracking()
+                                  join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                                  join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                                  where u.Id == userinfo.Id && up.Type == (short)PermissionType.Decut
+                                  select new BriefInfo()
+                                  {
+                                      Code = f.Code,
+                                      Name = f.Name
+                                  }).ToListAsync();
+
                         LoginResponse loginResponse = new LoginResponse()
                         {
                             Token = token,
                             ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
-                            UserInfo = userinfo
+                            UserInfo = userinfo,
+                            Permissions = permissions
                         };
+
+
                         var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
                         await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
                         response.Data = loginResponse;
@@ -102,9 +139,89 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
+        /// <summary>
+        /// 初始化用户信息
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("初始化用户信息", false)]
+        [HttpPost("api/User/InitUserInfo")]
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> InitUserInfo()
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+
+            var userinfo = DbContext.UserInfos.Where(o => o.UserName == UserInfo.UserName).FirstOrDefault();
+            if (userinfo != null)
+            {
+                response.Data = userinfo;
+            }
+            else
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户名不存在";
+            }
+            return await response.ToJsonResultAsync();
+        }
+
+        /// <summary>
+        /// 初始化角色权限
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("初始化角色权限", false)]
+        [HttpPost("api/User/InitUserPermission")]
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> InitUserPermission()
+        {
+            ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
+
+            var permissions = await (
+                          from u in DbContext.UserInfos.AsNoTracking()
+                          join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
+                          join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
+                          join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
+                          join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
+                          where u.Id == UserInfo.Id
+                          select new BriefInfo()
+                          {
+                              Code = f.Code,
+                              Name = f.Name
+                          }).Union(
+                              from u in DbContext.UserInfos.AsNoTracking()
+                              join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                              join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                              where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Increase
+                              select new BriefInfo()
+                              {
+                                  Code = f.Code,
+                                  Name = f.Name
+                              }).Except(
+                                from u in DbContext.UserInfos.AsNoTracking()
+                                join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                                join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                                where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Decut
+                                select new BriefInfo()
+                                {
+                                    Code = f.Code,
+                                    Name = f.Name
+                                }).ToListAsync();
+            response.Data = permissions;
+            return await response.ToJsonResultAsync();
+        }
 
 
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("退出", false)]
+        [NoPermissionRequired]
+        [HttpPost("api/User/Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            ResponseBase response = new ResponseBase();
 
+            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
+            return await response.ToJsonResultAsync();
+        }
         /// <summary>
         /// 添加用户
         /// </summary>
@@ -299,19 +416,7 @@ namespace JwSale.Api.Controllers
         }
 
 
-        /// <summary>
-        /// 登出
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("api/User/Logout")]
-        [MoudleInfo("退出")]
-        public async Task<ActionResult> Logout()
-        {
-            ResponseBase response = new ResponseBase();
 
-            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
-            return await response.ToJsonResultAsync();
-        }
 
     }
 }

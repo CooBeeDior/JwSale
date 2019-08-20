@@ -14,7 +14,7 @@ namespace JwSale.Api.Extensions
     {
         public static IEnumerable<T> AsEnumerable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
         {
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return source;
             }
@@ -22,7 +22,7 @@ namespace JwSale.Api.Extensions
             {
                 return source.Where(o => o.AddUserId == userId).AsEnumerable();
             }
-      
+
         }
 
 

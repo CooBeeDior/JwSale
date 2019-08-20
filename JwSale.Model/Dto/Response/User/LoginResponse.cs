@@ -31,21 +31,5 @@ namespace JwSale.Model.Dto.Response.User
 
     }
 
-    public class Permission
-    {
-
-        public Guid Id { get; set; }
-        /// <summary>
-        /// 功能编码
-        /// </summary>
-        public string FunctionCode { get; set; }
-
-        /// <summary>
-        /// 功能权限
-        /// </summary>
-        public string FunctionName { get; set; }
-
-
-
-    }
+ 
 }

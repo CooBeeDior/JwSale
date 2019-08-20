@@ -1,4 +1,5 @@
-﻿using JwSale.Api.Extensions;
+﻿using EntityFramework.Extensions;
+using JwSale.Api.Extensions;
 using JwSale.Api.Filters;
 using JwSale.Api.Util;
 using JwSale.Model;
@@ -78,36 +79,7 @@ namespace JwSale.Api.Controllers
                         };
                         string token = UserHelper.GenerateToken(userToken, jwSaleOptions.TokenKey);
 
-                        var permissions = await (
-                            from u in DbContext.UserInfos.AsNoTracking()
-                            join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
-                            join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
-                            join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
-                            join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
-                            where u.Id == userinfo.Id
-                            select new BriefInfo()
-                            {
-                                Code = f.Code,
-                                Name = f.Name
-                            }).Union(
-                                from u in DbContext.UserInfos.AsNoTracking()
-                                join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                                join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                                where u.Id == userinfo.Id && up.Type == (short)PermissionType.Increase
-                                select new BriefInfo()
-                                {
-                                    Code = f.Code,
-                                    Name = f.Name
-                                }).Except(
-                                  from u in DbContext.UserInfos.AsNoTracking()
-                                  join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                                  join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                                  where u.Id == userinfo.Id && up.Type == (short)PermissionType.Decut
-                                  select new BriefInfo()
-                                  {
-                                      Code = f.Code,
-                                      Name = f.Name
-                                  }).ToListAsync();
+                        var permissions = await getPermissions(userinfo.Id);
 
                         LoginResponse loginResponse = new LoginResponse()
                         {
@@ -118,8 +90,8 @@ namespace JwSale.Api.Controllers
                         };
 
 
-                        var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
-                        await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
+                        //var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
+                        //await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
                         response.Data = loginResponse;
                     }
                 }
@@ -140,12 +112,12 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 初始化用户信息
+        /// 获取用户信息
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("初始化用户信息", false)] 
-        [HttpPost("api/User/InitUserInfo")]
-        public async Task<ActionResult<ResponseBase<LoginResponse>>> InitUserInfo()
+        [MoudleInfo("获取用户信息", false)]
+        [HttpPost("api/User/GetUserInfo")]
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserInfo()
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
 
@@ -164,64 +136,22 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 初始化角色权限
+        /// 获取角色权限
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("初始化角色权限", false)]
-        [HttpPost("api/User/InitUserPermission")]
-        public async Task<ActionResult<ResponseBase<LoginResponse>>> InitUserPermission()
+        [MoudleInfo("获取角色权限", false)]
+        [HttpPost("api/User/GetUserPermission")]
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserPermission()
         {
             ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
 
-            var permissions = await (
-                          from u in DbContext.UserInfos.AsNoTracking()
-                          join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
-                          join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
-                          join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
-                          join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
-                          where u.Id == UserInfo.Id
-                          select new BriefInfo()
-                          {
-                              Code = f.Code,
-                              Name = f.Name
-                          }).Union(
-                              from u in DbContext.UserInfos.AsNoTracking()
-                              join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                              join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                              where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Increase
-                              select new BriefInfo()
-                              {
-                                  Code = f.Code,
-                                  Name = f.Name
-                              }).Except(
-                                from u in DbContext.UserInfos.AsNoTracking()
-                                join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                                join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                                where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Decut
-                                select new BriefInfo()
-                                {
-                                    Code = f.Code,
-                                    Name = f.Name
-                                }).ToListAsync();
+            var permissions = await getPermissions(UserInfo.Id);
             response.Data = permissions;
             return await response.ToJsonResultAsync();
         }
 
 
-        /// <summary>
-        /// 登出
-        /// </summary>
-        /// <returns></returns>
-        [MoudleInfo("退出", false)]
-        [NoPermissionRequired]
-        [HttpPost("api/User/Logout")]
-        public async Task<ActionResult> Logout()
-        {
-            ResponseBase response = new ResponseBase();
 
-            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
-            return await response.ToJsonResultAsync();
-        }
         /// <summary>
         /// 添加用户
         /// </summary>
@@ -285,6 +215,65 @@ namespace JwSale.Api.Controllers
 
             LoginResponse loginResponse = new LoginResponse();
             return await response.ToJsonResultAsync();
+        }
+
+
+        /// <summary>
+        /// 设置所有权限
+        /// </summary>
+        /// <param name="setAllPermisson"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetAllPermisson")]
+        [MoudleInfo("设置所有权限")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetAllPermisson(SetAllPermisson setAllPermisson)
+        {
+            ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
+            if (!DbContext.UserInfos.Where(o => o.Id == setAllPermisson.UserId).Any())
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"{setAllPermisson.UserId}用户名不存在";
+            }
+            else
+            {
+
+
+                var functionInfos = await DbContext.FunctionInfos.ToListAsync();
+
+                await DbContext.UserPermissionInfos.Where(o => o.UserId == setAllPermisson.UserId).DeleteAsync();
+
+
+                IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
+
+
+                foreach (var funciton in functionInfos)
+                {
+                    UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = setAllPermisson.UserId,
+                        FunctionId = funciton.Id,
+                        Type = 0,
+
+                        AddTime = DateTime.Now,
+                        AddUserId = UserInfo.Id,
+                        AddUserRealName = UserInfo.RealName,
+                        UpdateTime = DateTime.Now,
+                        UpdateUserId = UserInfo.Id,
+                        UpdateUserRealName = UserInfo.RealName,
+                    };
+                    userPermissionInfos.Add(userPermissionInfo);
+                }
+                await DbContext.AddRangeAsync(userPermissionInfos);
+
+                await DbContext.SaveChangesAsync();
+
+                response.Data = await getPermissions(setAllPermisson.UserId);
+
+
+            }
+            return await response.ToJsonResultAsync();
+
         }
 
         /// <summary>
@@ -461,6 +450,60 @@ namespace JwSale.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("退出", false)]
+        [NoPermissionRequired]
+        [HttpPost("api/User/Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            ResponseBase response = new ResponseBase();
+
+            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
+            return await response.ToJsonResultAsync();
+        }
+
+        /// <summary>
+        /// 获取用户权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        private async Task<IList<BriefInfo>> getPermissions(Guid userId)
+        {
+            return await (
+                 from u in DbContext.UserInfos.AsNoTracking()
+                 join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
+                 join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
+                 join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
+                 join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
+                 where u.Id == userId
+                 select new BriefInfo()
+                 {
+                     Code = f.Code,
+                     Name = f.Name
+                 }).Union(
+                     from u in DbContext.UserInfos.AsNoTracking()
+                     join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                     join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                     where u.Id == userId && up.Type == (short)PermissionType.Increase
+                     select new BriefInfo()
+                     {
+                         Code = f.Code,
+                         Name = f.Name
+                     }).Except(
+                       from u in DbContext.UserInfos.AsNoTracking()
+                       join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                       join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                       where u.Id == userId && up.Type == (short)PermissionType.Decut
+                       select new BriefInfo()
+                       {
+                           Code = f.Code,
+                           Name = f.Name
+                       }).ToListAsync();
+        }
 
 
     }

@@ -77,5 +77,20 @@ namespace JwSale.Model.Dto.Request.User
         /// 头像
         /// </summary>
         public string HeadImageUrl { get; set; }
+
+        /// <summary>
+        /// 类型 1:端口授权  2:月租授权
+        /// </summary>
+        public int Type { get; set; }
+
+        /// <summary>
+        /// 微信号数量
+        /// </summary>
+        public int WxNum { get; set; }
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime? ExpiredTime { get; set; }
+
     }
 }

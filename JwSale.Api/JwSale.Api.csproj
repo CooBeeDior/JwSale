@@ -33,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\新文件夹\" />
+    <None Update="JwSale.Api.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

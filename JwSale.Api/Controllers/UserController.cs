@@ -27,7 +27,7 @@ namespace JwSale.Api.Controllers
     /// <summary>
     /// 用户管理
     /// </summary>
-    [MoudleInfo("用户管理",1)]
+    [MoudleInfo("用户管理", 1)]
     public class UserController : JwSaleControllerBase
     {
         private IDistributedCache cache;
@@ -143,7 +143,7 @@ namespace JwSale.Api.Controllers
         /// 初始化用户信息
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("初始化用户信息", false)]
+        [MoudleInfo("初始化用户信息", false)] 
         [HttpPost("api/User/InitUserInfo")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> InitUserInfo()
         {
@@ -259,6 +259,11 @@ namespace JwSale.Api.Controllers
                     PositionName = addUser.PositionName,
                     HeadImageUrl = addUser.HeadImageUrl,
 
+                    Type = addUser.Type,
+                    ExpiredTime = addUser.ExpiredTime,
+                    WxNum = addUser.WxNum,
+
+
                     AddTime = DateTime.Now,
                     AddUserId = UserInfo.Id,
                     AddUserRealName = UserInfo.RealName,
@@ -267,6 +272,9 @@ namespace JwSale.Api.Controllers
                     UpdateUserRealName = UserInfo.RealName,
                 };
                 DbContext.Add(userInfo);
+
+
+
                 await DbContext.SaveChangesAsync();
 
                 response.Data = userInfo;
@@ -415,6 +423,43 @@ namespace JwSale.Api.Controllers
 
         }
 
+
+
+        /// <summary>
+        /// 修改用户授权
+        /// </summary>
+        /// <param name="setUserAuth"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetUserAuth")]
+        [MoudleInfo("修改用户授权")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserAuth(SetUserAuth setUserAuth)
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserAuth.UserId).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+
+                userinfo.Type = setUserAuth.Type;
+                userinfo.ExpiredTime = setUserAuth.ExpiredTime;
+                userinfo.WxNum = setUserAuth.WxNum;
+
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
+
+                response.Data = userinfo;
+
+            }
+            return await response.ToJsonResultAsync();
+
+        }
 
 
 

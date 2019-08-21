@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace JwSale.Model.Dto.Wechat
+{
+    public class WechatCreateRequest : WechatRequestBase
+    {
+        /// <summary>
+        /// 二维码登录时为空，账号密码登录时必填
+        /// </summary>
+        public string user { get; set; }
+
+        /// <summary>
+        /// 二维码登录时为空，账号密码登录时必填
+        /// </summary>
+        public string pass { get; set; }
+
+        /// <summary>
+        /// 二维码登录时为空，账号密码登录时必填 同时支持62和A16
+        /// </summary>
+        public string deviceID { get; set; }
+    }
+
+ 
+
+}

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Util.Const
+namespace JwSale.Api.Const
 {
-    public static class GET_TYPE
+    public static class CGI_TYPE
     {
         /// <summary>
         /// 创建微信实例

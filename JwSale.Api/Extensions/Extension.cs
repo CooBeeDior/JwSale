@@ -1,17 +1,44 @@
 ﻿using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
+using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Extensions
 {
     public static class Extension
     {
+        public static string ToAnalysis(this string cgiType)
+        {
+            return $"-{cgiType}";
+        }
+
+        public static StringContent ToStringContent(this object obj)
+        {
+            var content = new StringContent(obj.ToJson(), Encoding.UTF8, "application/json");
+            return content;
+        }
+
+        public static ByteArrayContent ToByteArrayContent(this byte[] buffer)
+        {
+            var content = new ByteArrayContent(buffer);
+            return content;
+        }
+
+        public static ByteArrayContent ToByteArrayContent(this string hexStr)
+        {
+            var buffer = hexStr.StrToHexBuffer();
+            var content = new ByteArrayContent(buffer);
+            return content;
+        }
+
+
         public static IEnumerable<T> AsEnumerable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
         {
             if (userId == null || userId == Guid.Empty)

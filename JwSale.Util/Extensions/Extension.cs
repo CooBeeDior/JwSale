@@ -19,7 +19,15 @@ namespace JwSale.Util.Extensions
 {
     public static class Extension
     {
-
+        /// <summary>
+        /// 转base64图片
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static string ToBase64Img(this byte[] buffer)
+        {
+            return $"data:img/jpg;base64,{Convert.ToBase64String(buffer)}";
+        }
 
         /// <summary>
         /// 字符串转16进制字节数组

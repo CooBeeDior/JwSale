@@ -1,5 +1,6 @@
 ﻿using JwSale.Api.Util;
 using JwSale.Model.Dto;
+using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
@@ -85,28 +86,40 @@ namespace JwSale.Api.Filters
                     }
                     else
                     {
-                        var userInfo = jwSaleDbContext.UserInfos.Where(o => o.Id == userToken.UserId).FirstOrDefault();
-                        if (userInfo == null)
+                        var userCache = userTokenCache.ToObj<UserCache>();
+                        if (userCache == null || userCache.UserInfo == null)
                         {
                             ResponseBase response = new ResponseBase();
                             response.Success = false;
                             response.Code = HttpStatusCode.Unauthorized;
-                            response.Message = "未知的用户";
+                            response.Message = "令牌失效";
                             context.Result = new JsonResult(response);
                         }
                         else
                         {
-                            if (userInfo.Status != 0)
+                            var userInfo = jwSaleDbContext.UserInfos.Where(o => o.Id == userCache.UserInfo.Id).FirstOrDefault();
+                            if (userInfo == null)
                             {
                                 ResponseBase response = new ResponseBase();
                                 response.Success = false;
                                 response.Code = HttpStatusCode.Unauthorized;
-                                response.Message = "用户被禁用，请联系管理员开启";
+                                response.Message = "未知的用户";
                                 context.Result = new JsonResult(response);
                             }
                             else
                             {
-                                context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;
+                                if (userInfo.Status != 0)
+                                {
+                                    ResponseBase response = new ResponseBase();
+                                    response.Success = false;
+                                    response.Code = HttpStatusCode.Unauthorized;
+                                    response.Message = "用户被禁用，请联系管理员开启";
+                                    context.Result = new JsonResult(response);
+                                }
+                                else
+                                {
+                                    context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;
+                                }
                             }
                         }
                     }

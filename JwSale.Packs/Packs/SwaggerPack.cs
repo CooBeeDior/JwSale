@@ -9,6 +9,8 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JwSale.Packs.Packs
 {
@@ -41,10 +43,16 @@ namespace JwSale.Packs.Packs
                 options.IncludeXmlComments(xmlPath);
                 options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new ApiKeyScheme
                 {
-                    Description = "请输入带有Bearer的Token",
+                    Description = "请输入Token",
                     Name = "Authorization",
-                    In = "header",
+                    In = "Header",
                     Type = "apiKey"
+                });
+
+                //Json Token认证方式，此方式为全局添加
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Bearer", Enumerable.Empty<string>() }
                 });
             });
 
@@ -59,7 +67,7 @@ namespace JwSale.Packs.Packs
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "微信Api v1");
-                options.DocumentTitle = "微信Api";
+                options.DocumentTitle = "微信接口说明文档";
 
             });
         }

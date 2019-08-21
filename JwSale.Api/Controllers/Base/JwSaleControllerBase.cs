@@ -5,6 +5,7 @@ using JwSale.Repository.Context;
 using JwSale.Util.Dependencys;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,9 @@ namespace JwSale.Api.Controllers
             var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
             UserInfo = accessor.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
         }
+
+
+
 
       
 

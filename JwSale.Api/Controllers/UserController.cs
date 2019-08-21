@@ -4,6 +4,7 @@ using JwSale.Api.Filters;
 using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
+using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Request.User;
 using JwSale.Model.Dto.Response.User;
 using JwSale.Model.Enums;
@@ -90,8 +91,15 @@ namespace JwSale.Api.Controllers
                         };
 
 
-                        //var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
-                        //await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), loginResponse.ToJson(), cacheEntryOptions);
+                        UserCache userCache = new UserCache()
+                        {
+                            Token = token,
+                            ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
+                            UserInfo = userinfo,
+                        };
+
+                        var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
+                        await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), userCache.ToJson(), cacheEntryOptions);
                         response.Data = loginResponse;
                     }
                 }
@@ -191,7 +199,7 @@ namespace JwSale.Api.Controllers
 
                     Type = addUser.Type,
                     ExpiredTime = addUser.ExpiredTime,
-                    WxNum = addUser.WxNum,
+                    WxCount = addUser.WxCount,
 
 
                     AddTime = DateTime.Now,
@@ -436,7 +444,7 @@ namespace JwSale.Api.Controllers
 
                 userinfo.Type = setUserAuth.Type;
                 userinfo.ExpiredTime = setUserAuth.ExpiredTime;
-                userinfo.WxNum = setUserAuth.WxNum;
+                userinfo.WxCount = setUserAuth.WxCount;
 
                 userinfo.UpdateUserId = UserInfo.UpdateUserId;
                 userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
@@ -504,6 +512,9 @@ namespace JwSale.Api.Controllers
                            Name = f.Name
                        }).ToListAsync();
         }
+
+
+ 
 
 
     }

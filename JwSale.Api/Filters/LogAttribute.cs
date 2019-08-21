@@ -1,6 +1,7 @@
 ﻿using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Packs.Attributes;
+using JwSale.Packs.Util;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -53,10 +54,10 @@ namespace JwSale.Api.Filters
 
 
 
-                AddUserId = UserHelper.UserInfo.Id,
-                AddUserRealName = UserHelper.UserInfo.AddUserRealName,
-                UpdateUserId = UserHelper.UserInfo.Id,
-                UpdateUserRealName = UserHelper.UserInfo.AddUserRealName,
+                AddUserId = DefaultUserInfo.UserInfo.Id,
+                AddUserRealName = DefaultUserInfo.UserInfo.AddUserRealName,
+                UpdateUserId = DefaultUserInfo.UserInfo.Id,
+                UpdateUserRealName = DefaultUserInfo.UserInfo.AddUserRealName,
                 AddTime = DateTime.Now,
                 UpdateTime = DateTime.Now,
             };

@@ -89,7 +89,7 @@ namespace JwSale.Model
         /// <summary>
         /// 微信号数量
         /// </summary>
-        public int WxNum { get; set; }
+        public int WxCount { get; set; }
 
         /// <summary>
         /// 过期时间

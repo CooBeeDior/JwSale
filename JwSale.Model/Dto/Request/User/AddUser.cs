@@ -86,7 +86,7 @@ namespace JwSale.Model.Dto.Request.User
         /// <summary>
         /// 微信号数量
         /// </summary>
-        public int WxNum { get; set; }
+        public int WxCount { get; set; }
         /// <summary>
         /// 过期时间
         /// </summary>

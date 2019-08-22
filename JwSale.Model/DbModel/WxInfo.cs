@@ -77,8 +77,6 @@ namespace JwSale.Model
         /// </summary>
         public string Signature { get; set; }
 
-
-
-
+ 
     }
 }

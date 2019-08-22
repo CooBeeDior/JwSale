@@ -4,8 +4,9 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class NewSyncKeyRequest : WechatRequestBase
+    public class F2FQrCodeRequest : WechatRequestBase
     {
-        
+
+
     }
 }

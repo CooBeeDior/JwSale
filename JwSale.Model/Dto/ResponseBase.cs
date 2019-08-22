@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 
 namespace JwSale.Model.Dto
-{ 
+{
     public class ResponseBase
     {
         /// <summary>
@@ -43,6 +43,8 @@ namespace JwSale.Model.Dto
         public T Data { get; set; }
     }
 
+
+
     public class ResponseBase<T> : ResponseBase
     {
         /// <summary>
@@ -51,14 +53,22 @@ namespace JwSale.Model.Dto
         public T Data { get; set; }
     }
 
-    public class ResponseBase1<T1, T2> : ResponseBase<T1>
+    public class ResponseTokenBase<T> : ResponseBase<T>
+    {
+        public string Token { get; set; }
+    }
+
+    public class ResponseBase<T1, T2> : ResponseBase<T1>
     {
         /// <summary>
         /// 扩展数据
         /// </summary>
         public T2 ExtensionData { get; set; }
     }
+    public class ResponseTokenBase<T1, T2> : ResponseBase<T1, T2>
+    {
+        public string Token { get; set; }
+    }
 
 }
 
- 

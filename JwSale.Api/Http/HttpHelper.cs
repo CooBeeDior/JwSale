@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using JwSale.Util.Extensions;
 using JwSale.Api.Extensions;
+using JwSale.Model.Dto.Wechat;
+using JwSale.Api.Util;
 
 namespace JwSale.Api.Http
 {
@@ -19,7 +21,7 @@ namespace JwSale.Api.Http
             return result.HexBufferToStr();
         }
 
- 
+
 
         public static async Task<T> PostAsync<T>(string url, object data)
         {
@@ -42,7 +44,15 @@ namespace JwSale.Api.Http
 
         }
 
+        public static async Task<T> PostVxApiAsync<T>(string cgiType, WechatResponseBase wechatResponseBase)
+        {
+            var packetResp = await PostPacketAsync(wechatResponseBase.url, wechatResponseBase.packet);
+            AnalysisData analysisData = new AnalysisData(wechatResponseBase.token, packetResp);
+            var analysisUrl = WechatHelper.GetUrl(cgiType.ToAnalysis());
+            var result = await HttpHelper.PostAsync<T>(analysisUrl, analysisData);
+            return result;
 
+        }
         public static HttpClient CreateHttpClient()
         {
             return new HttpClient();

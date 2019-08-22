@@ -4,8 +4,8 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request.Wechat
 {
-    public class GetQrCode
+   public class WechatBase
     {
-
+        public string Token { get; set; }
     }
 }

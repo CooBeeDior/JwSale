@@ -13,7 +13,11 @@ namespace JwSale.Api.Util
 
         }
 
+        public static string GetWechatKey(string wxid)
+        {
+            return $"wechat_{wxid}";
 
+        }
         public static string GetHttpContextUserKey()
         {
             return "currentUser";

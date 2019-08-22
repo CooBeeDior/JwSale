@@ -45,7 +45,7 @@ namespace JwSale.Model.Dto.Wechat
 
     public class WechatProfile
     {
-        public string bitFlag { get; set; } = "1";
+        public string bitFlag { get; set; } = "2178";
 
         public string nickName { get; set; }
 
@@ -54,6 +54,8 @@ namespace JwSale.Model.Dto.Wechat
         public string city { get; set; }
 
         public string signature { get; set; }
+
+        public int sex { get; set; }
         public string country { get; set; } = "CN";
     }
 

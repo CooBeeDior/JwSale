@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class SendAppMsgRequest : WechatRequestBase
+    public class SendShareMsgRequest:WechatRequestBase
     {
         /// <summary>
         /// 接收账号
@@ -13,7 +13,7 @@ namespace JwSale.Model.Dto.Wechat
 
         /// <summary>
         /// 提交数据 XML格式的Appmsg
-        /// <appmsg appid=\"appid\" sdkver=\"0\"><title>标题</title><des>描述</des><type> app类型 3：音乐  4：小app  5：大app</type><showtype>0</showtype><soundtype>0</soundtype><contentattr>0</contentattr><url>跳转Url</url><lowurl>{appMessage.Url}</lowurl><dataurl>数据Url</dataurl><lowdataurl>数据Url</lowdataurl> <thumburl>显示图片地址</thumburl></appmsg>
+        /// <appmsg  sdkver=\"0\"><title>{标题}</title><des>{描述}</des><type>{ app类型 3：音乐  4：小app  5：大app}</type><showtype>0</showtype><soundtype>0</soundtype><contentattr>0</contentattr><url>{跳转url}</url><lowurl>{跳转url}</lowurl><dataurl>{数据url}</dataurl><lowdataurl>{数据url}</lowdataurl> <thumburl>{图片url}</thumburl></appmsg>
         /// </summary>
         public string message { get; set; }
 

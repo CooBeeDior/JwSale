@@ -4,22 +4,873 @@
         <name>JwSale.Api</name>
     </assembly>
     <members>
-        <member name="M:JwSale.Api.Controllers.CustomerInfoController.GetAll">
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_WECHAT_CREATE">
             <summary>
-            获取所有客户信息
+            创建微信实例
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_WECHAT_MODIFY">
+            <summary>
+            修改微信实例
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETLOGINQRCODE">
+            <summary>
+            二维码登录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_CHECKLOGINQRCODE">
+            <summary>
+            二维码检查
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_BINDOPMOBILEFORREG">
+            <summary>
+            短信登录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MANUALAUTH">
+            <summary>
+            账号登录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_AUTOAUTH">
+            <summary>
+            二次登录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_LOGOUT">
+            <summary>
+            退出登录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_HEARTBEAT">
+            <summary>
+            长连接心跳包
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_HEARTBEAT_1">
+            <summary>
+            短连接心跳包
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_NEWSYNC">
+            <summary>
+            同步消息
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.SET_NEWSYNCKEY">
+            <summary>
+            重置同步消息标识
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_NEWSENDMSG">
+            <summary>
+            发送消息文本
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADVIDEO">
+            <summary>
+            发送消息视频CDN
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADMSGIMG">
+            <summary>
+            发送消息图片
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADMSGIMGCDN">
+            <summary>
+            发送消息图片CDN
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADVOICE">
+            <summary>
+            发送消息语音
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SENDAPPMSG">
+            <summary>
+            发送消息应用
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_REVOKEMSG">
+            <summary>
+            撤销消息
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETMSGIMG">
+            <summary>
+            获取高清图片
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_EXTDEVICE_LOGINCONFIRM_GET">
+            <summary>
+            获取外部设备登录确认获取
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_EXTDEVICE_LOGINCONFIRM_OK">
+            <summary>
+            获取外部设备登录确认同意
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_A8KEY">
+            <summary>
+            获取A8key
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MPA8KEY">
+            <summary>
+            获取MPA8key
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_F2FQRCODE">
+            <summary>
+            获取收款码
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_TRANSFERSETF2FFEE">
+            <summary>
+            获取固定收款码
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_WXAATTRSYNC">
+            <summary>
+            获取公众号APPID
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_JSOPERATEWXDATA">
+            <summary>
+            获取授权小程序
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_JSLOGIN">
+            <summary>
+            获取小程序登陆
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADMCONTACT">
+            <summary>
+            上传通讯录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETMFRIEND">
+            <summary>
+            下载通讯录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_NEWVERIFYPASSWD">
+            <summary>
+            验证原密码
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_NEWSETPASSWD">
+            <summary>
+            修改新密码
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MMSNSUSERPAGE">
+            <summary>
+            获取指定朋友圈
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MMSNSTIMELINE">
+            <summary>
+            获取朋友圈首页
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MMSNSCOMMENT">
+            <summary>
+            朋友圈电点赞评论
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MMSNSOBJECTOP">
+            <summary>
+            朋友圈操作
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MMSNSUPLOAD">
+            <summary>
+            朋友圈图片上传
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MMSNSPOST">
+            <summary>
+            朋友圈发布
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SEARCHCONTACT">
+            <summary>
+            搜索联系人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETCONTACT">
+            <summary>
+            获取联系人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_VERIFYUSER">
+            <summary>
+            添加/同意联系人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_DELCONTACT">
+            <summary>
+            删除联系人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SETFRIENDREMARKS">
+            <summary>
+            设置联系人备注
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_ADDCONTACTLABEL">
+            <summary>
+            添加联系人标签
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_DELCONTACTLABEL">
+            <summary>
+            删除联系人标签
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MODIFYCONTACTLABELLIST">
+            <summary>
+            修改联系人标签
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETCONTACTLABELLIST">
+            <summary>
+            获取联系人标签
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETQRCODE">
+            <summary>
+            获取个人或群聊二维码
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_CREATECHATROOM">
+            <summary>
+            创建群聊
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_ADDCHATROOMMEMBER">
+            <summary>
+            邀请40内加群聊
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_INVITECHATROOMMEMBER">
+            <summary>
+            邀请40外加群聊
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_QUITCHATROOM">
+            <summary>
+            退出群聊
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SETCHATROOMANNOUNCEMENT">
+            <summary>
+            设置群聊公告
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_TRANSFERCHATROOMOWNER">
+            <summary>
+            转让群聊主人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_MEMBERDETAIL">
+            <summary>
+            获取群员列表
+            </summary> 
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_DELCHATROOMMEMBER">
+            <summary>
+            删除群聊成员
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADDEVICESTEP">
+            <summary>
+            上传设备步数
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GENERALSET">
+            <summary>
+            设置微信号
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_OPLOG">
+            <summary>
+            设置资料
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_UPLOADHDHEADIMG">
+            <summary>
+            设置设置头像
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_RECEIVEWXHB">
+            <summary>
+            接收红包
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_OPENWXHB">
+            <summary>
+            打开红包
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_TRANSFEROPERATION">
+            <summary>
+            接收转账
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_LBSFIND">
+            <summary>
+            附近人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SHAKEREPORT">
+            <summary>
+            摇一摇提交
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SHAKEREGET">
+            <summary>
+            摇一摇获取
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_ADDTRUSTEDFRIENDS">
+            <summary>
+            添加紧急联系人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETTRUSTEDFRIENDS">
+            <summary>
+            获取紧急联系人
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_OAUTHAUTHORIZE">
+            <summary>
+            获取授权项
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_JSAPIPREVERIFY">
+            <summary>
+            获取真实授权
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_TYPE_GETSAFETYINFO">
+            <summary>
+            获取获取安全设备信息
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_TYPE_DELSAFEDEVICE">
+            <summary>
+            获取删除安全设备
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.VXAPI.URL">
+            <summary>
+            请求地址
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.VXAPI.KEY">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Controllers.JwSaleControllerBase">
+            <summary>
+            基类
+            </summary> 
+            
+        </member>
+        <member name="T:JwSale.Api.Controllers.WechatController">
+            <summary>
+            微信管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetLoginQrCode">
+            <summary>
+            获取登录二维码
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.ValuesController.Get(System.Int32)">
+        <member name="M:JwSale.Api.Controllers.WechatController.CheckLoginQrCode(JwSale.Model.Dto.Wechat.CheckLoginQrCodeRequest)">
             <summary>
-            这是一个带参数的get请求
+            检查是否登录
             </summary>
-            <remarks>
-            例子:
-            Get api/Values/1
-            </remarks>
-            <param name="id">主键</param>
-            <returns>测试字符串</returns>   
+            <param name="checkLoginQrCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.Login(JwSale.Model.Dto.Wechat.WechatCreateRequest)">
+            <summary>
+            62或A16登录
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.AutoAuth(JwSale.Model.Dto.Wechat.AutoAuthRequest)">
+            <summary>
+            二次登录
+            </summary>
+            <param name="autoAuth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.LogOut(JwSale.Model.Dto.Wechat.LogOutRequest)">
+            <summary>
+            退出登录
+            </summary>
+            <param name="logOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.HeartBeat(JwSale.Model.Dto.Wechat.HeartBeatRequest)">
+            <summary>
+            心跳
+            </summary>
+            <param name="heartBeat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetQrCode(JwSale.Model.Dto.Wechat.GetQrCodeRequest)">
+            <summary>
+            获取微信或群二维码
+            </summary>
+            <param name="getQrCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GeneralSet(JwSale.Model.Dto.Wechat.GeneralSetRequest)">
+            <summary>
+            设置微信号
+            </summary>
+            <param name="generalSet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.UploadhdHeadImg(JwSale.Model.Dto.Wechat.UploadhdHeadImgRequest)">
+            <summary>
+            设置头像
+            </summary>
+            <param name="uploadhdHeadImg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SetNickName(JwSale.Model.Dto.Request.Wechat.SetNickNameRequest)">
+            <summary>
+            设置昵称
+            </summary>
+            <param name="setNickName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SetProfile(JwSale.Model.Dto.Request.Wechat.SetProfileRequest)">
+            <summary>
+            修改资料     
+            </summary>
+            <param name="setProfile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.NewVerifyPasswd(JwSale.Model.Dto.Wechat.NewVerifyPasswdRequest)">
+            <summary>
+            确认密码
+            </summary>
+            <param name="newVerifyPasswd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.NewSetPasswd(JwSale.Model.Dto.Wechat.NewSetPasswdRequest)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="newSetPasswd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.NewSync(JwSale.Model.Dto.Wechat.NewSyncRequest)">
+            <summary>
+            同步消息
+            </summary>
+            <param name="newSync"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.NewSyncKey(JwSale.Model.Dto.Wechat.NewSyncKeyRequest)">
+            <summary>
+            同步消息标识
+            </summary>
+            <param name="newSyncKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ExtdeviceLoginconfirmGet(JwSale.Model.Dto.Wechat.ExtdeviceLoginconfirmGetRequest)">
+            <summary>
+            扫码登录设备请求
+            </summary>
+            <param name="extdeviceLoginconfirmGet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ExtdeviceLoginconfirmOk(JwSale.Model.Dto.Wechat.ExtdeviceLoginconfirmOkRequest)">
+            <summary>
+            确认登录设备请求
+            </summary>
+            <param name="extdeviceLoginconfirmOk"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
+            <summary>
+            获取联系人(通讯录群友)
+            </summary>
+            <param name="getContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SearchContact(JwSale.Model.Dto.Wechat.SearchContactRequest)">
+            <summary>
+            搜索联系人(非好友)
+            </summary>
+            <param name="searchContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.VerifyUser(JwSale.Model.Dto.Wechat.VerifyUserRequest)">
+            <summary>
+            添加或同意联系人
+            </summary>
+            <param name="verifyUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.DelContact(JwSale.Model.Dto.Wechat.DelContactRequest)">
+            <summary>
+            删除联系人
+            </summary>
+            <param name="delContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
+            <summary>
+            修改好友备注
+            </summary>
+            <param name="setFriendRemarks"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ScanIntoChatRoom(JwSale.Model.Dto.Wechat.ScanIntoChatRoomRequest)">
+            <summary>
+            扫码进群
+            </summary>
+            <param name="scanIntoChatRoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.CreateChatRoom(JwSale.Model.Dto.Wechat.CreateChatRoomRequest)">
+            <summary>
+            创建群
+            </summary>
+            <param name="createChatRoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MemberDetail(JwSale.Model.Dto.Wechat.MemberDetailRequest)">
+            <summary>
+            群成员列表
+            </summary>
+            <param name="memberDetail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.AddChatRoomMember(JwSale.Model.Dto.Wechat.AddChatRoomMemberRequest)">
+            <summary>
+            添加群成员（40内）
+            </summary>
+            <param name="addChatRoomMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.InviteChatRoomMember(JwSale.Model.Dto.Wechat.InviteChatRoomMemberRequest)">
+            <summary>
+            邀请群成员（40外）
+            </summary>
+            <param name="inviteChatRoomMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.TransferChatRoomOwner(JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest)">
+            <summary>
+            转让群主
+            </summary>
+            <param name="transferChatRoomOwner"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.QuitChatRoom(JwSale.Model.Dto.Wechat.QuitChatRoomRequest)">
+            <summary>
+            退群
+            </summary>
+            <param name="quitChatRoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.DelChatRoomMember(JwSale.Model.Dto.Wechat.DelChatRoomMemberRequest)">
+            <summary>
+            删除群成员
+            </summary>
+            <param name="delChatRoomMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.NewSendMsg(JwSale.Model.Dto.Wechat.NewSendMsgRequest)">
+            <summary>
+            发送文本消息
+            </summary>
+            <param name="newSendMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendImgMsg(JwSale.Model.Dto.Wechat.UploadMsgImgRequest)">
+            <summary>
+            发送图片消息
+            </summary>
+            <param name="uploadMsgImg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendImgMsgCdn(JwSale.Model.Dto.Wechat.UploadMsgImgCdnRequest)">
+            <summary>
+            发送消息CDN图片
+            </summary>
+            <param name="uploadMsgImgCdn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SemdVoiceMsg(JwSale.Model.Dto.Wechat.UploadVoiceRequest)">
+            <summary>
+            发送语音消息
+            </summary>
+            <param name="uploadVoice"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendViedoMsg(JwSale.Model.Dto.Wechat.UploadVideoRequest)">
+            <summary>
+            发送视频消息
+            </summary>
+            <param name="uploadVideo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendAppMsg(JwSale.Model.Dto.Wechat.SendAppMsgRequest)">
+            <summary>
+            发送App消息
+            </summary>
+            <param name="sendAppMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendShareMsg(JwSale.Model.Dto.Wechat.SendShareMsgRequest)">
+            <summary>
+            发送分享消息
+            </summary>
+            <param name="sendShareMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendMediaMsg(JwSale.Model.Dto.Wechat.SendMediaMsgRequest)">
+            <summary>
+            发送文件消息
+            </summary>
+            <param name="sendMediaMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.RevokeMsg(JwSale.Model.Dto.Wechat.RevokeMsgRequest)">
+            <summary>
+            消息撤回
+            </summary>
+            <param name="revokeMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsTimeLine(JwSale.Model.Dto.Wechat.MmSnsTimeLineRequest)">
+            <summary>
+            获取朋友圈首页
+            </summary>
+            <param name="mmSnsTimeLine"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsUserpage(JwSale.Model.Dto.Wechat.MmSnsUserpageRequest)">
+            <summary>
+            获取指定朋友圈
+            </summary>
+            <param name="mmSnsUserpage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsComment(JwSale.Model.Dto.Wechat.MmSnsCommentRequest)">
+            <summary>
+            朋友圈点赞评论回复
+            </summary>
+            <param name="mmSnsComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsObjectOp(JwSale.Model.Dto.Wechat.MmSnsObjectOpRequest)">
+            <summary>
+            朋友圈操作
+            </summary>
+            <param name="mmSnsObjectOp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsUpload(JwSale.Model.Dto.Wechat.MmSnsUploadRequest)">
+            <summary>
+            朋友圈图片上传
+            </summary>
+            <param name="mmSnsUpload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsPost(JwSale.Model.Dto.Wechat.MmSnsPostRequest)">
+            <summary>
+            发送朋友圈
+            </summary>
+            <param name="mmSnsPost"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.F2fQrCode(JwSale.Model.Dto.Wechat.F2FQrCodeRequest)">
+            <summary>
+            获取收款码
+            </summary>
+            <param name="f2fQrCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.TransferSetF2FFee(JwSale.Model.Dto.Wechat.TransferSetF2FFeeRequest)">
+            <summary>
+            获取金额收款码
+            </summary>
+            <param name="transferSetF2FFee"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ReceiveWxHb(JwSale.Model.Dto.Wechat.ReceiveWxHbRequest)">
+            <summary>
+            点击红包
+            </summary>
+            <param name="receiveWxHb"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.OpenWxHb(JwSale.Model.Dto.Wechat.OpenWxHbRequest)">
+            <summary>
+            打开红包
+            </summary>
+            <param name="openWxHb"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.TransferOperation(JwSale.Model.Dto.Wechat.TransferOperationRequest)">
+            <summary>
+            签收转账
+            </summary>
+            <param name="transferOperation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.UploadMContact(JwSale.Model.Dto.Wechat.UploadMContactRequest)">
+            <summary>
+            上传通讯录
+            </summary>
+            <param name="uploadMContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetMFriend(JwSale.Model.Dto.Wechat.GetMFriendRequest)">
+            <summary>
+            下载通讯录
+            </summary>
+            <param name="getMFriend"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.UploadDeviceStep(JwSale.Model.Dto.Wechat.UploadDeviceStepRequest)">
+            <summary>
+            提交微信运动步数
+            </summary>
+            <param name="uploadDeviceStep"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.LbsFind(JwSale.Model.Dto.Wechat.LbsFindRequest)">
+            <summary>
+            附近的人
+            </summary>
+            <param name="lbsFind"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ShakeReport(JwSale.Model.Dto.Wechat.ShakeReportRequest)">
+            <summary>
+            摇一摇
+            </summary>
+            <param name="shakeReport"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">
+            <summary>
+            创建实例
+            </summary>
+            <param name="wechatCreate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.GetLoginQrCode(JwSale.Model.Dto.Wechat.GetLoginQrCodeRequest)">
+            <summary>
+            获取二维码
+            </summary>
+            <param name="getLoginQrCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.CheckLoginQrCode(JwSale.Model.Dto.Wechat.CheckLoginQrCodeRequest)">
+            <summary>
+            检查二维码登陆状态
+            </summary>
+            <param name="checkLoginQrCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.CheckLoginQrCode(JwSale.Model.Dto.Wechat.ManualAuthRequest)">
+            <summary>
+            登陆账号
+            </summary>
+            <param name="manualAuth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.HeartBeat(JwSale.Model.Dto.Wechat.HeartBeatRequest)">
+            <summary>
+            心跳
+            </summary>
+            <param name="heartBeat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.AutoAuth(JwSale.Model.Dto.Wechat.AutoAuthRequest)">
+            <summary>
+            二次登陆
+            </summary>
+            <param name="autoAuth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.LogOut(JwSale.Model.Dto.Wechat.LogOutRequest)">
+            <summary>
+            退出登陆
+            </summary>
+            <param name="logOut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.GeneralSet(JwSale.Model.Dto.Wechat.GeneralSetRequest)">
+            <summary>
+            设置微信号
+            </summary>
+            <param name="generalSet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.UploadhdHeadImg(JwSale.Model.Dto.Wechat.UploadhdHeadImgRequest)">
+            <summary>
+            修改头像
+            </summary>
+            <param name="uploadhdHeadImg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.OpLog(JwSale.Model.Dto.Wechat.OpLogRequest)">
+            <summary>
+            oplog操作
+            </summary>
+            <param name="opLog"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
+            <summary>
+            修改备注
+            </summary>
+            <param name="setFriendRemarks"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.NewSync(JwSale.Model.Dto.Wechat.NewSyncRequest)">
+            <summary>
+            同步消息
+            </summary>
+            <param name="newSync"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.NewSyncKey(JwSale.Model.Dto.Wechat.NewSyncKeyRequest)">
+            <summary>
+            同步通讯录密钥
+            </summary>
+            <param name="newSyncKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Util.WechatHelper.NewSendMsg(JwSale.Model.Dto.Wechat.NewSendMsgRequest)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="newSendMsg"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

@@ -4,16 +4,16 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class AddChatRoomMemberRequest : WechatRequestBase
+    public class RevokeMsgRequest:WechatRequestBase
     {
         /// <summary>
-        /// 群id
+        /// 接收对象wxid
         /// </summary>
-        public string chatroom { get; set; }
+        public string toUserName { get; set; }
 
         /// <summary>
-        /// 好友列表 
+        /// 撤回的消息 ID
         /// </summary>
-        public IList<ChatRoomMember> list { get; set; }
+        public string newMsgId { get; set; }
     }
 }

@@ -39,9 +39,14 @@ namespace JwSale.Api.Const
         /// </summary>
         public const string CGI_LOGOUT = "282";
         /// <summary>
-        /// 心跳
+        /// 长连接心跳包
         /// </summary>
         public const string CGI_HEARTBEAT = "518";
+
+        /// <summary>
+        /// 短连接心跳包
+        /// </summary>
+        public const string CGI_HEARTBEAT_1 = "5188";
         /// <summary>
         /// 同步消息
         /// </summary>

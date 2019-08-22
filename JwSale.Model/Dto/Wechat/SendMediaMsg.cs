@@ -4,15 +4,17 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class UploadMMsgimgCdnRequest : WechatRequestBase
+ 
+    public class SendMediaMsgRequest : WechatRequestBase
     {
         /// <summary>
-        /// 接收人wxid
+        /// 接收账号
         /// </summary>
         public string recv_uin { get; set; }
 
         /// <summary>
-        /// 图片内容  图片XML
+        /// 提交数据 XML格式的Appmsg
+        /// <?xml version=\"1.0\"?>\n<appmsg appid='' sdkver=''><title>{标题}</title><des>{描述}</des><action></action><type>6</type><content></content><url></url><lowurl></lowurl><appattach><totallen>{文件大小}</totallen><attachid>{文件attactid}</attachid><fileext>{文件扩展名}</fileext></appattach><extinfo></extinfo></appmsg>
         /// </summary>
         public string message { get; set; }
 

@@ -9,11 +9,11 @@ namespace JwSale.Api.Const
         /// <summary>
         /// 请求地址
         /// </summary>
-        public const string URL = "http://120.78.209.63:8123/";
+        public const string URL = "http://120.78.209.63:8802/";
 
         /// <summary>
         /// 密钥
         /// </summary>
-        public const string KEY = "1bef5220dbcfd163b6c99b52bc2742e9";
+        public const string KEY = "DBDBBAD05FC8B8A799F6655103666666";
     }
 }

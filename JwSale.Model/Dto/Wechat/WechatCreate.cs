@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class WechatCreateRequest : WechatRequestBase
+    public class WechatCreateRequest  
     {
         /// <summary>
         /// 二维码登录时为空，账号密码登录时必填
@@ -22,6 +23,6 @@ namespace JwSale.Model.Dto.Wechat
         public string deviceID { get; set; }
     }
 
- 
+
 
 }

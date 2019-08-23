@@ -46,7 +46,7 @@ namespace JwSale.Api.Const
         /// <summary>
         /// 短连接心跳包
         /// </summary>
-        public const string CGI_HEARTBEAT_1 = "5188";
+        public const string CGI_HEARTBEAT_SHORT = "5188";
         /// <summary>
         /// 同步消息
         /// </summary>

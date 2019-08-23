@@ -49,7 +49,7 @@
             长连接心跳包
             </summary>
         </member>
-        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_HEARTBEAT_1">
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_HEARTBEAT_SHORT">
             <summary>
             短连接心跳包
             </summary>
@@ -399,7 +399,7 @@
         <member name="M:JwSale.Api.Controllers.WechatController.CheckLoginQrCode(JwSale.Model.Dto.Wechat.CheckLoginQrCodeRequest)">
             <summary>
             检查是否登录
-            </summary>
+            </summary> 
             <param name="checkLoginQrCode"></param>
             <returns></returns>
         </member>
@@ -417,18 +417,18 @@
             <param name="autoAuth"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.LogOut(JwSale.Model.Dto.Wechat.LogOutRequest)">
-            <summary>
-            退出登录
-            </summary>
-            <param name="logOut"></param>
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Controllers.WechatController.HeartBeat(JwSale.Model.Dto.Wechat.HeartBeatRequest)">
             <summary>
             心跳
             </summary>
             <param name="heartBeat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.LogOut(JwSale.Model.Dto.Wechat.LogOutRequest)">
+            <summary>
+            退出登录
+            </summary>
+            <param name="logOut"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.GetQrCode(JwSale.Model.Dto.Wechat.GetQrCodeRequest)">

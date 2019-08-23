@@ -335,43 +335,7 @@ namespace JwSale.Api.Controllers
         }
 
 
-        ///// <summary>
-        ///// 短连接心跳
-        ///// </summary>
-        ///// <param name="heartBeat"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/Wechat/HeartBeatShort")]
-        //[MoudleInfo("短连接心跳")]
-        //public async Task<ActionResult<ResponseBase>> HeartBeatShort(HeartBeatRequest heartBeat)
-        //{
-        //    ResponseBase<object> response = new ResponseBase<object>();
-        //    string cgiType = CGI_TYPE.CGI_HEARTBEAT_SHORT;
-        //    var url = WechatHelper.GetUrl(cgiType);
-        //    var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, heartBeat);
-        //    if (resp.code == "0")
-        //    {
-        //        var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-        //        if (result.code == "0")
-        //        {
-        //            response.Data = result.message?.ToObj();
-        //        }
-        //        else
-        //        {
-        //            response.Data = result.message?.ToObj();
-        //            response.Success = false;
-        //            response.Message = result.describe;
-        //        }
-
-
-        //    }
-        //    else
-        //    {
-        //        response.Success = false;
-        //        response.Message = $"{resp.message}{resp.describe}";
-        //    }
-        //    return response;
-
-        //}
+ 
 
 
         /// <summary>

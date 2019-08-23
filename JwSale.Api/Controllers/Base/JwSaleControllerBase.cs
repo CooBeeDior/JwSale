@@ -20,6 +20,7 @@ namespace JwSale.Api.Controllers
     [TypeFilter(typeof(PermissionRequiredAttribute))]
     [TypeFilter(typeof(ValidationModelAttribute))]
     [TypeFilter(typeof(ExceptionAttribute))]
+    [TypeFilter(typeof(LogAttribute))]
     [ApiController]
     public class JwSaleControllerBase : ControllerBase
     {

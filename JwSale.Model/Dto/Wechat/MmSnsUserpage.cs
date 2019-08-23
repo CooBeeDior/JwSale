@@ -14,6 +14,6 @@ namespace JwSale.Model.Dto.Wechat
         /// <summary>
         /// 最大ID 	首次0，二次填返回包最后一组消息ID实现翻页
         /// </summary>
-        public string maxid { get; set; }
+        public string maxid { get; set; } = "0";
     }
 }

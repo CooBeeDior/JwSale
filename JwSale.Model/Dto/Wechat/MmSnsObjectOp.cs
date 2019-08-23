@@ -9,7 +9,7 @@ namespace JwSale.Model.Dto.Wechat
         /// <summary>
         /// 朋友圈ID 操作的朋友圈动态id
         /// </summary>
-        public string maxid { get; set; }
+        public string maxid { get; set; } = "0";
 
         /// <summary>
         /// 评论ID 	操作的commentId 删除评论时需要

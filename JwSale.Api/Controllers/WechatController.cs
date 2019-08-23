@@ -6,6 +6,7 @@ using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
+using JwSale.Model.Dto.Request;
 using JwSale.Model.Dto.Request.Wechat;
 using JwSale.Model.Dto.Response.Wechat;
 using JwSale.Model.Dto.Wechat;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
@@ -32,16 +34,11 @@ namespace JwSale.Api.Controllers
     public class WechatController : JwSaleControllerBase
     {
         private IDistributedCache cache;
-
-
-
         private IHttpContextAccessor accessor;
         public WechatController(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor) : base(context)
         {
             this.cache = cache;
-
             this.accessor = accessor;
-
         }
 
         #region 用户
@@ -270,7 +267,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("二次登录")]
         public async Task<ActionResult<ResponseBase>> AutoAuth(AutoAuthRequest autoAuth)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_AUTOAUTH;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, autoAuth);
@@ -279,12 +276,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -305,7 +303,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("退出登录")]
         public async Task<ActionResult<ResponseBase>> LogOut(LogOutRequest logOut)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_LOGOUT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, logOut);
@@ -314,12 +312,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -341,7 +340,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("心跳")]
         public async Task<ActionResult<ResponseBase>> HeartBeat(HeartBeatRequest heartBeat)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_HEARTBEAT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, heartBeat);
@@ -350,12 +349,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
 
 
@@ -378,7 +378,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取微信或群二维码")]
         public async Task<ActionResult<ResponseBase>> GetQrCode(GetQrCodeRequest getQrCode)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_GETQRCODE;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getQrCode);
@@ -387,12 +387,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
 
 
@@ -419,7 +420,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("设置微信号")]
         public async Task<ActionResult<ResponseBase>> GeneralSet(GeneralSetRequest generalSet)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_GENERALSET;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, generalSet);
@@ -428,12 +429,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -453,7 +455,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("设置头像")]
         public async Task<ActionResult<ResponseBase>> UploadhdHeadImg(UploadhdHeadImgRequest uploadhdHeadImg)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADHDHEADIMG;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadhdHeadImg);
@@ -463,12 +465,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -489,7 +492,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("修改昵称")]
         public async Task<ActionResult<ResponseBase>> SetNickName(SetNickNameRequest setNickName)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_OPLOG;
             var url = WechatHelper.GetUrl(cgiType);
 
@@ -513,12 +516,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -540,7 +544,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("修改资料")]
         public async Task<ActionResult<ResponseBase>> SetProfile(SetProfileRequest setProfile)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_OPLOG;
             var url = WechatHelper.GetUrl(cgiType);
 
@@ -569,12 +573,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -595,7 +600,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("确认密码")]
         public async Task<ActionResult<ResponseBase>> NewVerifyPasswd(NewVerifyPasswdRequest newVerifyPasswd)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_NEWVERIFYPASSWD;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newVerifyPasswd);
@@ -605,12 +610,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -631,7 +637,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("修改密码")]
         public async Task<ActionResult<ResponseBase>> NewSetPasswd(NewSetPasswdRequest newSetPasswd)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_NEWSETPASSWD;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSetPasswd);
@@ -641,12 +647,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -668,7 +675,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("同步消息")]
         public async Task<ActionResult<ResponseBase>> NewSync(NewSyncRequest newSync)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_NEWSYNC;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSync);
@@ -677,12 +684,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -703,7 +711,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("同步消息标识")]
         public async Task<ActionResult<ResponseBase>> NewSyncKey(NewSyncKeyRequest newSyncKey)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.SET_NEWSYNCKEY;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSyncKey);
@@ -712,12 +720,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -738,7 +747,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("扫码登录设备请求")]
         public async Task<ActionResult<ResponseBase>> ExtdeviceLoginconfirmGet(ExtdeviceLoginconfirmGetRequest extdeviceLoginconfirmGet)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_EXTDEVICE_LOGINCONFIRM_GET;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, extdeviceLoginconfirmGet);
@@ -747,12 +756,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -773,7 +783,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("确认登录设备请求")]
         public async Task<ActionResult<ResponseBase>> ExtdeviceLoginconfirmOk(ExtdeviceLoginconfirmOkRequest extdeviceLoginconfirmOk)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_EXTDEVICE_LOGINCONFIRM_OK;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, extdeviceLoginconfirmOk);
@@ -782,12 +792,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -810,7 +821,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取联系人")]
         public async Task<ActionResult<ResponseBase>> GetContract(GetContactRequest getContact)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_GETCONTACT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getContact);
@@ -820,12 +831,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -847,7 +859,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("搜索联系人")]
         public async Task<ActionResult<ResponseBase>> SearchContact(SearchContactRequest searchContact)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_SEARCHCONTACT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, searchContact);
@@ -857,12 +869,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -882,7 +895,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("添加或同意联系人")]
         public async Task<ActionResult<ResponseBase>> VerifyUser(VerifyUserRequest verifyUser)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_VERIFYUSER;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, verifyUser);
@@ -892,12 +905,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -917,7 +931,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("删除联系人")]
         public async Task<ActionResult<ResponseBase>> DelContact(DelContactRequest delContact)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_DELCONTACT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delContact);
@@ -927,12 +941,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -953,7 +968,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("修改好友备注")]
         public async Task<ActionResult<ResponseBase>> SetFriendRemarks(SetFriendRemarksRequest setFriendRemarks)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_SETFRIENDREMARKS;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, setFriendRemarks);
@@ -963,12 +978,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -990,7 +1006,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("扫码进群")]
         public async Task<ActionResult<ResponseBase>> ScanIntoChatRoom(ScanIntoChatRoomRequest scanIntoChatRoom)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_A8KEY;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, scanIntoChatRoom);
@@ -1000,12 +1016,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1025,7 +1042,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("创建群")]
         public async Task<ActionResult<ResponseBase>> CreateChatRoom(CreateChatRoomRequest createChatRoom)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_CREATECHATROOM;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, createChatRoom);
@@ -1035,12 +1052,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1060,7 +1078,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("群成员列表")]
         public async Task<ActionResult<ResponseBase>> MemberDetail(MemberDetailRequest memberDetail)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MEMBERDETAIL;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, memberDetail);
@@ -1070,12 +1088,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1095,7 +1114,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("添加群成员")]
         public async Task<ActionResult<ResponseBase>> AddChatRoomMember(AddChatRoomMemberRequest addChatRoomMember)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_ADDCHATROOMMEMBER;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, addChatRoomMember);
@@ -1105,12 +1124,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1130,7 +1150,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("邀请群成员")]
         public async Task<ActionResult<ResponseBase>> InviteChatRoomMember(InviteChatRoomMemberRequest inviteChatRoomMember)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_INVITECHATROOMMEMBER;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, inviteChatRoomMember);
@@ -1140,12 +1160,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1165,7 +1186,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("转让群主")]
         public async Task<ActionResult<ResponseBase>> TransferChatRoomOwner(TransferChatRoomOwnerRequest transferChatRoomOwner)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_TRANSFERCHATROOMOWNER;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferChatRoomOwner);
@@ -1175,12 +1196,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1201,7 +1223,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("退群")]
         public async Task<ActionResult<ResponseBase>> QuitChatRoom(QuitChatRoomRequest quitChatRoom)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_QUITCHATROOM;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, quitChatRoom);
@@ -1211,12 +1233,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1237,7 +1260,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("删除群成员")]
         public async Task<ActionResult<ResponseBase>> DelChatRoomMember(DelChatRoomMemberRequest delChatRoomMember)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_DELCHATROOMMEMBER;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delChatRoomMember);
@@ -1247,12 +1270,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1275,7 +1299,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("发送文本消息")]
         public async Task<ActionResult<ResponseBase>> NewSendMsg(NewSendMsgRequest newSendMsg)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_NEWSENDMSG;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSendMsg);
@@ -1285,12 +1309,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1311,7 +1336,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("发送图片消息")]
         public async Task<ActionResult<ResponseBase>> SendImgMsg(UploadMsgImgRequest uploadMsgImg)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADMSGIMG;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadMsgImg);
@@ -1321,12 +1346,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1347,7 +1373,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("发送消息图片CDN")]
         public async Task<ActionResult<ResponseBase>> SendImgMsgCdn(UploadMsgImgCdnRequest uploadMsgImgCdn)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADMSGIMGCDN;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadMsgImgCdn);
@@ -1357,12 +1383,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1382,7 +1409,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("发送语音消息")]
         public async Task<ActionResult<ResponseBase>> SemdVoiceMsg(UploadVoiceRequest uploadVoice)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADVOICE;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadVoice);
@@ -1392,12 +1419,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1417,7 +1445,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("发送视频消息")]
         public async Task<ActionResult<ResponseBase>> SendViedoMsg(UploadVideoRequest uploadVideo)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADVIDEO;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadVideo);
@@ -1427,12 +1455,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1446,15 +1475,27 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 发送App消息
         /// </summary>
-        /// <param name="sendAppMsg"></param>
+        /// <param name="appMessage"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/SendAppMsg")]
         [MoudleInfo("发送App消息")]
-        public async Task<ActionResult<ResponseBase>> SendAppMsg(SendAppMsgRequest sendAppMsg)
+        public async Task<ActionResult<ResponseBase>> SendAppMsg(AppMessageRequest appMessage)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_SENDAPPMSG;
             var url = WechatHelper.GetUrl(cgiType);
+
+            string dataUrl = string.IsNullOrEmpty(appMessage.DataUrl) ? appMessage.Url : appMessage.DataUrl;
+            string content = $"<appmsg appid=\"{appMessage.AppId}\" sdkver=\"0\"><title>{appMessage.Title}</title><des>{appMessage.Desc}</des><type>{appMessage.Type}</type><showtype>0</showtype><soundtype>0</soundtype><contentattr>0</contentattr><url>{appMessage.Url}</url><lowurl>{appMessage.Url}</lowurl><dataurl>{dataUrl}</dataurl><lowdataurl>{dataUrl}</lowdataurl> <thumburl>{appMessage.ThumbUrl}</thumburl></appmsg>";
+
+            SendAppMsgRequest sendAppMsg = new SendAppMsgRequest()
+            {
+                recv_uin = appMessage.ToWxId,
+                message = content,
+                clientmsgid = appMessage.ClientMsgId,
+                token = appMessage.Token
+            };
+
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, sendAppMsg);
 
             if (resp.code == "0")
@@ -1462,12 +1503,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1482,15 +1524,27 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 发送分享消息
         /// </summary>
-        /// <param name="sendShareMsg"></param>
+        /// <param name="appMessage"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/SendShareMsg")]
         [MoudleInfo("发送分享消息")]
-        public async Task<ActionResult<ResponseBase>> SendShareMsg(SendShareMsgRequest sendShareMsg)
+        public async Task<ActionResult<ResponseBase>> SendShareMsg(AppMessageRequest appMessage)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_SENDAPPMSG;
             var url = WechatHelper.GetUrl(cgiType);
+
+            string dataUrl = string.IsNullOrEmpty(appMessage.DataUrl) ? appMessage.Url : appMessage.DataUrl;
+            string content = $"<appmsg  sdkver=\"0\"><title>{appMessage.Title}</title><des>{appMessage.Desc}</des><type>{appMessage.Type}</type><showtype>0</showtype><soundtype>0</soundtype><contentattr>0</contentattr><url>{appMessage.Url}</url><lowurl>{appMessage.Url}</lowurl><dataurl>{dataUrl}</dataurl><lowdataurl>{dataUrl}</lowdataurl> <thumburl>{appMessage.ThumbUrl}</thumburl></appmsg>";
+
+            SendShareMsgRequest sendShareMsg = new SendShareMsgRequest()
+            {
+                recv_uin = appMessage.ToWxId,
+                message = content,
+                clientmsgid = appMessage.ClientMsgId,
+                token = appMessage.Token
+            };
+
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, sendShareMsg);
 
             if (resp.code == "0")
@@ -1498,12 +1552,110 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+
+        /// <summary>
+        /// 发送名片消息
+        /// </summary>
+        /// <param name="cardMessage"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/SendCardMsg")]
+        [MoudleInfo("发送名片消息")]
+        public async Task<ActionResult<ResponseBase>> SendCardMsg(CardMessageRequest cardMessage)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_NEWSENDMSG;
+            var url = WechatHelper.GetUrl(cgiType);
+
+            cardMessage.CardNickName = string.IsNullOrEmpty(cardMessage.CardNickName) ? cardMessage.CardWxId : cardMessage.CardNickName;
+            string content = $"<?xml version=\"1.0\"?>\n<msg bigheadimgurl=\"\" smallheadimgurl=\"\" username=\"{cardMessage.CardWxId}\" nickname=\"{cardMessage.CardNickName}\" fullpy=\"\" shortpy=\"\" alias=\"{cardMessage.CardAlias}\" imagestatus=\"0\" scene=\"17\" province=\"\" city=\"\" sign=\"\" sex=\"2\" certflag=\"0\" certinfo=\"\" brandIconUrl=\"\" brandHomeUrl=\"\" brandSubscriptConfigUrl=\"\" brandFlags=\"0\" regionCode=\"CN\" />\n";
+
+            NewSendMsgRequest newSendMsg = new NewSendMsgRequest()
+            {
+                recv_uin = cardMessage.ToWxId,
+                message_type = "42",
+                message = content,
+                clientmsgid = cardMessage.ClientMsgId,
+                atuserlist = "",
+                token = cardMessage.Token
+            };
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSendMsg);
+
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 发送位置消息
+        /// </summary>
+        /// <param name="locationMessage"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/SendLocationMsg")]
+        [MoudleInfo("发送位置消息")]
+        public async Task<ActionResult<ResponseBase>> SendLocationMsg(LocationMessageRequest locationMessage)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_NEWSENDMSG;
+            var url = WechatHelper.GetUrl(cgiType);
+            string content = $"<?xml version=\"1.0\"?>\n<msg>\n\t<location x=\"{locationMessage.Latitude}\" y=\"{locationMessage.Longitude}\" scale=\"16\" label=\"{locationMessage.Name}\" maptype=\"0\" poiname=\"[位置]{locationMessage.Name}\" poiid=\"\" />\n</msg>";
+
+            NewSendMsgRequest newSendMsg = new NewSendMsgRequest()
+            {
+                recv_uin = locationMessage.ToWxId,
+                message_type = "48",
+                message = content,
+                clientmsgid = locationMessage.ClientMsgId,
+                atuserlist = "",
+                token = locationMessage.Token
+            };
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSendMsg);
+
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1517,15 +1669,25 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 发送文件消息
         /// </summary>
-        /// <param name="sendMediaMsg"></param>
+        /// <param name="mediaMessage"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/SendMediaMsg")]
         [MoudleInfo("发送文件消息")]
-        public async Task<ActionResult<ResponseBase>> SendMediaMsg(SendMediaMsgRequest sendMediaMsg)
+        public async Task<ActionResult<ResponseBase>> SendMediaMsg(MediaMessageRequest mediaMessage)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_SENDAPPMSG;
             var url = WechatHelper.GetUrl(cgiType);
+
+            string content = $"<?xml version=\"1.0\"?>\n<appmsg appid='' sdkver=''><title>{mediaMessage.Title}</title><des></des><action></action><type>6</type><content></content><url></url><lowurl></lowurl><appattach><totallen>{mediaMessage.Length}</totallen><attachid>{mediaMessage.AttachId}</attachid><fileext>{mediaMessage.FileExt}</fileext></appattach><extinfo></extinfo></appmsg>";
+            SendMediaMsgRequest sendMediaMsg = new SendMediaMsgRequest()
+            {
+                recv_uin = mediaMessage.ToWxId,
+                message = content,
+                clientmsgid = mediaMessage.ClientMsgId,
+                token = mediaMessage.Token
+            };
+
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, sendMediaMsg);
 
             if (resp.code == "0")
@@ -1533,12 +1695,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1558,7 +1721,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("消息撤回")]
         public async Task<ActionResult<ResponseBase>> RevokeMsg(RevokeMsgRequest revokeMsg)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_REVOKEMSG;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, revokeMsg);
@@ -1567,12 +1730,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1584,7 +1748,7 @@ namespace JwSale.Api.Controllers
         }
         #endregion
 
-       
+
         #region 朋友圈
 
         /// <summary>
@@ -1596,7 +1760,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取朋友圈首页")]
         public async Task<ActionResult<ResponseBase>> MmSnsTimeLine(MmSnsTimeLineRequest mmSnsTimeLine)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MMSNSTIMELINE;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsTimeLine);
@@ -1605,12 +1769,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1630,7 +1795,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取指定朋友圈")]
         public async Task<ActionResult<ResponseBase>> MmSnsUserpage(MmSnsUserpageRequest mmSnsUserpage)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MMSNSUSERPAGE;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsUserpage);
@@ -1639,12 +1804,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1664,7 +1830,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("朋友圈点赞评论回复")]
         public async Task<ActionResult<ResponseBase>> MmSnsComment(MmSnsCommentRequest mmSnsComment)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MMSNSCOMMENT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsComment);
@@ -1673,12 +1839,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1698,7 +1865,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("朋友圈操作")]
         public async Task<ActionResult<ResponseBase>> MmSnsObjectOp(MmSnsObjectOpRequest mmSnsObjectOp)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MMSNSOBJECTOP;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsObjectOp);
@@ -1707,12 +1874,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1732,7 +1900,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("朋友圈图片上传")]
         public async Task<ActionResult<ResponseBase>> MmSnsUpload(MmSnsUploadRequest mmSnsUpload)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MMSNSOBJECTOP;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsUpload);
@@ -1741,12 +1909,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1760,27 +1929,50 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 发送朋友圈
         /// </summary>
-        /// <param name="mmSnsPost"></param>
+        /// <param name="sendSns"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/MmSnsPost")]
         [MoudleInfo("发送朋友圈")]
-        public async Task<ActionResult<ResponseBase>> MmSnsPost(MmSnsPostRequest mmSnsPost)
+        public async Task<ActionResult<ResponseBase>> MmSnsPost(SendSnsRequest sendSns)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_MMSNSPOST;
             var url = WechatHelper.GetUrl(cgiType);
+
+            string content = null;
+
+            switch (sendSns.Type)
+            {
+                case 0: content = SendSnsConst.GetContentTemplate(sendSns.WxId, sendSns.Content, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 1: content = SendSnsConst.GetImageTemplate(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 2: content = SendSnsConst.GetVideoTemplate(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 3: content = SendSnsConst.GetLinkTemplate(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 4: content = SendSnsConst.GetImageTemplate3(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 5: content = SendSnsConst.GetImageTemplate4(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 6: content = SendSnsConst.GetImageTemplate5(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
+                case 7: content = sendSns.Content; break;
+            }
+
+            MmSnsPostRequest mmSnsPost = new MmSnsPostRequest()
+            {
+                token = sendSns.Token,
+                clientmsgid = sendSns.ClientMsgId,
+                message = content
+            };
+
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsPost);
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1792,9 +1984,162 @@ namespace JwSale.Api.Controllers
         }
 
         #endregion
-   
+
         #region 标签
 
+        /// <summary>
+        /// 添加标签
+        /// </summary>
+        /// <param name="addContactLabel"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/AddContactLabel")]
+        [MoudleInfo("添加标签")]
+        public async Task<ActionResult<ResponseBase>> AddContactLabel(AddContactLabelRequest addContactLabel)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_ADDCONTACTLABEL;
+            var url = WechatHelper.GetUrl(cgiType);
+
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, addContactLabel);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+
+        }
+
+
+        /// <summary>
+        /// 修改标签
+        /// </summary>
+        /// <param name="modifyContactLabelList"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/ModifyContactLabelList")]
+        [MoudleInfo("修改标签")]
+        public async Task<ActionResult<ResponseBase>> ModifyContactLabelList(ModifyContactLabelListRequest modifyContactLabelList)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_MODIFYCONTACTLABELLIST;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, modifyContactLabelList);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+
+        }
+
+        /// <summary>
+        /// 删除标签
+        /// </summary>
+        /// <param name="delContactLabel"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/DelContactLabel")]
+        [MoudleInfo("删除标签")]
+        public async Task<ActionResult<ResponseBase>> DelContactLabel(DelContactLabelRequest delContactLabel)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_DELCONTACTLABEL;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delContactLabel);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+
+        }
+
+        /// <summary>
+        /// 获取标签
+        /// </summary>
+        /// <param name="getContactLabelList"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetContactLabelList")]
+        [MoudleInfo("获取标签")]
+        public async Task<ActionResult<ResponseBase>> GetContactLabelList(GetContactLabelListRequest getContactLabelList)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_GETCONTACTLABELLIST;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getContactLabelList);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+
+        }
         #endregion
 
 
@@ -1808,7 +2153,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取收款码")]
         public async Task<ActionResult<ResponseBase>> F2fQrCode(F2FQrCodeRequest f2fQrCode)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_F2FQRCODE;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, f2fQrCode);
@@ -1817,12 +2162,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
 
 
@@ -1840,27 +2186,35 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 获取金额收款码
         /// </summary>
-        /// <param name="transferSetF2FFee"></param>
+        /// <param name="setF2FFee"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/TransferSetF2FFee")]
         [MoudleInfo("获取金额收款码")]
-        public async Task<ActionResult<ResponseBase>> TransferSetF2FFee(TransferSetF2FFeeRequest transferSetF2FFee)
+        public async Task<ActionResult<ResponseBase>> TransferSetF2FFee(SetF2FFeeRequest setF2FFee)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_TRANSFERSETF2FFEE;
             var url = WechatHelper.GetUrl(cgiType);
+
+            TransferSetF2FFeeRequest transferSetF2FFee = new TransferSetF2FFeeRequest()
+            {
+                describe = $"desc={setF2FFee.Desc}&fee={setF2FFee.Money}&fee_type=1",
+                token = setF2FFee.Token,
+            };
+
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferSetF2FFee);
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
 
 
@@ -1884,7 +2238,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("点击红包")]
         public async Task<ActionResult<ResponseBase>> ReceiveWxHb(ReceiveWxHbRequest receiveWxHb)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_RECEIVEWXHB;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, receiveWxHb);
@@ -1893,12 +2247,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
 
 
@@ -1921,7 +2276,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("打开红包")]
         public async Task<ActionResult<ResponseBase>> OpenWxHb(OpenWxHbRequest openWxHb)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_OPENWXHB;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, openWxHb);
@@ -1930,12 +2285,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
 
 
@@ -1958,7 +2314,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("签收转账")]
         public async Task<ActionResult<ResponseBase>> TransferOperation(TransferOperationRequest transferOperation)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_TRANSFEROPERATION;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferOperation);
@@ -1967,12 +2323,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -1998,7 +2355,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("上传通讯录")]
         public async Task<ActionResult<ResponseBase>> UploadMContact(UploadMContactRequest uploadMContact)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADMCONTACT;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadMContact);
@@ -2007,12 +2364,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -2032,7 +2390,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("下载通讯录")]
         public async Task<ActionResult<ResponseBase>> GetMFriend(GetMFriendRequest getMFriend)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_GETMFRIEND;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getMFriend);
@@ -2041,12 +2399,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -2066,7 +2425,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("提交微信运动步数")]
         public async Task<ActionResult<ResponseBase>> UploadDeviceStep(UploadDeviceStepRequest uploadDeviceStep)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADDEVICESTEP;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadDeviceStep);
@@ -2075,12 +2434,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -2100,7 +2460,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("附近的人")]
         public async Task<ActionResult<ResponseBase>> LbsFind(LbsFindRequest lbsFind)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_LBSFIND;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, lbsFind);
@@ -2109,12 +2469,13 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result.code == "0")
                 {
-                    response.Data = result.message;
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
+                    response.Data = result.message.ToObj();
                     response.Success = false;
-                    response.Message = $"{result.message}{result.describe}";
+                    response.Message = result.describe;
                 }
             }
             else
@@ -2135,7 +2496,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("摇一摇")]
         public async Task<ActionResult<ResponseBase>> ShakeReport(ShakeReportRequest shakeReport)
         {
-            ResponseBase<string> response = new ResponseBase<string>();
+            ResponseBase<object> response = new ResponseBase<object>();
 
             string shakeCgiType = CGI_TYPE.CGI_SHAKEREPORT;
             var shakeUrl = WechatHelper.GetUrl(shakeCgiType);
@@ -2157,12 +2518,13 @@ namespace JwSale.Api.Controllers
                         var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                         if (result.code == "0")
                         {
-                            response.Data = result.message;
+                            response.Data = result.message.ToObj();
                         }
                         else
                         {
+                            response.Data = result.message.ToObj();
                             response.Success = false;
-                            response.Message = $"{result.message}{result.describe}";
+                            response.Message = result.describe;
                         }
                     }
                     else

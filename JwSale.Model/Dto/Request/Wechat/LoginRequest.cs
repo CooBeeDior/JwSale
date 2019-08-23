@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request.Wechat
 {
-    public class Login
+    public class LoginRequest
     {
         /// <summary>
         /// 用户名

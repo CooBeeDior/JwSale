@@ -4,13 +4,17 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class ModifyContactLabelList : WechatRequestBase
+    public class ModifyContactLabelListRequest : WechatRequestBase
     {
-        
+        /// <summary>
+        /// 设置的微信Id
+        /// </summary>
+        public string userName { get; set; }
         /// <summary>
         /// 获取获取标签包接口返回标签昵称跟ID的数据文本
-        /// ["{\"userName\":\"\",\"labelIdlist\":\"6\"}"]
         /// </summary>
-        public string list { get; set; }
+        public string labelIdlist { get; set; }
     }
+
+ 
 }

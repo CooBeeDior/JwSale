@@ -7,6 +7,7 @@ using JwSale.Util.Extensions;
 using JwSale.Api.Extensions;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Api.Util;
+using System.Text.Encodings.Web;
 
 namespace JwSale.Api.Http
 {
@@ -26,7 +27,8 @@ namespace JwSale.Api.Http
         public static async Task<T> PostAsync<T>(string url, object data)
         {
             var client = CreateHttpClient();
-            var content = new StringContent(data.ToJson(), Encoding.UTF8, "application/json");
+            string value = data.ToJson();
+            var content = new StringContent(value, Encoding.UTF8, "application/json");
 
             var res = await client.PostAsync(url, content);
             var result = await res.Content.ReadAsStringAsync();
@@ -44,8 +46,12 @@ namespace JwSale.Api.Http
 
         }
 
-        public static async Task<T> PostVxApiAsync<T>(string cgiType, WechatResponseBase wechatResponseBase)
+        public static async Task<T> PostVxApiAsync<T>(string cgiType, WechatResponseBase wechatResponseBase) where T : new()
         {
+            if (string.IsNullOrEmpty(wechatResponseBase.url))
+            {
+                return new T();
+            }
             var packetResp = await PostPacketAsync(wechatResponseBase.url, wechatResponseBase.packet);
             AnalysisData analysisData = new AnalysisData(wechatResponseBase.token, packetResp);
             var analysisUrl = WechatHelper.GetUrl(cgiType.ToAnalysis());

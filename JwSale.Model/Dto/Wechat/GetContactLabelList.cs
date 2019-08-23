@@ -4,8 +4,8 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class GetContactLabelList : WechatRequestBase
+    public class GetContactLabelListRequest : WechatRequestBase
     {
-        
+
     }
 }

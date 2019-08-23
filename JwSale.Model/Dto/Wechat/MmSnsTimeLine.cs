@@ -9,6 +9,6 @@ namespace JwSale.Model.Dto.Wechat
         /// <summary>
         /// 朋友圈id 	首次0，二次填返回包最后一组【必填整数】
         /// </summary>
-        public string maxid { get; set; }
+        public string maxid { get; set; } = "0";
     }
 }

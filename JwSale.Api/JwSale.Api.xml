@@ -634,25 +634,39 @@
             <param name="uploadVideo"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendAppMsg(JwSale.Model.Dto.Wechat.SendAppMsgRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.SendAppMsg(JwSale.Model.Dto.Request.Wechat.AppMessageRequest)">
             <summary>
             发送App消息
             </summary>
-            <param name="sendAppMsg"></param>
+            <param name="appMessage"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendShareMsg(JwSale.Model.Dto.Wechat.SendShareMsgRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.SendShareMsg(JwSale.Model.Dto.Request.Wechat.AppMessageRequest)">
             <summary>
             发送分享消息
             </summary>
-            <param name="sendShareMsg"></param>
+            <param name="appMessage"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendMediaMsg(JwSale.Model.Dto.Wechat.SendMediaMsgRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.SendCardMsg(JwSale.Model.Dto.Request.Wechat.CardMessageRequest)">
+            <summary>
+            发送名片消息
+            </summary>
+            <param name="cardMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendLocationMsg(JwSale.Model.Dto.Request.Wechat.LocationMessageRequest)">
+            <summary>
+            发送位置消息
+            </summary>
+            <param name="locationMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.SendMediaMsg(JwSale.Model.Dto.Request.Wechat.MediaMessageRequest)">
             <summary>
             发送文件消息
             </summary>
-            <param name="sendMediaMsg"></param>
+            <param name="mediaMessage"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.RevokeMsg(JwSale.Model.Dto.Wechat.RevokeMsgRequest)">
@@ -697,11 +711,39 @@
             <param name="mmSnsUpload"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsPost(JwSale.Model.Dto.Wechat.MmSnsPostRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsPost(JwSale.Model.Dto.Request.Wechat.SendSnsRequest)">
             <summary>
             发送朋友圈
             </summary>
-            <param name="mmSnsPost"></param>
+            <param name="sendSns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.AddContactLabel(JwSale.Model.Dto.Wechat.AddContactLabelRequest)">
+            <summary>
+            添加标签
+            </summary>
+            <param name="addContactLabel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ModifyContactLabelList(JwSale.Model.Dto.Wechat.ModifyContactLabelListRequest)">
+            <summary>
+            修改标签
+            </summary>
+            <param name="modifyContactLabelList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.DelContactLabel(JwSale.Model.Dto.Wechat.DelContactLabelRequest)">
+            <summary>
+            删除标签
+            </summary>
+            <param name="delContactLabel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetContactLabelList(JwSale.Model.Dto.Wechat.GetContactLabelListRequest)">
+            <summary>
+            获取标签
+            </summary>
+            <param name="getContactLabelList"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.F2fQrCode(JwSale.Model.Dto.Wechat.F2FQrCodeRequest)">
@@ -711,11 +753,11 @@
             <param name="f2fQrCode"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.TransferSetF2FFee(JwSale.Model.Dto.Wechat.TransferSetF2FFeeRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.TransferSetF2FFee(JwSale.Model.Dto.Request.Wechat.SetF2FFeeRequest)">
             <summary>
             获取金额收款码
             </summary>
-            <param name="transferSetF2FFee"></param>
+            <param name="setF2FFee"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.ReceiveWxHb(JwSale.Model.Dto.Wechat.ReceiveWxHbRequest)">

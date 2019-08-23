@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class DelContactLabel : WechatRequestBase
+    public class DelContactLabelRequest : WechatRequestBase
     {
         
         /// <summary>

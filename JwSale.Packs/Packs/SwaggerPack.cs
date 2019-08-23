@@ -34,8 +34,8 @@ namespace JwSale.Packs.Packs
                 {
                     Version = "v1",
                     Title = "微信Api",
-                    Description = "微信Api",
-
+                    Description = "QQ：506599090",
+                   
                 });
                 // 为 Swagger JSON and UI设置xml文档注释路径
                 var basePath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
@@ -46,7 +46,7 @@ namespace JwSale.Packs.Packs
                     Description = "请输入Token",
                     Name = "Authorization",
                     In = "Header",
-                    Type = "apiKey"
+                    Type = "apiKey",
                 });
 
                 //Json Token认证方式，此方式为全局添加

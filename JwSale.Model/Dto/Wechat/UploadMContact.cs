@@ -9,7 +9,7 @@ namespace JwSale.Model.Dto.Wechat
         /// <summary>
         /// 上传列表
         /// </summary>
-        public IList<MobileInfo> Mobile { get; set; }
+        public IList<MobileInfo> list { get; set; }
     }
 
     public class MobileInfo

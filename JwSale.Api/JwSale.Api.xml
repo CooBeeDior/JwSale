@@ -693,10 +693,11 @@
             微信管理
             </summary>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.GetLoginQrCode">
+        <member name="M:JwSale.Api.Controllers.WechatController.GetLoginQrCode(JwSale.Model.Dto.Common.ProxyInfo)">
             <summary>
-            获取登录二维码
+            获取二维码
             </summary>
+            <param name="proxyInfo"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.CheckLoginQrCode(JwSale.Model.Dto.Wechat.CheckLoginQrCodeRequest)">

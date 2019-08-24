@@ -7,10 +7,13 @@ namespace JwSale.Api.Util
 {
     public class CacheKeyHelper
     {
-        public static string GetUserTokenKey(string userName)
+        public static string GetUserTempTokenKey(string tempToken)
         {
-            return $"token_{userName}";
-
+            return $"temptoken_{tempToken}";
+        }
+        public static string GetUserTokenKey(string token)
+        {
+            return $"token_{token}";
         }
 
         public static string GetWechatKey(string wxid)

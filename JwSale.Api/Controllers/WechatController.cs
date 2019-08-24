@@ -3,6 +3,7 @@ using JwSale.Api.Http;
 using JwSale.Api.Util;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
+using JwSale.Model.Dto.Common;
 using JwSale.Model.Dto.Request.Wechat;
 using JwSale.Model.Dto.Response.Wechat;
 using JwSale.Model.Dto.Wechat;
@@ -32,12 +33,13 @@ namespace JwSale.Api.Controllers
 
         #region 用户
         /// <summary>
-        /// 获取登录二维码
+        /// 获取二维码
         /// </summary>
+        /// <param name="proxyInfo"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/GetLoginQrCode")]
         [MoudleInfo("获取二维码")]
-        public async Task<ActionResult<ResponseBase>> GetLoginQrCode()
+        public async Task<ActionResult<ResponseBase>> GetLoginQrCode(ProxyInfo proxyInfo)
         {
             ResponseBase<GetQrCodeResponse> response = new ResponseBase<GetQrCodeResponse>();
             var request = new WechatCreateRequest();
@@ -53,7 +55,7 @@ namespace JwSale.Api.Controllers
                 var wechatResp = await HttpHelper.PostAsync<WechatResponseBase>(url, getLoginQrCodeRequest);
                 if (wechatResp.code == "0")
                 {
-                    var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, wechatResp);
+                    var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, wechatResp, proxyInfo);
                     if (result.code == "0")
                     {
                         var image = result.message.ToObj<GetLoginQrCodeMsg>();
@@ -64,6 +66,13 @@ namespace JwSale.Api.Controllers
                             Base64 = imgBuffer,
                             TempToken = wechatResp.token
                         };
+
+                        WechatCache wechatCache = new WechatCache()
+                        {
+                            Token = wechatResp.token,
+                            ProxyInfo = proxyInfo
+                        };
+                        await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(wechatResp.token), wechatCache.ToJson());
 
                     }
                     else
@@ -127,15 +136,17 @@ namespace JwSale.Api.Controllers
                                 response.ExtensionData = maResp;
                                 response.Token = maResult.token;
 
-
+                                var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(checkLoginQrCode.token));
+                                var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
                                 //缓存     
-                                WechatCache wechatCache = new WechatCache()
+                                wechatCache = new WechatCache()
                                 {
                                     Token = maRechatResp.token,
                                     CheckLoginQrCode = resp,
-                                    ManualAuth = maResp
+                                    ManualAuth = maResp,
+                                    ProxyInfo = wechatCache.ProxyInfo
                                 };
-                                await cache.SetStringAsync(CacheKeyHelper.GetWechatKey(maResp.wxid), wechatCache.ToJson());
+                                await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
 
 
@@ -196,7 +207,7 @@ namespace JwSale.Api.Controllers
                     var maRechatResp = await HttpHelper.PostAsync<WechatResponseBase>(maUrl, manualAuthRequest);
                     if (maRechatResp.code == "0")
                     {
-                        maResult = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, maRechatResp);
+                        maResult = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, maRechatResp, login.proxyInfo);
                         if (maResult.code == "0")
                         {
                             var maResp = maResult.message.ToObj<ManualAuthResponse>();
@@ -213,9 +224,11 @@ namespace JwSale.Api.Controllers
                                     wxid = maResp.wxid,
                                     nickName = maResp.nickName,
                                 },
-                                ManualAuth = maResp
+                                ManualAuth = maResp,
+                                ProxyInfo= login.proxyInfo
+
                             };
-                            await cache.SetStringAsync(CacheKeyHelper.GetWechatKey(maResp.wxid), wechatCache.ToJson());
+                            await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
                             //刷新数据
 
@@ -1169,7 +1182,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取安全设备")]
         public async Task<ActionResult<ResponseBase>> GetSafetyInfo(GetSafetyInfoRequest getSafetyInfo)
         {
-            
+
             ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_TYPE_GETSAFETYINFO;
             var url = WechatHelper.GetUrl(cgiType);

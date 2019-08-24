@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class JsOperateWxDataRequest : WechatRequestBase
+    public class JsVerifyRequest : WechatRequestBase
     {
         /// <summary>
         /// 小程序ID

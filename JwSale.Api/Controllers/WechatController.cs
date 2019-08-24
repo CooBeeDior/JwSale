@@ -1,27 +1,17 @@
 ﻿using JwSale.Api.Const;
-using JwSale.Api.Extensions;
-using JwSale.Api.Filters;
 using JwSale.Api.Http;
 using JwSale.Api.Util;
-using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
-using JwSale.Model.Dto.Request;
 using JwSale.Model.Dto.Request.Wechat;
 using JwSale.Model.Dto.Response.Wechat;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Attributes;
-using JwSale.Packs.Options;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
@@ -30,7 +20,6 @@ namespace JwSale.Api.Controllers
     /// 微信管理
     /// </summary>
     [MoudleInfo("微信管理", 1)]
-    [NoPermissionRequired]
     public class WechatController : JwSaleControllerBase
     {
         private IDistributedCache cache;
@@ -294,7 +283,7 @@ namespace JwSale.Api.Controllers
 
         }
 
-     
+
 
         /// <summary>
         /// 心跳
@@ -335,7 +324,7 @@ namespace JwSale.Api.Controllers
         }
 
 
- 
+
 
 
         /// <summary>
@@ -815,1540 +804,7 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
-        #endregion
-
-        #region 好友
-        /// <summary>
-        /// 获取联系人(通讯录群友)
-        /// </summary>
-        /// <param name="getContact"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/GetContact")]
-        [MoudleInfo("获取联系人")]
-        public async Task<ActionResult<ResponseBase>> GetContract(GetContactRequest getContact)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_GETCONTACT;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getContact);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-
-        /// <summary>
-        /// 搜索联系人(非好友)
-        /// </summary>
-        /// <param name="searchContact"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SearchContact")]
-        [MoudleInfo("搜索联系人")]
-        public async Task<ActionResult<ResponseBase>> SearchContact(SearchContactRequest searchContact)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_SEARCHCONTACT;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, searchContact);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 添加或同意联系人
-        /// </summary>
-        /// <param name="verifyUser"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/VerifyUser")]
-        [MoudleInfo("添加或同意联系人")]
-        public async Task<ActionResult<ResponseBase>> VerifyUser(VerifyUserRequest verifyUser)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_VERIFYUSER;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, verifyUser);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 删除联系人
-        /// </summary>
-        /// <param name="delContact"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/DelContact")]
-        [MoudleInfo("删除联系人")]
-        public async Task<ActionResult<ResponseBase>> DelContact(DelContactRequest delContact)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_DELCONTACT;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delContact);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 修改好友备注
-        /// </summary>
-        /// <param name="setFriendRemarks"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SetFriendRemarks")]
-        [MoudleInfo("修改好友备注")]
-        public async Task<ActionResult<ResponseBase>> SetFriendRemarks(SetFriendRemarksRequest setFriendRemarks)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_SETFRIENDREMARKS;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, setFriendRemarks);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-        #endregion
-
-        #region 群
-        /// <summary>
-        /// 扫码进群
-        /// </summary>
-        /// <param name="scanIntoChatRoom"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/ScanIntoChatRoom")]
-        [MoudleInfo("扫码进群")]
-        public async Task<ActionResult<ResponseBase>> ScanIntoChatRoom(ScanIntoChatRoomRequest scanIntoChatRoom)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_A8KEY;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, scanIntoChatRoom);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 创建群
-        /// </summary>
-        /// <param name="createChatRoom"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/CreateChatRoom")]
-        [MoudleInfo("创建群")]
-        public async Task<ActionResult<ResponseBase>> CreateChatRoom(CreateChatRoomRequest createChatRoom)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_CREATECHATROOM;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, createChatRoom);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 群成员列表
-        /// </summary>
-        /// <param name="memberDetail"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MemberDetail")]
-        [MoudleInfo("群成员列表")]
-        public async Task<ActionResult<ResponseBase>> MemberDetail(MemberDetailRequest memberDetail)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MEMBERDETAIL;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, memberDetail);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 添加群成员（40内）
-        /// </summary>
-        /// <param name="addChatRoomMember"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/AddChatRoomMember")]
-        [MoudleInfo("添加群成员")]
-        public async Task<ActionResult<ResponseBase>> AddChatRoomMember(AddChatRoomMemberRequest addChatRoomMember)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_ADDCHATROOMMEMBER;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, addChatRoomMember);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 邀请群成员（40外）
-        /// </summary>
-        /// <param name="inviteChatRoomMember"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/InviteChatRoomMember")]
-        [MoudleInfo("邀请群成员")]
-        public async Task<ActionResult<ResponseBase>> InviteChatRoomMember(InviteChatRoomMemberRequest inviteChatRoomMember)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_INVITECHATROOMMEMBER;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, inviteChatRoomMember);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 转让群主
-        /// </summary>
-        /// <param name="transferChatRoomOwner"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/TransferChatRoomOwner")]
-        [MoudleInfo("转让群主")]
-        public async Task<ActionResult<ResponseBase>> TransferChatRoomOwner(TransferChatRoomOwnerRequest transferChatRoomOwner)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_TRANSFERCHATROOMOWNER;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferChatRoomOwner);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 退群
-        /// </summary>
-        /// <param name="quitChatRoom"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/QuitChatRoom")]
-        [MoudleInfo("退群")]
-        public async Task<ActionResult<ResponseBase>> QuitChatRoom(QuitChatRoomRequest quitChatRoom)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_QUITCHATROOM;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, quitChatRoom);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 删除群成员
-        /// </summary>
-        /// <param name="delChatRoomMember"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/DelChatRoomMember")]
-        [MoudleInfo("删除群成员")]
-        public async Task<ActionResult<ResponseBase>> DelChatRoomMember(DelChatRoomMemberRequest delChatRoomMember)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_DELCHATROOMMEMBER;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delChatRoomMember);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-        #endregion
-
-        #region 消息
-
-        /// <summary>
-        /// 发送文本消息
-        /// </summary>
-        /// <param name="newSendMsg"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/NewSendMsg")]
-        [MoudleInfo("发送文本消息")]
-        public async Task<ActionResult<ResponseBase>> NewSendMsg(NewSendMsgRequest newSendMsg)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_NEWSENDMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSendMsg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 发送图片消息
-        /// </summary>
-        /// <param name="uploadMsgImg"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendImgMsg")]
-        [MoudleInfo("发送图片消息")]
-        public async Task<ActionResult<ResponseBase>> SendImgMsg(UploadMsgImgRequest uploadMsgImg)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_UPLOADMSGIMG;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadMsgImg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 发送消息CDN图片
-        /// </summary>
-        /// <param name="uploadMsgImgCdn"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendImgMsgCdn")]
-        [MoudleInfo("发送消息图片CDN")]
-        public async Task<ActionResult<ResponseBase>> SendImgMsgCdn(UploadMsgImgCdnRequest uploadMsgImgCdn)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_UPLOADMSGIMGCDN;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadMsgImgCdn);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 发送语音消息
-        /// </summary>
-        /// <param name="uploadVoice"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SemdVoiceMsg")]
-        [MoudleInfo("发送语音消息")]
-        public async Task<ActionResult<ResponseBase>> SemdVoiceMsg(UploadVoiceRequest uploadVoice)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_UPLOADVOICE;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadVoice);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 发送视频消息
-        /// </summary>
-        /// <param name="uploadVideo"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendViedoMsg")]
-        [MoudleInfo("发送视频消息")]
-        public async Task<ActionResult<ResponseBase>> SendViedoMsg(UploadVideoRequest uploadVideo)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_UPLOADVIDEO;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadVideo);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 发送App消息
-        /// </summary>
-        /// <param name="appMessage"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendAppMsg")]
-        [MoudleInfo("发送App消息")]
-        public async Task<ActionResult<ResponseBase>> SendAppMsg(AppMessageRequest appMessage)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_SENDAPPMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            string dataUrl = string.IsNullOrEmpty(appMessage.DataUrl) ? appMessage.Url : appMessage.DataUrl;
-            string content = $"<appmsg appid=\"{appMessage.AppId}\" sdkver=\"0\"><title>{appMessage.Title}</title><des>{appMessage.Desc}</des><type>{appMessage.Type}</type><showtype>0</showtype><soundtype>0</soundtype><contentattr>0</contentattr><url>{appMessage.Url}</url><lowurl>{appMessage.Url}</lowurl><dataurl>{dataUrl}</dataurl><lowdataurl>{dataUrl}</lowdataurl> <thumburl>{appMessage.ThumbUrl}</thumburl></appmsg>";
-
-            SendAppMsgRequest sendAppMsg = new SendAppMsgRequest()
-            {
-                recv_uin = appMessage.ToWxId,
-                message = content,
-                clientmsgid = appMessage.ClientMsgId,
-                token = appMessage.Token
-            };
-
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, sendAppMsg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 发送分享消息
-        /// </summary>
-        /// <param name="appMessage"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendShareMsg")]
-        [MoudleInfo("发送分享消息")]
-        public async Task<ActionResult<ResponseBase>> SendShareMsg(AppMessageRequest appMessage)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_SENDAPPMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            string dataUrl = string.IsNullOrEmpty(appMessage.DataUrl) ? appMessage.Url : appMessage.DataUrl;
-            string content = $"<appmsg  sdkver=\"0\"><title>{appMessage.Title}</title><des>{appMessage.Desc}</des><type>{appMessage.Type}</type><showtype>0</showtype><soundtype>0</soundtype><contentattr>0</contentattr><url>{appMessage.Url}</url><lowurl>{appMessage.Url}</lowurl><dataurl>{dataUrl}</dataurl><lowdataurl>{dataUrl}</lowdataurl> <thumburl>{appMessage.ThumbUrl}</thumburl></appmsg>";
-
-            SendShareMsgRequest sendShareMsg = new SendShareMsgRequest()
-            {
-                recv_uin = appMessage.ToWxId,
-                message = content,
-                clientmsgid = appMessage.ClientMsgId,
-                token = appMessage.Token
-            };
-
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, sendShareMsg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-
-        /// <summary>
-        /// 发送名片消息
-        /// </summary>
-        /// <param name="cardMessage"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendCardMsg")]
-        [MoudleInfo("发送名片消息")]
-        public async Task<ActionResult<ResponseBase>> SendCardMsg(CardMessageRequest cardMessage)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_NEWSENDMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            cardMessage.CardNickName = string.IsNullOrEmpty(cardMessage.CardNickName) ? cardMessage.CardWxId : cardMessage.CardNickName;
-            string content = $"<?xml version=\"1.0\"?>\n<msg bigheadimgurl=\"\" smallheadimgurl=\"\" username=\"{cardMessage.CardWxId}\" nickname=\"{cardMessage.CardNickName}\" fullpy=\"\" shortpy=\"\" alias=\"{cardMessage.CardAlias}\" imagestatus=\"0\" scene=\"17\" province=\"\" city=\"\" sign=\"\" sex=\"2\" certflag=\"0\" certinfo=\"\" brandIconUrl=\"\" brandHomeUrl=\"\" brandSubscriptConfigUrl=\"\" brandFlags=\"0\" regionCode=\"CN\" />\n";
-
-            NewSendMsgRequest newSendMsg = new NewSendMsgRequest()
-            {
-                recv_uin = cardMessage.ToWxId,
-                message_type = "42",
-                message = content,
-                clientmsgid = cardMessage.ClientMsgId,
-                atuserlist = "",
-                token = cardMessage.Token
-            };
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSendMsg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 发送位置消息
-        /// </summary>
-        /// <param name="locationMessage"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendLocationMsg")]
-        [MoudleInfo("发送位置消息")]
-        public async Task<ActionResult<ResponseBase>> SendLocationMsg(LocationMessageRequest locationMessage)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_NEWSENDMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-            string content = $"<?xml version=\"1.0\"?>\n<msg>\n\t<location x=\"{locationMessage.Latitude}\" y=\"{locationMessage.Longitude}\" scale=\"16\" label=\"{locationMessage.Name}\" maptype=\"0\" poiname=\"[位置]{locationMessage.Name}\" poiid=\"\" />\n</msg>";
-
-            NewSendMsgRequest newSendMsg = new NewSendMsgRequest()
-            {
-                recv_uin = locationMessage.ToWxId,
-                message_type = "48",
-                message = content,
-                clientmsgid = locationMessage.ClientMsgId,
-                atuserlist = "",
-                token = locationMessage.Token
-            };
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSendMsg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 发送文件消息
-        /// </summary>
-        /// <param name="mediaMessage"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/SendMediaMsg")]
-        [MoudleInfo("发送文件消息")]
-        public async Task<ActionResult<ResponseBase>> SendMediaMsg(MediaMessageRequest mediaMessage)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_SENDAPPMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            string content = $"<?xml version=\"1.0\"?>\n<appmsg appid='' sdkver=''><title>{mediaMessage.Title}</title><des></des><action></action><type>6</type><content></content><url></url><lowurl></lowurl><appattach><totallen>{mediaMessage.Length}</totallen><attachid>{mediaMessage.AttachId}</attachid><fileext>{mediaMessage.FileExt}</fileext></appattach><extinfo></extinfo></appmsg>";
-            SendMediaMsgRequest sendMediaMsg = new SendMediaMsgRequest()
-            {
-                recv_uin = mediaMessage.ToWxId,
-                message = content,
-                clientmsgid = mediaMessage.ClientMsgId,
-                token = mediaMessage.Token
-            };
-
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, sendMediaMsg);
-
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 消息撤回
-        /// </summary>
-        /// <param name="revokeMsg"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/RevokeMsg")]
-        [MoudleInfo("消息撤回")]
-        public async Task<ActionResult<ResponseBase>> RevokeMsg(RevokeMsgRequest revokeMsg)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_REVOKEMSG;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, revokeMsg);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-        #endregion
-
-
-        #region 朋友圈
-
-        /// <summary>
-        /// 获取朋友圈首页
-        /// </summary>
-        /// <param name="mmSnsTimeLine"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MmSnsTimeLine")]
-        [MoudleInfo("获取朋友圈首页")]
-        public async Task<ActionResult<ResponseBase>> MmSnsTimeLine(MmSnsTimeLineRequest mmSnsTimeLine)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSTIMELINE;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsTimeLine);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 获取指定朋友圈
-        /// </summary>
-        /// <param name="mmSnsUserpage"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MmSnsUserpage")]
-        [MoudleInfo("获取指定朋友圈")]
-        public async Task<ActionResult<ResponseBase>> MmSnsUserpage(MmSnsUserpageRequest mmSnsUserpage)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSUSERPAGE;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsUserpage);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 朋友圈点赞评论回复
-        /// </summary>
-        /// <param name="mmSnsComment"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MmSnsComment")]
-        [MoudleInfo("朋友圈点赞评论回复")]
-        public async Task<ActionResult<ResponseBase>> MmSnsComment(MmSnsCommentRequest mmSnsComment)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSCOMMENT;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsComment);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 朋友圈操作
-        /// </summary>
-        /// <param name="mmSnsObjectOp"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MmSnsObjectOp")]
-        [MoudleInfo("朋友圈操作")]
-        public async Task<ActionResult<ResponseBase>> MmSnsObjectOp(MmSnsObjectOpRequest mmSnsObjectOp)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSOBJECTOP;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsObjectOp);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 朋友圈图片上传
-        /// </summary>
-        /// <param name="mmSnsUpload"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MmSnsUpload")]
-        [MoudleInfo("朋友圈图片上传")]
-        public async Task<ActionResult<ResponseBase>> MmSnsUpload(MmSnsUploadRequest mmSnsUpload)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSOBJECTOP;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsUpload);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        /// <summary>
-        /// 发送朋友圈
-        /// </summary>
-        /// <param name="sendSns"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/MmSnsPost")]
-        [MoudleInfo("发送朋友圈")]
-        public async Task<ActionResult<ResponseBase>> MmSnsPost(SendSnsRequest sendSns)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSPOST;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            string content = null;
-
-            switch (sendSns.Type)
-            {
-                case 0: content = SendSnsConst.GetContentTemplate(sendSns.WxId, sendSns.Content, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 1: content = SendSnsConst.GetImageTemplate(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 2: content = SendSnsConst.GetVideoTemplate(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 3: content = SendSnsConst.GetLinkTemplate(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 4: content = SendSnsConst.GetImageTemplate3(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 5: content = SendSnsConst.GetImageTemplate4(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 6: content = SendSnsConst.GetImageTemplate5(sendSns.WxId, sendSns.Content, sendSns.MediaInfos, sendSns.Title, sendSns.ContentUrl, sendSns.Description); break;
-                case 7: content = sendSns.Content; break;
-            }
-
-            MmSnsPostRequest mmSnsPost = new MmSnsPostRequest()
-            {
-                token = sendSns.Token,
-                clientmsgid = sendSns.ClientMsgId,
-                message = content
-            };
-
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsPost);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
-
-        #endregion
-
-        #region 标签
-
-        /// <summary>
-        /// 添加标签
-        /// </summary>
-        /// <param name="addContactLabel"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/AddContactLabel")]
-        [MoudleInfo("添加标签")]
-        public async Task<ActionResult<ResponseBase>> AddContactLabel(AddContactLabelRequest addContactLabel)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_ADDCONTACTLABEL;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, addContactLabel);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-
-        /// <summary>
-        /// 修改标签
-        /// </summary>
-        /// <param name="modifyContactLabelList"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/ModifyContactLabelList")]
-        [MoudleInfo("修改标签")]
-        public async Task<ActionResult<ResponseBase>> ModifyContactLabelList(ModifyContactLabelListRequest modifyContactLabelList)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MODIFYCONTACTLABELLIST;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, modifyContactLabelList);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-        /// <summary>
-        /// 删除标签
-        /// </summary>
-        /// <param name="delContactLabel"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/DelContactLabel")]
-        [MoudleInfo("删除标签")]
-        public async Task<ActionResult<ResponseBase>> DelContactLabel(DelContactLabelRequest delContactLabel)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_DELCONTACTLABEL;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delContactLabel);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-        /// <summary>
-        /// 获取标签
-        /// </summary>
-        /// <param name="getContactLabelList"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/GetContactLabelList")]
-        [MoudleInfo("获取标签")]
-        public async Task<ActionResult<ResponseBase>> GetContactLabelList(GetContactLabelListRequest getContactLabelList)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_GETCONTACTLABELLIST;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getContactLabelList);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-        #endregion
-
-
-        #region 支付
-        /// <summary>
-        /// 获取收款码
-        /// </summary>
-        /// <param name="f2fQrCode"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/F2fQrCode")]
-        [MoudleInfo("获取收款码")]
-        public async Task<ActionResult<ResponseBase>> F2fQrCode(F2FQrCodeRequest f2fQrCode)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_F2FQRCODE;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, f2fQrCode);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-
-        /// <summary>
-        /// 获取金额收款码
-        /// </summary>
-        /// <param name="setF2FFee"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/TransferSetF2FFee")]
-        [MoudleInfo("获取金额收款码")]
-        public async Task<ActionResult<ResponseBase>> TransferSetF2FFee(SetF2FFeeRequest setF2FFee)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_TRANSFERSETF2FFEE;
-            var url = WechatHelper.GetUrl(cgiType);
-
-            TransferSetF2FFeeRequest transferSetF2FFee = new TransferSetF2FFeeRequest()
-            {
-                describe = $"desc={setF2FFee.Desc}&fee={setF2FFee.Money}&fee_type=1",
-                token = setF2FFee.Token,
-            };
-
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferSetF2FFee);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-
-        /// <summary>
-        /// 点击红包
-        /// </summary>
-        /// <param name="receiveWxHb"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/ReceiveWxHb")]
-        [MoudleInfo("点击红包")]
-        public async Task<ActionResult<ResponseBase>> ReceiveWxHb(ReceiveWxHbRequest receiveWxHb)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_RECEIVEWXHB;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, receiveWxHb);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-        /// <summary>
-        /// 打开红包
-        /// </summary>
-        /// <param name="openWxHb"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/OpenWxHb")]
-        [MoudleInfo("打开红包")]
-        public async Task<ActionResult<ResponseBase>> OpenWxHb(OpenWxHbRequest openWxHb)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_OPENWXHB;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, openWxHb);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-
-
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-
-        /// <summary>
-        /// 签收转账
-        /// </summary>
-        /// <param name="transferOperation"></param>
-        /// <returns></returns>
-        [HttpPost("api/Wechat/TransferOperation")]
-        [MoudleInfo("签收转账")]
-        public async Task<ActionResult<ResponseBase>> TransferOperation(TransferOperationRequest transferOperation)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_TRANSFEROPERATION;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferOperation);
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
-            }
-            return response;
-
-        }
-        #endregion
-
-
+        #endregion 
 
         #region 公共
 
@@ -2558,7 +1014,229 @@ namespace JwSale.Api.Controllers
 
             return response;
         }
+
+
+
+        /// <summary>
+        /// GetA8Key（阅读 扫码进群）
+        /// </summary>
+        /// <param name="getA8Key"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetA8Key")]
+        [MoudleInfo("GetA8Key")]
+        public async Task<ActionResult<ResponseBase>> GetA8Key(GetA8KeyRequest getA8Key)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_A8KEY;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getA8Key);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+
+
+        /// <summary>
+        /// GetMpA8Key（授权登录）
+        /// </summary>
+        /// <param name="getA8Key"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetMpA8Key")]
+        [MoudleInfo("GetMpA8Key")]
+        public async Task<ActionResult<ResponseBase>> GetMpA8Key(GetA8KeyRequest getA8Key)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_MPA8KEY;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getA8Key);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+
+        /// <summary>
+        /// 获取小程序授权
+        /// </summary>
+        /// <param name="jsVerify"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/JsVerify")]
+        [MoudleInfo("获取小程序授权")]
+        public async Task<ActionResult<ResponseBase>> JsVerify(JsVerifyRequest jsVerify)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_JSOPERATEWXDATA;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, jsVerify);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 小程序登录
+        /// </summary>
+        /// <param name="jsLogin"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/JsLogin")]
+        [MoudleInfo("小程序登录")]
+        public async Task<ActionResult<ResponseBase>> JsLogin(JsLoginRequest jsLogin)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_JSOPERATEWXDATA;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, jsLogin);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 获取安全设备
+        /// </summary>
+        /// <param name="getSafetyInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetSafetyInfo")]
+        [MoudleInfo("获取安全设备")]
+        public async Task<ActionResult<ResponseBase>> GetSafetyInfo(GetSafetyInfoRequest getSafetyInfo)
+        {
+            
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_TYPE_GETSAFETYINFO;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getSafetyInfo);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 删除安全设备
+        /// </summary>
+        /// <param name="delSafeDevice"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/DelSafeDevice")]
+        [MoudleInfo("删除安全设备")]
+        public async Task<ActionResult<ResponseBase>> DelSafeDevice(DelSafeDeviceRequest delSafeDevice)
+        {
+
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_TYPE_DELSAFEDEVICE;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, delSafeDevice);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = $"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
         #endregion
+
+
+
+
 
 
 

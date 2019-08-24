@@ -385,6 +385,309 @@
             </summary> 
             
         </member>
+        <member name="T:JwSale.Api.Controllers.FavController">
+            <summary>
+            标签管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FavController.AddContactLabel(JwSale.Model.Dto.Wechat.AddContactLabelRequest)">
+            <summary>
+            添加标签
+            </summary>
+            <param name="addContactLabel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FavController.ModifyContactLabelList(JwSale.Model.Dto.Wechat.ModifyContactLabelListRequest)">
+            <summary>
+            修改标签
+            </summary>
+            <param name="modifyContactLabelList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FavController.DelContactLabel(JwSale.Model.Dto.Wechat.DelContactLabelRequest)">
+            <summary>
+            删除标签
+            </summary>
+            <param name="delContactLabel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FavController.GetContactLabelList(JwSale.Model.Dto.Wechat.GetContactLabelListRequest)">
+            <summary>
+            获取标签
+            </summary>
+            <param name="getContactLabelList"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Controllers.FriendCrontroller">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FriendCrontroller.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
+            <summary>
+            获取联系人(通讯录群友)
+            </summary>
+            <param name="getContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FriendCrontroller.SearchContact(JwSale.Model.Dto.Wechat.SearchContactRequest)">
+            <summary>
+            搜索联系人(非好友)
+            </summary>
+            <param name="searchContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FriendCrontroller.VerifyUser(JwSale.Model.Dto.Wechat.VerifyUserRequest)">
+            <summary>
+            添加或同意联系人
+            </summary>
+            <param name="verifyUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FriendCrontroller.DelContact(JwSale.Model.Dto.Wechat.DelContactRequest)">
+            <summary>
+            删除联系人
+            </summary>
+            <param name="delContact"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FriendCrontroller.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
+            <summary>
+            修改好友备注
+            </summary>
+            <param name="setFriendRemarks"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Controllers.GroupController">
+            <summary>
+            群管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.ScanIntoChatRoom(JwSale.Model.Dto.Wechat.ScanIntoChatRoomRequest)">
+            <summary>
+            扫码进群
+            </summary>
+            <param name="scanIntoChatRoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.CreateChatRoom(JwSale.Model.Dto.Wechat.CreateChatRoomRequest)">
+            <summary>
+            创建群
+            </summary>
+            <param name="createChatRoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.MemberDetail(JwSale.Model.Dto.Wechat.MemberDetailRequest)">
+            <summary>
+            群成员列表
+            </summary>
+            <param name="memberDetail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.AddChatRoomMember(JwSale.Model.Dto.Wechat.AddChatRoomMemberRequest)">
+            <summary>
+            添加群成员（40内）
+            </summary>
+            <param name="addChatRoomMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.InviteChatRoomMember(JwSale.Model.Dto.Wechat.InviteChatRoomMemberRequest)">
+            <summary>
+            邀请群成员（40外）
+            </summary>
+            <param name="inviteChatRoomMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.TransferChatRoomOwner(JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest)">
+            <summary>
+            转让群主
+            </summary>
+            <param name="transferChatRoomOwner"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.QuitChatRoom(JwSale.Model.Dto.Wechat.QuitChatRoomRequest)">
+            <summary>
+            退群
+            </summary>
+            <param name="quitChatRoom"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.GroupController.DelChatRoomMember(JwSale.Model.Dto.Wechat.DelChatRoomMemberRequest)">
+            <summary>
+            删除群成员
+            </summary>
+            <param name="delChatRoomMember"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Controllers.MessageController">
+            <summary>
+            消息管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.NewSendMsg(JwSale.Model.Dto.Wechat.NewSendMsgRequest)">
+            <summary>
+            发送文本消息
+            </summary>
+            <param name="newSendMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendImgMsg(JwSale.Model.Dto.Wechat.UploadMsgImgRequest)">
+            <summary>
+            发送图片消息
+            </summary>
+            <param name="uploadMsgImg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendImgMsgCdn(JwSale.Model.Dto.Wechat.UploadMsgImgCdnRequest)">
+            <summary>
+            发送消息CDN图片
+            </summary>
+            <param name="uploadMsgImgCdn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SemdVoiceMsg(JwSale.Model.Dto.Wechat.UploadVoiceRequest)">
+            <summary>
+            发送语音消息
+            </summary>
+            <param name="uploadVoice"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendViedoMsg(JwSale.Model.Dto.Wechat.UploadVideoRequest)">
+            <summary>
+            发送视频消息
+            </summary>
+            <param name="uploadVideo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendAppMsg(JwSale.Model.Dto.Request.Wechat.AppMessageRequest)">
+            <summary>
+            发送App消息
+            </summary>
+            <param name="appMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendShareMsg(JwSale.Model.Dto.Request.Wechat.AppMessageRequest)">
+            <summary>
+            发送分享消息
+            </summary>
+            <param name="appMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendCardMsg(JwSale.Model.Dto.Request.Wechat.CardMessageRequest)">
+            <summary>
+            发送名片消息
+            </summary>
+            <param name="cardMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendLocationMsg(JwSale.Model.Dto.Request.Wechat.LocationMessageRequest)">
+            <summary>
+            发送位置消息
+            </summary>
+            <param name="locationMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.SendMediaMsg(JwSale.Model.Dto.Request.Wechat.MediaMessageRequest)">
+            <summary>
+            发送文件消息
+            </summary>
+            <param name="mediaMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.RevokeMsg(JwSale.Model.Dto.Wechat.RevokeMsgRequest)">
+            <summary>
+            消息撤回
+            </summary>
+            <param name="revokeMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Controllers.PayController">
+            <summary>
+            支付管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.PayController.F2fQrCode(JwSale.Model.Dto.Wechat.F2FQrCodeRequest)">
+            <summary>
+            获取收款码
+            </summary>
+            <param name="f2fQrCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.PayController.TransferSetF2FFee(JwSale.Model.Dto.Request.Wechat.SetF2FFeeRequest)">
+            <summary>
+            获取金额收款码
+            </summary>
+            <param name="setF2FFee"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.PayController.ReceiveWxHb(JwSale.Model.Dto.Wechat.ReceiveWxHbRequest)">
+            <summary>
+            点击红包
+            </summary>
+            <param name="receiveWxHb"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.PayController.OpenWxHb(JwSale.Model.Dto.Wechat.OpenWxHbRequest)">
+            <summary>
+            打开红包
+            </summary>
+            <param name="openWxHb"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.PayController.TransferOperation(JwSale.Model.Dto.Wechat.TransferOperationRequest)">
+            <summary>
+            签收转账
+            </summary>
+            <param name="transferOperation"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Controllers.SnsController">
+            <summary>
+            朋友圈管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsTimeLine(JwSale.Model.Dto.Wechat.MmSnsTimeLineRequest)">
+            <summary>
+            获取朋友圈首页
+            </summary>
+            <param name="mmSnsTimeLine"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsUserpage(JwSale.Model.Dto.Wechat.MmSnsUserpageRequest)">
+            <summary>
+            获取指定朋友圈
+            </summary>
+            <param name="mmSnsUserpage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsComment(JwSale.Model.Dto.Wechat.MmSnsCommentRequest)">
+            <summary>
+            朋友圈点赞评论回复
+            </summary>
+            <param name="mmSnsComment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsObjectOp(JwSale.Model.Dto.Wechat.MmSnsObjectOpRequest)">
+            <summary>
+            朋友圈操作
+            </summary>
+            <param name="mmSnsObjectOp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsUpload(JwSale.Model.Dto.Wechat.MmSnsUploadRequest)">
+            <summary>
+            朋友圈图片上传
+            </summary>
+            <param name="mmSnsUpload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsPost(JwSale.Model.Dto.Request.Wechat.SendSnsRequest)">
+            <summary>
+            发送朋友圈
+            </summary>
+            <param name="sendSns"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.WechatController">
             <summary>
             微信管理
@@ -508,279 +811,6 @@
             <param name="extdeviceLoginconfirmOk"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
-            <summary>
-            获取联系人(通讯录群友)
-            </summary>
-            <param name="getContact"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SearchContact(JwSale.Model.Dto.Wechat.SearchContactRequest)">
-            <summary>
-            搜索联系人(非好友)
-            </summary>
-            <param name="searchContact"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.VerifyUser(JwSale.Model.Dto.Wechat.VerifyUserRequest)">
-            <summary>
-            添加或同意联系人
-            </summary>
-            <param name="verifyUser"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.DelContact(JwSale.Model.Dto.Wechat.DelContactRequest)">
-            <summary>
-            删除联系人
-            </summary>
-            <param name="delContact"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
-            <summary>
-            修改好友备注
-            </summary>
-            <param name="setFriendRemarks"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.ScanIntoChatRoom(JwSale.Model.Dto.Wechat.ScanIntoChatRoomRequest)">
-            <summary>
-            扫码进群
-            </summary>
-            <param name="scanIntoChatRoom"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.CreateChatRoom(JwSale.Model.Dto.Wechat.CreateChatRoomRequest)">
-            <summary>
-            创建群
-            </summary>
-            <param name="createChatRoom"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MemberDetail(JwSale.Model.Dto.Wechat.MemberDetailRequest)">
-            <summary>
-            群成员列表
-            </summary>
-            <param name="memberDetail"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.AddChatRoomMember(JwSale.Model.Dto.Wechat.AddChatRoomMemberRequest)">
-            <summary>
-            添加群成员（40内）
-            </summary>
-            <param name="addChatRoomMember"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.InviteChatRoomMember(JwSale.Model.Dto.Wechat.InviteChatRoomMemberRequest)">
-            <summary>
-            邀请群成员（40外）
-            </summary>
-            <param name="inviteChatRoomMember"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.TransferChatRoomOwner(JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest)">
-            <summary>
-            转让群主
-            </summary>
-            <param name="transferChatRoomOwner"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.QuitChatRoom(JwSale.Model.Dto.Wechat.QuitChatRoomRequest)">
-            <summary>
-            退群
-            </summary>
-            <param name="quitChatRoom"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.DelChatRoomMember(JwSale.Model.Dto.Wechat.DelChatRoomMemberRequest)">
-            <summary>
-            删除群成员
-            </summary>
-            <param name="delChatRoomMember"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.NewSendMsg(JwSale.Model.Dto.Wechat.NewSendMsgRequest)">
-            <summary>
-            发送文本消息
-            </summary>
-            <param name="newSendMsg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendImgMsg(JwSale.Model.Dto.Wechat.UploadMsgImgRequest)">
-            <summary>
-            发送图片消息
-            </summary>
-            <param name="uploadMsgImg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendImgMsgCdn(JwSale.Model.Dto.Wechat.UploadMsgImgCdnRequest)">
-            <summary>
-            发送消息CDN图片
-            </summary>
-            <param name="uploadMsgImgCdn"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SemdVoiceMsg(JwSale.Model.Dto.Wechat.UploadVoiceRequest)">
-            <summary>
-            发送语音消息
-            </summary>
-            <param name="uploadVoice"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendViedoMsg(JwSale.Model.Dto.Wechat.UploadVideoRequest)">
-            <summary>
-            发送视频消息
-            </summary>
-            <param name="uploadVideo"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendAppMsg(JwSale.Model.Dto.Request.Wechat.AppMessageRequest)">
-            <summary>
-            发送App消息
-            </summary>
-            <param name="appMessage"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendShareMsg(JwSale.Model.Dto.Request.Wechat.AppMessageRequest)">
-            <summary>
-            发送分享消息
-            </summary>
-            <param name="appMessage"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendCardMsg(JwSale.Model.Dto.Request.Wechat.CardMessageRequest)">
-            <summary>
-            发送名片消息
-            </summary>
-            <param name="cardMessage"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendLocationMsg(JwSale.Model.Dto.Request.Wechat.LocationMessageRequest)">
-            <summary>
-            发送位置消息
-            </summary>
-            <param name="locationMessage"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.SendMediaMsg(JwSale.Model.Dto.Request.Wechat.MediaMessageRequest)">
-            <summary>
-            发送文件消息
-            </summary>
-            <param name="mediaMessage"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.RevokeMsg(JwSale.Model.Dto.Wechat.RevokeMsgRequest)">
-            <summary>
-            消息撤回
-            </summary>
-            <param name="revokeMsg"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsTimeLine(JwSale.Model.Dto.Wechat.MmSnsTimeLineRequest)">
-            <summary>
-            获取朋友圈首页
-            </summary>
-            <param name="mmSnsTimeLine"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsUserpage(JwSale.Model.Dto.Wechat.MmSnsUserpageRequest)">
-            <summary>
-            获取指定朋友圈
-            </summary>
-            <param name="mmSnsUserpage"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsComment(JwSale.Model.Dto.Wechat.MmSnsCommentRequest)">
-            <summary>
-            朋友圈点赞评论回复
-            </summary>
-            <param name="mmSnsComment"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsObjectOp(JwSale.Model.Dto.Wechat.MmSnsObjectOpRequest)">
-            <summary>
-            朋友圈操作
-            </summary>
-            <param name="mmSnsObjectOp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsUpload(JwSale.Model.Dto.Wechat.MmSnsUploadRequest)">
-            <summary>
-            朋友圈图片上传
-            </summary>
-            <param name="mmSnsUpload"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.MmSnsPost(JwSale.Model.Dto.Request.Wechat.SendSnsRequest)">
-            <summary>
-            发送朋友圈
-            </summary>
-            <param name="sendSns"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.AddContactLabel(JwSale.Model.Dto.Wechat.AddContactLabelRequest)">
-            <summary>
-            添加标签
-            </summary>
-            <param name="addContactLabel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.ModifyContactLabelList(JwSale.Model.Dto.Wechat.ModifyContactLabelListRequest)">
-            <summary>
-            修改标签
-            </summary>
-            <param name="modifyContactLabelList"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.DelContactLabel(JwSale.Model.Dto.Wechat.DelContactLabelRequest)">
-            <summary>
-            删除标签
-            </summary>
-            <param name="delContactLabel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.GetContactLabelList(JwSale.Model.Dto.Wechat.GetContactLabelListRequest)">
-            <summary>
-            获取标签
-            </summary>
-            <param name="getContactLabelList"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.F2fQrCode(JwSale.Model.Dto.Wechat.F2FQrCodeRequest)">
-            <summary>
-            获取收款码
-            </summary>
-            <param name="f2fQrCode"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.TransferSetF2FFee(JwSale.Model.Dto.Request.Wechat.SetF2FFeeRequest)">
-            <summary>
-            获取金额收款码
-            </summary>
-            <param name="setF2FFee"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.ReceiveWxHb(JwSale.Model.Dto.Wechat.ReceiveWxHbRequest)">
-            <summary>
-            点击红包
-            </summary>
-            <param name="receiveWxHb"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.OpenWxHb(JwSale.Model.Dto.Wechat.OpenWxHbRequest)">
-            <summary>
-            打开红包
-            </summary>
-            <param name="openWxHb"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.TransferOperation(JwSale.Model.Dto.Wechat.TransferOperationRequest)">
-            <summary>
-            签收转账
-            </summary>
-            <param name="transferOperation"></param>
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Controllers.WechatController.UploadMContact(JwSale.Model.Dto.Wechat.UploadMContactRequest)">
             <summary>
             上传通讯录
@@ -814,6 +844,48 @@
             摇一摇
             </summary>
             <param name="shakeReport"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetA8Key(JwSale.Model.Dto.Wechat.GetA8KeyRequest)">
+            <summary>
+            GetA8Key（阅读 扫码进群）
+            </summary>
+            <param name="getA8Key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetMpA8Key(JwSale.Model.Dto.Wechat.GetA8KeyRequest)">
+            <summary>
+            GetMpA8Key（授权登录）
+            </summary>
+            <param name="getA8Key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.JsVerify(JwSale.Model.Dto.Wechat.JsVerifyRequest)">
+            <summary>
+            获取小程序授权
+            </summary>
+            <param name="jsVerify"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.JsLogin(JwSale.Model.Dto.Wechat.JsLoginRequest)">
+            <summary>
+            小程序登录
+            </summary>
+            <param name="jsLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetSafetyInfo(JwSale.Model.Dto.Wechat.GetSafetyInfoRequest)">
+            <summary>
+            获取安全设备
+            </summary>
+            <param name="getSafetyInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.DelSafeDevice(JwSale.Model.Dto.Wechat.DelSafeDeviceRequest)">
+            <summary>
+            删除安全设备
+            </summary>
+            <param name="delSafeDevice"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">

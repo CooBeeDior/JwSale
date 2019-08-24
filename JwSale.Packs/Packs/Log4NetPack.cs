@@ -18,7 +18,7 @@ namespace JwSale.Packs.Packs
         /// <param name="services">依赖注入服务容器</param>
         /// <returns></returns>
         protected override IServiceCollection AddServices(IServiceCollection services)
-        {
+        {           
             services.AddSingleton<ILoggerProvider, Log4NetLoggerProvider>();
             return services;
         }

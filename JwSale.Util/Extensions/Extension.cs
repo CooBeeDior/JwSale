@@ -180,7 +180,7 @@ namespace JwSale.Util.Extensions
 
 
 
- 
+
         public static string ToMd5(this string strText)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
@@ -209,11 +209,27 @@ namespace JwSale.Util.Extensions
 
         public static T ToObj<T>(this string soucre)
         {
-            return JsonConvert.DeserializeObject<T>(soucre);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(soucre);
+            }
+            catch
+            {
+
+            }
+            return default(T);
         }
         public static object ToObj(this string soucre)
         {
-            return JsonConvert.DeserializeObject(soucre);
+            try
+            {
+                return JsonConvert.DeserializeObject(soucre);
+            }
+            catch
+            {
+
+            }
+            return soucre;
         }
 
 

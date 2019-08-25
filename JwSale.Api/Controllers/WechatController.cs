@@ -56,7 +56,7 @@ namespace JwSale.Api.Controllers
                 if (wechatResp.code == "0")
                 {
                     var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, wechatResp, proxyInfo);
-                    if (result.code == "0")
+                    if (result?.code == "0")
                     {
                         var image = result.message.ToObj<GetLoginQrCodeMsg>();
                         var imgBuffer = image.Image.StrToHexBuffer().ToBase64Img();
@@ -114,7 +114,7 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(CGI_TYPE.CGI_CHECKLOGINQRCODE, wechatResp);
 
                 var resp = result?.message?.ToObj<CheckLoginQrCodeResponse>();
-                if (resp.state == 2)
+                if (resp?.state == 2)
                 {
                     WechatAnalysisResponse maResult = null;
 
@@ -130,7 +130,7 @@ namespace JwSale.Api.Controllers
                         if (maRechatResp.code == "0")
                         {
                             maResult = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, maRechatResp);
-                            if (maResult.code == "0")
+                            if (maResult?.code == "0")
                             {
                                 var maResp = maResult.message.ToObj<ManualAuthResponse>();
                                 response.ExtensionData = maResp;
@@ -225,7 +225,7 @@ namespace JwSale.Api.Controllers
                                     nickName = maResp.nickName,
                                 },
                                 ManualAuth = maResp,
-                                ProxyInfo= login.proxyInfo
+                                ProxyInfo = login.proxyInfo
 
                             };
                             await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
@@ -276,7 +276,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -314,7 +314,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -356,7 +356,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -393,7 +393,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -435,7 +435,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -471,7 +471,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -522,7 +522,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -579,7 +579,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -616,7 +616,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -653,7 +653,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -690,7 +690,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -726,7 +726,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -762,7 +762,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -798,7 +798,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -837,7 +837,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -872,7 +872,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -907,7 +907,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -942,7 +942,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -979,7 +979,7 @@ namespace JwSale.Api.Controllers
             if (shakeResp.code == "0")
             {
                 var shakeResult = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(shakeCgiType, shakeResp);
-                if (shakeResult.code == "0")
+                if (shakeResult?.code == "0")
                 {
                     string cgiType = CGI_TYPE.CGI_SHAKEREGET;
                     var url = WechatHelper.GetUrl(cgiType);
@@ -991,7 +991,7 @@ namespace JwSale.Api.Controllers
                     if (resp.code == "0")
                     {
                         var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                        if (result.code == "0")
+                        if (result?.code == "0")
                         {
                             response.Data = result.message?.ToObj();
                         }
@@ -1046,7 +1046,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -1083,7 +1083,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -1119,7 +1119,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -1154,7 +1154,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -1190,7 +1190,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }
@@ -1226,7 +1226,7 @@ namespace JwSale.Api.Controllers
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result.code == "0")
+                if (result?.code == "0")
                 {
                     response.Data = result.message?.ToObj();
                 }

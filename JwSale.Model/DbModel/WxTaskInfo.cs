@@ -8,8 +8,8 @@ namespace JwSale.Model
     /// <summary>
     /// 拉群微信Id
     /// </summary>
-    [Table("WxNoTaskInfo")]
-    public class WxNoTaskInfo : Entity
+    [Table("WxTaskInfo")]
+    public class WxTaskInfo : Entity
     {
         /// <summary>
         /// 任务Id

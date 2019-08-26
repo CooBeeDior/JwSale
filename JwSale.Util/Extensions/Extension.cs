@@ -213,7 +213,7 @@ namespace JwSale.Util.Extensions
             {
                 return JsonConvert.DeserializeObject<T>(soucre);
             }
-            catch
+            catch(Exception ex)
             {
 
             }
@@ -232,6 +232,7 @@ namespace JwSale.Util.Extensions
             return soucre;
         }
 
+ 
 
         public static IEnumerable<Type> ContainAttributeType(this IEnumerable<Type> source, Type attribute)
         {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class LogOutRequest : WechatRequestBase
+    public class LogoutRequest : WechatRequestBase
     {
     }
 

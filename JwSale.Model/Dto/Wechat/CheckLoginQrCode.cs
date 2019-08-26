@@ -4,8 +4,9 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class CheckLoginQrCodeRequest : WechatRequestBase
+    public class CheckLoginQrCodeRequest 
     {
+        public string TempToken { get; set; }
     }
 
 

@@ -13,7 +13,7 @@ namespace JwSale.Model.Dto.Wechat
 
     public class HeartBeatResponse
     {
-        public BaseRet baseResponse { get; set; }
+        public BaseResponse baseResponse { get; set; }
 
         public int nextTime { get; set; }
 

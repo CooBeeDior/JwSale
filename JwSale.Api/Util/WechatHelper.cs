@@ -92,7 +92,7 @@ namespace JwSale.Api.Util
         /// </summary>
         /// <param name="logOut"></param>
         /// <returns></returns>
-        public static Task<WechatResponseBase> LogOut(LogOutRequest logOut)
+        public static Task<WechatResponseBase> Logut(LogoutRequest logOut)
         {
             string url = GetUrl(CGI_TYPE.CGI_LOGOUT);
             return HttpHelper.PostAsync<WechatResponseBase>(url, logOut);

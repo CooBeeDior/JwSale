@@ -52,7 +52,7 @@ namespace JwSale.Model
         public int ChatroomMaxCount { get; set; }
 
         /// <summary>
-        /// 群最大数量
+        /// 当前群成员数量
         /// </summary>
         public int ChatRoomMemberCount { get; set; }
 

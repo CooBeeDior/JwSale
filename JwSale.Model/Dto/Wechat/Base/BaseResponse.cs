@@ -4,27 +4,197 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class NewSyncRequest : WechatRequestBase
+
+    public class BaseResponse
     {
-        /// <summary>
-        /// 3同步新消息，5同步通讯录，262151新消息和通讯录一起同步
-        /// </summary>
-        public string selector { get; set; }
+        public int ret { get; set; }
+        public ErrMsg errMsg { get; set; }
     }
-    public class NewSyncResponse
+    public class ErrMsg
     {
         /// <summary>
         /// 
         /// </summary>
-        public int count { get; set; }
+        public string str { get; set; }
+    }
+
+    public class UserName
+    {
         /// <summary>
         /// 
         /// </summary>
-        public List<ListItem> list { get; set; }
+        public string str { get; set; }
+    }
+
+    public class SnsUserInfo
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int snsFlag { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string snsBgimgId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string snsBgobjectId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int snsFlagEx { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int snsPrivacyRecent { get; set; }
+    }
+
+    public class CustomizedInfo
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int brandFlag { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string externalInfo { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string brandInfo { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string brandIconURL { get; set; }
+    }
+
+    public class LinkedinContactItem
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string linkedinName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string linkedinMemberID { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string linkedinoptionalUrl { get; set; }
+    }
+
+    public class AdditionalContactList
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public LinkedinContactItem linkedinContactItem { get; set; }
+    }
+
+    public class NewChatroomData
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int memberCount { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<ChatRoomMemberItem> chatRoomMember { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int infoMask { get; set; }
     }
 
 
-    public class ListItem
+ 
+
+
+    public class Phonenumlistinfo
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Count { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> phoneNumList { get; set; }
+    }
+
+    public class NickName
+    {
+        /// <summary>
+        /// 阿星2号
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class PyInitial
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class QuanPin
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class ImgBuf
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int iLen { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string buffer { get; set; }
+    }
+
+    public class Remark
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class RemarkPYInitial
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class RemarkQuanPin
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class DomainList_Item
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class ContactListItem
     {
         /// <summary>
         /// 
@@ -57,7 +227,7 @@ namespace JwSale.Model.Dto.Wechat
         /// <summary>
         /// 
         /// </summary>
-        //public CustomizedInfo customizedInfo { get; set; }
+        public CustomizedInfo customizedInfo { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -239,7 +409,7 @@ namespace JwSale.Model.Dto.Wechat
         /// </summary>
         public string city { get; set; }
         /// <summary>
-        /// 微信团队官方帐号
+        /// 
         /// </summary>
         public string signature { get; set; }
         /// <summary>
@@ -255,7 +425,7 @@ namespace JwSale.Model.Dto.Wechat
         /// </summary>
         public int verifyFlag { get; set; }
         /// <summary>
-        /// 深圳市腾讯计算机系统有限公司
+        /// 
         /// </summary>
         public string verifyInfo { get; set; }
         /// <summary>
@@ -288,5 +458,45 @@ namespace JwSale.Model.Dto.Wechat
         public int chatRoomNotify { get; set; }
     }
 
+    public class VerifyUserValidTicketListItem
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string username { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string antispamticket { get; set; }
+    }
 
+    public class ChatRoomMemberItem
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string userName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string nickName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string displayName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string bigHeadImgUrl { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string smallHeadImgUrl { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int chatroomMemberFlag { get; set; }
+    }
+
+ 
 }

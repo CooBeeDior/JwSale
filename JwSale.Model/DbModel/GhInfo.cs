@@ -5,40 +5,24 @@ using System.Text;
 
 namespace JwSale.Model
 {
-
-
-    [Table("WxInfo")]
-    public class WxInfo : Entity
-    {
+    /// <summary>
+    /// 公众号信息
+    /// </summary>
+    [Table("GhInfo")]
+    public class GhInfo : Entity
+    {    
         /// <summary>
-        /// 用户Id
+          /// 所属微信Id
+          /// </summary>
+        public string BelongWxId { get; set; }
+
+        /// <summary>
+        /// 公众号Id
         /// </summary>
-        public Guid UserId { get; set; }
-
-
-        /// <summary>
-        /// 微信账号
-        /// </summary>
-        public string UserName { get; set; }
+        public string GhId { get; set; }
 
         /// <summary>
-        /// 微信密码
-        /// </summary>
-        public string Password { get; set; }
-
-        /// <summary>
-        /// 微信设备信息
-        /// </summary>
-        public string Device { get; set; }
-
-        /// <summary>
-        /// 微信Id
-        /// </summary>
-        public string WxId { get; set; }
- 
-
-        /// <summary>
-        /// 昵称
+        /// 公众号昵称
         /// </summary>
         public string NickName { get; set; }
 
@@ -57,19 +41,6 @@ namespace JwSale.Model
         /// </summary>
         public int Sex { get; set; }
 
-        /// <summary>
-        /// Uin
-        /// </summary>
-        public string Uin { get; set; }
-        /// <summary>
-        /// 邮箱
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        /// 手机号码
-        /// </summary>
-        public string Mobile { get; set; }
         /// <summary>
         /// 国家
         /// </summary>
@@ -90,6 +61,9 @@ namespace JwSale.Model
         /// </summary>
         public string Signature { get; set; }
 
- 
+
+
+
+
     }
 }

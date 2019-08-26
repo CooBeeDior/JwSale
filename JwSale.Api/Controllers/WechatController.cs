@@ -1,19 +1,25 @@
 ﻿using JwSale.Api.Const;
 using JwSale.Api.Http;
 using JwSale.Api.Util;
+using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Common;
 using JwSale.Model.Dto.Request.Wechat;
 using JwSale.Model.Dto.Response.Wechat;
 using JwSale.Model.Dto.Wechat;
+using JwSale.Model.Enums;
 using JwSale.Packs.Attributes;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using JwSale.Util.Dependencys;
 
 namespace JwSale.Api.Controllers
 {
@@ -29,6 +35,8 @@ namespace JwSale.Api.Controllers
         {
             this.cache = cache;
             this.accessor = accessor;
+
+            //var fff = initWxInfo("504A63D9E86CD2A0BFCED1382C2D21D9", "wxid_4ygvpk58m8wi12").GetAwaiter().GetResult();
         }
 
         #region 用户
@@ -136,19 +144,21 @@ namespace JwSale.Api.Controllers
                                 response.ExtensionData = maResp;
                                 response.Token = maResult.token;
 
-                                var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(checkLoginQrCode.token));
+                                var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(checkLoginQrCode.TempToken));
                                 var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
                                 //缓存     
                                 wechatCache = new WechatCache()
                                 {
-                                    Token = maRechatResp.token,
+                                    Token = maResult.token,
                                     CheckLoginQrCode = resp,
+                                    LoginTime = DateTime.Now,
+                                    LoginType = LoginType.QrCode,
                                     ManualAuth = maResp,
                                     ProxyInfo = wechatCache.ProxyInfo
                                 };
                                 await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
-
+                                await refreshWxInoAsync(maResult.token, resp.wxid, resp.wxid, "", resp.device);
 
 
                             }
@@ -224,13 +234,16 @@ namespace JwSale.Api.Controllers
                                     wxid = maResp.wxid,
                                     nickName = maResp.nickName,
                                 },
+                                LoginTime = DateTime.Now,
+                                LoginType = LoginType.Device,
                                 ManualAuth = maResp,
                                 ProxyInfo = login.proxyInfo
 
                             };
                             await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
-                            //刷新数据
+
+                            await refreshWxInoAsync(maResult.token, maResp.wxid, login.user, login.pass, login.deviceID);
 
                         }
                         else if (maResult.code == "-301")
@@ -343,16 +356,16 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 退出登录
         /// </summary>
-        /// <param name="logOut"></param>
+        /// <param name="logout"></param>
         /// <returns></returns>
-        [HttpPost("api/Wechat/LogOut")]
+        [HttpPost("api/Wechat/Logout")]
         [MoudleInfo("退出登录")]
-        public async Task<ActionResult<ResponseBase>> LogOut(LogOutRequest logOut)
+        public async Task<ActionResult<ResponseBase>> Logout(LogoutRequest logout)
         {
             ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_LOGOUT;
             var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, logOut);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, logout);
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
@@ -1245,6 +1258,39 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
+
+
+
+        /// <summary>
+        /// 刷新微信数据
+        /// </summary>
+        /// <param name="refreshWxInfoRequest"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/RefreshWxInfo")]
+        [MoudleInfo("刷新微信数据")]
+        public async Task<ActionResult<ResponseBase>> RefreshWxInfo(RefreshWxInfoRequest refreshWxInfoRequest)
+        {
+
+            ResponseBase response = new ResponseBase();
+            var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(refreshWxInfoRequest.token));
+            var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
+
+            bool result = await refreshWxInoAsync(refreshWxInfoRequest.token, wechatCache.ManualAuth.wxid);
+            if (result)
+            {
+                response.Success = true;
+                response.Message = "刷新成功";
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "刷新失败";
+            }
+
+            return response;
+        }
+
         #endregion
 
 
@@ -1254,59 +1300,270 @@ namespace JwSale.Api.Controllers
 
 
 
-        //private async Task initWxInfo(string token, WechatCreateRequest wechatCreateRequest)
-        //{
-        //    var wxInfo = await DbContext.WxInfos.Where(o => o.WxId == manualAuthResponse.wxid).FirstOrDefaultAsync();
-        //    if (wxInfo == null)
-        //    {
-        //        wxInfo = new WxInfo()
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            UserId = UserInfo.Id,
-        //            UserName = wechatCreateRequest.user,
-        //            Password = wechatCreateRequest.pass,
-        //            Device = wechatCreateRequest.deviceID,
+        private async Task<bool> refreshWxInoAsync(string token, string wxId, string username = null, string password = null, string device = null)
+        {
+            bool flag = false;
+            GetContactRequest getContact = new GetContactRequest()
+            {
+                token = token,
+                wxid = wxId
+            };
+            {
+                //初始化用户信息
+                string cgiType = CGI_TYPE.CGI_GETCONTACT;
+                var url = WechatHelper.GetUrl(cgiType);
+                var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getContact);
+                if (resp.code == "0")
+                {
+                    var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                    if (result?.code == "0")
+                    {
+                        var obj = result.message?.ToObj<GetContactResponse>();
+
+                        if (obj != null && obj.baseResponse.ret == 0)
+                        {
+                            var contract = obj.contactList[0];
+
+                            var wxInfo = await DbContext.WxInfos.Where(o => o.WxId == wxId).FirstOrDefaultAsync();
+                            if (wxInfo == null)
+                            {
+                                wxInfo = new WxInfo()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    UserId = UserInfo.Id,
+
+                                    UserName = username,
+                                    Password = password,
+                                    Device = device,
+                                    WxId = wxId,
+                                    NickName = contract.nickName.str,
+                                    HeadImgUrl = contract.bigHeadImgUrl,
+                                    Alias = contract.alias,
+                                    Sex = contract.sex,
+                                    Uin = "",
+                                    Email = "",
+                                    Mobile = "",
+                                    Country = contract.country,
+                                    Province = contract.province,
+                                    City = contract.city,
+                                    Signature = contract.signature,
+                                    AddTime = DateTime.Now,
+                                    AddUserId = UserInfo.Id,
+                                    AddUserRealName = UserInfo.RealName,
+                                    UpdateTime = DateTime.Now,
+                                    UpdateUserId = UserInfo.Id,
+                                    UpdateUserRealName = UserInfo.RealName,
+                                };
+
+                                DbContext.Add(wxInfo);
+                            }
+                            else
+                            {
+                                wxInfo.UserId = UserInfo.Id;
+                                if (!string.IsNullOrEmpty(username))
+                                {
+                                    wxInfo.UserName = username;
+                                }
+                                if (!string.IsNullOrEmpty(password))
+                                {
+                                    wxInfo.Password = password;
+                                }
+                                if (!string.IsNullOrEmpty(device))
+                                {
+                                    wxInfo.Device = device;
+                                }
+                       
+                                wxInfo.WxId = wxId;
+                                wxInfo.NickName = contract.nickName.str;
+                                wxInfo.HeadImgUrl = contract.bigHeadImgUrl;
+                                wxInfo.Alias = contract.alias;
+                                wxInfo.Sex = contract.sex;
+                                wxInfo.Uin = "";
+                                wxInfo.Email = "";
+                                wxInfo.Mobile = "";
+                                wxInfo.Country = contract.country;
+                                wxInfo.Province = contract.province;
+                                wxInfo.City = contract.city;
+                                wxInfo.Signature = contract.signature;
+                                wxInfo.AddUserRealName = UserInfo.RealName;
+                                wxInfo.UpdateTime = DateTime.Now;
+                                wxInfo.UpdateUserId = UserInfo.Id;
+                                wxInfo.UpdateUserRealName = UserInfo.RealName;
+
+                            }
+
+                            flag = true;
+                        }
+                    }
+
+                }
+            }
+
+            {
+                //初始化好友和群信息
+                NewSyncRequest newSync = new NewSyncRequest()
+                {
+                    selector = "5",
+                    token = token
+                };
+                var chatroomInfos = await DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wxId).ToListAsync();
+                var wxFriendInfos = await DbContext.WxFriendInfos.Where(o => o.BelongWxId == wxId).ToListAsync();
+                var ghInfos = await DbContext.GhInfos.Where(o => o.BelongWxId == wxId).ToListAsync();
 
 
 
-        //            AddTime = DateTime.Now,
-        //            AddUserId = UserInfo.Id,
-        //            AddUserRealName = UserInfo.RealName,
-        //            UpdateTime = DateTime.Now,
-        //            UpdateUserId = UserInfo.Id,
-        //            UpdateUserRealName = UserInfo.RealName,
-        //        };
-        //        DbContext.Add(wxInfo);
-        //    }
-        //    else
-        //    {
-        //        await refreshWxInfo();
-        //    }
 
-        //}
+                while (true)
+                {
+                    string cgiType = CGI_TYPE.CGI_NEWSYNC;
+                    var url = WechatHelper.GetUrl(cgiType);
+                    var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, newSync);
+                    if (resp.code == "0")
+                    {
+                        var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                        if (result?.code == "0")
+                        {
+                            var obj = result.message?.ToObj<NewSyncResponse>();
+                            if (obj.count > 0 && obj.list != null)
+                            {
+                                foreach (var item in obj.list)
+                                {
+                                    //群
+                                    if (item.personalCard == 0 && !string.IsNullOrEmpty(item.chatRoomOwner))
+                                    {
+                                        if (chatroomInfos.Where(o => o.ChatRoomId == item.userName.str).Count() == 0)
+                                        {
+                                            ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
+                                            {
+                                                Id = Guid.NewGuid(),
+                                                BelongWxId = wxId,
+                                                ChatRoomId = item.userName.str,
+                                                ChatRoomName = item.nickName.str,
+                                                HeadImgUrl = item.bigHeadImgUrl,
+                                                OwnerWxId = item.chatRoomOwner,
+                                                OwnerWxNickName = "",
+                                                OwnerWxHeadImgUrl = "",
+                                                ChatroomMaxCount = item.chatroomMaxCount,
+                                                ChatRoomMemberCount = item.newChatroomData?.memberCount ?? 0,
+                                                AddTime = DateTime.Now,
+                                                AddUserId = UserInfo.Id,
+                                                AddUserRealName = UserInfo.RealName,
+                                                UpdateTime = DateTime.Now,
+                                                UpdateUserId = UserInfo.Id,
+                                                UpdateUserRealName = UserInfo.RealName,
+                                            };
+                                            DbContext.Add(chatRoomInfo);
+                                        }
+
+                                        if (item.newChatroomData?.chatRoomMember != null)
+                                        {
+                                            foreach (var memmber in item.newChatroomData.chatRoomMember)
+                                            {
+                                                if (DbContext.ChatRoomMemberInfos.Where(o => o.ChatRoomId == item.userName.str && o.WxId == memmber.userName).Count() == 0)
+                                                {
+                                                    ChatRoomMemberInfo chatRoomMemberInfo = new ChatRoomMemberInfo()
+                                                    {
+                                                        Id = Guid.NewGuid(),
+
+                                                        ChatRoomId = item.userName.str,
+                                                        WxId = memmber.userName,
+                                                        NickName = memmber.nickName,
+                                                        DisplayName = memmber.displayName,
+                                                        HeadImgUrl = item.bigHeadImgUrl,
+                                                        AddTime = DateTime.Now,
+                                                        AddUserId = UserInfo.Id,
+                                                        AddUserRealName = UserInfo.RealName,
+                                                        UpdateTime = DateTime.Now,
+                                                        UpdateUserId = UserInfo.Id,
+                                                        UpdateUserRealName = UserInfo.RealName,
+
+                                                    };
+                                                    DbContext.Add(chatRoomMemberInfo);
+                                                }
+
+                                            }
+                                        }
 
 
-        //private Task refreshWxInfo()
-        //{
+                                    }
+                                    //好友
+                                    else if (item.personalCard == 1)
+                                    {
+                                        if (wxFriendInfos.Where(o => o.WxId == item.userName.str).Count() == 0)
+                                        {
+                                            WxFriendInfo wxFriendInfo = new WxFriendInfo()
+                                            {
+                                                Id = Guid.NewGuid(),
+                                                BelongWxId = wxId,
+                                                WxId = item.userName.str,
+                                                NickName = item.nickName.str,
+                                                HeadImgUrl = item.bigHeadImgUrl,
+                                                Alias = item.alias,
+                                                Sex = item.sex,
+                                                Country = item.country,
+                                                Province = item.province,
+                                                City = item.city,
+                                                Signature = item.signature,
+                                                AddTime = DateTime.Now,
+                                                AddUserId = UserInfo.Id,
+                                                AddUserRealName = UserInfo.RealName,
+                                                UpdateTime = DateTime.Now,
+                                                UpdateUserId = UserInfo.Id,
+                                                UpdateUserRealName = UserInfo.RealName,
+
+                                            };
+                                            DbContext.Add(wxFriendInfo);
+                                        }
+                                    }
+                                    //公众号等
+                                    else
+                                    {
+                                        if (ghInfos.Where(o => o.GhId == item.userName.str).Count() == 0)
+                                        {
+                                            GhInfo ghInfo = new GhInfo()
+                                            {
+                                                Id = Guid.NewGuid(),
+                                                BelongWxId = wxId,
+                                                GhId = item.userName.str,
+                                                NickName = item.nickName.str,
+                                                HeadImgUrl = item.bigHeadImgUrl,
+                                                Alias = item.alias,
+                                                Sex = item.sex,
+                                                Country = item.country,
+                                                Province = item.province,
+                                                City = item.city,
+                                                Signature = item.signature,
+                                                AddTime = DateTime.Now,
+                                                AddUserId = UserInfo.Id,
+                                                AddUserRealName = UserInfo.RealName,
+                                                UpdateTime = DateTime.Now,
+                                                UpdateUserId = UserInfo.Id,
+                                                UpdateUserRealName = UserInfo.RealName,
+                                            };
+                                            DbContext.Add(ghInfo);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                    }
+                }
+            }
+            await DbContext.SaveChangesAsync();
+            return flag;
 
 
-        //    WxInfo wxInfo = new WxInfo()
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        UserId = UserInfo.Id,
+
+        }
 
 
 
 
-        //        AddTime = DateTime.Now,
-        //        AddUserId = UserInfo.Id,
-        //        AddUserRealName = UserInfo.RealName,
-        //        UpdateTime = DateTime.Now,
-        //        UpdateUserId = UserInfo.Id,
-        //        UpdateUserRealName = UserInfo.RealName,
-        //    };
-        //    DbContext.Add(wxInfo);
-        //}
 
     }
 }

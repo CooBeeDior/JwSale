@@ -293,19 +293,19 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("获取用户列表")]
         public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
         {
-            PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
-            var userinfos = DbContext.UserInfos.AsEnumerable();
+            PageResponseBase<IList<UserInfo>> response = new PageResponseBase<IList<UserInfo>>();
+            var userinfos = DbContext.UserInfos.AsQueryable(UserInfo.Id);
             if (!string.IsNullOrEmpty(getUsers.Name))
             {
-                userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName?.Contains(getUsers.Name) == true || o.RealNamePin?.ToLower()?.Contains(getUsers.Name.ToLower()) == true);
+                userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName.Contains(getUsers.Name) == true || o.RealNamePin.ToLower().Contains(getUsers.Name.ToLower()) == true).AsQueryable();
             }
             if (getUsers.Status != null)
             {
                 userinfos = userinfos.Where(o => o.Status == getUsers.Status);
             }
             response.TotalCount = userinfos.Count();
-            userinfos = userinfos.OrderBy(getUsers.OrderBys).ToPage(getUsers.PageIndex, getUsers.PageSize);
-            response.Data = userinfos;
+            userinfos = userinfos.ToPage(getUsers);
+            response.Data = await userinfos.ToListAsync();
 
             return await response.ToJsonResultAsync();
         }

@@ -49,11 +49,11 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result?.code == "0")
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                     response.Success = false;
                     response.Message = result.describe;
                 }
@@ -95,11 +95,11 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result?.code == "0")
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                     response.Success = false;
                     response.Message = result.describe;
                 }
@@ -134,11 +134,11 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result?.code == "0")
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                     response.Success = false;
                     response.Message = result.describe;
                 }
@@ -172,11 +172,11 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result?.code == "0")
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                     response.Success = false;
                     response.Message = result.describe;
                 }
@@ -210,11 +210,11 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result?.code == "0")
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                 }
                 else
                 {
-                    response.Data = result.message?.ToObj();
+                    response.Data = result.message.ToObj();
                     response.Success = false;
                     response.Message = result.describe;
                 }

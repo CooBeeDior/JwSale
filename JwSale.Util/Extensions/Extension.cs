@@ -73,18 +73,18 @@ namespace JwSale.Util.Extensions
 
 
 
-        /// <summary>
-        /// 分页
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> ToPage<T>(this IEnumerable<T> source, int pageIndex, int pageSize)
-        {
-            return source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
-        }
+        ///// <summary>
+        ///// 分页
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="source"></param>
+        ///// <param name="pageIndex"></param>
+        ///// <param name="pageSize"></param>
+        ///// <returns></returns>
+        //public static IEnumerable<T> ToPage<T>(this IEnumerable<T> source, int pageIndex, int pageSize)
+        //{
+        //    return source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        //}
 
         /// <summary>
         /// 汉字转化为拼音
@@ -209,11 +209,15 @@ namespace JwSale.Util.Extensions
 
         public static T ToObj<T>(this string soucre)
         {
+            if (string.IsNullOrEmpty(soucre))
+            {
+                return default(T);
+            }
             try
             {
                 return JsonConvert.DeserializeObject<T>(soucre);
             }
-            catch(Exception ex)
+            catch
             {
 
             }

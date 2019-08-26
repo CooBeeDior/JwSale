@@ -39,7 +39,19 @@ namespace JwSale.Api.Extensions
         }
 
 
-        public static IEnumerable<T> AsEnumerable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
+        public static IQueryable<T> AsQueryable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
+        {
+            if (userId == null || userId == Guid.Empty)
+            {
+                return source;
+            }
+            else
+            {
+                return source.Where(o => o.AddUserId == userId).AsQueryable();
+            }
+
+        }
+        public static IEnumerable<T> AsEnumerable<T>(this IEnumerable<T> source, Guid? userId) where T : Entity
         {
             if (userId == null || userId == Guid.Empty)
             {
@@ -52,8 +64,7 @@ namespace JwSale.Api.Extensions
 
         }
 
-
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IList<OrderByBase> orderbys, string defaultOrderby = "AddTime")
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, IList<OrderByBase> orderbys, string defaultOrderby = "AddTime")
         {
             if (orderbys == null || orderbys.Count == 0)
             {
@@ -111,7 +122,13 @@ namespace JwSale.Api.Extensions
         {
             return Task.FromResult(new JsonResult(response));
         }
+    
 
+        public static IQueryable<T> ToPage<T>(this IQueryable<T> source, RequestPageBase requestPageBase)
+        {
+            source = source.Skip((requestPageBase.PageIndex - 1) * requestPageBase.PageSize).Take(requestPageBase.PageSize).OrderBy(requestPageBase.OrderBys);
+            return source;
+        }
 
     }
 }

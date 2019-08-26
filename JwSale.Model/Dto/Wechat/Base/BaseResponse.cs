@@ -141,7 +141,7 @@ namespace JwSale.Model.Dto.Wechat
         /// </summary>
         public string str { get; set; }
     }
-
+  
     public class QuanPin
     {
         /// <summary>
@@ -498,5 +498,162 @@ namespace JwSale.Model.Dto.Wechat
         public int chatroomMemberFlag { get; set; }
     }
 
- 
+
+    public class ResBuf
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int iLen { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string buffer { get; set; }
+    }
+
+    public class Jsapipermission
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BitValue1 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BitValue2 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BitValue3 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BitValue4 { get; set; }
+    }
+
+    public class GeneralControlBitSet
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BitValue1 { get; set; }
+    }
+
+    public class DeepLinkBitSet
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BitValue1 { get; set; }
+    }
+
+    public class JsapicontrolBytes
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int iLen { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string buffer { get; set; }
+    }
+
+    public class Topic
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+    public class MemberName
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
+
+    public class MemberListItem
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public MemberName memberName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int memberStatus { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public NickName nickName { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public PyInitial pyinitial { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public QuanPin quanPin { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int sex { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Remark remark { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public RemarkPYInitial remarkPyinitial { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public RemarkQuanPin remarkQuanPin { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int contactType { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string province { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string city { get; set; }
+        /// <summary>
+        /// 往下走走
+        /// </summary>
+        public string signature { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int personalCard { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int verifyFlag { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string verifyInfo { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string country { get; set; }
+    }
+
+    public class ChatRoomName
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public string str { get; set; }
+    }
+
 }

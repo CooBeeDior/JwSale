@@ -423,7 +423,7 @@
             
             </summary>
         </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
+        <member name="M:JwSale.Api.Controllers.FriendCrontroller.GetContact(JwSale.Model.Dto.Wechat.GetContactRequest)">
             <summary>
             获取联系人(通讯录群友)
             </summary>
@@ -978,6 +978,34 @@
             删除安全设备
             </summary>
             <param name="delSafeDevice"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetWxInfoList(JwSale.Model.Dto.Request.Wechat.GetWxInfoListRequest)">
+            <summary>
+            获取微信列表
+            </summary>
+            <param name="getWxInfoList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetWxFriendList(JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest)">
+            <summary>
+            获取好友列表
+            </summary>
+            <param name="getWxFriendList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetChatRoomList(JwSale.Model.Dto.Request.Wechat.GetChatRoomListRequest)">
+            <summary>
+            获取群列表
+            </summary>
+            <param name="getChatRoomList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetGhInfoList(JwSale.Model.Dto.Request.Wechat.GetGhInfoListRequest)">
+            <summary>
+            获取公众号列表
+            </summary>
+            <param name="getGhInfoList"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.RefreshWxInfo(JwSale.Model.Dto.Wechat.RefreshWxInfoRequest)">

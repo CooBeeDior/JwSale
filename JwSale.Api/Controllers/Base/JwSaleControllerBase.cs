@@ -28,7 +28,7 @@ namespace JwSale.Api.Controllers
     [TypeFilter(typeof(ExceptionAttribute))]
     [TypeFilter(typeof(LogAttribute))]
     [ApiController]
-    [NoPermissionRequired]
+    //[NoPermissionRequired]
     public class JwSaleControllerBase : ControllerBase
     {
         protected JwSaleDbContext DbContext { get; }

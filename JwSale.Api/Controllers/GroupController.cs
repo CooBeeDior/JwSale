@@ -100,7 +100,7 @@ namespace JwSale.Api.Controllers
                                             Id = Guid.NewGuid(),
                                             BelongWxId = wechatCache.ManualAuth.wxid,
                                             ChatRoomId = chatRoomId,
-                                            ChatRoomName = contact.nickName.str,
+                                            ChatRoomName = contact.nickName.str ?? "",
                                             HeadImgUrl = contact.smallHeadImgUrl,
                                             OwnerWxId = contact.chatRoomOwner,
                                             OwnerWxNickName = "",
@@ -195,55 +195,137 @@ namespace JwSale.Api.Controllers
                 {
                     var createChatRoomResponse = result.message.ToObj<CreateChatRoomResponse>();
                     response.Data = createChatRoomResponse;
+
+
+
                     var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(createChatRoom.token));
                     var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
-                    if (DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wechatCache.ManualAuth.wxid && o.ChatRoomId == createChatRoomResponse.chatRoomName.str).Count() == 0)
+                    GetContactRequest getContact = new GetContactRequest()
                     {
-                        ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
+                        token = createChatRoom.token,
+                        wxid = createChatRoomResponse.chatRoomName.str,
+                        chatroom = "",
+                        v1 = ""
+                    };
+
+                    string cgiType_get = CGI_TYPE.CGI_GETCONTACT;
+                    var url_get = WechatHelper.GetUrl(cgiType_get);
+                    var resp_get = await HttpHelper.PostAsync<WechatResponseBase>(url_get, getContact);
+
+                    if (resp_get.code == "0")
+                    {
+                        var result_get = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType_get, resp_get);
+                        if (result_get?.code == "0")
                         {
-                            Id = Guid.NewGuid(),
-                            BelongWxId = wechatCache.ManualAuth.wxid,
-                            ChatRoomId = createChatRoomResponse.chatRoomName.str,
-                            ChatRoomName = createChatRoomResponse.topic.str,
-                            HeadImgUrl = createChatRoomResponse.smallHeadImgUrl,
-                            OwnerWxId = wechatCache.ManualAuth.wxid,
-                            OwnerWxNickName = wechatCache.ManualAuth.nickName,
-                            OwnerWxHeadImgUrl = "",
-                            ChatroomMaxCount = 500,
-                            ChatRoomMemberCount = createChatRoomResponse.memberCount,
-                            AddTime = DateTime.Now,
-                            AddUserId = UserInfo.Id,
-                            AddUserRealName = UserInfo.RealName,
-                            UpdateTime = DateTime.Now,
-                            UpdateUserId = UserInfo.Id,
-                            UpdateUserRealName = UserInfo.RealName,
-                        };
-                        DbContext.Add(chatRoomInfo);
+                            var obj = result_get.message.ToObj<GetContactResponse>();
+                            var contact = obj.contactList[0];
+                            if (DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wechatCache.ManualAuth.wxid && o.ChatRoomId == createChatRoomResponse.chatRoomName.str).Count() == 0)
+                            {
+                                ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    BelongWxId = wechatCache.ManualAuth.wxid,
+                                    ChatRoomId = createChatRoomResponse.chatRoomName.str,
+                                    ChatRoomName = contact.nickName.str ?? "",
+                                    HeadImgUrl = contact.smallHeadImgUrl,
+                                    OwnerWxId = contact.chatRoomOwner,
+                                    OwnerWxNickName = "",
+                                    OwnerWxHeadImgUrl = "",
+                                    ChatroomMaxCount = contact.chatroomMaxCount,
+                                    ChatRoomMemberCount = contact.newChatroomData?.memberCount ?? 0,
+                                    AddTime = DateTime.Now,
+                                    AddUserId = UserInfo.Id,
+                                    AddUserRealName = UserInfo.RealName,
+                                    UpdateTime = DateTime.Now,
+                                    UpdateUserId = UserInfo.Id,
+                                    UpdateUserRealName = UserInfo.RealName,
+                                };
+                                DbContext.Add(chatRoomInfo);
+                            }
+
+                            if (contact.newChatroomData?.chatRoomMember != null)
+                            {
+                                await DbContext.ChatRoomMemberInfos.Where(o => o.ChatRoomId == contact.userName.str).DeleteAsync();
+                                foreach (var memmber in contact.newChatroomData.chatRoomMember)
+                                {
+                                    ChatRoomMemberInfo chatRoomMemberInfo = new ChatRoomMemberInfo()
+                                    {
+                                        Id = Guid.NewGuid(),
+
+                                        ChatRoomId = contact.userName.str,
+                                        WxId = memmber.userName,
+                                        NickName = memmber.nickName,
+                                        DisplayName = memmber.displayName,
+                                        HeadImgUrl = contact.smallHeadImgUrl,
+                                        AddTime = DateTime.Now,
+                                        AddUserId = UserInfo.Id,
+                                        AddUserRealName = UserInfo.RealName,
+                                        UpdateTime = DateTime.Now,
+                                        UpdateUserId = UserInfo.Id,
+                                        UpdateUserRealName = UserInfo.RealName,
+
+                                    };
+                                    DbContext.Add(chatRoomMemberInfo);
+
+
+                                }
+
+
+
+                            }
+
+                            await DbContext.SaveChangesAsync();
+                        }
+
                     }
 
 
+                    //var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(createChatRoom.token));
+                    //var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
+                    //if (DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wechatCache.ManualAuth.wxid && o.ChatRoomId == createChatRoomResponse.chatRoomName.str).Count() == 0)
+                    //{
+                    //    ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
+                    //    {
+                    //        Id = Guid.NewGuid(),
+                    //        BelongWxId = wechatCache.ManualAuth.wxid,
+                    //        ChatRoomId = createChatRoomResponse.chatRoomName.str,
+                    //        ChatRoomName = createChatRoomResponse.topic.str ?? "",
+                    //        HeadImgUrl = createChatRoomResponse.smallHeadImgUrl,
+                    //        OwnerWxId = wechatCache.ManualAuth.wxid,
+                    //        OwnerWxNickName = wechatCache.ManualAuth.nickName,
+                    //        OwnerWxHeadImgUrl = "",
+                    //        ChatroomMaxCount = 500,
+                    //        ChatRoomMemberCount = createChatRoomResponse.memberCount,
+                    //        AddTime = DateTime.Now,
+                    //        AddUserId = UserInfo.Id,
+                    //        AddUserRealName = UserInfo.RealName,
+                    //        UpdateTime = DateTime.Now,
+                    //        UpdateUserId = UserInfo.Id,
+                    //        UpdateUserRealName = UserInfo.RealName,
+                    //    };
+                    //    DbContext.Add(chatRoomInfo);
+                    //}
+                    //foreach (var memmber in createChatRoomResponse.memberList)
+                    //{
+                    //    ChatRoomMemberInfo chatRoomMemberInfo = new ChatRoomMemberInfo()
+                    //    {
+                    //        Id = Guid.NewGuid(),
 
-                    foreach (var memmber in createChatRoomResponse.memberList)
-                    {
-                        ChatRoomMemberInfo chatRoomMemberInfo = new ChatRoomMemberInfo()
-                        {
-                            Id = Guid.NewGuid(),
+                    //        ChatRoomId = createChatRoomResponse.chatRoomName.str,
+                    //        WxId = memmber.memberName.str,
+                    //        NickName = memmber.nickName.str ?? "",
+                    //        DisplayName = "",
+                    //        HeadImgUrl = "",
+                    //        AddTime = DateTime.Now,
+                    //        AddUserId = UserInfo.Id,
+                    //        AddUserRealName = UserInfo.RealName,
+                    //        UpdateTime = DateTime.Now,
+                    //        UpdateUserId = UserInfo.Id,
+                    //        UpdateUserRealName = UserInfo.RealName,
 
-                            ChatRoomId = createChatRoomResponse.chatRoomName.str,
-                            WxId = memmber.memberName.str,
-                            NickName = memmber.nickName.str,
-                            DisplayName = "",
-                            HeadImgUrl = "",
-                            AddTime = DateTime.Now,
-                            AddUserId = UserInfo.Id,
-                            AddUserRealName = UserInfo.RealName,
-                            UpdateTime = DateTime.Now,
-                            UpdateUserId = UserInfo.Id,
-                            UpdateUserRealName = UserInfo.RealName,
-
-                        };
-                        DbContext.Add(chatRoomMemberInfo);
-                    }
+                    //    };
+                    //    DbContext.Add(chatRoomMemberInfo);
+                    //}
 
                     await DbContext.SaveChangesAsync();
 
@@ -330,7 +412,7 @@ namespace JwSale.Api.Controllers
                                 Id = Guid.NewGuid(),
                                 ChatRoomId = item.memberName.str,
                                 WxId = item.memberName.str,
-                                NickName = item.nickName.str,
+                                NickName = item.nickName.str ?? "",
                                 DisplayName = "",
                                 HeadImgUrl = "",
                                 AddTime = DateTime.Now,

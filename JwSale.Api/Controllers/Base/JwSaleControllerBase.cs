@@ -33,7 +33,7 @@ namespace JwSale.Api.Controllers
     {
         protected JwSaleDbContext DbContext { get; }
 
-        protected UserInfo UserInfo { get; private set; } 
+        protected UserInfo UserInfo { get; private set; }
 
         public JwSaleControllerBase(JwSaleDbContext jwSaleDbContext)
         {
@@ -41,6 +41,8 @@ namespace JwSale.Api.Controllers
             var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
             UserInfo = accessor.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
         }
+
+
 
 
         protected async Task<bool> RefreshWxInoAsync(string token, string wxId, string username = null, string password = null, string device = null)
@@ -78,7 +80,7 @@ namespace JwSale.Api.Controllers
                                     Password = password,
                                     Device = device,
                                     WxId = wxId,
-                                    NickName = contact.nickName.str,
+                                    NickName = contact.nickName.str ?? "",
                                     HeadImgUrl = contact.smallHeadImgUrl,
                                     Alias = contact.alias,
                                     Sex = contact.sex,
@@ -97,9 +99,11 @@ namespace JwSale.Api.Controllers
                                     UpdateTime = DateTime.Now,
                                     UpdateUserId = UserInfo.Id,
                                     UpdateUserRealName = UserInfo.RealName,
+
                                 };
 
                                 DbContext.Add(wxInfo);
+
                             }
                             else
                             {
@@ -117,7 +121,7 @@ namespace JwSale.Api.Controllers
                                 }
 
                                 wxInfo.WxId = wxId;
-                                wxInfo.NickName = contact.nickName.str;
+                                wxInfo.NickName = contact.nickName.str ?? "";
                                 wxInfo.HeadImgUrl = contact.smallHeadImgUrl;
                                 wxInfo.Alias = contact.alias;
                                 wxInfo.Sex = contact.sex;
@@ -137,6 +141,8 @@ namespace JwSale.Api.Controllers
                             }
 
                             flag = true;
+
+                   
                         }
                     }
 
@@ -179,7 +185,7 @@ namespace JwSale.Api.Controllers
                                                 Id = Guid.NewGuid(),
                                                 BelongWxId = wxId,
                                                 ChatRoomId = item.userName.str,
-                                                ChatRoomName = item.nickName.str,
+                                                ChatRoomName = item.nickName.str ?? "",
                                                 HeadImgUrl = item.smallHeadImgUrl,
                                                 OwnerWxId = item.chatRoomOwner,
                                                 OwnerWxNickName = "",
@@ -194,6 +200,8 @@ namespace JwSale.Api.Controllers
                                                 UpdateUserRealName = UserInfo.RealName,
                                             };
                                             DbContext.Add(chatRoomInfo);
+
+                                    
                                         }
 
                                         if (item.newChatroomData?.chatRoomMember != null)
@@ -220,7 +228,7 @@ namespace JwSale.Api.Controllers
                                                 };
                                                 DbContext.Add(chatRoomMemberInfo);
 
-
+                                    
                                             }
                                         }
 
@@ -236,7 +244,7 @@ namespace JwSale.Api.Controllers
                                                 Id = Guid.NewGuid(),
                                                 BelongWxId = wxId,
                                                 WxId = item.userName.str,
-                                                NickName = item.nickName.str,
+                                                NickName = item.nickName.str ?? "",
                                                 HeadImgUrl = item.smallHeadImgUrl,
                                                 Alias = item.alias,
                                                 Sex = item.sex,
@@ -253,6 +261,7 @@ namespace JwSale.Api.Controllers
 
                                             };
                                             DbContext.Add(wxFriendInfo);
+                                        
                                         }
                                     }
                                     //公众号等
@@ -265,7 +274,7 @@ namespace JwSale.Api.Controllers
                                                 Id = Guid.NewGuid(),
                                                 BelongWxId = wxId,
                                                 GhId = item.userName.str,
-                                                NickName = item.nickName.str,
+                                                NickName = item.nickName.str ?? "",
                                                 HeadImgUrl = item.smallHeadImgUrl,
                                                 Alias = item.alias,
                                                 Sex = item.sex,
@@ -281,6 +290,7 @@ namespace JwSale.Api.Controllers
                                                 UpdateUserRealName = UserInfo.RealName,
                                             };
                                             DbContext.Add(ghInfo);
+                               
                                         }
                                     }
                                 }
@@ -300,10 +310,6 @@ namespace JwSale.Api.Controllers
 
 
         }
-
-
-
-
 
     }
 }

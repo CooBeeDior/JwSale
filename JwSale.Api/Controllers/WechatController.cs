@@ -997,7 +997,7 @@ namespace JwSale.Api.Controllers
                         if (obj != null)
                         {
                             addressBook.WxId = obj.userName.str;
-                            addressBook.WxNickName = obj.nickName.str;
+                            addressBook.WxNickName = obj.nickName.str ?? "";
                             addressBook.WxHeadImgUrl = obj.smallHeadImgUrl;
                         }
                         DbContext.Add(addressBook);
@@ -1668,6 +1668,8 @@ namespace JwSale.Api.Controllers
 
 
 
+
+  
 
 
 

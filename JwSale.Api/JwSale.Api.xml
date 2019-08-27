@@ -987,6 +987,13 @@
             <param name="getWxInfoList"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetWxInfo(JwSale.Model.Dto.Request.Wechat.GetWxInfoRequest)">
+            <summary>
+            获取微信详情
+            </summary>
+            <param name="getWxInfo"></param>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.WechatController.GetWxFriendList(JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest)">
             <summary>
             获取好友列表
@@ -994,11 +1001,32 @@
             <param name="getWxFriendList"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetWxFriendInfo(JwSale.Model.Dto.Request.Wechat.GetWxFriendInfoRequest)">
+            <summary>
+            获取微信好友详情
+            </summary>
+            <param name="getWxFriendInfo"></param>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.WechatController.GetChatRoomList(JwSale.Model.Dto.Request.Wechat.GetChatRoomListRequest)">
             <summary>
             获取群列表
             </summary>
             <param name="getChatRoomList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetChatRoomInfo(JwSale.Model.Dto.Request.Wechat.GetChatRoomInfoRequest)">
+            <summary>
+            获取微信群详情
+            </summary>
+            <param name="getChatRoomInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetChatRoomMemberList(JwSale.Model.Dto.Request.Wechat.GetChatRoomInfoRequest)">
+            <summary>
+            获取群成员列表
+            </summary>
+            <param name="getChatRoomInfo"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.GetGhInfoList(JwSale.Model.Dto.Request.Wechat.GetGhInfoListRequest)">

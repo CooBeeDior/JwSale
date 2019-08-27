@@ -38,7 +38,7 @@ namespace JwSale.Api.Controllers
         {
             this.cache = cache;
             this.accessor = accessor;
-        
+
         }
 
         #region 用户
@@ -1436,6 +1436,33 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
+
+        /// <summary>
+        /// 获取微信详情
+        /// </summary>
+        /// <param name="getWxInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetWxInfo")]
+        [MoudleInfo("获取微信详情")]
+        public async Task<ActionResult<ResponseBase>> GetWxInfo(GetWxInfoRequest getWxInfo)
+        {
+            ResponseBase<WxInfo> response = new ResponseBase<WxInfo>();
+
+            var wxinfo = await DbContext.WxInfos.Where(o => o.WxId == getWxInfo.WxId).FirstOrDefaultAsync();
+            if (wxinfo == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = wxinfo;
+            }
+            return response;
+        }
+
+
+
         /// <summary>
         /// 获取好友列表
         /// </summary>
@@ -1474,6 +1501,31 @@ namespace JwSale.Api.Controllers
         }
 
 
+
+        /// <summary>
+        /// 获取微信好友详情
+        /// </summary>
+        /// <param name="getWxFriendInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetWxFriendInfo")]
+        [MoudleInfo("获取微信好友详情")]
+        public async Task<ActionResult<ResponseBase>> GetWxFriendInfo(GetWxFriendInfoRequest getWxFriendInfo)
+        {
+            ResponseBase<WxFriendInfo> response = new ResponseBase<WxFriendInfo>();
+
+            var wxFriendInfo = await DbContext.WxFriendInfos.Where(o => o.BelongWxId == getWxFriendInfo.BelongWxId && o.WxId == getWxFriendInfo.WxId).FirstOrDefaultAsync();
+            if (wxFriendInfo == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = wxFriendInfo;
+            }
+            return response;
+        }
+
         /// <summary>
         /// 获取群列表
         /// </summary>
@@ -1497,6 +1549,59 @@ namespace JwSale.Api.Controllers
             response.TotalCount = totalCount;
             return response;
         }
+
+
+
+        /// <summary>
+        /// 获取微信群详情
+        /// </summary>
+        /// <param name="getChatRoomInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetChatRoomInfo")]
+        [MoudleInfo("获取微信群详情")]
+        public async Task<ActionResult<ResponseBase>> GetChatRoomInfo(GetChatRoomInfoRequest getChatRoomInfo)
+        {
+            ResponseBase<ChatRoomInfo> response = new ResponseBase<ChatRoomInfo>();
+
+            var chatRoomInfos = await DbContext.ChatRoomInfos.Where(o => o.BelongWxId == getChatRoomInfo.BelongWxId && o.ChatRoomId == getChatRoomInfo.ChatRoomId).FirstOrDefaultAsync();
+            if (chatRoomInfos == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = chatRoomInfos;
+            }
+            return response;
+        }
+
+
+
+        /// <summary>
+        /// 获取群成员列表
+        /// </summary>
+        /// <param name="getChatRoomInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetChatRoomMemberList")]
+        [MoudleInfo("获取群成员列表")]
+        public async Task<ActionResult<ResponseBase>> GetChatRoomMemberList(GetChatRoomInfoRequest getChatRoomInfo)
+        {
+            ResponseBase<IList<ChatRoomMemberInfo>> response = new ResponseBase<IList<ChatRoomMemberInfo>>();
+
+            var chatRoomMemberInfo = await DbContext.ChatRoomMemberInfos.Where(o => o.ChatRoomId == getChatRoomInfo.ChatRoomId).ToListAsync();
+            if (chatRoomMemberInfo == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = chatRoomMemberInfo;
+            }
+            return response;
+        }
+
 
         /// <summary>
         /// 获取公众号列表

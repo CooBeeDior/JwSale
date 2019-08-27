@@ -23,7 +23,9 @@ namespace JwSale.Model
         /// </summary> 
         public int PageSize { get; set; } = 10;
 
-
+        /// <summary>
+        /// 排序字段
+        /// </summary>
         public IList<OrderByBase> OrderBys { get; set; }
 
     }

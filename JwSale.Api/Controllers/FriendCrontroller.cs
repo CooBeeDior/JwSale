@@ -12,7 +12,9 @@ using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using System.Linq;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace JwSale.Api.Controllers
 {
@@ -160,6 +162,11 @@ namespace JwSale.Api.Controllers
                 if (result?.code == "0")
                 {
                     response.Data = result.message.ToObj();
+
+                    var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(delContact.token));
+                    var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
+                    await DbContext.WxFriendInfos.Where(o => o.BelongWxId == wechatCache.ManualAuth.wxid && o.WxId == delContact.wxid).DeleteAsync();
+
                 }
                 else
                 {

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request.Wechat
 {
-    public class WechatBase
+    public class GetWxInfoRequest
     {
         /// <summary>
-        /// Token
+        /// 微信Id
         /// </summary>
-        public string Token { get; set; }
+        public string WxId { get; set; }
     }
 }

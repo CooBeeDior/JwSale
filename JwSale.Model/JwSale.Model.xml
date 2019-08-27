@@ -1,0 +1,2071 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JwSale.Model</name>
+    </assembly>
+    <members>
+        <member name="T:JwSale.Model.AddressBook">
+            <summary>
+            通讯录信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.BelongWxId">
+            <summary>
+            所属微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.PhoneNumber">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.WxNickName">
+            <summary>
+            微信昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.WxHeadImgUrl">
+            <summary>
+            微信头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.Status">
+            <summary>
+            状态 0:导入成功  2：打招呼成功  4:通过好友成功  8：拉群成功
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.AddressBook.ChatRoomName">
+            <summary>
+            群名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.UpdateTime">
+            <summary>
+            UpdateTime
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.AddTime">
+            <summary>
+            AddTime
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.AddUserId">
+            <summary>
+            AddUserId
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.UpdateUserId">
+            <summary>
+            UpdateUserId
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.AddUserRealName">
+            <summary>
+            AddUserRealName
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.IEntity`1.UpdateUserRealName">
+            <summary>
+            UpdateUserRealName
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.UpdateTime">
+            <summary>
+            UpdateTime
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.AddTime">
+            <summary>
+            AddTime
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.AddUserId">
+            <summary>
+            AddUserId
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.UpdateUserId">
+            <summary>
+            UpdateUserId
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.AddUserRealName">
+            <summary>
+            AddUserRealName
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Entity.UpdateUserRealName">
+            <summary>
+            UpdateUserRealName
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.ChatRoomInfo">
+            <summary>
+            群信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.BelongWxId">
+            <summary>
+            所属微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.ChatRoomName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.HeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.OwnerWxId">
+            <summary>
+            群群主微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.OwnerWxNickName">
+            <summary>
+            群群主微信昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.OwnerWxHeadImgUrl">
+            <summary>
+            群群主头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.ChatroomMaxCount">
+            <summary>
+            群成员最大数量
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomInfo.ChatRoomMemberCount">
+            <summary>
+            群最大数量
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.ChatRoomMemberInfo">
+            <summary>
+            群成员信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomMemberInfo.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomMemberInfo.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomMemberInfo.NickName">
+            <summary>
+            微信昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomMemberInfo.DisplayName">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomMemberInfo.HeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.ChatRoomTaskInfo">
+            <summary>
+            任务列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.ChatRoomName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.ChatRoomHeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.CurrentMemberCount">
+            <summary>
+            当前人数
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.TargetMemberCount">
+            <summary>
+            目标人数
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.ToWxId">
+            <summary>
+            移交微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.ToWxNickName">
+            <summary>
+            移交微信昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.ChatRoomTaskInfo.ToWxHeadImgUrl">
+            <summary>
+            移交微信头像
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.FunctionInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:12
+            描  述：FunctionInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.FunctionInfo.Name">
+            <summary>
+            功能名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.FunctionInfo.Code">
+            <summary>
+            功能编码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.FunctionInfo.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.FunctionInfo.ParentId">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.FunctionInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.RoleInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：RoleInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RoleInfo.Name">
+            <summary>
+            功能名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RoleInfo.ParentId">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RoleInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.RolePermissionInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：RolePermissionInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RolePermissionInfo.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RolePermissionInfo.FunctionId">
+            <summary>
+            功能Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RolePermissionInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.SysDictionary">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：SysDictionary实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysDictionary.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysDictionary.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysDictionary.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysDictionary.ParentId">
+            <summary>
+            父级别Id
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.SysLog">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：SysLog实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysLog.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysLog.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.SysLog.Message">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.UserDataPermissionInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：UserDataPermissionInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserDataPermissionInfo.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserDataPermissionInfo.ToUserId">
+            <summary>
+            允许访问的用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserDataPermissionInfo.Type">
+            <summary>
+            类型 0：可以访问 1：不能访问
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserDataPermissionInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.UserInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：UserInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.RealNamePin">
+            <summary>
+            真实姓名拼音
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Qq">
+            <summary>
+            qq号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.WxNo">
+            <summary>
+            微信号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.TelPhone">
+            <summary>
+            座机
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.PositionName">
+            <summary>
+            职位名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.City">
+            <summary>
+            市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Area">
+            <summary>
+            区
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Address">
+            <summary>
+            详细地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.HeadImageUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Status">
+            <summary>
+            状态：0：启用 1：停用
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Type">
+            <summary>
+            类型 1:端口授权  2:月租授权
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.WxCount">
+            <summary>
+            微信号数量
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.ExpiredTime">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.UserPermissionInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：UserPermissionInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserPermissionInfo.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserPermissionInfo.FunctionId">
+            <summary>
+            功能Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserPermissionInfo.Type">
+            <summary>
+            类型：0增加 1：减少
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserPermissionInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.UserRoleDataPermissionInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：UserRoleDataPermissionInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserRoleDataPermissionInfo.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserRoleDataPermissionInfo.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserRoleDataPermissionInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.UserRoleInfo">
+            <summary>
+            创建人：LTL
+            日  期：2019.06.11 10:13
+            描  述：UserRoleInfo实体
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserRoleInfo.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserRoleInfo.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserRoleInfo.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.WxFriendInfo">
+            <summary>
+            微信好友信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.BelongWxId">
+            <summary>
+            所属微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.HeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.Sex">
+            <summary>
+            性别 0:无 1:男 2：女
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.Province">
+            <summary>
+            省份
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxFriendInfo.Signature">
+            <summary>
+            签名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.UserName">
+            <summary>
+            微信账号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Password">
+            <summary>
+            微信密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Device">
+            <summary>
+            微信设备信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.HeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Sex">
+            <summary>
+            性别 0:无 1:男 2：女
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Province">
+            <summary>
+            省份
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Signature">
+            <summary>
+            签名
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.WxNoTaskInfo">
+            <summary>
+            拉群微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxNoTaskInfo.ChatRoomTaskInfoId">
+            <summary>
+            任务Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxNoTaskInfo.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxNoTaskInfo.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxNoTaskInfo.HeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Cache.UserCache">
+            <summary>
+            用户缓存
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Cache.UserCache.Token">
+            <summary>
+            token
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Cache.UserCache.ExpiredTime">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Cache.UserCache.UserInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ProxyInfo.Ip">
+            <summary>
+            代理Ip
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ProxyInfo.Port">
+            <summary>
+            代理端口号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ProxyInfo.UserName">
+            <summary>
+             代理用户名（可以为空）
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ProxyInfo.PassWord">
+            <summary>
+             代理密码（可以为空）
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.BriefInfo.Name">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.BriefInfo.Code">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.BriefInfoWithId.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.AddUser">
+            <summary>
+            添加用户
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.City">
+            <summary>
+            市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Area">
+            <summary>
+            区
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Address">
+            <summary>
+            详细地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Qq">
+            <summary>
+            qq号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.WxNo">
+            <summary>
+            微信号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.TelPhone">
+            <summary>
+            座机
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.PositionName">
+            <summary>
+            职位名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.HeadImageUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Type">
+            <summary>
+            类型 1:端口授权  2:月租授权
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.WxCount">
+            <summary>
+            微信号数量
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.ExpiredTime">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.GetUsers">
+            <summary>
+            获取用户
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.Login">
+            <summary>
+            登录
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.Login.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.Login.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.ResetUserPwd">
+            <summary>
+            重置密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.Password">
+            <summary>
+            密码
+            </summary> 
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.SetAllPermisson">
+            <summary>
+            设置所有权限
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetAllPermisson.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.SetUserAuth">
+            <summary>
+            设置用户授权
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.Type">
+            <summary>
+            类型 1:端口授权  2:月租授权
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.WxCount">
+            <summary>
+            微信号数量
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.ExpiredTime">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.SetUserProfile">
+            <summary>
+            修改用户简介
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Qq">
+            <summary>
+            qq号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.WxNo">
+            <summary>
+            微信号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.TelPhone">
+            <summary>
+            座机
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.PositionName">
+            <summary>
+            职位名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.City">
+            <summary>
+            市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Area">
+            <summary>
+            区
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Address">
+            <summary>
+            详细地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.HeadImageUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Request.User.SetUserStatus">
+            <summary>
+            设置用户状态
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserStatus.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.SetUserStatus.Status">
+            <summary>
+            状态：0：启用 1：停用
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.ToWxId">
+            <summary>
+            接收的微信ID
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.AppId">
+            <summary>
+            appId
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.Title">
+            <summary>
+            标题
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.Desc">
+            <summary>
+            描述
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.Type">
+            <summary>
+            app类型 3：音乐  4：小app  5：大app
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.Url">
+            <summary>
+            链接
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.DataUrl">
+            <summary>
+            数据Url
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.ThumbUrl">
+            <summary>
+            图片地址
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.AppMessageRequest.ClientMsgId">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.ToWxId">
+            <summary>
+            接收的微信ID
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.CardWxId">
+            <summary>
+            发送的微信Id
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.CardNickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.CardAlias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.ClientMsgId">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LocationMessageRequest.ToWxId">
+            <summary>
+            接收的微信ID
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LocationMessageRequest.Longitude">
+            <summary>
+            经度
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LocationMessageRequest.Latitude">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LocationMessageRequest.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LocationMessageRequest.ClientMsgId">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LoginRequest.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LoginRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.LoginRequest.Device">
+            <summary>
+            设备信息 A16或者62
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaMessageRequest.ToWxId">
+            <summary>
+            接收的微信ID
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaMessageRequest.AttachId">
+            <summary>
+            附件Id
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaMessageRequest.Title">
+            <summary>
+            标题
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaMessageRequest.Length">
+            <summary>
+            文件大小
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaMessageRequest.FileExt">
+            <summary>
+            文件后缀名
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaMessageRequest.ClientMsgId">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.Type">
+            <summary>
+            0:文字 1：图片 2视频 3：链接
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.BlackList">
+            <summary>
+            黑名单wxId用户列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.WithUserList">
+            <summary>
+            标记的Wxid列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.MediaInfos">
+            <summary>
+            media列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.ContentUrl">
+            <summary>
+            内容的链接
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.Content">
+            <summary>
+            内容
+            </summary>     
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaInfo.Url">
+            <summary>
+            数据链接
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaInfo.ImageUrl">
+            <summary>
+            图片链接
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaInfo.Width">
+            <summary>
+            高度
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaInfo.Height">
+            <summary>
+            宽度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.MediaInfo.TotalSize">
+            <summary>
+            总大小
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetF2FFeeRequest.Money">
+            <summary>
+            金额 分
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetF2FFeeRequest.Desc">
+            <summary>
+             描述
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetNickNameRequest.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.nickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.province">
+            <summary>
+            省 ZheJiang
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.sex">
+            <summary>
+            性别 0:无 1:男 2：女
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.city">
+            <summary>
+            城市 HangZhou
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.signature">
+            <summary>
+            签名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.country">
+            <summary>
+            国家 CN
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.ResponseBase.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.ResponseBase.Code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.ResponseBase.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.PageResponseBase.TotalCount">
+            <summary>
+            总条数
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.PageResponseBase`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.ResponseBase`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.ResponseBase`2.ExtensionData">
+            <summary>
+            扩展数据
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Name">
+            <summary>
+            名字
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.IsPermission">
+            <summary>
+            是否有权限
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Response.User.LoginResponse">
+            <summary>
+            登录
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.Token">
+            <summary>
+            token
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.ExpiredTime">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.UserInfo">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.Permissions">
+            <summary>
+            角色权限列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.A8KeyRequest.url">
+            <summary>
+            二维码转文字后的地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.A8KeyRequest.cookie">
+            <summary>
+            固定空
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.AddChatRoomMemberRequest.chatroom">
+            <summary>
+            群id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.AddChatRoomMemberRequest.list">
+            <summary>
+            好友列表 
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.AddContactLabelRequest.list">
+            <summary>
+            标签列表 支持同时添加多个标签
+            ["{\"labelName\":\"标签名称\",\"labelId\":\"2588\"}"]
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.BindopMobileForRegRequest.verifycode">
+            <summary>
+            验证码 获取验证码时该参数空，直到手机获取到验证码之后再填
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMember.member">
+            <summary>
+            好友微信id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.CreateChatRoomRequest.nickName">
+            <summary>
+            群聊昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.CreateChatRoomRequest.list">
+            <summary>
+            wxid_1(必须为创建人),wxid_2,wxid3(至少三个人)创建群聊wxid数据文本
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DelChatRoomMemberRequest.chatroom">
+            <summary>
+            群号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DelChatRoomMemberRequest.list">
+            <summary>
+            待删除帐号列表 支持同时删除多人
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DelContactRequest.wxid">
+            <summary>
+            被删除帐号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DelContactLabelRequest.labelIdlist">
+            <summary>
+            获取获取标签包返回
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DelSafeDeviceRequest.uuid">
+            <summary>
+            uuid
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ExtdeviceLoginconfirmGetRequest.url">
+            <summary>
+            取扫码登录设备请求包接口返回
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ExtdeviceLoginconfirmOkRequest.url">
+            <summary>
+            网址 设备url地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GeneralSetRequest.setValue">
+            <summary>
+            微信号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetA8KeyRequest.url">
+            <summary>
+            二维码转文字后的地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetA8KeyRequest.cookie">
+            <summary>
+            固定空
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactRequest.v1">
+            <summary>
+            暂无用处填空即可
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactRequest.wxid">
+            <summary>
+            单填获取联系人详情，配合chatroom则获取群友详情
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactRequest.chatroom">
+            <summary>
+            查询通讯录某成员时空,查询群友时必填
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.from">
+            <summary>
+            消息来源
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.length">
+            <summary>
+            图片大小 消息详情里中获取
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.startPos">
+            <summary>
+            位置  本次要下载的数据开头位置
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.newMsgId">
+            <summary>
+            消息ID 消息详情里中获取
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetQrCodeRequest.userName">
+            <summary>
+            wxid 登wxid 或 群聊ID
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.InviteChatRoomMemberRequest.chatroom">
+            <summary>
+            群id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.InviteChatRoomMemberRequest.list">
+            <summary>
+            好友列表 
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.JsLoginRequest.oauthUrl">
+            <summary>
+            授权URL
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.JsVerifyRequest.appID">
+            <summary>
+            小程序ID
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.LbsFindRequest.opCode">
+            <summary>
+            	固定"1"
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.LbsFindRequest.longitude">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.LbsFindRequest.latitude">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberDetailRequest.chatroom">
+            <summary>
+            群号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsCommentRequest.wxid">
+            <summary>
+            要点评的对象 好友时填他wxid反之填自己的wxid
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsCommentRequest.maxid">
+            <summary>
+            朋友圈ID 操作的朋友圈动态id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsCommentRequest.type">
+            <summary>
+            朋友圈操作类型 1点赞2评论
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsCommentRequest.comment">
+            <summary>
+            评论内容 点赞时为空
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsCommentRequest.clientmsgid">
+            <summary>
+            消息ID	每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsObjectOpRequest.maxid">
+            <summary>
+            朋友圈ID 操作的朋友圈动态id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsObjectOpRequest.commentId">
+            <summary>
+            评论ID 	操作的commentId 删除评论时需要
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsObjectOpRequest.type">
+            <summary>
+            操作类型 1删除朋友圈2设为隐私3设为公开4删除评论5取消点赞
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.MmSnsPostRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsPostRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsTimeLineRequest.maxid">
+            <summary>
+            朋友圈id 	首次0，二次填返回包最后一组【必填整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsUploadRequest.image">
+            <summary>
+            图片数据 将图片转换为16进制进行提交
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsUploadRequest.startPos">
+            <summary>
+            原图的某位置
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsUploadRequest.totalLen">
+            <summary>
+            图片总长
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsUploadRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsUserpageRequest.wxid">
+            <summary>
+            被获取账号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsUserpageRequest.maxid">
+            <summary>
+            最大ID 	首次0，二次填返回包最后一组消息ID实现翻页
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ModifyContactLabelListRequest.userName">
+            <summary>
+            设置的微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ModifyContactLabelListRequest.labelIdlist">
+            <summary>
+            获取获取标签包接口返回标签昵称跟ID的数据文本
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MpA8KeyRequest.url">
+            <summary>
+            二维码转文字后的地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MpA8KeyRequest.cookie">
+            <summary>
+            固定空
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSendMsgRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.NewSendMsgRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.NewSendMsgRequest.message_type">
+            <summary>
+            消息类型 通常填1，消息类型：1文本，42名片xml，48位置xml
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSendMsgRequest.atuserlist">
+            <summary>
+            @某人 艾特对象：多号用,隔开 如：wxid_1,wxid_2 且 pSend_msg 必须包含@字符
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSendMsgRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSetPasswdRequest.pass">
+            <summary>
+            新密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSetPasswdRequest.ticket">
+            <summary>
+            ticket
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSyncRequest.selector">
+            <summary>
+            3同步新消息，5同步通讯录，262151新消息和通讯录一起同步
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewVerifyPasswdRequest.pass">
+            <summary>
+            原始密码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.OpenWxHbRequest.nativeurl">
+            <summary>
+            编码_URL编码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.OpenWxHbRequest.sendid">
+            <summary>
+            sendid
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.OpenWxHbRequest.sessionUserName">
+            <summary>
+            来源群或人
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.OpenWxHbRequest.timingIdentifier">
+            <summary>
+            时间
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.OpLogRequest.cmdid">
+            <summary>
+            固定"64"
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.OpLogRequest.cmdbuf">
+            <summary>
+            嵌套JSON
+            </summary> 
+            <remarks>
+            设置昵称包:
+            {
+            	"cmdid": "64",
+            	"cmdbuf": "{\"bitFlag\":\"1\",\"str\":\"新昵称\"}",
+            	"token": "46b9ec1ad97d8b12813cf3cedafef159"
+            }     
+            
+            设置更多资料包:
+            {
+             "cmdid":"1",
+             "cmdbuf":"{\"bitFlag\":\"2178\",\"nickName\":\"昵称\",\"sex\":\"2\",\"province\":\"Zhejiang\",\"city\":\"Hangzhou\",\"signature\":\"个性签名666\",\"country\":\"CN\"}",
+              "token":"C6814E420DF5CEDF2ADE133CCF44DE6D"
+             }
+             
+            </remarks>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.QuitChatRoomRequest.chatroom">
+            <summary>
+            群号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ReceiveWxHbRequest.nativeurl">
+            <summary>
+            URL编码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ReceiveWxHbRequest.sendid">
+            <summary>
+            sendid
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.RevokeMsgRequest.toUserName">
+            <summary>
+            接收对象wxid
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.RevokeMsgRequest.newMsgId">
+            <summary>
+            撤回的消息 ID
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ScanIntoChatRoomRequest.url">
+            <summary>
+            二维码转文字后的地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ScanIntoChatRoomRequest.cookie">
+            <summary>
+            固定空
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SearchContactRequest.user">
+            <summary>
+            搜索帐号 :非好友搜索,通常通过该接口进行好友添加,不支持(公众号,wxid)支持(QQ,手机号,微信号)
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendAppMsgRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.SendAppMsgRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.SendAppMsgRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendLocationMsgRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendLocationMsgRequest.message">
+            <summary>
+            消息内容
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendLocationMsgRequest.message_type">
+            <summary>
+            消息类型 通常填1，消息类型：1文本，42名片xml，48位置xml
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendLocationMsgRequest.atuserlist">
+            <summary>
+            @某人 艾特对象：多号用,隔开 如：wxid_1,wxid_2 且 pSend_msg 必须包含@字符
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendLocationMsgRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendMediaMsgRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.SendMediaMsgRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.SendMediaMsgRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SendShareMsgRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.SendShareMsgRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.SendShareMsgRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SetFriendRemarksRequest.wxid">
+            <summary>
+            被修改帐号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SetFriendRemarksRequest.remark">
+            <summary>
+            新备注
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ShakereGetRequest.buffer">
+            <summary>
+            摇一摇提交包返回"buffer"
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ShakeReportRequest.opCode">
+            <summary>
+            	固定"1"
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ShakeReportRequest.longitude">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ShakeReportRequest.latitude">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest.chatroom">
+            <summary>
+            群号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest.wxid">
+            <summary>
+            新群主
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.TransferOperationRequest.begintransfertime">
+            <summary>
+            begintransfertime
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.TransferOperationRequest.transferid">
+            <summary>
+            transferid
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.TransferOperationRequest.transcationid">
+            <summary>
+            transcationid
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.TransferSetF2FFeeRequest.describe”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.UploadDeviceStepRequest.fromTime">
+            <summary>
+            当日凌晨
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadDeviceStepRequest.toTime">
+            <summary>
+            当前时间
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadDeviceStepRequest.stepCount">
+            <summary>
+            步数
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadhdHeadImgRequest.image">
+            <summary>
+            将图片转换为16进制进行提交
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadhdHeadImgRequest.totalLen">
+            <summary>
+            图片总长
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadhdHeadImgRequest.startPos">
+            <summary>
+            当前上传的数据是原图的某位置
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMContactRequest.list">
+            <summary>
+            上传列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgRequest.image">
+            <summary>
+            图片数据 将图片转换为16进制进行提交
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgRequest.totalLen">
+            <summary>
+            图片总长 
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgRequest.startPos">
+            <summary>
+            原图的某位置 当前上传的数据是原图的某位置
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgRequest.clientmsgid">
+            <summary>
+            消息ID 图片没有上传完毕时ID不变
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgCdnRequest.recv_uin">
+            <summary>
+            接收人wxid
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.UploadMsgImgCdnRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.UploadMsgImgCdnRequest.clientmsgid">
+            <summary>
+            消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVideoRequest.recv_uin">
+            <summary>
+            接受wxid
+            </summary>
+        </member>
+        <!-- 对于成员“P:JwSale.Model.Dto.Wechat.UploadVideoRequest.message”忽略有格式错误的 XML 注释 -->
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVideoRequest.clientmsgid">
+            <summary>
+            每次发消息自增1，发送成功会返回该值 
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVoiceRequest.recv_uin">
+            <summary>
+            接收账号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVoiceRequest.voice">
+            <summary>
+            音频文件 将语音转换为16进制进行提交
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVoiceRequest.voiceFormat">
+            <summary>
+            音频格式 	UNKNOWN -1，AMR 0，SPEEX 1，MP3 2，WAVE 3，SILK 4
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVoiceRequest.voiceLen">
+            <summary>
+            语音时间 (毫秒)最长为65秒
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UploadVoiceRequest.clientmsgid">
+            <summary>
+            消息ID 音频没有上传完毕时ID不变
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserRequest.v1">
+            <summary>
+            添加群友时,填wxid,非好友时填搜索返回的v1
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserRequest.v2">
+            <summary>
+            V2
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserRequest.verifyContent">
+            <summary>
+            验证内容
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserRequest.verifyUserOpCode">
+            <summary>
+            2是添加好友,3是同意好友添加
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserRequest.scene">
+            <summary>
+            2=通过搜索邮箱，3=账号查找，5=通过朋友验证消息，
+            7=通过朋友验证消息(可回复)，12=通过QQ好友添加，
+            14=群聊添加，15=通过搜索手机号,16通过朋友验证消息，
+            17通过名片分享，22通过摇一摇打招呼方式，25通过漂流瓶，30通过二维码方式
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.WechatCreateRequest.user">
+            <summary>
+            二维码登录时为空，账号密码登录时必填
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.WechatCreateRequest.pass">
+            <summary>
+            二维码登录时为空，账号密码登录时必填
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.WechatCreateRequest.deviceID">
+            <summary>
+            二维码登录时为空，账号密码登录时必填 同时支持62和A16
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.RequestPageBase.PageIndex">
+            <summary>
+            页索引
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.RequestPageBase.PageSize">
+            <summary>
+            页大小
+            </summary> 
+        </member>
+        <member name="P:JwSale.Model.OrderByBase.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.OrderByBase.IsAsc">
+            <summary>
+            是否升序
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Enums.DatabaseType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="F:JwSale.Model.Enums.PermissionType.Increase">
+            <summary>
+            新增
+            </summary>
+        </member>
+        <member name="F:JwSale.Model.Enums.PermissionType.Decut">
+            <summary>
+            减少
+            </summary>
+        </member>
+    </members>
+</doc>

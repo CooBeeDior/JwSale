@@ -35,12 +35,22 @@ namespace JwSale.Packs.Packs
                     Version = "v1",
                     Title = "微信Api",
                     Description = "QQ：506599090",
-                   
+
                 });
                 // 为 Swagger JSON and UI设置xml文档注释路径
                 var basePath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+
                 var xmlPath = Path.Combine(basePath, "JwSale.Api.xml");
-                options.IncludeXmlComments(xmlPath);
+                if (File.Exists(xmlPath))
+                {
+                    options.IncludeXmlComments(xmlPath);
+                }
+
+                xmlPath = Path.Combine(basePath, "JwSale.Model.xml");
+                if (File.Exists(xmlPath))
+                {
+                    options.IncludeXmlComments(xmlPath);
+                }
                 options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new ApiKeyScheme
                 {
                     Description = "请输入Token",

@@ -14,11 +14,19 @@ namespace JwSale.Model.Dto.Wechat
         public IList<Label> list { get; set; }
     }
 
-
+    /// <summary>
+    /// 标签
+    /// </summary>
     public class Label
     {
+        /// <summary>
+        /// 标签名称
+        /// </summary>
         public string labelName { get; set; }
 
+        /// <summary>
+        /// 标签Id
+        /// </summary>
         public string labelId { get; set; }
 
     }

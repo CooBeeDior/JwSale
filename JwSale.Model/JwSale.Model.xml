@@ -799,6 +799,11 @@
             头像
             </summary>
         </member>
+        <member name="P:JwSale.Model.WxTaskInfo.Status">
+            <summary>
+            状态 0：未开启  1：开启
+            </summary>
+        </member>
         <member name="T:JwSale.Model.Dto.Cache.UserCache">
             <summary>
             用户缓存
@@ -857,6 +862,61 @@
         <member name="P:JwSale.Model.Dto.Common.ProxyInfo.PassWord">
             <summary>
              代理密码（可以为空）
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.CreateTaskInfoRequest.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.CreateTaskInfoRequest.TargetMemberCount">
+            <summary>
+            目标人数
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.CreateTaskInfoRequest.ToWxId">
+            <summary>
+            移交微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.CreateTaskInfoRequest.WxIds">
+            <summary>
+            打群的微信Id列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.CreateTaskInfoRequest.Status">
+            <summary>
+            状态 0：未开启  1：开启
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.GetTaskInfoListRequest.KeyWords">
+            <summary>
+            关键词 群名称和群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.UpdateTaskInfoRequest.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.UpdateTaskInfoRequest.TargetMemberCount">
+            <summary>
+            目标人数
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.UpdateTaskInfoRequest.ToWxId">
+            <summary>
+            移交微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.UpdateTaskInfoRequest.WxIds">
+            <summary>
+            打群的微信Id列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.TaskInfo.UpdateTaskInfoRequest.Status">
+            <summary>
+            状态 0：未开启  1：开启
             </summary>
         </member>
         <member name="T:JwSale.Model.Dto.Request.User.AddUser">

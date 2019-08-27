@@ -688,6 +688,32 @@
             <param name="sendSns"></param>
             <returns></returns>
         </member>
+        <member name="T:JwSale.Api.Controllers.TaskInfoController">
+            <summary>
+            任务管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TaskInfoController.CreateTaskInfo(JwSale.Model.Dto.Request.TaskInfo.CreateTaskInfoRequest)">
+            <summary>
+            创建任务
+            </summary>
+            <param name="createTaskInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TaskInfoController.UpdateTaskInfo(JwSale.Model.Dto.Request.TaskInfo.UpdateTaskInfoRequest)">
+            <summary>
+            修改任务
+            </summary>
+            <param name="updateTaskInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TaskInfoController.GetTaskInfoList(JwSale.Model.Dto.Request.TaskInfo.GetTaskInfoListRequest)">
+            <summary>
+            获取任务列表
+            </summary>
+            <param name="getTaskInfoList"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理

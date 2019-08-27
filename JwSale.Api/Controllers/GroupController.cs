@@ -95,6 +95,7 @@ namespace JwSale.Api.Controllers
                                     var contact = obj.contactList[0];
                                     if (DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wechatCache.ManualAuth.wxid && o.ChatRoomId == chatRoomId).Count() == 0)
                                     {
+                                        var ownerWxInfo = contact.newChatroomData?.chatRoomMember?.Where(o => o.userName == contact.chatRoomOwner)?.FirstOrDefault();
                                         ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
                                         {
                                             Id = Guid.NewGuid(),
@@ -103,8 +104,8 @@ namespace JwSale.Api.Controllers
                                             ChatRoomName = contact.nickName.str ?? "",
                                             HeadImgUrl = contact.smallHeadImgUrl,
                                             OwnerWxId = contact.chatRoomOwner,
-                                            OwnerWxNickName = "",
-                                            OwnerWxHeadImgUrl = "",
+                                            OwnerWxNickName = ownerWxInfo.nickName ?? "",
+                                            OwnerWxHeadImgUrl = ownerWxInfo.smallHeadImgUrl ?? "",
                                             ChatroomMaxCount = contact.chatroomMaxCount,
                                             ChatRoomMemberCount = contact.newChatroomData?.memberCount ?? 0,
                                             AddTime = DateTime.Now,
@@ -221,6 +222,7 @@ namespace JwSale.Api.Controllers
                             var contact = obj.contactList[0];
                             if (DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wechatCache.ManualAuth.wxid && o.ChatRoomId == createChatRoomResponse.chatRoomName.str).Count() == 0)
                             {
+                                var ownerWxInfo = contact.newChatroomData?.chatRoomMember?.Where(o => o.userName == contact.chatRoomOwner)?.FirstOrDefault();
                                 ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
                                 {
                                     Id = Guid.NewGuid(),
@@ -229,8 +231,8 @@ namespace JwSale.Api.Controllers
                                     ChatRoomName = contact.nickName.str ?? "",
                                     HeadImgUrl = contact.smallHeadImgUrl,
                                     OwnerWxId = contact.chatRoomOwner,
-                                    OwnerWxNickName = "",
-                                    OwnerWxHeadImgUrl = "",
+                                    OwnerWxNickName = ownerWxInfo?.nickName ?? "",
+                                    OwnerWxHeadImgUrl = ownerWxInfo.smallHeadImgUrl ?? "",
                                     ChatroomMaxCount = contact.chatroomMaxCount,
                                     ChatRoomMemberCount = contact.newChatroomData?.memberCount ?? 0,
                                     AddTime = DateTime.Now,

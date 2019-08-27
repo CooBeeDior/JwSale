@@ -142,7 +142,7 @@ namespace JwSale.Api.Controllers
 
                             flag = true;
 
-                   
+
                         }
                     }
 
@@ -156,9 +156,9 @@ namespace JwSale.Api.Controllers
                     selector = "5",
                     token = token
                 };
-                var chatroomInfos = await DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wxId).ToListAsync();
-                var wxFriendInfos = await DbContext.WxFriendInfos.Where(o => o.BelongWxId == wxId).ToListAsync();
-                var ghInfos = await DbContext.GhInfos.Where(o => o.BelongWxId == wxId).ToListAsync();
+                var chatroomInfos = await DbContext.ChatRoomInfos.Where(o => o.BelongWxId == wxId).AsNoTracking().ToListAsync();
+                var wxFriendInfos = await DbContext.WxFriendInfos.Where(o => o.BelongWxId == wxId).AsNoTracking().ToListAsync();
+                var ghInfos = await DbContext.GhInfos.Where(o => o.BelongWxId == wxId).AsNoTracking().ToListAsync();
 
                 while (true)
                 {
@@ -180,6 +180,7 @@ namespace JwSale.Api.Controllers
                                     {
                                         if (chatroomInfos.Where(o => o.ChatRoomId == item.userName.str).Count() == 0)
                                         {
+                                            var ownerWxInfo = item.newChatroomData?.chatRoomMember?.Where(o => o.userName == item.chatRoomOwner)?.FirstOrDefault();
                                             ChatRoomInfo chatRoomInfo = new ChatRoomInfo()
                                             {
                                                 Id = Guid.NewGuid(),
@@ -188,8 +189,8 @@ namespace JwSale.Api.Controllers
                                                 ChatRoomName = item.nickName.str ?? "",
                                                 HeadImgUrl = item.smallHeadImgUrl,
                                                 OwnerWxId = item.chatRoomOwner,
-                                                OwnerWxNickName = "",
-                                                OwnerWxHeadImgUrl = "",
+                                                OwnerWxNickName = ownerWxInfo.nickName ?? "",
+                                                OwnerWxHeadImgUrl = ownerWxInfo.smallHeadImgUrl ?? "",
                                                 ChatroomMaxCount = item.chatroomMaxCount,
                                                 ChatRoomMemberCount = item.newChatroomData?.memberCount ?? 0,
                                                 AddTime = DateTime.Now,
@@ -201,7 +202,7 @@ namespace JwSale.Api.Controllers
                                             };
                                             DbContext.Add(chatRoomInfo);
 
-                                    
+
                                         }
 
                                         if (item.newChatroomData?.chatRoomMember != null)
@@ -228,7 +229,7 @@ namespace JwSale.Api.Controllers
                                                 };
                                                 DbContext.Add(chatRoomMemberInfo);
 
-                                    
+
                                             }
                                         }
 
@@ -261,7 +262,7 @@ namespace JwSale.Api.Controllers
 
                                             };
                                             DbContext.Add(wxFriendInfo);
-                                        
+
                                         }
                                     }
                                     //公众号等
@@ -290,7 +291,7 @@ namespace JwSale.Api.Controllers
                                                 UpdateUserRealName = UserInfo.RealName,
                                             };
                                             DbContext.Add(ghInfo);
-                               
+
                                         }
                                     }
                                 }

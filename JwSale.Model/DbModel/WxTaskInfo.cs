@@ -32,5 +32,11 @@ namespace JwSale.Model
         /// 头像
         /// </summary>
         public string HeadImgUrl { get; set; }
+
+
+        /// <summary>
+        /// 状态 0：未开启  1：开启
+        /// </summary>
+        public int Status { get; set; }
     }
 }

@@ -21,12 +21,12 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 获取16进制字符串
+        /// 获取16进制字符串(Form表单)
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost("api/Common/GetHexBufferForm")]
-        public ActionResult<ResponseBase> GetHexBuffer([FromForm]IFormFile file)
+        public ActionResult<ResponseBase> GetHexBufferForm([FromForm]IFormFile file)
         {
             ResponseBase<GetHexBufferResponse> response = new ResponseBase<GetHexBufferResponse>();
             if (file == null)
@@ -56,7 +56,17 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase<GetHexBufferResponse> response = new ResponseBase<GetHexBufferResponse>();
             GetHexBufferResponse getHexBufferResponse = new GetHexBufferResponse();
-            var buffer = Convert.FromBase64String(getHexBuffer.Base64);
+            string base64 = null;
+            var base64Arr = getHexBuffer.Base64.Split(',');
+            if (base64Arr.Length == 2)
+            {
+                base64 = base64Arr[1];
+            }
+            else
+            {
+                base64 = getHexBuffer.Base64;
+            }
+            var buffer = Convert.FromBase64String(base64);
             getHexBufferResponse.HexStr = buffer.HexBufferToStr();
             getHexBufferResponse.Length = buffer.Length;
             response.Data = getHexBufferResponse;

@@ -136,7 +136,7 @@ namespace JwSale.Api.Controllers
                                 response.ExtensionData = maResp;
                                 response.Token = maResult.token;
 
-                                var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(checkLoginQrCode.token));
+                                var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(checkLoginQrCode.TempToken));
                                 var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
                                 //缓存     
                                 wechatCache = new WechatCache()

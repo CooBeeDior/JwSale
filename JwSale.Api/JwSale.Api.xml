@@ -385,6 +385,13 @@
             </summary> 
             
         </member>
+        <member name="M:JwSale.Api.Controllers.CommonController.GetHexBuffer(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            获取16进制
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.FavController">
             <summary>
             标签管理

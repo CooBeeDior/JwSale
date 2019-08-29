@@ -53,15 +53,15 @@ namespace JwSale.Util.Extensions
         /// <returns></returns>
         public static string HexBufferToStr(this byte[] bytes)
         {
-            string returnStr = "";
+            StringBuilder returnStr = new StringBuilder();
             if (bytes != null)
             {
                 for (int i = 0; i < bytes.Length; i++)
                 {
-                    returnStr += bytes[i].ToString("X2");
+                    returnStr.Append(bytes[i].ToString("X2"));
                 }
             }
-            return returnStr;
+            return returnStr.ToString();
         }
 
 
@@ -236,7 +236,7 @@ namespace JwSale.Util.Extensions
             return soucre;
         }
 
- 
+
 
         public static IEnumerable<Type> ContainAttributeType(this IEnumerable<Type> source, Type attribute)
         {

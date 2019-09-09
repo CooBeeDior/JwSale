@@ -77,7 +77,11 @@ namespace JwSale.Api.Http
             if (proxyInfo != null && !string.IsNullOrEmpty(proxyInfo.Ip))
             {
                 webProxy = new WebProxy(proxyInfo.Ip, proxyInfo.Port);
-                webProxy.Credentials = new NetworkCredential(proxyInfo.UserName, proxyInfo.PassWord);
+                if (!string.IsNullOrEmpty(proxyInfo.UserName) && !string.IsNullOrEmpty(proxyInfo.PassWord))
+                {
+                    webProxy.Credentials = new NetworkCredential(proxyInfo.UserName, proxyInfo.PassWord);
+                }
+
 
 
             }

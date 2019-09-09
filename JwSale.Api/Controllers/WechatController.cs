@@ -108,7 +108,7 @@ namespace JwSale.Api.Controllers
             ResponseTokenBase<CheckLoginQrCodeResponse, ManualAuthResponse> response = new ResponseTokenBase<CheckLoginQrCodeResponse, ManualAuthResponse>();
 
             var url = WechatHelper.GetUrl(CGI_TYPE.CGI_CHECKLOGINQRCODE);
-            var wechatResp = await HttpHelper.PostAsync<WechatResponseBase>(url, checkLoginQrCode);
+            var wechatResp = await HttpHelper.PostAsync<WechatResponseBase>(url, new { token = checkLoginQrCode.TempToken });
             if (wechatResp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(CGI_TYPE.CGI_CHECKLOGINQRCODE, wechatResp);

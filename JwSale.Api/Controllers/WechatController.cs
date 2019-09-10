@@ -733,7 +733,7 @@ namespace JwSale.Api.Controllers
                 else
                 {
                     response.Data = result.message?.ToObj();
-                    response.Success = false;
+                    response.Success = true;
                     response.Message = result.describe;
                 }
             }

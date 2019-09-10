@@ -1175,16 +1175,6 @@
             0:文字 1：图片 2视频 3：链接
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.BlackList">
-            <summary>
-            黑名单wxId用户列表
-            </summary>
-        </member>
-        <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.WithUserList">
-            <summary>
-            标记的Wxid列表
-            </summary>
-        </member>
         <member name="P:JwSale.Model.Dto.Request.Wechat.SendSnsRequest.MediaInfos">
             <summary>
             media列表

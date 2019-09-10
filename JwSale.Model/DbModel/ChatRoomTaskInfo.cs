@@ -31,7 +31,7 @@ namespace JwSale.Model
 
         /// <summary>
         /// 当前人数
-        /// </summary>
+// "执行失败";// "执行失败";//        /// </summary>
         public int CurrentMemberCount { get; set; }
 
 

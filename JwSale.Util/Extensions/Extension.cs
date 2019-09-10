@@ -53,15 +53,15 @@ namespace JwSale.Util.Extensions
         /// <returns></returns>
         public static string HexBufferToStr(this byte[] bytes)
         {
-            string returnStr = "";
+            StringBuilder sb = new StringBuilder();
             if (bytes != null)
             {
                 for (int i = 0; i < bytes.Length; i++)
                 {
-                    returnStr += bytes[i].ToString("X2");
+                    sb.Append(bytes[i].ToString("X2"));
                 }
             }
-            return returnStr;
+            return sb.ToString();
         }
 
 

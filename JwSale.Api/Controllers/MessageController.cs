@@ -62,7 +62,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -99,7 +99,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -136,7 +136,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -172,7 +172,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -208,7 +208,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -256,7 +256,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -305,7 +305,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -355,7 +355,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -402,7 +402,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -448,7 +448,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -483,7 +483,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }

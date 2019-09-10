@@ -62,7 +62,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -97,7 +97,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -132,7 +132,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -167,7 +167,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -182,7 +182,7 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase>> MmSnsUpload(MmSnsUploadRequest mmSnsUpload)
         {
             ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSOBJECTOP;
+            string cgiType = CGI_TYPE.CGI_MMSNSUPLOAD;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsUpload);
             if (resp.code == "0")
@@ -202,7 +202,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -259,7 +259,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message = $"{resp.message}{resp.describe}";
+                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }

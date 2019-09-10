@@ -224,11 +224,7 @@
             头像
             </summary>
         </member>
-        <member name="P:JwSale.Model.ChatRoomTaskInfo.CurrentMemberCount">
-            <summary>
-            当前人数
-            </summary>
-        </member>
+        <!-- 对于成员“P:JwSale.Model.ChatRoomTaskInfo.CurrentMemberCount”忽略有格式错误的 XML 注释 -->
         <member name="P:JwSale.Model.ChatRoomTaskInfo.TargetMemberCount">
             <summary>
             目标人数

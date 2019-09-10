@@ -33,7 +33,7 @@ namespace JwSale.Api.Http
         {
             var client = CreateHttpClient();
             string value = data.ToJson();
-            var content = new StringContent(value, Encoding.UTF8, "application/json");
+            var content = new StringContent(value, Encoding.GetEncoding("gb2312"), "application/json");
 
             var res = await client.PostAsync(url, content);
             var result = await res.Content.ReadAsStringAsync();

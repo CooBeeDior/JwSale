@@ -13,17 +13,8 @@ namespace JwSale.Model.Dto.Request.Wechat
         /// <summary>
         /// 0:文字 1：图片 2视频 3：链接
         /// </summary>
-
         public int Type { get; set; }
-        /// <summary>
-        /// 黑名单wxId用户列表
-        /// </summary>
-        public IList<string> BlackList { get; set; }
-
-        /// <summary>
-        /// 标记的Wxid列表
-        /// </summary>
-        public IList<string> WithUserList { get; set; }
+ 
 
         /// <summary>
         /// media列表

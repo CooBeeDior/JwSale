@@ -116,6 +116,14 @@ namespace JwSale.Api.Filters
                                     response.Message = "用户被禁用，请联系管理员开启";
                                     context.Result = new JsonResult(response);
                                 }
+                                else if (userInfo.ExpiredTime == null || userInfo.ExpiredTime < DateTime.Now)
+                                {
+                                    ResponseBase response = new ResponseBase();
+                                    response.Success = false;
+                                    response.Code = HttpStatusCode.Unauthorized;
+                                    response.Message = "用户已过期";
+                                    context.Result = new JsonResult(response);
+                                }
                                 else
                                 {
                                     context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;

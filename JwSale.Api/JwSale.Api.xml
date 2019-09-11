@@ -702,6 +702,25 @@
             <param name="sendSns"></param>
             <returns></returns>
         </member>
+        <member name="T:JwSale.Api.Controllers.UserController">
+            <summary>
+            用户管理
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.Login(JwSale.Model.Dto.Request.User.Login)">
+            <summary>
+            登录
+            </summary>
+            <param name="login"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.getPermissions(System.Guid)">
+            <summary>
+            获取用户权限
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.WechatController">
             <summary>
             微信管理

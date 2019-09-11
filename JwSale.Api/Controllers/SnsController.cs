@@ -182,7 +182,7 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase>> MmSnsUpload(MmSnsUploadRequest mmSnsUpload)
         {
             ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_MMSNSOBJECTOP;
+            string cgiType = CGI_TYPE.CGI_MMSNSUPLOAD;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsUpload);
             if (resp.code == "0")

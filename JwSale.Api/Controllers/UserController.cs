@@ -46,7 +46,7 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 登录
+        /// 登录获取令牌（填入Authorize）
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>

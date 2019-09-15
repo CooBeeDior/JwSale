@@ -1,6 +1,7 @@
 ﻿using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
+using JwSale.Model.Dto.Common;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -110,6 +111,20 @@ namespace JwSale.Api.Extensions
         public static Task<JsonResult> ToJsonResultAsync(this object response)
         {
             return Task.FromResult(new JsonResult(response));
+        }
+
+
+        public static Dictionary<string, string> ToDictionary(this IList<ArticleHttpHeader> source)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            if (source != null)
+            {
+                foreach (var item in source)
+                {
+                    dic.Add(item.Key, item.Value);
+                }
+            }
+            return dic;
         }
 
 

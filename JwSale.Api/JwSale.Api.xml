@@ -399,6 +399,20 @@
             <param name="getHexBuffer"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.CommonController.ReadArticle(JwSale.Model.Dto.Common.ReadArticleRequest)">
+            <summary>
+            阅读文章（先调用GetA8Key）
+            </summary>
+            <param name="readArticle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.CommonController.LikeArticle(JwSale.Model.Dto.Common.LikeArticleRequest)">
+            <summary>
+            点赞文章（先调用GetA8Key）
+            </summary>
+            <param name="LikeArticle"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.FavController">
             <summary>
             标签管理
@@ -709,7 +723,7 @@
         </member>
         <member name="M:JwSale.Api.Controllers.UserController.Login(JwSale.Model.Dto.Request.User.Login)">
             <summary>
-            登录
+            登录获取令牌（填入Authorize）
             </summary>
             <param name="login"></param>
             <returns></returns>

@@ -13,6 +13,7 @@ using JwSale.Model.Dto.Common;
 using JwSale.Util.Dependencys;
 using Microsoft.Extensions.Caching.Distributed;
 using JwSale.Model.Dto.Cache;
+using System.Linq;
 
 namespace JwSale.Api.Http
 {
@@ -29,26 +30,61 @@ namespace JwSale.Api.Http
 
 
 
-        public static async Task<T> PostAsync<T>(string url, object data)
+        public static async Task<T> PostAsync<T>(string url, object data, string encoding = "gb2312", string contentType = "application/json", Dictionary<string, string> header = null)
         {
             var client = CreateHttpClient();
             string value = data.ToJson();
-            var content = new StringContent(value, Encoding.GetEncoding("gb2312"), "application/json");
+            var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
+            if (header != null)
+            {
+                foreach (var item in header)
+                {
+                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                }
 
+            }
             var res = await client.PostAsync(url, content);
             var result = await res.Content.ReadAsStringAsync();
             return result.ToObj<T>();
-
         }
 
 
-        public static async Task<T> GetAsync<T>(string url)
+        //public static async Task<T> PostAsync<T>(string url, string data, Dictionary<string, string> header = null)
+        //{
+        //    var client = CreateHttpClient();
+        //    var buffer = Encoding.UTF8.GetBytes(data);
+        //    var content = new ByteArrayContent(buffer);
+        //    if (header != null)
+        //    {
+        //        foreach (var item in header)
+        //        {
+        //            client.DefaultRequestHeaders.Add(item.Key, item.Value);
+        //        }
+
+        //    }
+        //    var res = await client.PostAsync(url, content);
+        //    var result = await res.Content.ReadAsStringAsync();
+        //    return result.ToObj<T>();
+        //}
+
+
+        public static async Task<string> GetAsync(string url, Dictionary<string, string> header = null)
         {
             var client = CreateHttpClient();
+            if (header != null)
+            {
+                foreach (var item in header)
+                {
+                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                }
+
+            }
             var res = await client.GetAsync(url);
             var result = await res.Content.ReadAsStringAsync();
-            return result.ToObj<T>();
 
+
+
+            return result;
         }
 
         public static async Task<T> PostVxApiAsync<T>(string cgiType, WechatResponseBase wechatResponseBase, ProxyInfo proxyInfo = null) where T : new()
@@ -81,13 +117,12 @@ namespace JwSale.Api.Http
                 {
                     webProxy.Credentials = new NetworkCredential(proxyInfo.UserName, proxyInfo.PassWord);
                 }
-
-
-
             }
-
             var handler = new HttpClientHandler() { Proxy = webProxy };
             return new HttpClient(handler);
         }
+
+
+
     }
 }

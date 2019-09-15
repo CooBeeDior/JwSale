@@ -68,6 +68,12 @@ namespace JwSale.Api.Controllers
                         response.Code = HttpStatusCode.BadRequest;
                         response.Message = "用户被禁用，请联系管理员开启";
                     }
+                    else if (userinfo.ExpiredTime == null || userinfo.ExpiredTime < DateTime.Now)
+                    {
+                        response.Success = false;
+                        response.Code = HttpStatusCode.BadRequest;
+                        response.Message = "用户已过期";
+                    }
                     else
                     {
                         UserToken userToken = new UserToken()

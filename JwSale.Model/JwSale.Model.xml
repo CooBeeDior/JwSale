@@ -890,11 +890,6 @@
             重置密码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
         <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.Password">
             <summary>
             密码
@@ -938,11 +933,6 @@
         <member name="T:JwSale.Model.Dto.Request.User.SetUserProfile">
             <summary>
             修改用户简介
-            </summary>
-        </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.UserId">
-            <summary>
-            用户Id
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Phone">

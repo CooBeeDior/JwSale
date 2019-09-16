@@ -728,6 +728,32 @@
             <param name="login"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserInfo">
+            <summary>
+            获取用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.ResetUserPwd(JwSale.Model.Dto.Request.User.ResetUserPwd)">
+            <summary>
+            重置用户密码
+            </summary>
+            <param name="resetUserPwd"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.SetUserProfile(JwSale.Model.Dto.Request.User.SetUserProfile)">
+            <summary>
+            修改用户简介
+            </summary>
+            <param name="setUserProfile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.Logout">
+            <summary>
+            登出
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.getPermissions(System.Guid)">
             <summary>
             获取用户权限

@@ -65,13 +65,13 @@ namespace JwSale.Api.Controllers
                     if (userinfo.Status != 0)
                     {
                         response.Success = false;
-                        response.Code = HttpStatusCode.BadRequest;
+                        response.Code = HttpStatusCode.Unauthorized;
                         response.Message = "用户被禁用，请联系管理员开启";
                     }
                     else if (userinfo.ExpiredTime == null || userinfo.ExpiredTime < DateTime.Now)
                     {
                         response.Success = false;
-                        response.Code = HttpStatusCode.BadRequest;
+                        response.Code = HttpStatusCode.Unauthorized;
                         response.Message = "用户已过期";
                     }
                     else
@@ -112,7 +112,7 @@ namespace JwSale.Api.Controllers
                 else
                 {
                     response.Success = false;
-                    response.Code = HttpStatusCode.BadRequest;
+                    response.Code = HttpStatusCode.Unauthorized;
                     response.Message = "密码错误";
                 }
             }
@@ -125,29 +125,31 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
-        ///// <summary>
-        ///// 获取用户信息
-        ///// </summary>
-        ///// <returns></returns>
-        //[MoudleInfo("获取用户信息", false)]
-        //[HttpPost("api/User/GetUserInfo")]
-        //public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserInfo()
-        //{
-        //    ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("获取用户信息", false)]
+        [HttpPost("api/User/GetUserInfo")]
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserInfo()
+        {
+            ResponseTokenBase<UserInfo, IList<BriefInfo>> response = new ResponseTokenBase<UserInfo, IList<BriefInfo>>();
 
-        //    var userinfo = DbContext.UserInfos.Where(o => o.UserName == UserInfo.UserName).FirstOrDefault();
-        //    if (userinfo != null)
-        //    {
-        //        response.Data = userinfo;
-        //    }
-        //    else
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.NotFound;
-        //        response.Message = "用户名不存在";
-        //    }
-        //    return await response.ToJsonResultAsync();
-        //}
+            var userinfo = DbContext.UserInfos.Where(o => o.Id == UserInfo.Id).FirstOrDefault();
+            if (userinfo != null)
+            {
+                response.Data = userinfo;
+                var permissions = await getPermissions(userinfo.Id);
+                response.ExtensionData = permissions;
+            }
+            else
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户名不存在";
+            }
+            return await response.ToJsonResultAsync();
+        }
 
         ///// <summary>
         ///// 获取角色权限
@@ -346,85 +348,85 @@ namespace JwSale.Api.Controllers
         //    return await response.ToJsonResultAsync();
         //}
 
-        ///// <summary>
-        ///// 重置用户密码
-        ///// </summary>
-        ///// <param name="resetUserPwd"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/User/ResetUserPwd")]
-        //[MoudleInfo("重置用户密码")]
-        //public async Task<ActionResult<ResponseBase<string>>> ResetUserPwd(ResetUserPwd resetUserPwd)
-        //{
-        //    ResponseBase<string> response = new ResponseBase<string>();
-        //    var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == resetUserPwd.UserId).FirstOrDefault();
-        //    if (userinfo == null)
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.NotFound;
-        //        response.Message = "用户不存在";
-        //    }
-        //    else
-        //    {
-        //        userinfo.Password = resetUserPwd.Password.ToMd5();
-        //        userinfo.UpdateUserId = UserInfo.UpdateUserId;
-        //        userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
-        //        userinfo.UpdateTime = DateTime.Now;
-        //        await DbContext.SaveChangesAsync();
+        /// <summary>
+        /// 重置用户密码
+        /// </summary>
+        /// <param name="resetUserPwd"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/ResetUserPwd")]
+        [MoudleInfo("重置用户密码")]
+        public async Task<ActionResult<ResponseBase<string>>> ResetUserPwd(ResetUserPwd resetUserPwd)
+        {
+            ResponseBase<string> response = new ResponseBase<string>();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == UserInfo.Id).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.Password = resetUserPwd.Password.ToMd5();
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
 
 
-        //        await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName));
-        //        response.Data = resetUserPwd.Password;
+                //await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName));
+                response.Data = userinfo.Password;
 
-        //    }
-        //    return await response.ToJsonResultAsync();
+            }
+            return await response.ToJsonResultAsync();
 
-        //}
+        }
 
-        ///// <summary>
-        ///// 修改用户简介
-        ///// </summary>
-        ///// <param name="setUserProfile"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/User/SetUserProfile")]
-        //[MoudleInfo("修改用户简介")]
-        //public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserProfile(SetUserProfile setUserProfile)
-        //{
-        //    ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
-        //    var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserProfile.UserId).FirstOrDefault();
-        //    if (userinfo == null)
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.NotFound;
-        //        response.Message = "用户不存在";
-        //    }
-        //    else
-        //    {
-        //        userinfo.Phone = setUserProfile.Phone;
-        //        userinfo.Email = setUserProfile.Email;
-        //        userinfo.RealName = setUserProfile.RealName;
-        //        userinfo.RealNamePin = setUserProfile.RealName?.ToPinYin();
-        //        userinfo.Qq = setUserProfile.Qq;
-        //        userinfo.WxNo = setUserProfile.WxNo;
-        //        userinfo.TelPhone = setUserProfile.TelPhone;
-        //        userinfo.PositionName = setUserProfile.PositionName;
-        //        userinfo.Province = setUserProfile.Province;
-        //        userinfo.City = setUserProfile.City;
-        //        userinfo.Area = setUserProfile.Area;
-        //        userinfo.Address = setUserProfile.Address;
-        //        userinfo.HeadImageUrl = setUserProfile.HeadImageUrl;
-        //        userinfo.Remark = setUserProfile.Remark;
+        /// <summary>
+        /// 修改用户简介
+        /// </summary>
+        /// <param name="setUserProfile"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetUserProfile")]
+        [MoudleInfo("修改用户简介")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserProfile(SetUserProfile setUserProfile)
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == UserInfo.Id).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.Phone = setUserProfile.Phone;
+                userinfo.Email = setUserProfile.Email;
+                userinfo.RealName = setUserProfile.RealName;
+                userinfo.RealNamePin = setUserProfile.RealName?.ToPinYin();
+                userinfo.Qq = setUserProfile.Qq;
+                userinfo.WxNo = setUserProfile.WxNo;
+                userinfo.TelPhone = setUserProfile.TelPhone;
+                userinfo.PositionName = setUserProfile.PositionName;
+                userinfo.Province = setUserProfile.Province;
+                userinfo.City = setUserProfile.City;
+                userinfo.Area = setUserProfile.Area;
+                userinfo.Address = setUserProfile.Address;
+                userinfo.HeadImageUrl = setUserProfile.HeadImageUrl;
+                userinfo.Remark = setUserProfile.Remark;
 
-        //        userinfo.UpdateUserId = UserInfo.UpdateUserId;
-        //        userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
-        //        userinfo.UpdateTime = DateTime.Now;
-        //        await DbContext.SaveChangesAsync();
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
 
-        //        response.Data = userinfo;
+                response.Data = userinfo;
 
-        //    }
-        //    return await response.ToJsonResultAsync();
+            }
+            return await response.ToJsonResultAsync();
 
-        //}
+        }
 
 
 
@@ -465,20 +467,19 @@ namespace JwSale.Api.Controllers
         //}
 
 
-        ///// <summary>
-        ///// 登出
-        ///// </summary>
-        ///// <returns></returns>
-        //[MoudleInfo("退出", false)]
-        //[NoPermissionRequired]
-        //[HttpPost("api/User/Logout")]
-        //public async Task<ActionResult> Logout()
-        //{
-        //    ResponseBase response = new ResponseBase();
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("退出", false)] 
+        [HttpPost("api/User/Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            ResponseBase response = new ResponseBase();
 
-        //    await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
-        //    return await response.ToJsonResultAsync();
-        //}
+            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
+            return await response.ToJsonResultAsync();
+        }
 
 
 

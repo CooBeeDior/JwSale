@@ -10,11 +10,7 @@ namespace JwSale.Model.Dto.Request.User
     /// </summary>
     public class SetUserProfile : RequestBase
     { 
-        /// <summary>
-       /// 用户Id
-       /// </summary>
-        [Required]
-        public Guid UserId { get; set; }
+       
         /// <summary>
         /// 手机号码
         /// </summary>

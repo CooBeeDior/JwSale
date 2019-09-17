@@ -890,7 +890,7 @@
             重置密码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.Password">
+        <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.NewPassword">
             <summary>
             密码
             </summary> 
@@ -1258,6 +1258,11 @@
         <member name="P:JwSale.Model.Dto.Request.Wechat.SetProfileRequest.country">
             <summary>
             国家 CN
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.UploadDeviceStepModelRequest.stepCount">
+            <summary>
+            步数
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.ResponseBase.Success">

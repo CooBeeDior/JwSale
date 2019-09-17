@@ -73,6 +73,14 @@ namespace JwSale.Api.Filters
                     response.Message = "未知的令牌";
                     context.Result = new JsonResult(response);
                 }
+                else if (userToken.Ip != context.HttpContext.Connection.RemoteIpAddress.ToString())
+                {
+                    ResponseBase response = new ResponseBase();
+                    response.Success = false;
+                    response.Code = HttpStatusCode.Unauthorized;
+                    response.Message = "请求IP异常";
+                    context.Result = new JsonResult(response);
+                }
                 else
                 {
                     var userTokenCache = cache.GetString(CacheKeyHelper.GetUserTokenKey(userToken.UserName));
@@ -86,6 +94,7 @@ namespace JwSale.Api.Filters
                     }
                     else
                     {
+
                         var userCache = userTokenCache.ToObj<UserCache>();
                         if (userCache == null || userCache.UserInfo == null)
                         {
@@ -97,6 +106,7 @@ namespace JwSale.Api.Filters
                         }
                         else
                         {
+
                             var userInfo = jwSaleDbContext.UserInfos.Where(o => o.Id == userCache.UserInfo.Id).FirstOrDefault();
                             if (userInfo == null)
                             {
@@ -128,8 +138,10 @@ namespace JwSale.Api.Filters
                                 {
                                     context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;
                                 }
+
                             }
                         }
+
                     }
 
                 }

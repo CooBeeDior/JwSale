@@ -14,6 +14,6 @@ namespace JwSale.Model.Dto.Request.User
         /// 密码
         /// </summary> 
         [Required]
-        public string Password { get; set; }
+        public string NewPassword { get; set; }
     }
 }

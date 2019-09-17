@@ -21,24 +21,27 @@ namespace JwSale.Util.Extensions
     {
 
 
-        /// <summary>  
-        /// 将c# DateTime时间格式转换为Unix时间戳格式  
-        /// </summary>  
-        /// <param name="time">时间</param>  
-        /// <returns>long</returns>  
-        public static long To13TimeStamp(this DateTime time)
+        /// <summary>
+        /// DateTime时间格式转换为Unix时间戳格式
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <param name="pow"></param>
+        /// <returns></returns>
+        public static long ToTimeStamp(this DateTime time, int pow)
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            long t = (time.Ticks - startTime.Ticks) / 10000;   //除10000调整为13位      
+            long t = (time.Ticks - startTime.Ticks) / (long)Math.Pow(10, pow);     
             return t;
         }
 
-
-        public static long To11TimeStamp(this DateTime time)
+        /// <summary>
+        /// DateTime时间格式转换为Unix时间戳格式
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static long To10TimeStamp(this DateTime time)
         {
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            long t = (time.Ticks - startTime.Ticks) / 10000 / 1000;   //除10000调整为13位      
-            return t;
+            return ToTimeStamp(time, 7);
         }
         /// <summary>
         /// 转base64图片

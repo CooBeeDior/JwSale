@@ -133,14 +133,12 @@ namespace JwSale.Api.Controllers
         [HttpPost("api/User/GetUserInfo")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserInfo()
         {
-            ResponseTokenBase<UserInfo, IList<BriefInfo>> response = new ResponseTokenBase<UserInfo, IList<BriefInfo>>();
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
 
             var userinfo = DbContext.UserInfos.Where(o => o.Id == UserInfo.Id).FirstOrDefault();
             if (userinfo != null)
             {
-                response.Data = userinfo;
-                var permissions = await getPermissions(userinfo.Id);
-                response.ExtensionData = permissions;
+                response.Data = userinfo; 
             }
             else
             {
@@ -367,7 +365,7 @@ namespace JwSale.Api.Controllers
             }
             else
             {
-                userinfo.Password = resetUserPwd.Password.ToMd5();
+                userinfo.Password = resetUserPwd.NewPassword.ToMd5();
                 userinfo.UpdateUserId = UserInfo.UpdateUserId;
                 userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
                 userinfo.UpdateTime = DateTime.Now;

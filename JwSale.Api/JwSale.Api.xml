@@ -899,7 +899,7 @@
             <param name="getMFriend"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.UploadDeviceStep(JwSale.Model.Dto.Wechat.UploadDeviceStepRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.UploadDeviceStep(JwSale.Model.Dto.Request.Wechat.UploadDeviceStepModelRequest)">
             <summary>
             提交微信运动步数
             </summary>

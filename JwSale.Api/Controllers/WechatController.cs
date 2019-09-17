@@ -13,6 +13,7 @@ using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using System;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
@@ -898,12 +899,19 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/Wechat/UploadDeviceStep")]
         [MoudleInfo("提交微信运动步数")]
-        public async Task<ActionResult<ResponseBase>> UploadDeviceStep(UploadDeviceStepRequest uploadDeviceStep)
+        public async Task<ActionResult<ResponseBase>> UploadDeviceStep(UploadDeviceStepModelRequest uploadDeviceStep)
         {
             ResponseBase<object> response = new ResponseBase<object>();
             string cgiType = CGI_TYPE.CGI_UPLOADDEVICESTEP;
             var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, uploadDeviceStep);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, new UploadDeviceStepRequest()
+            {
+                token = uploadDeviceStep.Token,
+                stepCount = uploadDeviceStep.stepCount,
+                fromTime = DateTime.Now.To10TimeStamp().ToString(),
+                toTime = DateTime.Now.To10TimeStamp().ToString()
+          
+            });
             if (resp.code == "0")
             {
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);

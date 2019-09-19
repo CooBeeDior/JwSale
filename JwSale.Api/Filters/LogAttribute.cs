@@ -54,7 +54,7 @@ namespace JwSale.Api.Filters
 
 
             var logger = loggerfactory.CreateLogger(context.Controller?.GetType() ?? typeof(LogAttribute));
-            logger.LogInformation($"{moudleInfoAttribute?.Name}{context.HttpContext.Request.Path} 参数：{requestStr} 返回值:{responseStr}");
+            logger.LogInformation($"{moudleInfoAttribute?.Name}{context.HttpContext.Request.Path} 参数：{requestStr} 返回值:{responseStr}  {context.HttpContext.Connection.RemoteIpAddress.ToString()}");
 
 
 

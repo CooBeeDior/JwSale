@@ -446,40 +446,40 @@
             <param name="getContactLabelList"></param>
             <returns></returns>
         </member>
-        <member name="T:JwSale.Api.Controllers.FriendCrontroller">
+        <member name="T:JwSale.Api.Controllers.FriendController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
+        <member name="M:JwSale.Api.Controllers.FriendController.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
             <summary>
             获取联系人(通讯录群友)
             </summary>
             <param name="getContact"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.SearchContact(JwSale.Model.Dto.Wechat.SearchContactRequest)">
+        <member name="M:JwSale.Api.Controllers.FriendController.SearchContact(JwSale.Model.Dto.Wechat.SearchContactRequest)">
             <summary>
             搜索联系人(非好友)
             </summary>
             <param name="searchContact"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.VerifyUser(JwSale.Model.Dto.Wechat.VerifyUserRequest)">
+        <member name="M:JwSale.Api.Controllers.FriendController.VerifyUser(JwSale.Model.Dto.Wechat.VerifyUserRequest)">
             <summary>
             添加或同意联系人
             </summary>
             <param name="verifyUser"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.DelContact(JwSale.Model.Dto.Wechat.DelContactRequest)">
+        <member name="M:JwSale.Api.Controllers.FriendController.DelContact(JwSale.Model.Dto.Wechat.DelContactRequest)">
             <summary>
             删除联系人
             </summary>
             <param name="delContact"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
+        <member name="M:JwSale.Api.Controllers.FriendController.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
             <summary>
             修改好友备注
             </summary>
@@ -731,6 +731,12 @@
         <member name="M:JwSale.Api.Controllers.UserController.GetUserInfo">
             <summary>
             获取用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermission">
+            <summary>
+            获取角色权限
             </summary>
             <returns></returns>
         </member>

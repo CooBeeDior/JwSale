@@ -73,14 +73,14 @@ namespace JwSale.Api.Filters
                     response.Message = "未知的令牌";
                     context.Result = new JsonResult(response);
                 }
-                else if (userToken.Ip != context.HttpContext.Connection.RemoteIpAddress.ToString())
-                {
-                    ResponseBase response = new ResponseBase();
-                    response.Success = false;
-                    response.Code = HttpStatusCode.Unauthorized;
-                    response.Message = "请求IP异常";
-                    context.Result = new JsonResult(response);
-                }
+                //else if (userToken.Ip != context.HttpContext.Connection.RemoteIpAddress.ToString())
+                //{
+                //    ResponseBase response = new ResponseBase();
+                //    response.Success = false;
+                //    response.Code = HttpStatusCode.Unauthorized;
+                //    response.Message = "请求IP异常";
+                //    context.Result = new JsonResult(response);
+                //}
                 else
                 {
                     var userTokenCache = cache.GetString(CacheKeyHelper.GetUserTokenKey(userToken.UserName));

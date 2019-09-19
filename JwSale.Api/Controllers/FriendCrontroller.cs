@@ -20,11 +20,11 @@ namespace JwSale.Api.Controllers
     /// 
     /// </summary>
     [MoudleInfo("好友管理", 1)]
-    public class FriendCrontroller : JwSaleControllerBase
+    public class FriendController : JwSaleControllerBase
     {
         private IDistributedCache cache;
         private IHttpContextAccessor accessor;
-        public FriendCrontroller(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor) : base(context)
+        public FriendController(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor) : base(context)
         {
             this.cache = cache;
             this.accessor = accessor;

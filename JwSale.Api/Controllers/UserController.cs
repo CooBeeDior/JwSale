@@ -149,20 +149,20 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
-        ///// <summary>
-        ///// 获取角色权限
-        ///// </summary>
-        ///// <returns></returns>
-        //[MoudleInfo("获取角色权限", false)]
-        //[HttpPost("api/User/GetUserPermission")]
-        //public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserPermission()
-        //{
-        //    ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
+        /// <summary>
+        /// 获取角色权限
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("获取角色权限", false)]
+        [HttpPost("api/User/GetUserPermission")]
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserPermission()
+        {
+            ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
 
-        //    var permissions = await getPermissions(UserInfo.Id);
-        //    response.Data = permissions;
-        //    return await response.ToJsonResultAsync();
-        //}
+            var permissions = await getPermissions(UserInfo.Id);
+            response.Data = permissions;
+            return await response.ToJsonResultAsync();
+        }
 
 
 

@@ -237,7 +237,7 @@ namespace JwSale.Util.Extensions
             {
                 return JsonConvert.DeserializeObject<T>(soucre);
             }
-            catch
+            catch(Exception ex)
             {
 
             }

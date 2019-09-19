@@ -21,4 +21,28 @@ namespace JwSale.Model.Dto.Wechat
         /// </summary>
         public string chatroom { get; set; }
     }
+
+    public class GetContactResponse
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public BaseResponse baseResponse { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int contactCount { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<ContactListItem> contactList { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<int> ret { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<VerifyUserValidTicketListItem> verifyUserValidTicketList { get; set; }
+    }
 }

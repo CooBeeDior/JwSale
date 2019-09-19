@@ -127,6 +127,54 @@ namespace JwSale.Api.Extensions
             return dic;
         }
 
+        public static IQueryable<T> AsQueryable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
+        {
+            if (userId == null || userId == Guid.Empty)
+            {
+                return source;
+            }
+            else
+            {
+                return source.Where(o => o.AddUserId == userId).AsQueryable();
+            }
+
+        }
+
+        public static IQueryable<T> ToPage<T>(this IQueryable<T> source, RequestPageBase requestPageBase)
+        {
+            source = source.Skip((requestPageBase.PageIndex - 1) * requestPageBase.PageSize).Take(requestPageBase.PageSize).OrderBy(requestPageBase.OrderBys);
+            return source;
+        }
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, IList<OrderByBase> orderbys, string defaultOrderby = "AddTime")
+        {
+            if (orderbys == null || orderbys.Count == 0)
+            {
+                if (string.IsNullOrEmpty(defaultOrderby))
+                {
+                    return source;
+                }
+                else
+                {
+                    source = source.OrderByDescending(o => defaultOrderby);
+                }
+
+            }
+            else
+            {
+                foreach (var item in orderbys)
+                {
+                    if (item.IsAsc)
+                    {
+                        source = source.OrderBy(o => item.Name);
+                    }
+                    else
+                    {
+                        source = source.OrderByDescending(o => item.Name);
+                    }
+                }
+            }
+            return source;
+        }
 
     }
 }

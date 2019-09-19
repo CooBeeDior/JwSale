@@ -10,10 +10,6 @@ namespace JwSale.Model
     [Table("WxInfo")]
     public class WxInfo : Entity
     {
-        /// <summary>
-        /// 用户Id
-        /// </summary>
-        public Guid UserId { get; set; }
 
 
         /// <summary>
@@ -35,7 +31,7 @@ namespace JwSale.Model
         /// 微信Id
         /// </summary>
         public string WxId { get; set; }
- 
+
 
         /// <summary>
         /// 昵称
@@ -58,6 +54,19 @@ namespace JwSale.Model
         public int Sex { get; set; }
 
         /// <summary>
+        /// Uin
+        /// </summary>
+        public string Uin { get; set; }
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string Mobile { get; set; }
+        /// <summary>
         /// 国家
         /// </summary>
         public string Country { get; set; }
@@ -77,6 +86,14 @@ namespace JwSale.Model
         /// </summary>
         public string Signature { get; set; }
 
- 
+        /// <summary>
+        /// 状态 0:在线 1：离线
+        /// </summary>
+        public int Status { get; set; }
+
+        /// <summary>
+        /// Token
+        /// </summary>
+        public string Token { get; set; }
     }
 }

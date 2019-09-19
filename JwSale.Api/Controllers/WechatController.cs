@@ -1,6 +1,8 @@
 ﻿using JwSale.Api.Const;
+using JwSale.Api.Extensions;
 using JwSale.Api.Http;
 using JwSale.Api.Util;
+using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Common;
@@ -12,8 +14,11 @@ using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
@@ -149,7 +154,7 @@ namespace JwSale.Api.Controllers
                                 };
                                 await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
-
+                                await RefreshWxInoAsync(maResult.token, maResp.wxid, maResp.wxid, "", resp.device);
 
 
                             }
@@ -232,7 +237,7 @@ namespace JwSale.Api.Controllers
                             await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
                             //刷新数据
-
+                            await RefreshWxInoAsync(maResult.token, maResp.wxid, login.user, login.pass, login.deviceID);
                         }
                         else if (maResult.code == "-301")
                         { }
@@ -910,7 +915,7 @@ namespace JwSale.Api.Controllers
                 stepCount = uploadDeviceStep.stepCount,
                 fromTime = DateTime.Now.To10TimeStamp().ToString(),
                 toTime = DateTime.Now.To10TimeStamp().ToString()
-          
+
             });
             if (resp.code == "0")
             {
@@ -1259,62 +1264,253 @@ namespace JwSale.Api.Controllers
 
 
 
+        #region  微信相关信息
+
+        /// <summary>
+        /// 获取微信列表
+        /// </summary>
+        /// <param name="getWxInfoList"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetWxInfoList")]
+        [MoudleInfo("获取微信列表")]
+        public async Task<ActionResult<ResponseBase>> GetWxInfoList(GetWxInfoListRequest getWxInfoList)
+        {
+            PageResponseBase<IList<WxInfo>> response = new PageResponseBase<IList<WxInfo>>();
+
+            var wxinfos = DbContext.WxInfos.AsQueryable(UserInfo.Id);
+            if (!string.IsNullOrEmpty(getWxInfoList.KeyWords))
+            {
+                wxinfos = wxinfos.Where(o => o.WxId.Contains(getWxInfoList.KeyWords) || o.NickName.Contains(getWxInfoList.KeyWords));
+
+            }
+            int totalCount = wxinfos.Count();
+            wxinfos = wxinfos.ToPage(getWxInfoList);
+            response.Data = await wxinfos.ToArrayAsync();
+            response.TotalCount = totalCount;
+            return response;
+        }
+
+
+        /// <summary>
+        /// 获取微信详情
+        /// </summary>
+        /// <param name="getWxInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetWxInfo")]
+        [MoudleInfo("获取微信详情")]
+        public async Task<ActionResult<ResponseBase>> GetWxInfo(GetWxInfoRequest getWxInfo)
+        {
+            ResponseBase<WxInfo> response = new ResponseBase<WxInfo>();
+
+            var wxinfo = await DbContext.WxInfos.Where(o => o.WxId == getWxInfo.WxId).FirstOrDefaultAsync();
+            if (wxinfo == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = wxinfo;
+            }
+            return response;
+        }
 
 
 
-        //private async Task initWxInfo(string token, WechatCreateRequest wechatCreateRequest)
-        //{
-        //    var wxInfo = await DbContext.WxInfos.Where(o => o.WxId == manualAuthResponse.wxid).FirstOrDefaultAsync();
-        //    if (wxInfo == null)
-        //    {
-        //        wxInfo = new WxInfo()
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            UserId = UserInfo.Id,
-        //            UserName = wechatCreateRequest.user,
-        //            Password = wechatCreateRequest.pass,
-        //            Device = wechatCreateRequest.deviceID,
+        /// <summary>
+        /// 获取好友列表
+        /// </summary>
+        /// <param name="getWxFriendList"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetWxFriendList")]
+        [MoudleInfo("获取好友列表")]
+        public async Task<ActionResult<ResponseBase>> GetWxFriendList(GetWxFriendListRequest getWxFriendList)
+        {
+            PageResponseBase<IList<WxFriendInfo>> response = new PageResponseBase<IList<WxFriendInfo>>();
+
+            var wxFriendInfos = DbContext.WxFriendInfos.Where(o => o.BelongWxId == getWxFriendList.WxId).AsQueryable(UserInfo.Id);
+            if (!string.IsNullOrEmpty(getWxFriendList.KeyWords))
+            {
+                wxFriendInfos = wxFriendInfos.Where(o => o.WxId.Contains(getWxFriendList.KeyWords) || o.NickName.Contains(getWxFriendList.KeyWords));
+            }
+            if (getWxFriendList.Sex != null)
+            {
+                wxFriendInfos = wxFriendInfos.Where(o => o.Sex == getWxFriendList.Sex);
+
+            }
+            if (!string.IsNullOrEmpty(getWxFriendList.Province))
+            {
+                wxFriendInfos = wxFriendInfos.Where(o => o.Province == getWxFriendList.Province);
+            }
+            if (!string.IsNullOrEmpty(getWxFriendList.City))
+            {
+                wxFriendInfos = wxFriendInfos.Where(o => o.City == getWxFriendList.City);
+            }
+
+            int totalCount = wxFriendInfos.Count();
+            wxFriendInfos = wxFriendInfos.ToPage(getWxFriendList);
+            response.Data = await wxFriendInfos.ToArrayAsync();
+            response.TotalCount = totalCount;
+            return response;
+        }
 
 
 
-        //            AddTime = DateTime.Now,
-        //            AddUserId = UserInfo.Id,
-        //            AddUserRealName = UserInfo.RealName,
-        //            UpdateTime = DateTime.Now,
-        //            UpdateUserId = UserInfo.Id,
-        //            UpdateUserRealName = UserInfo.RealName,
-        //        };
-        //        DbContext.Add(wxInfo);
-        //    }
-        //    else
-        //    {
-        //        await refreshWxInfo();
-        //    }
+        /// <summary>
+        /// 获取微信好友详情
+        /// </summary>
+        /// <param name="getWxFriendInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetWxFriendInfo")]
+        [MoudleInfo("获取微信好友详情")]
+        public async Task<ActionResult<ResponseBase>> GetWxFriendInfo(GetWxFriendInfoRequest getWxFriendInfo)
+        {
+            ResponseBase<WxFriendInfo> response = new ResponseBase<WxFriendInfo>();
 
-        //}
+            var wxFriendInfo = await DbContext.WxFriendInfos.Where(o => o.BelongWxId == getWxFriendInfo.BelongWxId && o.WxId == getWxFriendInfo.WxId).FirstOrDefaultAsync();
+            if (wxFriendInfo == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = wxFriendInfo;
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 获取群列表
+        /// </summary>
+        /// <param name="getChatRoomList"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetChatRoomList")]
+        [MoudleInfo("获取群列表")]
+        public async Task<ActionResult<ResponseBase>> GetChatRoomList(GetChatRoomListRequest getChatRoomList)
+        {
+            PageResponseBase<IList<ChatRoomInfo>> response = new PageResponseBase<IList<ChatRoomInfo>>();
+
+            var chatRoomInfos = DbContext.ChatRoomInfos.Where(o => o.BelongWxId == getChatRoomList.WxId).AsQueryable(UserInfo.Id);
+            if (!string.IsNullOrEmpty(getChatRoomList.KeyWords))
+            {
+                chatRoomInfos = chatRoomInfos.Where(o => o.ChatRoomId.Contains(getChatRoomList.KeyWords) || o.ChatRoomName.Contains(getChatRoomList.KeyWords));
+
+            }
+            int totalCount = chatRoomInfos.Count();
+            chatRoomInfos = chatRoomInfos.ToPage(getChatRoomList);
+            response.Data = await chatRoomInfos.ToArrayAsync();
+            response.TotalCount = totalCount;
+            return response;
+        }
 
 
-        //private Task refreshWxInfo()
-        //{
+
+        /// <summary>
+        /// 获取群详情
+        /// </summary>
+        /// <param name="getChatRoomInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetChatRoomInfo")]
+        [MoudleInfo("获取群详情")]
+        public async Task<ActionResult<ResponseBase>> GetChatRoomInfo(GetChatRoomInfoRequest getChatRoomInfo)
+        {
+            ResponseBase<ChatRoomInfo> response = new ResponseBase<ChatRoomInfo>();
+
+            var chatRoomInfos = await DbContext.ChatRoomInfos.Where(o => o.BelongWxId == getChatRoomInfo.BelongWxId && o.ChatRoomId == getChatRoomInfo.ChatRoomId).FirstOrDefaultAsync();
+            if (chatRoomInfos == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = chatRoomInfos;
+            }
+            return response;
+        }
 
 
-        //    WxInfo wxInfo = new WxInfo()
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        UserId = UserInfo.Id,
+
+        /// <summary>
+        /// 获取群成员列表
+        /// </summary>
+        /// <param name="getChatRoomInfo"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetChatRoomMemberList")]
+        [MoudleInfo("获取群成员列表")]
+        public async Task<ActionResult<ResponseBase>> GetChatRoomMemberList(GetChatRoomInfoRequest getChatRoomInfo)
+        {
+            ResponseBase<IList<ChatRoomMemberInfo>> response = new ResponseBase<IList<ChatRoomMemberInfo>>();
+
+            var chatRoomMemberInfo = await DbContext.ChatRoomMemberInfos.Where(o => o.ChatRoomId == getChatRoomInfo.ChatRoomId).ToListAsync();
+            if (chatRoomMemberInfo == null)
+            {
+                response.Success = false;
+                response.Message = "信息不存在";
+            }
+            else
+            {
+                response.Data = chatRoomMemberInfo;
+            }
+            return response;
+        }
 
 
+        /// <summary>
+        /// 获取公众号列表
+        /// </summary>
+        /// <param name="getGhInfoList"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetGhInfoList")]
+        [MoudleInfo("获取公众号列表")]
+        public async Task<ActionResult<ResponseBase>> GetGhInfoList(GetGhInfoListRequest getGhInfoList)
+        {
+            PageResponseBase<IList<GhInfo>> response = new PageResponseBase<IList<GhInfo>>();
 
+            var ghInfos = DbContext.GhInfos.Where(o => o.BelongWxId == getGhInfoList.WxId).AsQueryable(UserInfo.Id);
+            if (!string.IsNullOrEmpty(getGhInfoList.KeyWords))
+            {
+                ghInfos = ghInfos.Where(o => o.GhId.Contains(getGhInfoList.KeyWords) || o.NickName.Contains(getGhInfoList.KeyWords));
 
-        //        AddTime = DateTime.Now,
-        //        AddUserId = UserInfo.Id,
-        //        AddUserRealName = UserInfo.RealName,
-        //        UpdateTime = DateTime.Now,
-        //        UpdateUserId = UserInfo.Id,
-        //        UpdateUserRealName = UserInfo.RealName,
-        //    };
-        //    DbContext.Add(wxInfo);
-        //}
+            }
+            int totalCount = ghInfos.Count();
+            ghInfos = ghInfos.ToPage(getGhInfoList);
+            response.Data = await ghInfos.ToArrayAsync();
+            response.TotalCount = totalCount;
+            return response;
+        }
+        /// <summary>
+        /// 刷新微信数据
+        /// </summary>
+        /// <param name="refreshWxInfoRequest"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/RefreshWxInfo")]
+        [MoudleInfo("刷新微信数据")]
+        public async Task<ActionResult<ResponseBase>> RefreshWxInfo(RefreshWxInfoRequest refreshWxInfoRequest)
+        {
+
+            ResponseBase response = new ResponseBase();
+            var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(refreshWxInfoRequest.token));
+            var wechatCache = wechatCacheStr.ToObj<WechatCache>();
+
+            bool result = await RefreshWxInoAsync(refreshWxInfoRequest.token, wechatCache.ManualAuth.wxid, null, null, null, true);
+            if (result)
+            {
+                response.Success = true;
+                response.Message = "刷新成功";
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "刷新失败";
+            }
+
+            return response;
+        }
+
+        #endregion
 
     }
 }

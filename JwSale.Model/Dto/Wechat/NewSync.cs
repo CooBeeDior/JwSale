@@ -11,4 +11,20 @@ namespace JwSale.Model.Dto.Wechat
         /// </summary>
         public string selector { get; set; }
     }
+    public class NewSyncResponse
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public int count { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<ListItem> list { get; set; }
+    }
+
+
+
+
+
 }

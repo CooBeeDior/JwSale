@@ -277,6 +277,61 @@
             备注
             </summary>
         </member>
+        <member name="T:JwSale.Model.GhInfo">
+            <summary>
+            公众号信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.BelongWxId">
+            <summary>
+            所属微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.GhId">
+            <summary>
+            公众号Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.NickName">
+            <summary>
+            公众号昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.HeadImgUrl">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.Sex">
+            <summary>
+            性别 0:无 1:男 2：女
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.Province">
+            <summary>
+            省份
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.GhInfo.Signature">
+            <summary>
+            签名
+            </summary>
+        </member>
         <member name="T:JwSale.Model.RoleInfo">
             <summary>
             创建人：LTL
@@ -630,11 +685,6 @@
             签名
             </summary>
         </member>
-        <member name="P:JwSale.Model.WxInfo.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
         <member name="P:JwSale.Model.WxInfo.UserName">
             <summary>
             微信账号
@@ -675,6 +725,21 @@
             性别 0:无 1:男 2：女
             </summary>
         </member>
+        <member name="P:JwSale.Model.WxInfo.Uin">
+            <summary>
+            Uin
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Mobile">
+            <summary>
+            手机号码
+            </summary>
+        </member>
         <member name="P:JwSale.Model.WxInfo.Country">
             <summary>
             国家
@@ -693,6 +758,16 @@
         <member name="P:JwSale.Model.WxInfo.Signature">
             <summary>
             签名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Status">
+            <summary>
+            状态 0:在线 1：离线
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.WxInfo.Token">
+            <summary>
+            Token
             </summary>
         </member>
         <member name="T:JwSale.Model.WxNoTaskInfo">
@@ -1060,6 +1135,11 @@
             消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.WechatBase.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.ToWxId">
             <summary>
             接收的微信ID
@@ -1083,6 +1163,86 @@
         <member name="P:JwSale.Model.Dto.Request.Wechat.CardMessageRequest.ClientMsgId">
             <summary>
             消息ID 每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetChatRoomInfoRequest.BelongWxId">
+            <summary>
+            所属微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetChatRoomInfoRequest.ChatRoomId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetChatRoomListRequest.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetChatRoomListRequest.KeyWords">
+            <summary>
+            搜索关键词 群号和群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetChatRoomMemberList.ChatRoomId">
+            <summary>
+            群Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetGhInfoListRequest.WxId">
+            <summary>
+            所属微信号列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetGhInfoListRequest.KeyWords">
+            <summary>
+            搜索关键词 公众号Id或公众号名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendInfoRequest.BelongWxId">
+            <summary>
+            所属微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendInfoRequest.WxId">
+            <summary>
+            微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest.WxId">
+            <summary>
+            所有微信Id
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest.KeyWords">
+            <summary>
+            关键词 微信Id 微信昵称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest.Sex">
+            <summary>
+            性别 0:无 1:男 2：女
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest.Province">
+            <summary>
+            省 例如 ZheJiang
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxFriendListRequest.City">
+            <summary>
+            城市  例如HangZhou
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxInfoListRequest.KeyWords">
+            <summary>
+            搜索关键词 wxid和nickname
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.Wechat.GetWxInfoRequest.WxId">
+            <summary>
+            微信Id
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Request.Wechat.LocationMessageRequest.ToWxId">
@@ -1386,6 +1546,1076 @@
             标签Id
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ErrMsg.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.UserName.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SnsUserInfo.snsFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SnsUserInfo.snsBgimgId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SnsUserInfo.snsBgobjectId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SnsUserInfo.snsFlagEx">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SnsUserInfo.snsPrivacyRecent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.CustomizedInfo.brandFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.CustomizedInfo.externalInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.CustomizedInfo.brandInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.CustomizedInfo.brandIconURL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.LinkedinContactItem.linkedinName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.LinkedinContactItem.linkedinMemberID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.LinkedinContactItem.linkedinoptionalUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.AdditionalContactList.linkedinContactItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewChatroomData.memberCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewChatroomData.chatRoomMember">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewChatroomData.infoMask">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Phonenumlistinfo.Count">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Phonenumlistinfo.phoneNumList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NickName.str">
+            <summary>
+            阿星2号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.PyInitial.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.QuanPin.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ImgBuf.iLen">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ImgBuf.buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Remark.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.RemarkPYInitial.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.RemarkQuanPin.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DomainList_Item.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.userName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.albumBGImgID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.snsUserInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.country">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.bigHeadImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.smallHeadImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.myBrandList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.customizedInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.chatRoomData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.headImgMd5">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.encryptUserName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.iDCardNum">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.realName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.mobileHash">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.mobileFullHash">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.additionalContactList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.chatroomVersion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.extInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.chatroomMaxCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.chatroomType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.newChatroomData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.deleteFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.cardImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.labelIDList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.Phonenumlistinfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.Weidianinfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.ChatroomInfoVersion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.DeletecontactScene">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.ChatroomstatuStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.albumFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.albumStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.weiboFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.weiboNickname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.nickName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.pyInitial">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.quanPin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.sex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.imgBuf">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.bitMask">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.bitVal">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.imgFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.remark">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.remarkPYInitial">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.remarkQuanPin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.contactType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.roomInfoCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.RoomInfoList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.Extflag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.domainList_">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.addContactScene">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.province">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.city">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.signature">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.personalCard">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.hasWeiXinHdHeadImg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.verifyFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.verifyInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.level">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.weibo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.verifyContent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.alias">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.chatRoomOwner">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ContactListItem.chatRoomNotify">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserValidTicketListItem.username">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.VerifyUserValidTicketListItem.antispamticket">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMemberItem.userName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMemberItem.nickName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMemberItem.displayName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMemberItem.bigHeadImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMemberItem.smallHeadImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomMemberItem.chatroomMemberFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ResBuf.iLen">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ResBuf.buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Jsapipermission.BitValue1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Jsapipermission.BitValue2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Jsapipermission.BitValue3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Jsapipermission.BitValue4">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GeneralControlBitSet.BitValue1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.DeepLinkBitSet.BitValue1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.JsapicontrolBytes.iLen">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.JsapicontrolBytes.buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Topic.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberName.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.memberName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.memberStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.nickName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.pyinitial">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.quanPin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.sex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.remark">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.remarkPyinitial">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.remarkQuanPin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.contactType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.province">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.city">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.signature">
+            <summary>
+            往下走走
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.personalCard">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.verifyFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.verifyInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MemberListItem.country">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ChatRoomName.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.from.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.To.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Content.str">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Img.iLen">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.Img.buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.userName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.albumBGImgID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.snsUserInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.country">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.bigHeadImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.smallHeadImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.myBrandList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.chatRoomData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.headImgMd5">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.encryptUserName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.iDCardNum">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.realName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.mobileHash">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.mobileFullHash">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.additionalContactList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.chatroomVersion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.extInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.chatroomMaxCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.chatroomType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.newChatroomData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.deleteFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.cardImgUrl">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.labelIDList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.Phonenumlistinfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.Weidianinfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.ChatroomInfoVersion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.DeletecontactScene">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.ChatroomstatuStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.albumFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.albumStyle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.weiboFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.weiboNickname">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.nickName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.pyInitial">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.quanPin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.sex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.imgBuf">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.bitMask">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.bitVal">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.imgFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.remark">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.remarkPYInitial">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.remarkQuanPin">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.contactType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.roomInfoCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.RoomInfoList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.Extflag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.domainList_">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.addContactScene">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.province">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.city">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.signature">
+            <summary>
+            微信团队官方帐号
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.personalCard">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.hasWeiXinHdHeadImg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.verifyFlag">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.verifyInfo">
+            <summary>
+            深圳市腾讯计算机系统有限公司
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.level">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.weibo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.verifyContent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.alias">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.chatRoomOwner">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ListItem.chatRoomNotify">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.msgid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.from">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.to">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.type">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.status">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.imgStatus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.img">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.createtime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.msgSource">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.pushcontent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.newMsgId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MsgListItem.msgSeq">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Wechat.BindopMobileForRegRequest.verifycode">
             <summary>
             验证码 获取验证码时该参数空，直到手机获取到验证码之后再填
@@ -1469,6 +2699,31 @@
         <member name="P:JwSale.Model.Dto.Wechat.GetContactRequest.chatroom">
             <summary>
             查询通讯录某成员时空,查询群友时必填
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactResponse.baseResponse">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactResponse.contactCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactResponse.contactList">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactResponse.ret">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.GetContactResponse.verifyUserValidTicketList">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.from">
@@ -1673,6 +2928,16 @@
             3同步新消息，5同步通讯录，262151新消息和通讯录一起同步
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSyncResponse.count">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.NewSyncResponse.list">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Wechat.NewVerifyPasswdRequest.pass">
             <summary>
             原始密码
@@ -1737,6 +3002,11 @@
         <member name="P:JwSale.Model.Dto.Wechat.ReceiveWxHbRequest.sendid">
             <summary>
             sendid
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Wechat.RefreshWxInfoRequest">
+            <summary>
+            刷新微信信息
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Wechat.RevokeMsgRequest.toUserName">

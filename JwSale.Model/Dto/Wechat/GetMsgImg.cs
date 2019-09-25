@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class GetMsgImg : WechatRequestBase
+    public class GetMsgImgRequest : WechatRequestBase
     {
         /// <summary>
         /// 消息来源

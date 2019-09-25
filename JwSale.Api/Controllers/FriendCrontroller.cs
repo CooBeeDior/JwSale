@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace JwSale.Api.Controllers
 {
     /// <summary>
-    /// 
+    /// 好友管理
     /// </summary>
     [MoudleInfo("好友管理", 1)]
     public class FriendController : JwSaleControllerBase

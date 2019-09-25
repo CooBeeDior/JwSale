@@ -52,7 +52,7 @@ namespace JwSale.Api.Filters
                     return;
                 }
             }
-            string token = context.HttpContext.Request.Headers["Authorization"].ToString();
+            string token = context.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ","",StringComparison.OrdinalIgnoreCase);
             if (string.IsNullOrEmpty(token))
             {
                 ResponseBase response = new ResponseBase();

@@ -54,9 +54,8 @@ namespace JwSale.Api.Controllers
         [NoPermissionRequired]
         [HttpPost("api/User/Login")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(Login login)
-        {
-            ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();
-
+        {           
+            ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();    
             var userinfo = DbContext.UserInfos.Where(o => o.UserName == login.UserName).FirstOrDefault();
             if (userinfo != null)
             {

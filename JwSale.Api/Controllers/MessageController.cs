@@ -487,6 +487,43 @@ namespace JwSale.Api.Controllers
             }
             return response;
         }
+
+        /// <summary>
+        /// 获取高清图片
+        /// </summary>
+        /// <param name="getMsgImg"></param>
+        /// <returns></returns>
+        [HttpPost("api/Message/GetMsgImg")]
+        [MoudleInfo("获取高清图片")]
+        public async Task<ActionResult<ResponseBase>> GetMsgImg(GetMsgImgRequest getMsgImg)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_GETMSGIMG;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getMsgImg);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result?.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+
         #endregion
     }
 }

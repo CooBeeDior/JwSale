@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace JwSale.Api.Const
+﻿namespace JwSale.Api.Const
 {
     public static class CGI_TYPE
     {

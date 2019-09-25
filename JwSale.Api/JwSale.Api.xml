@@ -448,7 +448,7 @@
         </member>
         <member name="T:JwSale.Api.Controllers.FriendController">
             <summary>
-            
+            好友管理
             </summary>
         </member>
         <member name="M:JwSale.Api.Controllers.FriendController.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
@@ -627,6 +627,13 @@
             消息撤回
             </summary>
             <param name="revokeMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.MessageController.GetMsgImg(JwSale.Model.Dto.Wechat.GetMsgImgRequest)">
+            <summary>
+            获取高清图片
+            </summary>
+            <param name="getMsgImg"></param>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Controllers.PayController">

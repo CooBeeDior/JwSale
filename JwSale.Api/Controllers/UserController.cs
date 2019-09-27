@@ -158,7 +158,48 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("退出", false)]
+        [NoPermissionRequired]
+        [HttpPost("api/User/Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            ResponseBase response = new ResponseBase();
 
+            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
+            return await response.ToJsonResultAsync();
+        }
+
+
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="getUsers"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/GetUsers")]
+        [MoudleInfo("获取用户列表")]
+        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
+        {
+            PageResponseBase<IList<UserInfo>> response = new PageResponseBase<IList<UserInfo>>();
+            var userinfos = DbContext.UserInfos.AsQueryable(UserInfo.Id);
+            if (!string.IsNullOrEmpty(getUsers.Name))
+            {
+                userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName.Contains(getUsers.Name) == true || o.RealNamePin.ToLower().Contains(getUsers.Name.ToLower()) == true).AsQueryable();
+            }
+            if (getUsers.Status != null)
+            {
+                userinfos = userinfos.Where(o => o.Status == getUsers.Status);
+            }
+            response.TotalCount = userinfos.Count();
+            userinfos = userinfos.ToPage(getUsers);
+            response.Data = await userinfos.ToListAsync();
+
+            return await response.ToJsonResultAsync();
+        }
 
         /// <summary>
         /// 添加用户
@@ -284,31 +325,7 @@ namespace JwSale.Api.Controllers
 
         }
 
-        /// <summary>
-        /// 获取用户列表
-        /// </summary>
-        /// <param name="getUsers"></param>
-        /// <returns></returns>
-        [HttpPost("api/User/GetUsers")]
-        [MoudleInfo("获取用户列表")]
-        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
-        {
-            PageResponseBase<IList<UserInfo>> response = new PageResponseBase<IList<UserInfo>>();
-            var userinfos = DbContext.UserInfos.AsQueryable(UserInfo.Id);
-            if (!string.IsNullOrEmpty(getUsers.Name))
-            {
-                userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName.Contains(getUsers.Name) == true || o.RealNamePin.ToLower().Contains(getUsers.Name.ToLower()) == true).AsQueryable();
-            }
-            if (getUsers.Status != null)
-            {
-                userinfos = userinfos.Where(o => o.Status == getUsers.Status);
-            }
-            response.TotalCount = userinfos.Count();
-            userinfos = userinfos.ToPage(getUsers);
-            response.Data = await userinfos.ToListAsync();
 
-            return await response.ToJsonResultAsync();
-        }
 
 
         /// <summary>
@@ -459,20 +476,7 @@ namespace JwSale.Api.Controllers
         }
 
 
-        /// <summary>
-        /// 登出
-        /// </summary>
-        /// <returns></returns>
-        [MoudleInfo("退出", false)]
-        [NoPermissionRequired]
-        [HttpPost("api/User/Logout")]
-        public async Task<ActionResult> Logout()
-        {
-            ResponseBase response = new ResponseBase();
 
-            await cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
-            return await response.ToJsonResultAsync();
-        }
 
 
 

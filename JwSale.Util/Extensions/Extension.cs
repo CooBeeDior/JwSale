@@ -228,6 +228,10 @@ namespace JwSale.Util.Extensions
 
         public static string ToJson(this object obj)
         {
+            if (obj.GetType().Equals(typeof(string)))
+            {
+                return obj.ToString();
+            }
             return JsonConvert.SerializeObject(obj);
         }
 

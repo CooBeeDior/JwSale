@@ -48,6 +48,23 @@ namespace JwSale.Api.Http
             return result.ToObj<T>();
         }
 
+        public static async Task<string> PostScanGroupAsync(string url, string data, string encoding = "gb2312", string contentType = "application/json", Dictionary<string, string> header = null)
+        {
+            var client = CreateHttpClient();
+            string value = data.ToJson();
+            var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
+            if (header != null)
+            {
+                foreach (var item in header)
+                {
+                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                }
+
+            }
+            var res = await client.PostAsync(url, content);
+            var result =   res.Headers.Location.ToString();
+            return result;
+        }
 
         //public static async Task<T> PostAsync<T>(string url, string data, Dictionary<string, string> header = null)
         //{

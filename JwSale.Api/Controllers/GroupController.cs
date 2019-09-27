@@ -12,6 +12,7 @@ using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
@@ -39,7 +40,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("扫码进群")]
         public async Task<ActionResult<ResponseBase>> ScanIntoChatRoom(ScanIntoChatRoomRequest scanIntoChatRoom)
         {
-            ResponseBase<object> response = new ResponseBase<object>();
+            ResponseBase<object, string> response = new ResponseBase<object, string>();
             string cgiType = CGI_TYPE.CGI_A8KEY;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, scanIntoChatRoom);
@@ -49,7 +50,22 @@ namespace JwSale.Api.Controllers
                 var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
                 if (result?.code == "0")
                 {
-                    response.Data = result.message?.ToObj();
+                    var res = result.message?.ToObj<ScanIntoChatRoomResponse>();
+                    response.Data = res;
+                    if (res.fullUrl.Contains("@chatroom"))
+                    {
+                        response.ExtensionData = res.fullUrl?.Replace("weixin://jump/mainframe/", "");
+                    }
+                    else
+                    {
+                        Dictionary<string, string> httpHeader = new Dictionary<string, string>();
+                        httpHeader.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36 QBCore/3.53.1159.400 QQBrowser/9.0.2524.400 Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36 MicroMessenger/6.5.2.501 NetType/WIFI WindowsWechat");// MicroMessenger/7.0.4(0x17000428) NetType/4G Language/zh_CN");
+                        httpHeader.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+
+                        var readResult = await HttpHelper.PostScanGroupAsync(res.fullUrl, "forBlackberry=forceToUsePost", "utf-8", "application/x-www-form-urlencoded", httpHeader);
+
+                        response.ExtensionData = readResult?.Replace("weixin://jump/mainframe/", ""); ;
+                    }
                 }
                 else
                 {
@@ -61,7 +77,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -97,7 +113,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -133,7 +149,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -169,7 +185,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -205,7 +221,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -241,7 +257,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -278,7 +294,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -315,7 +331,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }

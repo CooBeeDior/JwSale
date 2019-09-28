@@ -14,11 +14,12 @@ using JwSale.Util.Dependencys;
 using Microsoft.Extensions.Caching.Distributed;
 using JwSale.Model.Dto.Cache;
 using System.Linq;
+using JwSale.Util.ObjectPools;
 
 namespace JwSale.Api.Http
 {
     public class HttpHelper
-    {
+    { 
         public static async Task<string> PostPacketAsync(string url, string packet, ProxyInfo proxyInfo = null)
         {
             var client = CreateHttpClient(proxyInfo);
@@ -138,6 +139,9 @@ namespace JwSale.Api.Http
             var handler = new HttpClientHandler() { Proxy = webProxy };
             return new HttpClient(handler);
         }
+
+ 
+
 
 
 

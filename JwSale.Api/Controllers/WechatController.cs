@@ -1,4 +1,5 @@
 ﻿using JwSale.Api.Const;
+using JwSale.Api.Events;
 using JwSale.Api.Extensions;
 using JwSale.Api.Http;
 using JwSale.Api.Util;
@@ -12,6 +13,7 @@ using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Attributes;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +33,12 @@ namespace JwSale.Api.Controllers
     {
         private IDistributedCache cache;
         private IHttpContextAccessor accessor;
-        public WechatController(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor) : base(context)
+        private IMediator mediator;
+        public WechatController(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor, IMediator mediator) : base(context)
         {
             this.cache = cache;
             this.accessor = accessor;
+            this.mediator = mediator;
         }
 
         #region 用户
@@ -154,7 +158,18 @@ namespace JwSale.Api.Controllers
                                 };
                                 await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
-                                await RefreshWxInoAsync(maResult.token, maResp.wxid, maResp.wxid, "", resp.device);
+                                //await RefreshWxInoAsync(maResult.token, maResp.wxid, maResp.wxid, "", resp.device);
+
+                                var refreshWxInfoEvent = new RefreshWxInfoEvent()
+                                {
+                                    Token= maResult.token,
+                                    WxId= maResp.wxid,
+                                    UserName= maResp.wxid,
+                                    Password="",
+                                    Device= resp.device,
+                                    UserInfo=UserInfo
+                                };
+                                await mediator.Publish(refreshWxInfoEvent);
 
 
                             }
@@ -237,7 +252,18 @@ namespace JwSale.Api.Controllers
                             await cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(maRechatResp.token), wechatCache.ToJson());
 
                             //刷新数据
-                            await RefreshWxInoAsync(maResult.token, maResp.wxid, login.user, login.pass, login.deviceID);
+                            //await RefreshWxInoAsync(maResult.token, maResp.wxid, login.user, login.pass, login.deviceID);
+                            var refreshWxInfoEvent = new RefreshWxInfoEvent()
+                            {
+                                Token = maResult.token,
+                                WxId = maResp.wxid,
+                                UserName = login.user,
+                                Password = login.pass,
+                                Device = login.deviceID,
+                                UserInfo= UserInfo
+
+                            };
+                            await mediator.Publish(refreshWxInfoEvent);
                         }
                         else if (maResult.code == "-301")
                         { }
@@ -750,7 +776,7 @@ namespace JwSale.Api.Controllers
             }
             return response;
         }
- 
+
 
 
         /// <summary>
@@ -1500,18 +1526,27 @@ namespace JwSale.Api.Controllers
             var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(refreshWxInfoRequest.token));
             var wechatCache = wechatCacheStr.ToObj<WechatCache>();
 
-            bool result = await RefreshWxInoAsync(refreshWxInfoRequest.token, wechatCache.ManualAuth.wxid, null, null, null, true);
-            if (result)
-            {
-                response.Success = true;
-                response.Message = "刷新成功";
+            //bool result = await RefreshWxInoAsync(refreshWxInfoRequest.token, wechatCache.ManualAuth.wxid, null, null, null, true);
+            //if (result)
+            //{
+            //    response.Success = true;
+            //    response.Message = "刷新成功";
 
-            }
-            else
+            //}
+            //else
+            //{
+            //    response.Success = false;
+            //    response.Message = "刷新失败";
+            //}
+
+            var refreshWxInfoEvent = new RefreshWxInfoEvent()
             {
-                response.Success = false;
-                response.Message = "刷新失败";
-            }
+                Token = refreshWxInfoRequest.token,
+                WxId = wechatCache.ManualAuth.wxid,       
+                UserInfo = UserInfo,
+                IsRefresh=true                
+            };
+            await mediator.Publish(refreshWxInfoEvent);
 
             return response;
         }

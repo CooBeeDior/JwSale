@@ -1188,7 +1188,7 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase>> JsLogin(JsLoginRequest jsLogin)
         {
             ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_JSOPERATEWXDATA;
+            string cgiType = CGI_TYPE.CGI_OAUTHAUTHORIZE;
             var url = WechatHelper.GetUrl(cgiType);
             var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, jsLogin);
             if (resp.code == "0")

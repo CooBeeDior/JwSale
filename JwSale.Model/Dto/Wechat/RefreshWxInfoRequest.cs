@@ -7,7 +7,8 @@ namespace JwSale.Model.Dto.Wechat
     /// <summary>
     /// 刷新微信信息
     /// </summary>
-    public class RefreshWxInfoRequest : WechatRequestBase
+    public class RefreshWxInfoRequest 
     {
+        public string WxId { get; set; }
     }
 }

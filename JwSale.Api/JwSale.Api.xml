@@ -1033,7 +1033,7 @@
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.RefreshWxInfo(JwSale.Model.Dto.Wechat.RefreshWxInfoRequest)">
             <summary>
-            刷新微信数据
+            刷新微信通讯录列表（好友 群  公众号）
             </summary>
             <param name="refreshWxInfoRequest"></param>
             <returns></returns>

@@ -2726,22 +2726,22 @@
             
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.from">
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImgRequest.from">
             <summary>
             消息来源
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.length">
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImgRequest.length">
             <summary>
             图片大小 消息详情里中获取
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.startPos">
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImgRequest.startPos">
             <summary>
             位置  本次要下载的数据开头位置
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImg.newMsgId">
+        <member name="P:JwSale.Model.Dto.Wechat.GetMsgImgRequest.newMsgId">
             <summary>
             消息ID 消息详情里中获取
             </summary>

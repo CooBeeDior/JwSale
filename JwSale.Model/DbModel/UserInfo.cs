@@ -34,6 +34,14 @@ namespace JwSale.Model
         /// </summary>
         public string RealName { get; set; }
         /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? BirthDay { get; set; }
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        public string IdCard { get; set; }
+        /// <summary>
         /// 真实姓名拼音
         /// </summary>
         public string RealNamePin { get; set; }

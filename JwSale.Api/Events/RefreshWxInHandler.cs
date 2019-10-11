@@ -32,7 +32,7 @@ namespace JwSale.Api.Events
 
         protected async Task<bool> RefreshWxInoAsync(string token, string wxId, UserInfo UserInfo, string username = null, string password = null, string device = null, bool isRefresh = false, CancellationToken cancellationToken = default(CancellationToken))
         {
-            bool flag = false;
+            bool flag = false;         
             GetContactRequest getContact = new GetContactRequest()
             {
                 token = token,
@@ -134,6 +134,9 @@ namespace JwSale.Api.Events
                 }
                 await DbContext.SaveChangesAsync(cancellationToken);
             }
+
+
+
 
             {
                 //初始化好友和群信息

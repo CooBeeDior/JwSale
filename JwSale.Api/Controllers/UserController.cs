@@ -191,6 +191,8 @@ namespace JwSale.Api.Controllers
         //            RealNamePin = addUser.RealName?.ToPinYin(),
 
         //            Phone = addUser.Phone,
+        //            IdCard=addUser.IdCard,
+        //            BirthDay=addUser.BirthDay,
         //            Province = addUser.Province,
         //            City = addUser.City,
         //            Area = addUser.Area,

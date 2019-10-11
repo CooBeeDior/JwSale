@@ -27,11 +27,18 @@ namespace JwSale.Model.Dto.Request.User
         /// </summary>
         public string RealName { get; set; }
 
-
         /// <summary>
         /// 手机号码
         /// </summary>
         public string Phone { get; set; }
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? BirthDay { get; set; }
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        public string IdCard { get; set; }
 
         /// <summary>
         /// 省

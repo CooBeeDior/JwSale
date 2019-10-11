@@ -747,6 +747,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddUser(JwSale.Model.Dto.Request.User.AddUser)">
+            <summary>
+            添加用户
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.ResetUserPwd(JwSale.Model.Dto.Request.User.ResetUserPwd)">
             <summary>
             重置用户密码

@@ -383,7 +383,6 @@
             <summary>
             基类
             </summary> 
-            
         </member>
         <member name="M:JwSale.Api.Controllers.CommonController.GetHexBufferForm(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
@@ -1043,6 +1042,18 @@
             刷新微信通讯录列表（好友 群  公众号）
             </summary>
             <param name="refreshWxInfoRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Filters.PermissionRequiredAttribute">
+            <summary>
+            模块授权验证
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Filters.PermissionRequiredAttribute.getPermissions(System.Guid)">
+            <summary>
+            获取用户权限
+            </summary>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">

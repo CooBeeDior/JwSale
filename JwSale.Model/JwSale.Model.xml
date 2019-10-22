@@ -484,6 +484,16 @@
             真实姓名
             </summary>
         </member>
+        <member name="P:JwSale.Model.UserInfo.BirthDay">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.IdCard">
+            <summary>
+            身份证
+            </summary>
+        </member>
         <member name="P:JwSale.Model.UserInfo.RealNamePin">
             <summary>
             真实姓名拼音
@@ -873,6 +883,16 @@
         <member name="P:JwSale.Model.Dto.Request.User.AddUser.Phone">
             <summary>
             手机号码
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.BirthDay">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.IdCard">
+            <summary>
+            身份证
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Request.User.AddUser.Province">
@@ -2669,6 +2689,11 @@
         <member name="P:JwSale.Model.Dto.Wechat.ExtdeviceLoginconfirmOkRequest.url">
             <summary>
             网址 设备url地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.ForkOfficialAccountRequest.AppId">
+            <summary>
+            公众号AppId
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Wechat.GeneralSetRequest.setValue">

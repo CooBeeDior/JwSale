@@ -51,7 +51,7 @@ namespace JwSale.Api.Controllers
         /// <param name="login"></param>
         /// <returns></returns>
         [MoudleInfo("登录", false)]
-        [NoPermissionRequired]
+        [NoAuthRequired]
         [HttpPost("api/User/Login")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(Login login)
         {           

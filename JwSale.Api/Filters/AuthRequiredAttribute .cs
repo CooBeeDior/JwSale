@@ -18,7 +18,7 @@ namespace JwSale.Api.Filters
 {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class PermissionRequiredAttribute : Attribute, IAuthorizationFilter
+    public class AuthRequiredAttribute : Attribute, IAuthorizationFilter
     {
 
         private IDistributedCache cache;
@@ -28,7 +28,7 @@ namespace JwSale.Api.Filters
         private JwSaleDbContext jwSaleDbContext;
 
 
-        public PermissionRequiredAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
+        public AuthRequiredAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
         {
             this.jwSaleDbContext = jwSaleDbContext;
             this.cache = cache;
@@ -41,12 +41,12 @@ namespace JwSale.Api.Filters
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (controllerActionDescriptor != null)
             {
-                var isDefined = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoPermissionRequiredAttribute)));
+                var isDefined = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoAuthRequiredAttribute)));
                 if (isDefined)
                 {
                     return;
                 }
-                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoPermissionRequiredAttribute)));
+                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoAuthRequiredAttribute)));
                 if (isDefined)
                 {
                     return;

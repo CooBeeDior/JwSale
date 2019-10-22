@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace JwSale.Api.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class NoPermissionRequiredAttribute : ActionFilterAttribute
+    public class NoAuthRequiredAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {

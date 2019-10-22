@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
 {
-    [NoPermissionRequired]
+    [NoAuthRequired]
     public class CommonController : JwSaleControllerBase
     {
         public CommonController(JwSaleDbContext context) : base(context)

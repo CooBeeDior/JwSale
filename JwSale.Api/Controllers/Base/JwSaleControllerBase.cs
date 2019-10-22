@@ -22,8 +22,8 @@ namespace JwSale.Api.Controllers
     /// <summary>
     /// 基类
     /// </summary> 
-    /// 
-    [TypeFilter(typeof(PermissionRequiredAttribute))]
+    [TypeFilter(typeof(AuthRequiredAttribute))]
+    //[TypeFilter(typeof(PermissionRequiredAttribute))]    
     [TypeFilter(typeof(ValidationModelAttribute))]
     [TypeFilter(typeof(ExceptionAttribute))]
     [TypeFilter(typeof(LogAttribute))]

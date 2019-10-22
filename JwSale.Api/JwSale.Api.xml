@@ -747,12 +747,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.AddUser(JwSale.Model.Dto.Request.User.AddUser)">
-            <summary>
-            添加用户
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Controllers.UserController.ResetUserPwd(JwSale.Model.Dto.Request.User.ResetUserPwd)">
             <summary>
             重置用户密码
@@ -937,6 +931,13 @@
             摇一摇
             </summary>
             <param name="shakeReport"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.ForkOfficialAccount(JwSale.Model.Dto.Wechat.ForkOfficialAccountRequest)">
+            <summary>
+            关注公众号
+            </summary>
+            <param name="forkOfficialAccount"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.GetA8Key(JwSale.Model.Dto.Wechat.GetA8KeyRequest)">

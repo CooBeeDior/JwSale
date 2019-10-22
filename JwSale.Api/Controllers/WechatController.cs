@@ -1061,14 +1061,57 @@ namespace JwSale.Api.Controllers
             }
 
 
-
-
-
-
             return response;
         }
 
 
+        /// <summary>
+        /// 关注公众号
+        /// </summary>
+        /// <param name="forkOfficialAccount"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/ForkOfficialAccount")]
+        [MoudleInfo("关注公众号")]
+        public async Task<ActionResult<ResponseBase>> ForkOfficialAccount(ForkOfficialAccountRequest forkOfficialAccount)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_VERIFYUSER;
+            var url = WechatHelper.GetUrl(cgiType);
+            VerifyUserRequest verifyUser = new VerifyUserRequest()
+            {
+                token = forkOfficialAccount.token,
+                verifyUserOpCode = "1",
+                v1 = forkOfficialAccount.AppId,
+                scene = "0",
+                v2 = "",
+                verifyContent = ""
+
+            };
+
+
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, verifyUser);
+
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result?.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
 
         /// <summary>
         /// GetA8Key（阅读 扫码进群）

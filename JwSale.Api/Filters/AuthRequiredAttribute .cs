@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 
 namespace JwSale.Api.Filters
 {
@@ -41,13 +42,13 @@ namespace JwSale.Api.Filters
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (controllerActionDescriptor != null)
             {
-                var isDefined = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoAuthRequiredAttribute)));
-                if (isDefined)
+                var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                if (noAuthRequiredAttribute != null)
                 {
                     return;
                 }
-                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoAuthRequiredAttribute)));
-                if (isDefined)
+                noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                if (noAuthRequiredAttribute != null)
                 {
                     return;
                 }
@@ -94,7 +95,6 @@ namespace JwSale.Api.Filters
                     }
                     else
                     {
-
                         var userCache = userTokenCache.ToObj<UserCache>();
                         if (userCache == null || userCache.UserInfo == null)
                         {
@@ -104,9 +104,16 @@ namespace JwSale.Api.Filters
                             response.Message = "令牌失效";
                             context.Result = new JsonResult(response);
                         }
+                        else if (!userCache.Token.Equals(token))
+                        {
+                            ResponseBase response = new ResponseBase();
+                            response.Success = false;
+                            response.Code = HttpStatusCode.Unauthorized;
+                            response.Message = "令牌失效";
+                            context.Result = new JsonResult(response);
+                        }
                         else
                         {
-
                             var userInfo = jwSaleDbContext.UserInfos.Where(o => o.Id == userCache.UserInfo.Id).FirstOrDefault();
                             if (userInfo == null)
                             {
@@ -133,7 +140,7 @@ namespace JwSale.Api.Filters
                                     response.Code = HttpStatusCode.Unauthorized;
                                     response.Message = "用户已过期";
                                     context.Result = new JsonResult(response);
-                                }                          
+                                }
                                 else
                                 {
                                     context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;

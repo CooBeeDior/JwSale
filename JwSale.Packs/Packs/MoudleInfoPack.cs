@@ -9,6 +9,7 @@ using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using JwSale.Util.Logs;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -48,15 +49,19 @@ namespace JwSale.Packs.Packs
                             var nameArr = moudleInfoAttribute.Name.Split('-', '/', '\\', '_');
 
                             Guid parentId = Guid.Empty;
+
+
+                            var path = type.GetCustomAttribute<RouteAttribute>()?.Template ?? type.GetCustomAttribute<HttpGetAttribute>()?.Template ?? type.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
                             foreach (var name in nameArr)
                             {
                                 FunctionInfo functionInfo = new FunctionInfo()
                                 {
                                     Id = Guid.NewGuid(),
                                     Name = name,
-                                    Code = name.ToPinYin(),
+                                    Code = string.IsNullOrEmpty(moudleInfoAttribute.Code) ? name.ToPinYin() : moudleInfoAttribute.Code,                               
                                     ParentId = parentId,
                                     Order = moudleInfoAttribute.Order,
+                                    Path = path,
                                     AddTime = dateNow,
                                     AddUserId = userId,
                                     AddUserRealName = userRealName,
@@ -76,6 +81,7 @@ namespace JwSale.Packs.Packs
                                 {
                                     continue;
                                 }
+                                var methodPath = method.GetCustomAttribute<RouteAttribute>()?.Template ?? method.GetCustomAttribute<HttpGetAttribute>()?.Template ?? method.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
                                 FunctionInfo functionInfo = new FunctionInfo()
                                 {
                                     Id = Guid.NewGuid(),
@@ -83,6 +89,7 @@ namespace JwSale.Packs.Packs
                                     Code = string.IsNullOrEmpty(methodMoudleInfoAttribute.Code) ? methodMoudleInfoAttribute.Name.ToPinYin() : methodMoudleInfoAttribute.Code,
                                     ParentId = parentId,
                                     Order = moudleInfoAttribute.Order,
+                                    Path = methodPath,
                                     AddTime = dateNow,
                                     AddUserId = userId,
                                     AddUserRealName = userRealName,
@@ -109,6 +116,8 @@ namespace JwSale.Packs.Packs
                             Password = DefaultUserInfo.UserInfo.Password.ToMd5(),
                             RealName = userRealName,
                             RealNamePin = userRealName.ToPinYin(),
+
+                            ExpiredTime = dateNow.AddYears(100),
 
                             AddTime = dateNow,
                             AddUserId = userId,

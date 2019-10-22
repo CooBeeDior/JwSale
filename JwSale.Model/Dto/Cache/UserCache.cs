@@ -22,5 +22,15 @@ namespace JwSale.Model.Dto.Cache
         /// 用户信息
         /// </summary>
         public UserInfo UserInfo { get; set; }
+
+        /// <summary>
+        /// 角色权限列表
+        /// </summary>
+        public IList<BriefInfo> Permissions { get; set; }
+
+        /// <summary>
+        /// 登陆时间
+        /// </summary>
+        public DateTime LoginTime { get; set; }
     }
 }

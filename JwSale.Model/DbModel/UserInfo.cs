@@ -34,6 +34,10 @@ namespace JwSale.Model
         /// </summary>
         public string RealName { get; set; }
         /// <summary>
+        /// 性别 1：男 2：女
+        /// </summary>
+        public int Sex { get; set; } 
+        /// <summary>
         /// 生日
         /// </summary>
         public DateTime? BirthDay { get; set; }

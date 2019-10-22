@@ -24,6 +24,11 @@ namespace JwSale.Model
         /// ÅÅÐò
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// Â·¾¶
+        /// </summary>
+        public string Path { get; set; }
         /// <summary>
         /// ¸¸Id
         /// </summary>

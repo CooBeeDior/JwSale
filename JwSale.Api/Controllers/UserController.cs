@@ -95,12 +95,13 @@ namespace JwSale.Api.Controllers
                             Permissions = permissions
                         };
 
-
                         UserCache userCache = new UserCache()
                         {
                             Token = token,
                             ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
                             UserInfo = userinfo,
+                            Permissions = permissions,
+                            LoginTime=DateTime.Now
                         };
 
                         var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
@@ -576,8 +577,10 @@ namespace JwSale.Api.Controllers
                  where u.Id == userId
                  select new BriefInfo()
                  {
+                     Id=f.Id,
                      Code = f.Code,
-                     Name = f.Name
+                     Name = f.Name,
+                     ParentId=f.ParentId
                  }).Union(
                      from u in DbContext.UserInfos.AsNoTracking()
                      join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
@@ -585,8 +588,10 @@ namespace JwSale.Api.Controllers
                      where u.Id == userId && up.Type == (short)PermissionType.Increase
                      select new BriefInfo()
                      {
+                         Id = f.Id,
                          Code = f.Code,
-                         Name = f.Name
+                         Name = f.Name,
+                         ParentId = f.ParentId
                      }).Except(
                        from u in DbContext.UserInfos.AsNoTracking()
                        join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
@@ -594,8 +599,10 @@ namespace JwSale.Api.Controllers
                        where u.Id == userId && up.Type == (short)PermissionType.Decut
                        select new BriefInfo()
                        {
+                           Id = f.Id,
                            Code = f.Code,
-                           Name = f.Name
+                           Name = f.Name,
+                           ParentId = f.ParentId
                        }).ToListAsync();
         }
 

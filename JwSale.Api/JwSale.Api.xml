@@ -1049,13 +1049,6 @@
             模块授权验证
             </summary>
         </member>
-        <member name="M:JwSale.Api.Filters.PermissionRequiredAttribute.getPermissions(System.Guid)">
-            <summary>
-            获取用户权限
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">
             <summary>
             创建实例

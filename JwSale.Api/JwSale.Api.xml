@@ -385,46 +385,6 @@
             </summary> 
             
         </member>
-        <member name="T:JwSale.Api.Controllers.FriendCrontroller">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.GetContact(JwSale.Model.Dto.Wechat.GetContactRequest)">
-            <summary>
-            获取联系人(通讯录群友)
-            </summary>
-            <param name="getContact"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.SearchContact(JwSale.Model.Dto.Wechat.SearchContactRequest)">
-            <summary>
-            搜索联系人(非好友)
-            </summary>
-            <param name="searchContact"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.VerifyUser(JwSale.Model.Dto.Wechat.VerifyUserRequest)">
-            <summary>
-            添加或同意联系人
-            </summary>
-            <param name="verifyUser"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.DelContact(JwSale.Model.Dto.Wechat.DelContactRequest)">
-            <summary>
-            删除联系人
-            </summary>
-            <param name="delContact"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.FriendCrontroller.SetFriendRemarks(JwSale.Model.Dto.Wechat.SetFriendRemarksRequest)">
-            <summary>
-            修改好友备注
-            </summary>
-            <param name="setFriendRemarks"></param>
-            <returns></returns>
-        </member>
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理
@@ -449,6 +409,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.Logout">
+            <summary>
+            登出
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.GetUsers(JwSale.Model.Dto.Request.User.GetUsers)">
+            <summary>
+            获取用户列表
+            </summary>
+            <param name="getUsers"></param>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.AddUser(JwSale.Model.Dto.Request.User.AddUser)">
             <summary>
             添加用户
@@ -460,13 +433,6 @@
             设置所有权限
             </summary>
             <param name="setAllPermisson"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUsers(JwSale.Model.Dto.Request.User.GetUsers)">
-            <summary>
-            获取用户列表
-            </summary>
-            <param name="getUsers"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.UserController.SetUserStatus(JwSale.Model.Dto.Request.User.SetUserStatus)">
@@ -497,23 +463,10 @@
             <param name="setUserAuth"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.Logout">
-            <summary>
-            登出
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Controllers.UserController.GetUserFunctions">
             <summary>
             获取用户功能列表
             </summary> 
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.getPermissions(System.Guid)">
-            <summary>
-            获取用户权限
-            </summary>
-            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">

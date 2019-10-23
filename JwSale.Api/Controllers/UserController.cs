@@ -558,11 +558,6 @@ namespace JwSale.Api.Controllers
 
 
 
-        /// <summary>
-        /// 获取用户权限
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
         private async Task<IList<BriefInfo>> getPermissions(Guid userId)
         {
             return await (
@@ -574,8 +569,10 @@ namespace JwSale.Api.Controllers
                  where u.Id == userId
                  select new BriefInfo()
                  {
+                     Id = f.Id,
                      Code = f.Code,
-                     Name = f.Name
+                     Name = f.Name,
+                     ParentId = f.ParentId
                  }).Union(
                      from u in DbContext.UserInfos.AsNoTracking()
                      join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
@@ -583,8 +580,10 @@ namespace JwSale.Api.Controllers
                      where u.Id == userId && up.Type == (short)PermissionType.Increase
                      select new BriefInfo()
                      {
+                         Id = f.Id,
                          Code = f.Code,
-                         Name = f.Name
+                         Name = f.Name,
+                         ParentId = f.ParentId
                      }).Except(
                        from u in DbContext.UserInfos.AsNoTracking()
                        join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
@@ -592,10 +591,14 @@ namespace JwSale.Api.Controllers
                        where u.Id == userId && up.Type == (short)PermissionType.Decut
                        select new BriefInfo()
                        {
+                           Id = f.Id,
                            Code = f.Code,
-                           Name = f.Name
+                           Name = f.Name,
+                           ParentId = f.ParentId
                        }).ToListAsync();
         }
+
+
 
 
 

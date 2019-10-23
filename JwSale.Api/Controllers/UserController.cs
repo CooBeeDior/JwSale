@@ -54,8 +54,8 @@ namespace JwSale.Api.Controllers
         [NoAuthRequired]
         [HttpPost("api/User/Login")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(Login login)
-        {           
-            ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();          
+        {
+            ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();
             var userinfo = DbContext.UserInfos.Where(o => o.UserName == login.UserName).FirstOrDefault();
             if (userinfo != null)
             {
@@ -101,7 +101,7 @@ namespace JwSale.Api.Controllers
                             ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
                             UserInfo = userinfo,
                             Permissions = permissions,
-                            LoginTime=DateTime.Now
+                            LoginTime = DateTime.Now
                         };
 
                         var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
@@ -138,7 +138,7 @@ namespace JwSale.Api.Controllers
             var userinfo = DbContext.UserInfos.Where(o => o.Id == UserInfo.Id).FirstOrDefault();
             if (userinfo != null)
             {
-                response.Data = userinfo; 
+                response.Data = userinfo;
             }
             else
             {
@@ -471,7 +471,7 @@ namespace JwSale.Api.Controllers
         /// 登出
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("退出", false)] 
+        [MoudleInfo("退出", false)]
         [HttpPost("api/User/Logout")]
         public async Task<ActionResult> Logout()
         {
@@ -545,9 +545,15 @@ namespace JwSale.Api.Controllers
 
 
 
-        private void getfuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<BriefInfoWithId> permissions)
+        private void getfuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<BriefInfo> permissions)
         {
-            var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTree { Id = o.Id, Name = o.Name, Code = o.Code }).ToList();
+            var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTree
+            {
+                Id = o.Id,
+                Name = o.Name,
+                Code = o.Code,
+                Path = o.Path
+            }).ToList();
             functionTree.Tree = filterFunctions;
             foreach (var item in filterFunctions)
             {
@@ -577,10 +583,11 @@ namespace JwSale.Api.Controllers
                  where u.Id == userId
                  select new BriefInfo()
                  {
-                     Id=f.Id,
+                     Id = f.Id,
                      Code = f.Code,
+                     Path = f.Path,
                      Name = f.Name,
-                     ParentId=f.ParentId
+                     ParentId = f.ParentId
                  }).Union(
                      from u in DbContext.UserInfos.AsNoTracking()
                      join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
@@ -590,6 +597,7 @@ namespace JwSale.Api.Controllers
                      {
                          Id = f.Id,
                          Code = f.Code,
+                         Path = f.Path,
                          Name = f.Name,
                          ParentId = f.ParentId
                      }).Except(
@@ -601,6 +609,7 @@ namespace JwSale.Api.Controllers
                        {
                            Id = f.Id,
                            Code = f.Code,
+                           Path = f.Path,
                            Name = f.Name,
                            ParentId = f.ParentId
                        }).ToListAsync();

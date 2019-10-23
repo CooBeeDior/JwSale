@@ -26,6 +26,11 @@ namespace JwSale.Model.Dto.Response.UserRole
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 路径
+        /// </summary>
+        public string Path { get; set; }
+
 
         /// <summary>
         /// 是否有权限

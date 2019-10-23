@@ -19,6 +19,10 @@ namespace JwSale.Model.Dto
         /// 名称
         /// </summary>
         public string Code { get; set; }
+        /// <summary>
+        /// 路径
+        /// </summary>
+        public string Path { get; set; }
 
         /// <summary>
         /// 父Id

@@ -271,6 +271,11 @@
             排序
             </summary>
         </member>
+        <member name="P:JwSale.Model.FunctionInfo.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
         <member name="P:JwSale.Model.FunctionInfo.ParentId">
             <summary>
             父Id
@@ -486,6 +491,21 @@
         <member name="P:JwSale.Model.UserInfo.RealName">
             <summary>
             真实姓名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Sex">
+            <summary>
+            性别 1：男 2：女
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.BirthDay">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.IdCard">
+            <summary>
+            身份证
             </summary>
         </member>
         <member name="P:JwSale.Model.UserInfo.RealNamePin">
@@ -829,6 +849,11 @@
             登录类型 1：扫码 2:62或a16
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.BriefInfo.Id">
+            <summary>
+            标识
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.BriefInfo.Name">
             <summary>
             编码
@@ -837,6 +862,11 @@
         <member name="P:JwSale.Model.Dto.BriefInfo.Code">
             <summary>
             名称
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.BriefInfo.ParentId">
+            <summary>
+            父Id
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.BriefInfoWithId.Id">

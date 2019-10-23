@@ -10,9 +10,9 @@ namespace JwSale.Model
     /// 描  述：UserInfo实体
     /// </summary>
     [Table("UserInfo")]
-    public class UserInfo: Entity
+    public class UserInfo : Entity
     {
-    
+
         /// <summary>
         /// 用户名
         /// </summary>
@@ -33,6 +33,18 @@ namespace JwSale.Model
         /// 真实姓名
         /// </summary>
         public string RealName { get; set; }
+        /// <summary>
+        /// 性别 1：男 2：女
+        /// </summary>
+        public int Sex { get; set; }
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? BirthDay { get; set; }
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        public string IdCard { get; set; }
         /// <summary>
         /// 真实姓名拼音
         /// </summary>

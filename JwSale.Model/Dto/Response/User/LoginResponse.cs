@@ -17,7 +17,7 @@ namespace JwSale.Model.Dto.Response.User
         /// <summary>
         /// 过期时间
         /// </summary>
-        public DateTime ExpiredTime { get; set; }
+        public DateTime? ExpiredTime { get; set; }
 
         /// <summary>
         /// 用户信息

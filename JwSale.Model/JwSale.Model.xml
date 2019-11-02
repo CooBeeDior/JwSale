@@ -964,39 +964,39 @@
             密码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.RealName">
-            <summary>
-            真实姓名
-            </summary>
-        </member>
         <member name="P:JwSale.Model.Dto.Request.User.AddUser.Phone">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Province">
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Email">
             <summary>
-            省
+            邮箱
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.City">
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.RealName">
             <summary>
-            市
+            真实姓名
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Area">
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Sex">
             <summary>
-            区
+            性别 1：男 2：女
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Address">
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.BirthDay">
             <summary>
-            详细地址
+            生日
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Remark">
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.IdCard">
             <summary>
-            备注
+            身份证
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.RealNamePin">
+            <summary>
+            真实姓名拼音
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Request.User.AddUser.Qq">
@@ -1019,9 +1019,39 @@
             职位名称
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.City">
+            <summary>
+            市
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Area">
+            <summary>
+            区
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Address">
+            <summary>
+            详细地址
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Request.User.AddUser.HeadImageUrl">
             <summary>
             头像
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Status">
+            <summary>
+            状态：0：启用 1：停用
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Remark">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Request.User.AddUser.Type">

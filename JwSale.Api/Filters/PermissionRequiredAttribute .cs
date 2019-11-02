@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 
 namespace JwSale.Api.Filters
 {
@@ -41,18 +42,18 @@ namespace JwSale.Api.Filters
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (controllerActionDescriptor != null)
             {
-                var isDefined = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoPermissionRequiredAttribute)));
-                if (isDefined)
+                var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
+                if (noAuthRequiredAttribute != null)
                 {
                     return;
                 }
-                isDefined = controllerActionDescriptor.MethodInfo.GetCustomAttributes(inherit: true).Any(a => a.GetType().Equals(typeof(NoPermissionRequiredAttribute)));
-                if (isDefined)
+                noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
+                if (noAuthRequiredAttribute != null)
                 {
                     return;
                 }
             }
-            string token = context.HttpContext.Request.Headers["Authorization"].ToString();
+            string token = context.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "", StringComparison.OrdinalIgnoreCase);
             if (string.IsNullOrEmpty(token))
             {
                 ResponseBase response = new ResponseBase();
@@ -73,6 +74,14 @@ namespace JwSale.Api.Filters
                     response.Message = "未知的令牌";
                     context.Result = new JsonResult(response);
                 }
+                //else if (userToken.Ip != context.HttpContext.Connection.RemoteIpAddress.ToString())
+                //{
+                //    ResponseBase response = new ResponseBase();
+                //    response.Success = false;
+                //    response.Code = HttpStatusCode.Unauthorized;
+                //    response.Message = "请求IP异常";
+                //    context.Result = new JsonResult(response);
+                //}
                 else
                 {
                     var userTokenCache = cache.GetString(CacheKeyHelper.GetUserTokenKey(userToken.UserName));
@@ -88,6 +97,14 @@ namespace JwSale.Api.Filters
                     {
                         var userCache = userTokenCache.ToObj<UserCache>();
                         if (userCache == null || userCache.UserInfo == null)
+                        {
+                            ResponseBase response = new ResponseBase();
+                            response.Success = false;
+                            response.Code = HttpStatusCode.Unauthorized;
+                            response.Message = "令牌失效";
+                            context.Result = new JsonResult(response);
+                        }
+                        else if (!userCache.Token.Equals(token))
                         {
                             ResponseBase response = new ResponseBase();
                             response.Success = false;
@@ -116,12 +133,22 @@ namespace JwSale.Api.Filters
                                     response.Message = "用户被禁用，请联系管理员开启";
                                     context.Result = new JsonResult(response);
                                 }
+                                else if (userInfo.Type == 2 && userInfo.ExpiredTime == null || userInfo.ExpiredTime < DateTime.Now)
+                                {
+                                    ResponseBase response = new ResponseBase();
+                                    response.Success = false;
+                                    response.Code = HttpStatusCode.Unauthorized;
+                                    response.Message = "用户已过期";
+                                    context.Result = new JsonResult(response);
+                                }
                                 else
                                 {
                                     context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;
                                 }
+
                             }
                         }
+
                     }
 
                 }
@@ -133,4 +160,5 @@ namespace JwSale.Api.Filters
 
     }
 }
+
 

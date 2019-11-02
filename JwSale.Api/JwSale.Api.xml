@@ -722,6 +722,20 @@
             <param name="sendSns"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.MmSnsBackgroundPost(JwSale.Model.Dto.Wechat.MmSnsBackgroundPostRequest)">
+            <summary>
+            朋友圈背景图片
+            </summary>
+            <param name="mmSnsBackgroundPost"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.SnsController.SetSnsScope(JwSale.Model.Dto.Wechat.SetSnsScopeRequest)">
+            <summary>
+            朋友圈查看范围包
+            </summary>
+            <param name="setSnsScope"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理

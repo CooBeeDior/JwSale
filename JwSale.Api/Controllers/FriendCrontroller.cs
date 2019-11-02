@@ -61,7 +61,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -99,7 +99,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -135,7 +135,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -171,7 +171,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -208,10 +208,54 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
+
+
+        ///// <summary>
+        ///// 设置好友加我验证
+        ///// </summary>
+        ///// <param name="setFunctionSwitch"></param>
+        ///// <returns></returns>
+        //[HttpPost("api/Friend/SetFunctionSwitch")]
+        //[MoudleInfo("设置好友加我验证")]
+        //public async Task<ActionResult<ResponseBase>> SetFunctionSwitch(SetFunctionSwitchRequest setFunctionSwitch)
+        //{
+        //    ResponseBase<object> response = new ResponseBase<object>();
+        //    string cgiType = CGI_TYPE.CGI_OPLOG;
+        //    var url = WechatHelper.GetUrl(cgiType);
+
+        //    OpLogRequest opLogRequest = new OpLogRequest()
+        //    {
+        //        cmdid = "23",
+        //        cmdbuf = new { functionid = setFunctionSwitch.functionid, switchvalue = setFunctionSwitch.switchvalue }.ToJson(),
+        //        token = setFunctionSwitch.token
+        //    };
+        //    var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, setFunctionSwitch);
+
+        //    if (resp.code == "0")
+        //    {
+        //        var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+        //        if (result?.code == "0")
+        //        {
+        //            response.Data = result.message?.ToObj();
+        //        }
+        //        else
+        //        {
+        //            response.Data = result.message?.ToObj();
+        //            response.Success = false;
+        //            response.Message = result.describe;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        response.Success = false;
+        //        response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+        //    }
+        //    return response;
+        //}
         #endregion
     }
 }

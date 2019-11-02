@@ -267,6 +267,11 @@
             排序
             </summary>
         </member>
+        <member name="P:JwSale.Model.FunctionInfo.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
         <member name="P:JwSale.Model.FunctionInfo.ParentId">
             <summary>
             父Id
@@ -482,6 +487,11 @@
         <member name="P:JwSale.Model.UserInfo.RealName">
             <summary>
             真实姓名
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.UserInfo.Sex">
+            <summary>
+            性别 1：男 2：女
             </summary>
         </member>
         <member name="P:JwSale.Model.UserInfo.BirthDay">
@@ -825,6 +835,16 @@
             用户信息
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Cache.UserCache.Permissions">
+            <summary>
+            角色权限列表
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Cache.UserCache.LoginTime">
+            <summary>
+            登陆时间
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Common.ProxyInfo.Ip">
             <summary>
             代理Ip
@@ -845,6 +865,11 @@
              代理密码（可以为空）
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.BriefInfo.Id">
+            <summary>
+            标识
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.BriefInfo.Name">
             <summary>
             编码
@@ -855,9 +880,14 @@
             名称
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.BriefInfoWithId.Id">
+        <member name="P:JwSale.Model.Dto.BriefInfo.Path">
             <summary>
-            Id
+            路径
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.BriefInfo.ParentId">
+            <summary>
+            父Id
             </summary>
         </member>
         <member name="T:JwSale.Model.Dto.Request.User.AddUser">
@@ -1493,6 +1523,11 @@
         <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Name">
             <summary>
             名字
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Path">
+            <summary>
+            路径
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Response.UserRole.Function.IsPermission">
@@ -2816,6 +2851,21 @@
             群号
             </summary>
         </member>
+        <member name="T:JwSale.Model.Dto.Wechat.MmSnsBackgroundPostRequest">
+            <summary>
+            朋友圈背景图片
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsBackgroundPostRequest.ImgUrl">
+            <summary>
+            图片地址
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.MmSnsBackgroundPostRequest.ClientMsgId">
+            <summary>
+            每次发消息自增1，发送成功会返回该值 【必须是正整数】
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Wechat.MmSnsCommentRequest.wxid">
             <summary>
             要点评的对象 好友时填他wxid反之填自己的wxid
@@ -3125,6 +3175,26 @@
         <member name="P:JwSale.Model.Dto.Wechat.SetFriendRemarksRequest.remark">
             <summary>
             新备注
+            </summary>
+        </member>
+        <member name="T:JwSale.Model.Dto.Wechat.SetFunctionSwitchRequest">
+            <summary>
+            设置好友加我验证
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SetFunctionSwitchRequest.functionid">
+            <summary>
+            功能Id 4:加我为朋友是需要验证 7向我推荐通讯录朋友 ,
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SetFunctionSwitchRequest.switchvalue">
+            <summary>
+            1， 2 开启或关闭 
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Wechat.SetSnsScopeRequest.snsFlagEx">
+            <summary>
+            //2177 :全部 2689 :半年 3201: 三天
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.Wechat.ShakereGetRequest.buffer">

@@ -62,7 +62,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -97,7 +97,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -132,7 +132,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -167,7 +167,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -202,7 +202,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }
@@ -259,7 +259,94 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Message =  "执行失败";//$"{resp.message}{resp.describe}";
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+
+        /// <summary>
+        /// 朋友圈背景图片
+        /// </summary>
+        /// <param name="mmSnsBackgroundPost"></param>
+        /// <returns></returns>
+        [HttpPost("api/Sns/MmSnsBackgroundPost")]
+        [MoudleInfo("朋友圈背景图片")]
+        public async Task<ActionResult<ResponseBase>> MmSnsBackgroundPost(MmSnsBackgroundPostRequest mmSnsBackgroundPost)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_MMSNSPOST;
+            var url = WechatHelper.GetUrl(cgiType);
+            MmSnsPostRequest mmSnsPost = new MmSnsPostRequest()
+            {
+                token = mmSnsBackgroundPost.token,
+                clientmsgid = mmSnsBackgroundPost.ClientMsgId,
+                //message = "<TimelineObject><id><![CDATA[0]]></id><username><![CDATA[]]></username><createTime><![CDATA[0]]></createTime><contentDescShowType>0</contentDescShowType><contentDescScene>0</contentDescScene><private><![CDATA[0]]></private><contentDesc></contentDesc><contentattr><![CDATA[0]]></contentattr><sourceUserName></sourceUserName><sourceNickName></sourceNickName><statisticsData></statisticsData><weappInfo><appUserName></appUserName><pagePath></pagePath></weappInfo><canvasInfoXml></canvasInfoXml><location poiClickableStatus=\"0\"  poiClassifyId=\"\"  poiScale=\"0\"  longitude=\"0.0\"  city=\"\"  poiName=\"\"  latitude=\"0.0\"  poiClassifyType=\"0\"  poiAddress=\"\" ></location><ContentObject><contentStyle><![CDATA[7]]></contentStyle><contentSubStyle><![CDATA[0]]></contentSubStyle><title></title><description></description><contentUrl></contentUrl><mediaList><media><id><![CDATA[0]]></id><type><![CDATA[2]]></type><title></title><description></description><private><![CDATA[0]]></private><url type=\"1\"><![CDATA[http://mmsns.qpic.cn/mmsns/PiajxSqBRaEKClg9yHubOJdNxkBHLVyyiaIQiaSu7aFzkh77rUicwSRs9F3oq1DT6x3j/0]]></url><thumb type=\"1\"><![CDATA[http://mmsns.qpic.cn/mmsns/PiajxSqBRaEKClg9yHubOJdNxkBHLVyyiaIQiaSu7aFzkh77rUicwSRs9F3oq1DT6x3j/150]]></thumb></TimelineObject>"
+                message = $"<TimelineObject><id><![CDATA[0]]></id><username><![CDATA[]]></username><createTime><![CDATA[0]]></createTime><contentDescShowType>0</contentDescShowType><contentDescScene>0</contentDescScene><private><![CDATA[0]]></private><contentDesc></contentDesc><contentattr><![CDATA[0]]></contentattr><sourceUserName></sourceUserName><sourceNickName></sourceNickName><statisticsData></statisticsData><weappInfo><appUserName></appUserName><pagePath></pagePath></weappInfo><canvasInfoXml></canvasInfoXml><location poiClickableStatus=\"0\"  poiClassifyId=\"\"  poiScale=\"0\"  longitude=\"0.0\"  city=\"\"  poiName=\"\"  latitude=\"0.0\"  poiClassifyType=\"0\"  poiAddress=\"\" ></location><ContentObject><contentStyle><![CDATA[7]]></contentStyle><contentSubStyle><![CDATA[0]]></contentSubStyle><title></title><description></description><contentUrl></contentUrl><mediaList><media><id><![CDATA[0]]></id><type><![CDATA[2]]></type><title></title><description></description><private><![CDATA[0]]></private><url type=\"1\" ><![CDATA[{mmSnsBackgroundPost.ImgUrl}]]></url><thumb type=\"1\" ><![CDATA[{mmSnsBackgroundPost.ImgUrl}]]></thumb>"
+            };
+
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, mmSnsPost);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result?.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// 朋友圈查看范围包
+        /// </summary>
+        /// <param name="setSnsScope"></param>
+        /// <returns></returns>
+        [HttpPost("api/Friend/SetSnsScope")]
+        [MoudleInfo("朋友圈查看范围包")]
+        public async Task<ActionResult<ResponseBase>> SetSnsScope(SetSnsScopeRequest setSnsScope)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_OPLOG;
+            var url = WechatHelper.GetUrl(cgiType);
+
+            OpLogRequest opLogRequest = new OpLogRequest()
+            {
+                cmdid = "51",
+                cmdbuf = new { snsFlagEx = setSnsScope.snsFlagEx }.ToJson(),
+                token = setSnsScope.token
+            };
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, opLogRequest);
+
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result?.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
             }
             return response;
         }

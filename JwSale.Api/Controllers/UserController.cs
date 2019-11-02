@@ -80,7 +80,7 @@ namespace JwSale.Api.Controllers
                             UserId = userinfo.Id,
                             UserName = userinfo.UserName,
                             Ip = accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
-                            Expireds = 60 * 60 * 24 * 7,
+                            Expireds = 60 * 60 * 24 * 30 * 3,
                             AddTime = DateTime.Now
                         };
                         string token = UserHelper.GenerateToken(userToken, jwSaleOptions.TokenKey);
@@ -90,7 +90,7 @@ namespace JwSale.Api.Controllers
                         LoginResponse loginResponse = new LoginResponse()
                         {
                             Token = token,
-                            ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
+                            ExpiredTime = userinfo.ExpiredTime,
                             UserInfo = userinfo,
                             Permissions = permissions
                         };

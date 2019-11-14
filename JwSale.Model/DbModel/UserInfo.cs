@@ -106,7 +106,7 @@ namespace JwSale.Model
         /// <summary>
         /// 过期时间
         /// </summary>
-        public DateTime? ExpiredTime { get; set; }
+        public DateTime ExpiredTime { get; set; }
 
     }
 }

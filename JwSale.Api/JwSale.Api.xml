@@ -525,13 +525,6 @@
             <param name="inviteChatRoomMember"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.GroupController.TransferChatRoomOwner(JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest)">
-            <summary>
-            转让群主
-            </summary>
-            <param name="transferChatRoomOwner"></param>
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Controllers.GroupController.QuitChatRoom(JwSale.Model.Dto.Wechat.QuitChatRoomRequest)">
             <summary>
             退群

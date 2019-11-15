@@ -226,41 +226,41 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
-        /// <summary>
-        /// 转让群主
-        /// </summary>
-        /// <param name="transferChatRoomOwner"></param>
-        /// <returns></returns>
-        [HttpPost("api/Group/TransferChatRoomOwner")]
-        [MoudleInfo("转让群主")]
-        public async Task<ActionResult<ResponseBase>> TransferChatRoomOwner(TransferChatRoomOwnerRequest transferChatRoomOwner)
-        {
-            ResponseBase<object> response = new ResponseBase<object>();
-            string cgiType = CGI_TYPE.CGI_TRANSFERCHATROOMOWNER;
-            var url = WechatHelper.GetUrl(cgiType);
-            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferChatRoomOwner);
+        ///// <summary>
+        ///// 转让群主
+        ///// </summary>
+        ///// <param name="transferChatRoomOwner"></param>
+        ///// <returns></returns>
+        //[HttpPost("api/Group/TransferChatRoomOwner")]
+        //[MoudleInfo("转让群主")]
+        //public async Task<ActionResult<ResponseBase>> TransferChatRoomOwner(TransferChatRoomOwnerRequest transferChatRoomOwner)
+        //{
+        //    ResponseBase<object> response = new ResponseBase<object>();
+        //    string cgiType = CGI_TYPE.CGI_TRANSFERCHATROOMOWNER;
+        //    var url = WechatHelper.GetUrl(cgiType);
+        //    var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, transferChatRoomOwner);
 
-            if (resp.code == "0")
-            {
-                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
-                if (result?.code == "0")
-                {
-                    response.Data = result.message?.ToObj();
-                }
-                else
-                {
-                    response.Data = result.message?.ToObj();
-                    response.Success = false;
-                    response.Message = result.describe;
-                }
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
-            }
-            return response;
-        }
+        //    if (resp.code == "0")
+        //    {
+        //        var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+        //        if (result?.code == "0")
+        //        {
+        //            response.Data = result.message?.ToObj();
+        //        }
+        //        else
+        //        {
+        //            response.Data = result.message?.ToObj();
+        //            response.Success = false;
+        //            response.Message = result.describe;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        response.Success = false;
+        //        response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+        //    }
+        //    return response;
+        //}
 
 
         /// <summary>

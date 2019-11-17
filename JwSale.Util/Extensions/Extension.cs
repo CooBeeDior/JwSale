@@ -5,12 +5,14 @@ using Microsoft.International.Converters.PinYinConverter;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ThoughtWorks.QRCode.Codec;
 using ThoughtWorks.QRCode.Codec.Data;
@@ -758,6 +760,36 @@ namespace JwSale.Util.Extensions
             //通过.decoder方法把颜色信息转换成字符串信息  
             var decoderStr = decoder.decode(new QRCodeBitmapImage(bitMap), System.Text.Encoding.UTF8);
             return decoderStr;
+        }
+
+
+        public static NameValueCollection ParseUrl(this string url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("url");
+            }
+            NameValueCollection nvc = new NameValueCollection();
+
+            if (url == "")
+                return nvc;
+            int questionMarkIndex = url.IndexOf('?');
+            if (questionMarkIndex == -1)
+            {
+                return nvc;
+            }
+
+            if (questionMarkIndex == url.Length - 1)
+                return nvc;
+            string ps = url.Substring(questionMarkIndex + 1);
+            // 开始分析参数对  
+            Regex re = new Regex(@"(^|&)?(\w+)=([^&]+)(&|$)?", RegexOptions.Compiled);
+            MatchCollection mc = re.Matches(ps);
+            foreach (Match m in mc)
+            {
+                nvc.Add(m.Result("$2").ToLower(), m.Result("$3"));
+            }
+            return nvc;
         }
     }
 }

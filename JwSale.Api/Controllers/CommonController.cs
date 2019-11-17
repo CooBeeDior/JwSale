@@ -10,8 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace JwSale.Api.Controllers
 {
@@ -327,7 +329,29 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// 授权登录（先调用GetMpA8Key）
+        /// </summary>
+        /// <param name="authorizationLogin"></param>
+        /// <returns></returns>
+        [HttpPost("api/Common/AuthorizationLogin")]
+        public async Task<ActionResult<ResponseBase>> AuthorizationLogin(AuthorizationLogin authorizationLogin)
+        {
+            ResponseBase response = new ResponseBase();
 
+            var htmlResult = await HttpHelper.GetAsync(authorizationLogin.FullUrl);
+            string replyUrl = "https://open.weixin.qq.com/connect/confirm_reply";
+            var nameCollection = authorizationLogin.FullUrl.ParseUrl();
+            string postdata = HttpUtility.UrlDecode($"pass_ticket={nameCollection["pass_ticket"]}&key={nameCollection["key"]}&uin={nameCollection["uin"]}&uuid={nameCollection["uuid"]}&snsapi_login=on&allow=allow");
+
+            var result = await HttpHelper.PostAsync(replyUrl, postdata, "utf-8", "application/x-www-form-urlencoded");
+            if (!result.Contains("应用登录"))
+            {
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = "授权登录失败";
+            } 
+            return response;
+        }
 
     }
 }

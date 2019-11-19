@@ -845,6 +845,36 @@
             登陆时间
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Common.AuthorizationLogin.FullUrl">
+            <summary>
+            完整Url(GetMpA8Key返回)
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.GetHexBufferRequest.Base64">
+            <summary>
+            Base64字符串
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.GetHexBufferResponse.HexStr">
+            <summary>
+            16进制字符串
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.GetHexBufferResponse.Length">
+            <summary>
+            长度
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.LikeArticleRequest.FullUrl">
+            <summary>
+            完整Url(GetA8Key返回)
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.LikeArticleRequest.HttpHeader">
+            <summary>
+            请求头(GetA8Key返回)
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Common.ProxyInfo.Ip">
             <summary>
             代理Ip
@@ -863,6 +893,26 @@
         <member name="P:JwSale.Model.Dto.Common.ProxyInfo.PassWord">
             <summary>
              代理密码（可以为空）
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ReadArticleRequest.FullUrl">
+            <summary>
+            完整Url(GetA8Key返回)
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ReadArticleRequest.HttpHeader">
+            <summary>
+            请求头(GetA8Key返回)
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ArticleHttpHeader.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:JwSale.Model.Dto.Common.ArticleHttpHeader.Value">
+            <summary>
+            值
             </summary>
         </member>
         <member name="P:JwSale.Model.Dto.BriefInfo.Id">

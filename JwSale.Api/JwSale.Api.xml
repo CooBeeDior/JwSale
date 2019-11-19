@@ -384,6 +384,13 @@
             基类
             </summary> 
         </member>
+        <member name="M:JwSale.Api.Controllers.CommonController.GetHexBufferToArray(JwSale.Model.Dto.Common.GetHexBufferRequest)">
+            <summary>
+            获取16进制字符串
+            </summary>
+            <param name="getHexBuffer"></param>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.CommonController.GetHexBufferForm(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             获取16进制字符串(Form表单)

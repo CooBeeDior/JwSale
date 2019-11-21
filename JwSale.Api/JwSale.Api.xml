@@ -412,6 +412,13 @@
             <param name="LikeArticle"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.CommonController.AuthorizationLogin(JwSale.Model.Dto.Common.AuthorizationLogin)">
+            <summary>
+            授权登录（先调用GetMpA8Key）
+            </summary>
+            <param name="authorizationLogin"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.FavController">
             <summary>
             标签管理
@@ -523,13 +530,6 @@
             邀请群成员（40外）
             </summary>
             <param name="inviteChatRoomMember"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.GroupController.TransferChatRoomOwner(JwSale.Model.Dto.Wechat.TransferChatRoomOwnerRequest)">
-            <summary>
-            转让群主
-            </summary>
-            <param name="transferChatRoomOwner"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.GroupController.QuitChatRoom(JwSale.Model.Dto.Wechat.QuitChatRoomRequest)">

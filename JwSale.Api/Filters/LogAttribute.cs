@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,10 @@ namespace JwSale.Api.Filters
     public class LogAttribute : ActionFilterAttribute
     {
         ILoggerFactory loggerfactory;
+        Stopwatch stopwatch = new Stopwatch();
         public LogAttribute(ILoggerFactory loggerfactory)
         {
-     
+            stopwatch.Start();
             this.loggerfactory = loggerfactory;
         }
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -36,8 +38,7 @@ namespace JwSale.Api.Filters
             var method = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).MethodInfo;
 
             var moudleInfoAttribute = method.GetCustomAttributes(false).Where(o => o.GetType() == typeof(MoudleInfoAttribute)).FirstOrDefault() as MoudleInfoAttribute;
-            string requestStr = null;
-            string responseStr = null;
+            string requestStr = null; 
             if (context.HttpContext.Request.Body.CanSeek && context.HttpContext.Request.Body.CanRead)
             {
                 requestStr = Encoding.UTF8.GetString(context.HttpContext.Request.Body.ToBuffer());
@@ -47,14 +48,11 @@ namespace JwSale.Api.Filters
                 requestStr = (context.HttpContext.Request.QueryString.Value);
             }
 
-            if (context.HttpContext.Response.Body.CanSeek && context.HttpContext.Response.Body.CanRead)
-            {
-                responseStr = Encoding.UTF8.GetString(context.HttpContext.Response.Body.ToBuffer());
-            }
+ 
 
 
             var logger = loggerfactory.CreateLogger(context.Controller?.GetType() ?? typeof(LogAttribute));
-            logger.LogInformation($"{moudleInfoAttribute?.Name}{context.HttpContext.Request.Path} 参数：{requestStr} 返回值:{responseStr}  {context.HttpContext.Connection.RemoteIpAddress.ToString()}");
+            logger.LogInformation($"{moudleInfoAttribute?.Name}{context.HttpContext.Request.Path} 耗时：{stopwatch.ElapsedMilliseconds}ms {context.HttpContext.Connection.RemoteIpAddress.ToString()} \n参数：{requestStr}");
 
 
 

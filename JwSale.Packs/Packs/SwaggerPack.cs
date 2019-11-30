@@ -1,17 +1,15 @@
-﻿using JwSale.Packs.Options;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Options;
 using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-
 namespace JwSale.Packs.Packs
 {
 
@@ -39,18 +37,30 @@ namespace JwSale.Packs.Packs
                 });
                 // 为 Swagger JSON and UI设置xml文档注释路径
                 var basePath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
-
-                var xmlPath = Path.Combine(basePath, "JwSale.Api.xml");
-                if (File.Exists(xmlPath))
+                if (jwSaleOptions?.Swagger?.XmlCommentPaths != null)
                 {
-                    options.IncludeXmlComments(xmlPath);
+                    foreach (var xmlName in jwSaleOptions.Swagger.XmlCommentPaths)
+                    {
+                        var xmlPath = Path.Combine(basePath, xmlName);
+                        options.IncludeXmlComments(xmlPath);
+                    }
                 }
-
-                xmlPath = Path.Combine(basePath, "JwSale.Model.xml");
-                if (File.Exists(xmlPath))
+                else
                 {
-                    options.IncludeXmlComments(xmlPath);
+                    var xmlPath = Path.Combine(basePath, "JwSale.Api.xml");
+                    if (File.Exists(xmlPath))
+                    {
+                        options.IncludeXmlComments(xmlPath);
+                    }
+
+                    xmlPath = Path.Combine(basePath, "JwSale.Model.xml");
+                    if (File.Exists(xmlPath))
+                    {
+                        options.IncludeXmlComments(xmlPath);
+                    }
                 }
+           
+       
                 options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new ApiKeyScheme
                 {
                     Description = "请输入Token",

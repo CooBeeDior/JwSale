@@ -1,8 +1,7 @@
-﻿using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Pack;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace JwSale.Packs.Packs
 {
     [Pack("Mvc模块")]

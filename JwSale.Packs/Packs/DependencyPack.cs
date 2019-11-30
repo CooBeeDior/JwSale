@@ -1,4 +1,5 @@
-﻿using JwSale.Packs.Pack;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Pack;
 using JwSale.Util.Assemblies;
 using JwSale.Util.Attributes;
 using JwSale.Util.Dependencys;
@@ -7,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Reflection;
-
 namespace JwSale.Packs.Packs
 {
     [Pack("依赖注入模块")]

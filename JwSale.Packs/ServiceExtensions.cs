@@ -4,6 +4,7 @@ using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Linq;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -69,9 +70,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void UserJwSale(this IApplicationBuilder app)
         {
             var packBuilder = app.ApplicationServices.GetService<IJwSalePackBuilder>();
-            foreach (var packType in packBuilder.Packs)
+            foreach (var packType in packBuilder.Packs.OrderBy(o => o.Level))
             {
-                var pack = app.ApplicationServices.GetService(packType) as JwSalePack;
+                var pack = app.ApplicationServices.GetService(packType.Type) as JwSalePack;
                 pack?.UseBasePack(app);
             }
         }

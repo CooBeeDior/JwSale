@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using JwSale.Packs.Enums;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -9,7 +10,6 @@ namespace JwSale.Packs.Pack
 {
     public abstract class JwSalePack
     {
-
         /// <summary>
         /// 获取 是否已可用
         /// </summary>
@@ -23,7 +23,7 @@ namespace JwSale.Packs.Pack
         /// <param name="services">依赖注入服务容器</param>
         /// <returns></returns>
         public IServiceCollection AddBaseServices(IServiceCollection services)
-        {       
+        {
             AddServices(services);
             return services;
         }

@@ -1,9 +1,6 @@
-﻿using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
-using JwSale.Util.Dependencys;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Pack;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-
 namespace JwSale.Packs.Packs
 {
 

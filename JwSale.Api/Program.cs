@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore;
+﻿using JwSale.Api.Http;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Net.Http;
+using System.Text;
 
 namespace JwSale.Api
 {
@@ -8,7 +12,7 @@ namespace JwSale.Api
     {
 
         public static void Main(string[] args)
-        {    
+        { 
             CreateWebHostBuilder(args).Build().Run();
         }
 

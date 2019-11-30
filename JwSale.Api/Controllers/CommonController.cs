@@ -24,6 +24,12 @@ namespace JwSale.Api.Controllers
         {
 
         }
+
+        /// <summary>
+        /// 获取16进制字符串(Form表单)
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost("api/Common/GetHexBufferFormToArray")]
         public ActionResult<ResponseBase> GetHexBufferFormToArray([FromForm]IFormFile file)
         {

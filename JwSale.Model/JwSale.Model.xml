@@ -865,6 +865,11 @@
             长度
             </summary>
         </member>
+        <member name="P:JwSale.Model.Dto.Common.GetHexBufferResponse.Index">
+            <summary>
+            当前索引
+            </summary>
+        </member>
         <member name="P:JwSale.Model.Dto.Common.LikeArticleRequest.FullUrl">
             <summary>
             完整Url(GetA8Key返回)

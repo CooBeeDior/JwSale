@@ -1,8 +1,12 @@
-﻿using JwSale.Util.Properties;
+﻿using JwSale.Util.Attributes;
+using JwSale.Util.Excels;
+using JwSale.Util.Properties;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.International.Converters.PinYinConverter;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using Polly;
 using System;
 using System.Collections.Generic;
@@ -11,6 +15,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -33,7 +38,7 @@ namespace JwSale.Util.Extensions
         public static long ToTimeStamp(this DateTime time, int pow)
         {
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            long t = (time.Ticks - startTime.Ticks) / (long)Math.Pow(10, pow);     
+            long t = (time.Ticks - startTime.Ticks) / (long)Math.Pow(10, pow);
             return t;
         }
 
@@ -244,7 +249,7 @@ namespace JwSale.Util.Extensions
             {
                 return JsonConvert.DeserializeObject<T>(soucre);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -793,7 +798,205 @@ namespace JwSale.Util.Extensions
             return nvc;
         }
 
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="sheetName"></param>
+        /// <param name="isNo"></param>
+        public static ExcelPackage AddSheet<T>(this ExcelPackage ep, IList<T> list) where T : class, new()
+        {
+            ExcelWorkbook wb = ep.Workbook;
+            string sheetName = null;
+            IExcelTypeFormater defaultExcelTypeFormater = null;
+            var excelAttribute = typeof(T).GetCustomAttribute<ExcelAttribute>();
+            if (excelAttribute == null)
+            {
+                sheetName = typeof(T).Name;
+                defaultExcelTypeFormater = new DefaultExcelTypeFormater();
+            }
+            else
+            {
+                if (excelAttribute.IsIncrease)
+                {
+                    sheetName = $"{excelAttribute.SheetName}{wb.Worksheets.Count + 1}";
+                }
+                else
+                {
+                    sheetName = excelAttribute.SheetName;
+                }
+                if (excelAttribute.ExcelType != null)
+                {
+                    defaultExcelTypeFormater = Activator.CreateInstance(excelAttribute.ExcelType) as IExcelTypeFormater;
+                }
+                else
+                {
+                    defaultExcelTypeFormater = new DefaultExcelTypeFormater();
+                }
+            }
 
-   
+            ExcelWorksheet ws1 = wb.Worksheets.Add(sheetName);
+            Dictionary<PropertyInfo, ExportColumnAttribute> mainDic = new Dictionary<PropertyInfo, ExportColumnAttribute>();
+
+            typeof(T).GetProperties().ToList().ForEach(o =>
+            {
+                var attribute = o.GetCustomAttribute<ExportColumnAttribute>();
+                if (attribute != null)
+                {
+                    mainDic.Add(o, attribute);
+                }
+            });
+            var mainPropertieList = mainDic.OrderBy(o => o.Value.Order).ToList();
+
+
+            IList<IExcelTypeFormater> excelTypes = new List<IExcelTypeFormater>();
+            int row = 1;
+            int column = 1;
+
+            //表头行
+            foreach (var item in mainPropertieList)
+            {
+                IExcelTypeFormater excelType = null;
+                if (item.Value.ExcelType != null)
+                {
+                    excelType = excelTypes.Where(o => o.GetType().FullName == item.Value.ExcelType.FullName).FirstOrDefault();
+                    if (excelType == null)
+                    {
+                        excelType = Activator.CreateInstance(item.Value.ExcelType) as IExcelTypeFormater;
+                        excelTypes.Add(excelType);
+                    }
+                }
+                else
+                {
+                    excelType = defaultExcelTypeFormater;
+                }
+                excelType.SetHeaderCell()?.Invoke(ws1.Cells[row, column], item.Value.Name);
+                column++;
+            }
+
+            row++;
+
+            //数据行 
+            foreach (var item in list)
+            {
+                column = 1;
+                foreach (var mainPropertie in mainPropertieList)
+                {
+                    IExcelTypeFormater excelType = null;
+                    var mainValue = mainPropertie.Key.GetValue(item);
+                    if (mainPropertie.Value.ExcelType != null)
+                    {
+                        excelType = excelTypes.Where(o => o.GetType().FullName == mainPropertie.Value.ExcelType.FullName).FirstOrDefault();
+                        if (excelType == null)
+                        {
+                            excelType = Activator.CreateInstance(mainPropertie.Value.ExcelType) as IExcelTypeFormater;
+                            excelTypes.Add(excelType);
+                        }
+                    }
+                    else
+                    {
+                        excelType = defaultExcelTypeFormater;
+                    }
+                    excelType.SetBodyCell()?.Invoke(ws1.Cells[row, column], mainValue);
+                    column++;
+                }
+                row++;
+            }
+
+            return ep;
+
+        }
+
+        public static IList<T> ToList<T>(this ExcelPackage ep, string sheetName = null) where T : class, new()
+        {
+            ExcelWorkbook wb = ep.Workbook;
+            ExcelWorksheet ws1 = null;
+            if (string.IsNullOrEmpty(sheetName))
+            {
+                ws1 = wb.Worksheets[1];
+            }
+            else
+            {
+                ws1 = wb.Worksheets[sheetName];
+            }
+
+
+            Dictionary<PropertyInfo, ExportColumnAttribute> mainDic = new Dictionary<PropertyInfo, ExportColumnAttribute>();
+
+            typeof(T).GetProperties().ToList().ForEach(o =>
+            {
+                var attribute = o.GetCustomAttribute<ExportColumnAttribute>();
+                if (attribute != null)
+                {
+                    mainDic.Add(o, attribute);
+                }
+            });
+            var mainPropertieList = mainDic.OrderBy(o => o.Value.Order).ToList();
+
+            int totalRows = ws1.Dimension.Rows;
+            int totalColums = ws1.Dimension.Columns;
+
+            IList<T> list = new List<T>();
+            //表头行
+            int row = 1;
+            IList<PropertyInfo> propertyInfos = new List<PropertyInfo>();
+            for (int i = 1; i <= totalColums; i++)
+            {
+                var property = mainPropertieList.Where(o => o.Value.Name.Equals(ws1.Cells[row, i].Value?.ToString()?.Trim()) || o.Key.Name.Equals(ws1.Cells[row, i].Value?.ToString()?.Trim())).FirstOrDefault().Key;
+                propertyInfos.Add(property);
+            }
+
+            row++;
+
+            for (int i = row; i <= totalRows; i++)
+            {
+                T t = new T();
+                int column = 1;
+                foreach (var property in propertyInfos)
+                {
+                    if (property != null)
+                    {
+                        object cellValue = ws1.GetValue(row, column);
+                        if (cellValue == null)
+                        {
+                            cellValue = "";
+                        }
+                        else if (property.PropertyType == typeof(string))
+                        {
+                            cellValue = cellValue.ToString();
+                        }
+                        else if (property.PropertyType == typeof(int))
+                        {
+                            cellValue = Convert.ToInt32(cellValue);
+                        }
+                        else if (property.PropertyType == typeof(long))
+                        {
+                            cellValue = Convert.ToInt64(cellValue);
+                        }
+                        else if (property.PropertyType == typeof(double))
+                        {
+                            cellValue = Convert.ToDecimal(cellValue);
+                        }
+                        else if (property.PropertyType == typeof(DateTime))
+                        {
+                            cellValue = Convert.ToDateTime(cellValue);
+
+                        }
+                        else
+                        {
+                            cellValue = cellValue.ToString();
+                        }
+                        property?.SetValue(t, cellValue);
+                    }
+
+
+                    column++;
+                }
+                list.Add(t);
+            }
+            return list;
+
+        }
     }
 }

@@ -1077,6 +1077,46 @@
             模块授权验证
             </summary>
         </member>
+        <member name="T:JwSale.Api.Voucher">
+            <summary>
+            凭证主记录表
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.Id">
+            <summary>
+            主键id 分布式算法生成
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.No">
+            <summary>
+            凭证号
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.MakingTime">
+            <summary>
+            制单日期
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.FinanceAccount">
+            <summary>
+            账套信息
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.BillDate">
+            <summary>
+            票据日期
+            </summary>
+        </member>
+        <member name="P:JwSale.Api.Voucher.BatchNo">
+            <summary>
+            批次号
+            </summary>
+        </member>
         <!-- 对于成员“T:JwSale.Api.Startup”忽略有格式错误的 XML 注释 -->
         <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">
             <summary>

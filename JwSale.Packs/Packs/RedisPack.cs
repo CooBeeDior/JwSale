@@ -1,16 +1,15 @@
-﻿using JwSale.Packs.Options;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Options;
 using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace JwSale.Packs.Packs
 {
 
 
-    [Pack("HangFire模块")]
+    [Pack("Redis模块")]
     [PackDependecy(typeof(JwSaleOptionsPack))]
     public class RedisPack : JwSalePack
     {

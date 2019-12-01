@@ -1,10 +1,9 @@
-﻿using JwSale.Packs.Pack;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Pack;
 using JwSale.Util.Assemblies;
-using JwSale.Util.Attributes;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-
 namespace JwSale.Packs.Packs
 {
 

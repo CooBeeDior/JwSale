@@ -22,5 +22,18 @@ namespace JwSale.Model.Dto.Common
         /// 长度
         /// </summary>
         public int Length { get; set; }
+
+        /// <summary>
+        /// 当前索引
+        /// </summary>
+        public int Index { get; set; }
+    }
+
+    public class GetHexBufferListResponse
+    {
+        public int TotalLength { get; set; }
+
+        public IList<GetHexBufferResponse> List { get; set; }
+
     }
 }

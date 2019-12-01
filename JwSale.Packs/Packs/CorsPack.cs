@@ -1,7 +1,6 @@
-﻿using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Pack;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 namespace JwSale.Packs.Packs
 {

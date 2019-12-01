@@ -1,15 +1,13 @@
-﻿using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Pack;
 using JwSale.Util.Logs;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 namespace JwSale.Packs.Packs
 {
- 
+
     [Pack("Cors模块")]
-    public class Log4NetPack : JwSalePack
+    public class LogPack : JwSalePack
     {
 
         /// <summary>
@@ -20,6 +18,7 @@ namespace JwSale.Packs.Packs
         protected override IServiceCollection AddServices(IServiceCollection services)
         {           
             services.AddSingleton<ILoggerProvider, Log4NetLoggerProvider>();
+            services.AddSingleton<ILoggerProvider, ExceptionlessLoggerProvider>();
             return services;
         }
 

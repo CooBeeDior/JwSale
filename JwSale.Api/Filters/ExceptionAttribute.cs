@@ -1,4 +1,5 @@
-﻿using JwSale.Model.Dto;
+﻿using Exceptionless;
+using JwSale.Model.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -21,14 +22,14 @@ namespace JwSale.Api.Filters
 
 
         public override async Task OnExceptionAsync(ExceptionContext context)
-        {
+        { 
             await base.OnExceptionAsync(context);
             ResponseBase response = new ResponseBase();
             response.Success = false;
             response.Code = HttpStatusCode.InternalServerError;
             response.Message = context.Exception.Message;
             logger.LogError(context.Exception, context.Exception.Message);
-            context.Result = new JsonResult(response);
+            context.Result = new JsonResult(response); 
         }
     }
 }

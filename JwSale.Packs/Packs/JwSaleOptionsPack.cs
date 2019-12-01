@@ -1,14 +1,9 @@
-﻿using JwSale.Packs.Options;
-using JwSale.Util.Attributes;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Enums;
+using JwSale.Packs.Options;
 namespace JwSale.Packs.Packs
 {
-    [Pack("JwSaleOptions模块")]
+    [Pack("JwSaleOptions模块", Level.Higher)]
     public class JwSaleOptionsPack : OptionsBasePack<JwSaleOptions>
     {
 

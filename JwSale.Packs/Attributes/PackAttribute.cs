@@ -1,17 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using JwSale.Packs.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Util.Attributes
+namespace JwSale.Packs.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class PackAttribute : Attribute
     {
         public string Name { get; }
-        public PackAttribute(string name = null)
+
+        public Level Level { get; }
+        public PackAttribute(string Name, Level Level = Level.Medium)
         {
-            this.Name = name;
+            this.Name = Name;
+            this.Level = Level;
         }
     }
 }

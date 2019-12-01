@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace JwSale.Util.Attributes
+namespace JwSale.Packs.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class PackDependecyAttribute : Attribute
     {
         public IList<Type> PackDependecyTypes { get; private set; }

@@ -15,74 +15,98 @@ using Microsoft.Extensions.Caching.Distributed;
 using JwSale.Model.Dto.Cache;
 using System.Linq;
 using JwSale.Util.ObjectPools;
+using Polly;
 
 namespace JwSale.Api.Http
 {
     public class HttpHelper
-    { 
+    {
+        static AsyncPolicy mainPolicy = null;
+        static HttpHelper()
+        {
+            var policyException = Policy.Handle<Exception>().RetryAsync(3);
+            var policyTimeout = Policy.TimeoutAsync(60);
+            mainPolicy = Policy.WrapAsync(policyException, policyTimeout);
+
+        }
         public static async Task<string> PostPacketAsync(string url, string packet, ProxyInfo proxyInfo = null)
         {
-            var client = CreateHttpClient(proxyInfo);
-            var content = packet.StrToHexBuffer().ToByteArrayContent();
-            var res = await client.PostAsync(url, content);
-            var result = await res.Content.ReadAsByteArrayAsync();
-            return result.HexBufferToStr();
+            return await mainPolicy.ExecuteAsync(async () =>
+             {
+                 var client = CreateHttpClient(proxyInfo);
+                 var content = packet.StrToHexBuffer().ToByteArrayContent();
+                 var res = await client.PostAsync(url, content);
+                 var result = await res.Content.ReadAsByteArrayAsync();
+                 return result.HexBufferToStr();
+             });
+
+
         }
 
 
 
         public static async Task<T> PostAsync<T>(string url, object data, string encoding = "gb2312", string contentType = "application/json", Dictionary<string, string> header = null)
         {
-            var client = CreateHttpClient();
-            string value = data.ToJson();
-            var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
-            if (header != null)
+            return await mainPolicy.ExecuteAsync(async () =>
             {
-                foreach (var item in header)
+                var client = CreateHttpClient();
+                string value = data.ToJson();
+                var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
+                if (header != null)
                 {
-                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
-                }
+                    foreach (var item in header)
+                    {
+                        client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    }
 
-            }
-            var res = await client.PostAsync(url, content);
-            var result = await res.Content.ReadAsStringAsync();
-            return result.ToObj<T>();
+                }
+                var res = await client.PostAsync(url, content);
+                var result = await res.Content.ReadAsStringAsync();
+                return result.ToObj<T>();
+            });
         }
 
         public static async Task<string> PostAsync(string url, object data, string encoding = "gb2312", string contentType = "application/json", Dictionary<string, string> header = null)
         {
-            var client = CreateHttpClient();
-            string value = data.ToJson();
-            var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
-            if (header != null)
+            return await mainPolicy.ExecuteAsync(async () =>
             {
-                foreach (var item in header)
+                var client = CreateHttpClient();
+                string value = data.ToJson();
+                var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
+                if (header != null)
                 {
-                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
-                }
+                    foreach (var item in header)
+                    {
+                        client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    }
 
-            }
-            var res = await client.PostAsync(url, content);
-            var result = await res.Content.ReadAsStringAsync();
-            return result;
+                }
+                var res = await client.PostAsync(url, content);
+                var result = await res.Content.ReadAsStringAsync();
+                return result;
+            });
+
         }
 
         public static async Task<string> PostScanGroupAsync(string url, string data, string encoding = "gb2312", string contentType = "application/json", Dictionary<string, string> header = null)
         {
-            var client = CreateHttpClient();
-            string value = data.ToJson();
-            var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
-            if (header != null)
+            return await mainPolicy.ExecuteAsync(async () =>
             {
-                foreach (var item in header)
+                var client = CreateHttpClient();
+                string value = data.ToJson();
+                var content = new StringContent(value, Encoding.GetEncoding(encoding), contentType);
+                if (header != null)
                 {
-                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
-                }
+                    foreach (var item in header)
+                    {
+                        client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    }
 
-            }
-            var res = await client.PostAsync(url, content);
-            var result =   res.Headers.Location.ToString();
-            return result;
+                }
+                var res = await client.PostAsync(url, content);
+                var result = res.Headers.Location.ToString();
+                return result;
+            });
         }
 
         //public static async Task<T> PostAsync<T>(string url, string data, Dictionary<string, string> header = null)
@@ -106,21 +130,22 @@ namespace JwSale.Api.Http
 
         public static async Task<string> GetAsync(string url, Dictionary<string, string> header = null)
         {
-            var client = CreateHttpClient();
-            if (header != null)
+            return await mainPolicy.ExecuteAsync(async () =>
             {
-                foreach (var item in header)
+                var client = CreateHttpClient();
+                if (header != null)
                 {
-                    client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    foreach (var item in header)
+                    {
+                        client.DefaultRequestHeaders.Add(item.Key, item.Value);
+                    }
+
                 }
+                var res = await client.GetAsync(url);
+                var result = await res.Content.ReadAsStringAsync();
 
-            }
-            var res = await client.GetAsync(url);
-            var result = await res.Content.ReadAsStringAsync();
-
-
-
-            return result;
+                return result;
+            });
         }
 
         public static async Task<T> PostVxApiAsync<T>(string cgiType, WechatResponseBase wechatResponseBase, ProxyInfo proxyInfo = null) where T : new()
@@ -139,7 +164,7 @@ namespace JwSale.Api.Http
             var packetResp = await PostPacketAsync(wechatResponseBase.url, wechatResponseBase.packet, proxyInfo);
             AnalysisData analysisData = new AnalysisData(wechatResponseBase.token, packetResp);
             var analysisUrl = WechatHelper.GetUrl(cgiType.ToAnalysis());
-            var result = await HttpHelper.PostAsync<T>(analysisUrl, analysisData);
+            var result = await PostAsync<T>(analysisUrl, analysisData);
             return result;
 
         }
@@ -158,7 +183,7 @@ namespace JwSale.Api.Http
             return new HttpClient(handler);
         }
 
- 
+
 
 
 

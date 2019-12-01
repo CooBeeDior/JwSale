@@ -119,7 +119,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 response.Success = false;
-                response.Code = HttpStatusCode.NotFound;
+                response.Code = HttpStatusCode.Unauthorized;
                 response.Message = "用户名不存在";
             }
             return await response.ToJsonResultAsync();

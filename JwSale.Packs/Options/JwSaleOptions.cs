@@ -9,7 +9,7 @@ namespace JwSale.Packs.Options
 {
 
 
-    public class JwSaleOptions
+    public class JwSaleOptions 
     {
 
         public string TokenKey { get; set; }
@@ -24,6 +24,8 @@ namespace JwSale.Packs.Options
         public HangFireOptios HangFire { get; set; }
 
         public RedisOptions Redis { get; set; }
+
+        public ExceptionlessOptions Exceptionless { get; set; }
 
     }
 
@@ -51,6 +53,8 @@ namespace JwSale.Packs.Options
 
         public ApiKeyScheme ApiKeyScheme { get; set; }
 
+        public IList<string> XmlCommentPaths { get; set; }
+
     }
 
     public class HangFireOptios
@@ -71,5 +75,11 @@ namespace JwSale.Packs.Options
         public string InstanceName { get; set; }
     }
 
+    public class ExceptionlessOptions
+    {
+        public string ApiKey { get; set; }
+
+        public string ServerUrl { get; set; }
+    }
 
 }

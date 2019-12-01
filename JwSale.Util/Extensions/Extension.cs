@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.International.Converters.PinYinConverter;
 using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -791,5 +792,8 @@ namespace JwSale.Util.Extensions
             }
             return nvc;
         }
+
+
+   
     }
 }

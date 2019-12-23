@@ -17,8 +17,7 @@ namespace JwSale.Packs.Packs
         /// <returns></returns>
         protected override IServiceCollection AddServices(IServiceCollection services)
         {           
-            services.AddSingleton<ILoggerProvider, Log4NetLoggerProvider>();
-            services.AddSingleton<ILoggerProvider, ExceptionlessLoggerProvider>();
+            services.AddSingleton<ILoggerProvider, Log4NetLoggerProvider>();     
             return services;
         }
 

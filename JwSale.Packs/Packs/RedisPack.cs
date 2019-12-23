@@ -7,8 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 namespace JwSale.Packs.Packs
 {
-
-
     [Pack("Redis模块")]
     [PackDependecy(typeof(JwSaleOptionsPack))]
     public class RedisPack : JwSalePack

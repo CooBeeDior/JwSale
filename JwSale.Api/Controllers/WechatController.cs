@@ -1,6 +1,7 @@
 ﻿using JwSale.Api.Const;
 using JwSale.Api.Events;
 using JwSale.Api.Extensions;
+using JwSale.Api.Filters;
 using JwSale.Api.Http;
 using JwSale.Api.Util;
 using JwSale.Model;
@@ -18,13 +19,89 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using RabbitMQ.Client;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JwSale.Api.Controllers
 {
+    public class LongContenct
+    {
+
+        private static ConcurrentDictionary<string, TcpClient> clientDic = new ConcurrentDictionary<string, TcpClient>();
+
+
+
+
+        public static async Task AddClientAsync(string longUrl, string token)
+        {
+            var ipPort = longUrl.ToIpPort();
+            TcpClient tcpClient = new TcpClient(ipPort.Item1, ipPort.Item2);
+            tcpClient = clientDic.GetOrAdd(token, tcpClient);
+
+            if (!tcpClient.Connected)
+            {
+                tcpClient.Connect(ipPort.Item1, ipPort.Item2);
+            }
+            var sm = tcpClient.GetStream();
+            string cgiType = CGI_TYPE.CGI_HEARTBEAT;
+            var url = WechatHelper.GetUrl(cgiType);
+            HeartBeatRequest heartBeat = new HeartBeatRequest()
+            {
+                token = token
+            };
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, heartBeat);
+
+            int length = resp.packet.Length / 2 + 16;
+            var buffer1 = Encoding.UTF8.GetBytes(length.ToString()).Reverse();
+            var buffer2 = ("00100001000000EE00000000" + resp.packet).StrToHexBuffer();
+            List<byte> bufferList = new List<byte>();
+            bufferList.AddRange(buffer1);
+            bufferList.AddRange(buffer2);
+            var buffer = bufferList.ToArray();
+
+            sm.Write(buffer, 0, buffer.Length);
+            await sm.FlushAsync();
+            Receive(token, tcpClient, sm);
+
+
+
+        }
+
+        private static void Receive(string token, TcpClient client, NetworkStream sm)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    while (true)
+                    {
+                        int bufSize = client.ReceiveBufferSize;
+                        byte[] buffer = new byte[bufSize];
+                        sm.Read(buffer, 0, buffer.Length);
+
+                        //处理buffer
+                    }
+                }
+                catch (Exception ex)
+                {
+                    clientDic.Remove(token, out client);
+                }
+            });
+
+        }
+
+
+
+    }
+
+
+
     /// <summary>
     /// 微信管理
     /// </summary>
@@ -34,14 +111,19 @@ namespace JwSale.Api.Controllers
         private IDistributedCache cache;
         private IHttpContextAccessor accessor;
         private IMediator mediator;
-        public WechatController(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor, IMediator mediator) : base(context)
+        private IModel _channel;
+        public WechatController(JwSaleDbContext context, IDistributedCache cache, IHttpContextAccessor accessor, IMediator mediator, Func<string, IModel> modelFuc) : base(context)
         {
             this.cache = cache;
             this.accessor = accessor;
             this.mediator = mediator;
+            _channel = modelFuc(QueueConst.RefreshWxInfoName);
         }
 
         #region 用户
+
+ 
+
         /// <summary>
         /// 获取二维码
         /// </summary>
@@ -169,7 +251,14 @@ namespace JwSale.Api.Controllers
                                     Device = resp.device,
                                     UserInfo = UserInfo
                                 };
-                                await mediator.Publish(refreshWxInfoEvent);
+
+                                //await mediator.Publish(refreshWxInfoEvent);
+
+                                //发布消息
+                                var buffer = Encoding.UTF8.GetBytes(refreshWxInfoEvent.ToJson());                      
+                                _channel.BasicPublish("", QueueConst.RefreshWxInfoName, null, buffer);
+
+                                //await LongContenct.AddClientAsync(maResp.fsUrl, maResult.token);
 
 
                             }
@@ -263,7 +352,11 @@ namespace JwSale.Api.Controllers
                                 UserInfo = UserInfo
 
                             };
-                            await mediator.Publish(refreshWxInfoEvent);
+                            //await mediator.Publish(refreshWxInfoEvent);
+
+                            //发布消息
+                            var buffer = Encoding.UTF8.GetBytes(refreshWxInfoEvent.ToJson());
+                            _channel.BasicPublish("", QueueConst.RefreshWxInfoName, null, buffer);
                         }
                         else if (maResult.code == "-301")
                         { }
@@ -1581,7 +1674,11 @@ namespace JwSale.Api.Controllers
                     UserInfo = UserInfo,
                     IsRefresh = true
                 };
-                await mediator.Publish(refreshWxInfoEvent);
+                //await mediator.Publish(refreshWxInfoEvent);
+
+                //发布消息
+                var buffer = Encoding.UTF8.GetBytes(refreshWxInfoEvent.ToJson());
+                _channel.BasicPublish("", QueueConst.RefreshWxInfoName, null, buffer);
 
             }
 

@@ -21,13 +21,9 @@ namespace JwSale.Api
 
         public IConfiguration Configuration { get; }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
-             
-            services.AddJwSalePackManager(o => o.AddPackWithPackAttribute<PackAttribute>());
- 
-   
+            var provider = services.BuildServiceProvider();
         }
 
 

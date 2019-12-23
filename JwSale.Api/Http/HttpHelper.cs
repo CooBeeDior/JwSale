@@ -45,7 +45,7 @@ namespace JwSale.Api.Http
 
 
 
-        public static async Task<T> PostAsync<T>(string url, object data, string encoding = "gb2312", string contentType = "application/json", Dictionary<string, string> header = null)
+        public static async Task<T> PostAsync<T>(string url, object data, string encoding = "utf-8", string contentType = "application/json", Dictionary<string, string> header = null)
         {
             return await mainPolicy.ExecuteAsync(async () =>
             {

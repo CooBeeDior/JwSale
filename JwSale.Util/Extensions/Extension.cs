@@ -99,7 +99,17 @@ namespace JwSale.Util.Extensions
 
 
 
+        public static string HexToBin(this string input, int toType = 8)
+        {
+            StringBuilder sb = new StringBuilder();
+            input.Select(o =>
+            {
+                sb.Append(Convert.ToString(o, 8));
+                return o;
+            }).ToList();
 
+            return sb.ToString();
+        }
 
 
 
@@ -997,6 +1007,19 @@ namespace JwSale.Util.Extensions
             }
             return list;
 
+        }
+
+
+        public static (string, int) ToIpPort(this string url)
+        {
+            var urlArr = url.Split(":");
+
+            int port = 80;
+            if (urlArr.Length == 2)
+            {
+                port = Convert.ToInt32(urlArr[1]);
+            }
+            return (urlArr[0], port);
         }
     }
 }

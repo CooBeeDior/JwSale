@@ -32,6 +32,49 @@ namespace JwSale.Api.Controllers
 
         #region 标签
 
+
+        ///// <summary>
+        ///// 同步收藏
+        ///// </summary>
+        ///// <param name="syncCollect"></param>
+        ///// <returns></returns>
+        //[HttpPost("api/Fav/SyncCollect")]
+        //[MoudleInfo("同步收藏")]
+        //public async Task<ActionResult<ResponseBase>> SyncCollect(SyncCollectRequest syncCollect)
+        //{
+        //    ResponseBase<object> response = new ResponseBase<object>();
+        //    string cgiType = CGI_TYPE.CGI_SYNCCOLLECT;
+        //    var url = WechatHelper.GetUrl(cgiType);
+
+        //    var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, addContactLabel);
+        //    if (resp.code == "0")
+        //    {
+        //        var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+        //        if (result?.code == "0")
+        //        {
+        //            response.Data = result.message?.ToObj<SyncCollectResponse>();
+
+
+        //            //response.Data = result.message?.ToObj();
+        //        }
+        //        else
+        //        {
+        //            response.Data = result.message?.ToObj();
+        //            response.Success = false;
+        //            response.Message = result.describe;
+        //        }
+
+
+        //    }
+        //    else
+        //    {
+        //        response.Success = false;
+        //        response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+        //    }
+        //    return response;
+
+        //}
+
         /// <summary>
         /// 添加标签
         /// </summary>

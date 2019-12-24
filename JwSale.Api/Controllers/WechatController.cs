@@ -1315,12 +1315,12 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 小程序登录
+        /// 公众号登录
         /// </summary>
         /// <param name="jsLogin"></param>
         /// <returns></returns>
         [HttpPost("api/Wechat/JsLogin")]
-        [MoudleInfo("小程序登录")]
+        [MoudleInfo("公众号登录")]
         public async Task<ActionResult<ResponseBase>> JsLogin(JsLoginRequest jsLogin)
         {
             ResponseBase<object> response = new ResponseBase<object>();
@@ -1422,6 +1422,40 @@ namespace JwSale.Api.Controllers
         }
 
 
+        /// <summary>
+        /// 获取获取授权管理列表包
+        /// </summary>
+        /// <param name="getAuthManager"></param>
+        /// <returns></returns>
+        [HttpPost("api/Wechat/GetAuthManager")]
+        [MoudleInfo("获取获取授权管理列表包")]
+        public async Task<ActionResult<ResponseBase>> GetAuthManager(GetAuthManagerRequest getAuthManager)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_GETAUTHMANAGER;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getAuthManager);
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result?.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
 
 
 

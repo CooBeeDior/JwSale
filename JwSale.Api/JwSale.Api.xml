@@ -369,6 +369,26 @@
             获取删除安全设备
             </summary>
         </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_SYNCCOLLECT">
+            <summary>
+            同步收藏
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_DELETECCOLLECT">
+            <summary>
+            删除收藏
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETALLCONTACTS">
+            <summary>
+            通讯录
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.CGI_TYPE.CGI_GETAUTHMANAGER">
+            <summary>
+            获取获取授权管理列表包
+            </summary>
+        </member>
         <member name="F:JwSale.Api.Const.VXAPI.URL">
             <summary>
             请求地址
@@ -470,6 +490,13 @@
             <summary>
             好友管理
             </summary>
+        </member>
+        <member name="M:JwSale.Api.Controllers.FriendController.GetAllContract(JwSale.Model.Dto.Wechat.GetAllContactRequest)">
+            <summary>
+            快速获取所有联系人
+            </summary>
+            <param name="getAllContact"></param>
+            <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.FriendController.GetContract(JwSale.Model.Dto.Wechat.GetContactRequest)">
             <summary>
@@ -990,7 +1017,7 @@
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.JsLogin(JwSale.Model.Dto.Wechat.JsLoginRequest)">
             <summary>
-            小程序登录
+            公众号登录
             </summary>
             <param name="jsLogin"></param>
             <returns></returns>
@@ -1007,6 +1034,13 @@
             删除安全设备
             </summary>
             <param name="delSafeDevice"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetAuthManager(JwSale.Model.Dto.Wechat.GetAuthManagerRequest)">
+            <summary>
+            获取获取授权管理列表包
+            </summary>
+            <param name="getAuthManager"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.GetWxInfoList(JwSale.Model.Dto.Request.Wechat.GetWxInfoListRequest)">

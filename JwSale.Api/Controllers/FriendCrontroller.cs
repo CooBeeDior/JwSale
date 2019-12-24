@@ -30,6 +30,44 @@ namespace JwSale.Api.Controllers
             this.accessor = accessor;
         }
         #region 好友
+
+
+        /// <summary>
+        /// 快速获取所有联系人
+        /// </summary>
+        /// <param name="getAllContact"></param>
+        /// <returns></returns>
+        [HttpPost("api/Friend/GetAllContract")]
+        [MoudleInfo("快速获取所有联系人")]
+        public async Task<ActionResult<ResponseBase>> GetAllContract(GetAllContactRequest getAllContact)
+        {
+            ResponseBase<object> response = new ResponseBase<object>();
+            string cgiType = CGI_TYPE.CGI_GETALLCONTACTS;
+            var url = WechatHelper.GetUrl(cgiType);
+            var resp = await HttpHelper.PostAsync<WechatResponseBase>(url, getAllContact);
+
+            if (resp.code == "0")
+            {
+                var result = await HttpHelper.PostVxApiAsync<WechatAnalysisResponse>(cgiType, resp);
+                if (result?.code == "0")
+                {
+                    response.Data = result.message?.ToObj();
+                }
+                else
+                {
+                    response.Data = result.message?.ToObj();
+                    response.Success = false;
+                    response.Message = result.describe;
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.Message = "执行失败";//$"{resp.message}{resp.describe}";
+            }
+            return response;
+        }
+
         /// <summary>
         /// 获取联系人(通讯录群友)
         /// </summary>

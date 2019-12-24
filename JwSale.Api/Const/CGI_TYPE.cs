@@ -295,5 +295,28 @@
         /// 获取删除安全设备
         /// </summary>
         public const string CGI_TYPE_DELSAFEDEVICE = "362";
+
+        /// <summary>
+        /// 同步收藏
+        /// </summary>
+        public const string CGI_SYNCCOLLECT = "400";
+
+        /// <summary>
+        /// 删除收藏
+        /// </summary>
+        public const string CGI_DELETECCOLLECT = "403";
+
+        /// <summary>
+        /// 通讯录
+        /// </summary>
+        public const string CGI_GETALLCONTACTS = "851";
+
+        /// <summary>
+        /// 获取获取授权管理列表包
+        /// </summary>
+        public const string CGI_GETAUTHMANAGER= "1146";
+
+        
+
     }
 }

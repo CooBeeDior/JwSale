@@ -67,7 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
 
-        public static void UserJwSale(this IApplicationBuilder app)
+        public static void UseJwSale(this IApplicationBuilder app)
         {
             var packBuilder = app.ApplicationServices.GetService<IJwSalePackBuilder>();
             foreach (var packType in packBuilder.Packs.OrderBy(o => o.Level))

@@ -16,6 +16,7 @@ namespace JwSale.Api.ConfigureServices
             builder.ConfigureServices((context,services) =>
             {
                 services.AddJwSalePackManager(o => o.AddPackWithPackAttribute<PackAttribute>());
+                //services.AddTransient<IStartupFilter, MyStartupFilter>();
 
             });
         }

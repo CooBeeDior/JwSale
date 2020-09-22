@@ -1111,7 +1111,7 @@
             模块授权验证
             </summary>
         </member>
-        <!-- 对于成员“T:JwSale.Api.Startup”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:JwSale.Api.Startup" -->
         <member name="M:JwSale.Api.Util.WechatHelper.WechatCreate(JwSale.Model.Dto.Wechat.WechatCreateRequest)">
             <summary>
             创建实例

@@ -33,7 +33,7 @@ namespace JwSale.Api
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseJwSale();
+            //app.UseJwSale();
         }
     }
 

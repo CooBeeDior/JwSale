@@ -18,7 +18,7 @@ namespace JwSale.Repository.UnitOfWork
     public class UnitOfWork<TDbContext> : IUnitOfWork<TDbContext> where TDbContext : DbContext
     {
         private TDbContext dbContext = null;
-        private IDbContextTransaction dbContextTransaction = null;
+        private DbTransaction dbTransaction = null;
 
         private bool _disposed;
 
@@ -43,9 +43,30 @@ namespace JwSale.Repository.UnitOfWork
         /// </summary>
         public virtual void BeginOrUseTransaction()
         {
-            if (dbContext.Database.CurrentTransaction != null && dbContext.Database.CurrentTransaction.GetDbTransaction() != dbContextTransaction)
+            if (dbTransaction?.Connection == null)
             {
-                dbContextTransaction = dbContext.Database.BeginTransaction();
+                var dbConnection = dbContext.Database.GetDbConnection();
+                if (dbConnection.State != ConnectionState.Open)
+                {
+                    dbConnection.Open();
+                }
+
+                dbTransaction = dbConnection.BeginTransaction();
+
+            }
+
+            if (dbContext.Database.CurrentTransaction != null && dbContext.Database.CurrentTransaction.GetDbTransaction() == dbTransaction)
+            {
+                return;
+            }
+            if (dbContext.IsRelationalTransaction())
+            {
+                dbContext.Database.UseTransaction(dbTransaction);
+
+            }
+            else
+            {
+                dbContext.Database.BeginTransaction();
             }
             HasCommitted = false;
         }
@@ -56,12 +77,28 @@ namespace JwSale.Repository.UnitOfWork
         /// <param name="cancellationToken">异步取消标记</param>
         /// <returns></returns>
         public virtual async Task BeginOrUseTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
-        {
-
-
-            if (dbContext.Database.CurrentTransaction != null && dbContext.Database.CurrentTransaction.GetDbTransaction() == dbContextTransaction)
+        { 
+            if (dbTransaction?.Connection == null)
             {
-                dbContextTransaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+                var dbConnection = dbContext.Database.GetDbConnection();
+                if (dbConnection.State != ConnectionState.Open)
+                {
+                 await   dbConnection.OpenAsync();
+                } 
+                dbTransaction = dbConnection.BeginTransaction (); 
+            }
+            if (dbContext.Database.CurrentTransaction != null && dbContext.Database.CurrentTransaction.GetDbTransaction() == dbTransaction)
+            {
+                return;
+            }
+            if (dbContext.IsRelationalTransaction())
+            {
+                dbContext.Database.UseTransaction(dbTransaction);
+
+            }
+            else
+            {
+                await dbContext.Database.BeginTransactionAsync(cancellationToken);
             }
             HasCommitted = false;
         }
@@ -75,16 +112,20 @@ namespace JwSale.Repository.UnitOfWork
             {
                 return;
             }
-            if (dbContextTransaction != null)
+            if (dbTransaction != null)
             {
-                dbContextTransaction.Commit();
+                dbTransaction.Commit();
 
                 if (dbContext.IsRelationalTransaction())
                 {
                     dbContext.Database.CurrentTransaction.Dispose();
                 }
+                else
+                {
+                    dbContext.Database.CommitTransaction();
+                }
 
-                dbContext.Database.CommitTransaction();
+      
             }
             else
             {
@@ -99,9 +140,9 @@ namespace JwSale.Repository.UnitOfWork
         public virtual void Rollback()
         {
 
-            dbContextTransaction?.Rollback();
+            dbTransaction?.Rollback();
 
-      
+
 
             HasCommitted = true;
         }
@@ -122,7 +163,7 @@ namespace JwSale.Repository.UnitOfWork
             {
                 return;
             }
-            dbContextTransaction?.Dispose();
+            dbTransaction?.Dispose();
             dbContext.Dispose();
 
             _disposed = true;

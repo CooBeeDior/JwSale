@@ -29,9 +29,13 @@ namespace JwSale.Packs.Packs
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
+
                 var unitOfWork = scope.ServiceProvider.GetService<IJwSaleUnitOfWork>();
 
                 unitOfWork.BeginOrUseTransaction();
+                var unitOfWork1 = scope.ServiceProvider.GetService<IJwSaleUnitOfWork>();
+                unitOfWork1.BeginOrUseTransaction();
+                unitOfWork1.BeginOrUseTransaction();
                 //初始化系统模块信息
                 var repositoryFunctionInfo = scope.ServiceProvider.GetService<IJwSaleRepository<FunctionInfo>>();
                 if (repositoryFunctionInfo.Count() == 0)

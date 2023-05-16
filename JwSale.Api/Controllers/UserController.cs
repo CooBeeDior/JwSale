@@ -543,13 +543,6 @@ namespace JwSale.Api.Controllers
             response.Data = functionTree.Tree;
             return await response.ToJsonResultAsync();
         }
-
-
-
-
-
-
-
         private void getfuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<Permssion> permissions)
         {
             var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTree

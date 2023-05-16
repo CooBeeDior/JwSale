@@ -3,6 +3,7 @@ using JwSale.Api.Filters;
 using JwSale.Api.Http;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Common;
+using JwSale.Packs.Manager;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +19,16 @@ using System.Web;
 namespace JwSale.Api.Controllers
 {
     [NoAuthRequired]
-    public class CommonController : JwSaleControllerBase
+    public class TestController : JwSaleControllerBase
     {
-        public CommonController(JwSaleDbContext context) : base(context)
+        private readonly IRabbitmqPublisher _rabbitmqPublisher;
+        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher) : base(context)
         {
-
+            _rabbitmqPublisher = rabbitmqPublisher;
         }
 
         /// <summary>
-        /// 获测试
+        /// 测试
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
@@ -39,8 +41,18 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// 测试队列
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("api/TestEvent")]
+        public ActionResult<ResponseBase> TestEvent()
+        {
+            ResponseBase response = new ResponseBase();
 
-
+            _rabbitmqPublisher.Publish("it is a test event");
+            return response;
+        }
 
 
     }

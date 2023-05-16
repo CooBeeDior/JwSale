@@ -9,11 +9,17 @@
             基类
             </summary> 
         </member>
-        <member name="M:JwSale.Api.Controllers.CommonController.Test">
+        <member name="M:JwSale.Api.Controllers.TestController.Test">
             <summary>
-            获测试
+            测试
             </summary>
             <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TestController.TestEvent">
+            <summary>
+            测试队列
+            </summary>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Controllers.UserController">
@@ -112,6 +118,11 @@
             消费者
             </summary>
         </member>
+        <member name="M:JwSale.Api.Events.TestConsumer.Register">
+            <summary>
+            订阅消息
+            </summary>
+        </member>
         <member name="T:JwSale.Api.Events.TestEvent">
             <summary>
             测试事件
@@ -120,7 +131,18 @@
         <member name="T:JwSale.Api.Events.TestPublisher">
             <summary>
             发布者
+            </summary> 
+        </member>
+        <member name="M:JwSale.Api.Events.TestPublisher.Initialization">
+            <summary>
+            初始化队列信息
             </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.TestPublisher.Publish(System.String)">
+            <summary>
+            发布消息
+            </summary>
+            <param name="message"></param>
         </member>
         <member name="T:JwSale.Api.Filters.PermissionRequiredAttribute">
             <summary>

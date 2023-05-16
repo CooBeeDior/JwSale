@@ -15,6 +15,8 @@ using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
 namespace JwSale.Packs.Packs
 {
     /// <summary>
@@ -46,47 +48,28 @@ namespace JwSale.Packs.Packs
                 services.AddSingleton<IConnectionFactory>(factory);
 
                 //创建连接
-                var connection = factory.CreateConnection();
-                services.AddSingleton<IConnection>(connection);
+                //var connection = factory.CreateConnection();
+                //services.AddSingleton<IConnection>(connection);
 
                 List<Type> types = new List<Type>();
                 AssemblyFinder.AllAssembly.ToList().ForEach(o => types.AddRange(o.GetTypes().Where(t => typeof(IRabbitmq).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract)));
 
 
 
-                Dictionary<string, IModel> modelDic = new Dictionary<string, IModel>();
+
                 foreach (var type in types)
                 {
                     if (typeof(IRabbitmqPublisher).IsAssignableFrom(type))
                     {
-                        IRabbitmqPublisher instance = Activator.CreateInstance(type) as IRabbitmqPublisher;
-                        if (instance != null)
-                        {
-                            IModel model = connection.CreateModel();
-                            string name = instance.Resove(model);
-                            modelDic.Add(name, model);
-                            services.AddSingleton<IRabbitmqPublisher>(instance);
+                        services.AddSingleton(typeof(IRabbitmqPublisher), type);
 
-                        }
                     }
                     else if (typeof(IRabbitmqConsumer).IsAssignableFrom(type))
                     {
-                        IRabbitmqConsumer instance = Activator.CreateInstance(type) as IRabbitmqConsumer;
-                        if (instance != null)
-                        {
-                            services.AddSingleton<IRabbitmqConsumer>(instance);
-
-                        }
+                        services.AddSingleton(typeof(IRabbitmqConsumer), type);
                     }
+                    services.AddSingleton(type);
                 }
-
-                services.AddSingleton<Func<string, IModel>>(p =>
-                {
-                    return n =>
-                    {
-                        return modelDic[n];
-                    };
-                });
             }
 
 
@@ -96,10 +79,24 @@ namespace JwSale.Packs.Packs
 
         protected override void UsePack(IApplicationBuilder app)
         {
+            var rabbitmqIRabbitmqPublisher = app.ApplicationServices.GetServices<IRabbitmqPublisher>();
+            foreach (var item in rabbitmqIRabbitmqPublisher)
+            {
+                var eventAttribute = item.GetType().GetCustomAttribute<EventAttribute>();
+                if (eventAttribute.IsInitialization)
+                {
+                    item.Initialization();
+                }
+
+            }
             var rabbitmqConsumers = app.ApplicationServices.GetServices<IRabbitmqConsumer>();
             foreach (var item in rabbitmqConsumers)
             {
-                item.Register();
+                var eventAttribute = item.GetType().GetCustomAttribute<EventAttribute>();
+                if (eventAttribute.IsInitialization)
+                {
+                    item.Register();
+                } 
             }
 
         }

@@ -2,9 +2,21 @@
 
 namespace JwSale.Packs.Manager
 {
-    public interface IRabbitmqPublisher: IRabbitmq
+    public interface IRabbitmqPublisher : IRabbitmq
     {
-        string Resove(IModel channel);
+        IConnectionFactory ConnectionFactory { get; }
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="message"></param>
+        void Publish(string message);
+
+        /// <summary>
+        /// 初始化队列信息
+        /// </summary>
+        void Initialization();
+
+
 
     }
 }

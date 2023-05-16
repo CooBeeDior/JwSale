@@ -12,7 +12,7 @@ namespace JwSale.Util.Logs
         /// <param name="categoryName">The category name for messages produced by the logger.</param>
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
-        {
+        { 
             return new ExceptionlessLogger();
         }
 

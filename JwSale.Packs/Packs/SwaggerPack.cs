@@ -1,13 +1,15 @@
-﻿using JwSale.Packs.Options;
+﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Options;
 using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using Microsoft.Extensions.Configuration;
+using System.Linq;
 namespace JwSale.Packs.Packs
 {
 
@@ -29,20 +31,48 @@ namespace JwSale.Packs.Packs
                 options.SwaggerDoc("v1", jwSaleOptions?.Swagger?.Info ?? new Info
                 {
                     Version = "v1",
-                    Title = "骏网互联销售系统Api",
-                    Description = "骏网互联销售系统Api",
+                    Title = "微信Api",
+                    Description = "QQ：506599090",
 
                 });
                 // 为 Swagger JSON and UI设置xml文档注释路径
                 var basePath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);//获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
-                var xmlPath = Path.Combine(basePath, "JwSale.Api.xml");
-                options.IncludeXmlComments(xmlPath);
+                if (jwSaleOptions?.Swagger?.XmlCommentPaths != null)
+                {
+                    foreach (var xmlName in jwSaleOptions.Swagger.XmlCommentPaths)
+                    {
+                        var xmlPath = Path.Combine(basePath, xmlName);
+                        options.IncludeXmlComments(xmlPath);
+                    }
+                }
+                else
+                {
+                    var xmlPath = Path.Combine(basePath, "JwSale.Api.xml");
+                    if (File.Exists(xmlPath))
+                    {
+                        options.IncludeXmlComments(xmlPath);
+                    }
+
+                    xmlPath = Path.Combine(basePath, "JwSale.Model.xml");
+                    if (File.Exists(xmlPath))
+                    {
+                        options.IncludeXmlComments(xmlPath);
+                    }
+                }
+           
+       
                 options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new ApiKeyScheme
                 {
-                    Description = "请输入带有Bearer的Token",
+                    Description = "请输入Token",
                     Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    In = "Header",
+                    Type = "apiKey",
+                });
+
+                //Json Token认证方式，此方式为全局添加
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Bearer", Enumerable.Empty<string>() }
                 });
             });
 
@@ -56,8 +86,9 @@ namespace JwSale.Packs.Packs
             //启用中间件服务对swagger-ui，指定Swagger JSON终结点
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "骏网互联销售系统Api v1");
-                options.DocumentTitle = "骏网互联销售系统Api";
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "微信Api v1");
+                options.DocumentTitle = "微信接口说明文档";
+
             });
         }
 

@@ -4,8 +4,18 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\git仓库\JwSale\JwSale.Model\JwSale.Model.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Folder Include="Dto\Request\" />
+    <None Remove="JwSale.Model.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="JwSale.Model.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

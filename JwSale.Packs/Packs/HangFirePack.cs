@@ -1,18 +1,18 @@
 ﻿using Hangfire;
+using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
 using JwSale.Packs.Pack;
-using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
 namespace JwSale.Packs.Packs
 {
 
     [Pack("HangFire模块")]
     [PackDependecy(typeof(JwSaleOptionsPack))]
+    [PackDependecy(typeof(JwSaleDbContextPack))]
     public class HangFirePack : JwSalePack
     {
 

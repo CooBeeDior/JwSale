@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JwSale.Util.Attributes
 {
-    //[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class DependecyAttribute : Attribute
     {
         public ServiceLifetime ServiceLifetime { get; set; }

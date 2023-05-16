@@ -1,13 +1,12 @@
 ﻿using JwSale.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace JwSale.Repository.Repositorys
 {
-
-
     /// <summary>
     /// 定义通用的Repository接口
     /// </summary>
@@ -53,6 +52,11 @@ namespace JwSale.Repository.Repositorys
         TEntity Create(TEntity entity);
 
         /// <summary>
+        /// 创建实体对象
+        /// </summary>
+        int BatchCreate(IEnumerable<TEntity> entitys);
+
+        /// <summary>
         /// 删除实体对象
         /// </summary>
         void Delete(TEntity entity);
@@ -68,7 +72,7 @@ namespace JwSale.Repository.Repositorys
         /// <param name="t">Specified the object to save.</param>
         TEntity Update(TEntity entity);
 
-      
+
 
         /// <summary>
         /// Save all changes.

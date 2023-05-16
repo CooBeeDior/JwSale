@@ -1,27 +1,23 @@
-﻿using Microsoft.AspNetCore;
+﻿using JwSale.Api.Http;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Net.Http;
+using System.Text;
 
 namespace JwSale.Api
 {
+
     public class Program
     {
-        public static void Main(string[] args)
-        {
- 
-            //string file =   Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config");
-            //Assembly assembly = Assembly.GetEntryAssembly() ?? GetCallingAssemblyFromStartup();
-            //_loggerRepository = LogManager.CreateRepository(assembly, typeof(Hierarchy));
 
-            //if (File.Exists(file))
-            //{
-            //    XmlConfigurator.ConfigureAndWatch(_loggerRepository, new FileInfo(file));
-            //    return;
-            //}
+        public static void Main(string[] args)
+        { 
             CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args) 
+            WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
 

@@ -12,10 +12,10 @@ namespace JwSale.Util.Dependencys
         private IServiceCollection serviceCollection = null;
 
 
-        private IServiceProvider serviceProvider { get { return initServiceProvider(); }   }
+        private IServiceProvider serviceProvider { get { return initServiceProvider(); } }
 
         private bool isInitServiceProvider = false;
-
+        private IServiceProvider provider { get; set; }
         /// <summary>
         /// 初始化一个<see cref="ServiceLocator"/>类型的新实例
         /// </summary>
@@ -24,7 +24,6 @@ namespace JwSale.Util.Dependencys
 
         private IServiceProvider initServiceProvider()
         {
-            IServiceProvider provider = null;
             if (!isInitServiceProvider)
             {
                 isInitServiceProvider = true;
@@ -60,7 +59,7 @@ namespace JwSale.Util.Dependencys
         public void Dispose()
         {
             serviceCollection = null;
- 
+
 
         }
     }

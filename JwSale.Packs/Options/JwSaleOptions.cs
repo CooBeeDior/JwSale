@@ -7,20 +7,42 @@ using System.Text;
 
 namespace JwSale.Packs.Options
 {
-
-
     public class JwSaleOptions
     {
+        /// <summary>
+        /// 加密的tokenKey
+        /// </summary>
+        public string TokenKey { get; set; }
 
+        /// <summary>
+        /// swagger配置
+        /// </summary>
         public SwaggerOptions Swagger { get; set; }
 
-
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
         public IList<JwSaleSqlServerOptions> JwSaleSqlServers { get; set; }
 
-
+        /// <summary>
+        /// 定时任务hangfire配置
+        /// </summary>
         public HangFireOptios HangFire { get; set; }
 
+        /// <summary>
+        /// redis缓存配置
+        /// </summary>
         public RedisOptions Redis { get; set; }
+
+        /// <summary>
+        /// 异常错误日志配置
+        /// </summary>
+        public ExceptionlessOptions Exceptionless { get; set; }
+
+        /// <summary>
+        /// rabbitmq消息队列配置
+        /// </summary>
+        public RabbitmqOptions Rabbitmq { get; set; }
 
     }
 
@@ -48,6 +70,8 @@ namespace JwSale.Packs.Options
 
         public ApiKeyScheme ApiKeyScheme { get; set; }
 
+        public IList<string> XmlCommentPaths { get; set; }
+
     }
 
     public class HangFireOptios
@@ -68,5 +92,21 @@ namespace JwSale.Packs.Options
         public string InstanceName { get; set; }
     }
 
+    public class ExceptionlessOptions
+    {
+        public string ApiKey { get; set; }
+
+        public string ServerUrl { get; set; }
+    }
+
+    public class RabbitmqOptions
+    {
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
+
+        public string HostUrl { get; set; }
+
+    }
 
 }

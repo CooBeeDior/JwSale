@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JwSale.Model\JwSale.Model.csproj" />
+    <ProjectReference Include="..\JwSale.Packs\JwSale.Packs.csproj" />
+    <ProjectReference Include="..\JwSale.Repository\JwSale.Repository.csproj" />
+    <ProjectReference Include="..\JwSale.Util\JwSale.Util.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/bozr" /></VisualStudio></ProjectExtensions>
+
+</Project>

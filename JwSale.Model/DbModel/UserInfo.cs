@@ -34,6 +34,18 @@ namespace JwSale.Model
         /// </summary>
         public string RealName { get; set; }
         /// <summary>
+        /// 性别 1：男 2：女
+        /// </summary>
+        public int Sex { get; set; } 
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? BirthDay { get; set; }
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        public string IdCard { get; set; }
+        /// <summary>
         /// 真实姓名拼音
         /// </summary>
         public string RealNamePin { get; set; }
@@ -68,7 +80,7 @@ namespace JwSale.Model
         /// <summary>
         /// 详细地址
         /// </summary>
-        public string TouchTime { get; set; }
+        public string Address { get; set; }
         /// <summary>
         /// 头像
         /// </summary>
@@ -81,6 +93,20 @@ namespace JwSale.Model
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-     
+
+        /// <summary>
+        /// 类型 1:端口授权  2:月租授权
+        /// </summary>
+        public int Type { get; set; }
+        /// <summary>
+        /// 微信号数量
+        /// </summary>
+        public int WxCount { get; set; }
+
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime ExpiredTime { get; set; }
+
     }
 }

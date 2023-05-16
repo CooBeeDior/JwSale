@@ -1,21 +1,242 @@
-﻿using JwSale.Util.Properties;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using JwSale.Util.Attributes;
+using JwSale.Util.Excels;
+using JwSale.Util.Properties;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using Microsoft.International.Converters.PinYinConverter;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using Polly;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using ThoughtWorks.QRCode.Codec;
+using ThoughtWorks.QRCode.Codec.Data;
 
 namespace JwSale.Util.Extensions
 {
     public static class Extension
     {
+
+
+        /// <summary>
+        /// DateTime时间格式转换为Unix时间戳格式
+        /// </summary>
+        /// <param name="time">时间</param>
+        /// <param name="pow"></param>
+        /// <returns></returns>
+        public static long ToTimeStamp(this DateTime time, int pow)
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
+            long t = (time.Ticks - startTime.Ticks) / (long)Math.Pow(10, pow);
+            return t;
+        }
+
+        /// <summary>
+        /// DateTime时间格式转换为Unix时间戳格式
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static long To10TimeStamp(this DateTime time)
+        {
+            return ToTimeStamp(time, 7);
+        }
+        /// <summary>
+        /// 转base64图片
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static string ToBase64Img(this byte[] buffer)
+        {
+            return $"data:img/jpg;base64,{Convert.ToBase64String(buffer)}";
+        }
+
+        /// <summary>
+        /// 字符串转16进制字节数组
+        /// </summary>
+        /// <param name="hexString"></param>
+        /// <returns></returns>
+        public static byte[] StrToHexBuffer(this string hexString)
+        {
+            hexString = hexString.Replace(" ", "");
+            if ((hexString.Length % 2) != 0)
+                hexString += " ";
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            return returnBytes;
+        }
+
+
+        /// <summary>
+        /// 字节数组转16进制字符串
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static string HexBufferToStr(this byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (bytes != null)
+            {
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("X2"));
+                }
+            }
+            return sb.ToString();
+        }
+
+
+
+
+        public static string HexToBin(this string input, int toType = 8)
+        {
+            StringBuilder sb = new StringBuilder();
+            input.Select(o =>
+            {
+                sb.Append(Convert.ToString(o, 8));
+                return o;
+            }).ToList();
+
+            return sb.ToString();
+        }
+
+
+
+
+
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> ToPage<T>(this IEnumerable<T> source, int pageIndex, int pageSize)
+        {
+            return source.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        }
+
+        /// <summary>
+        /// 汉字转化为拼音
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string ToPinYin(this string source)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char obj in source)
+            {
+                try
+                {
+                    ChineseChar chineseChar = new ChineseChar(obj);
+                    string t = chineseChar.Pinyins[0].ToString();
+                    sb.Append(t.Substring(0, t.Length - 1));
+                }
+                catch
+                {
+                    sb.Append(obj.ToString());
+                }
+            }
+            return sb.ToString();
+
+        }
+        /// <summary>
+        /// 汉字转化为拼音首字母
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string ToFirstPinYin(this string source)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char obj in source)
+            {
+                try
+                {
+                    ChineseChar chineseChar = new ChineseChar(obj);
+                    string t = chineseChar.Pinyins[0].ToString();
+                    sb.Append(t.Substring(0, t.Length - 1));
+                }
+                catch
+                {
+                    sb.Append(obj.ToString());
+                }
+            }
+            return sb.ToString();
+        }
+
+        public static string ToDes(this string encryptString, string key)
+        {
+            try
+            {
+                key = key.Substring(0, 8);
+                byte[] rgbKey = Encoding.UTF8.GetBytes(key);
+                //用于对称算法的初始化向量（默认值）。
+                byte[] rgbIV = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+                byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
+                DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
+                MemoryStream mStream = new MemoryStream();
+                CryptoStream cStream = new CryptoStream(mStream, dCSP.CreateEncryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
+                cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                cStream.FlushFinalBlock();
+                return Convert.ToBase64String(mStream.ToArray());
+            }
+            catch
+            { }
+            return null;
+
+        }
+
+        public static string FromDes(this string decryptString, string key)
+        {
+            try
+            {
+                key = key.Substring(0, 8);
+                //用于对称算法的初始化向量（默认值）
+                byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+                byte[] rgbKey = Encoding.UTF8.GetBytes(key);
+                byte[] rgbIV = Keys;
+                byte[] inputByteArray = Convert.FromBase64String(decryptString);
+                DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
+                MemoryStream mStream = new MemoryStream();
+                CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
+                cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                cStream.FlushFinalBlock();
+                return Encoding.UTF8.GetString(mStream.ToArray());
+            }
+            catch
+            { }
+            return null;
+        }
+
+
+
+
+        public static string ToMd5(this string strText)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] fromData = System.Text.Encoding.UTF8.GetBytes(strText);
+            byte[] targetData = md5.ComputeHash(fromData);
+            string byte2String = null;
+
+            for (int i = 0; i < targetData.Length; i++)
+            {
+                byte2String += targetData[i].ToString("x");
+            }
+
+            return byte2String;
+        }
 
 
         public static TOptions GetOptions<TOptions>(this IConfiguration configuration) where TOptions : class, new()
@@ -25,16 +246,36 @@ namespace JwSale.Util.Extensions
 
         public static string ToJson(this object obj)
         {
+            if (obj.GetType().Equals(typeof(string)))
+            {
+                return obj.ToString();
+            }
             return JsonConvert.SerializeObject(obj);
         }
 
         public static T ToObj<T>(this string soucre)
         {
-            return JsonConvert.DeserializeObject<T>(soucre);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(soucre);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return default(T);
         }
         public static object ToObj(this string soucre)
         {
-            return JsonConvert.DeserializeObject(soucre);
+            try
+            {
+                return JsonConvert.DeserializeObject(soucre);
+            }
+            catch
+            {
+
+            }
+            return soucre;
         }
 
 
@@ -63,7 +304,7 @@ namespace JwSale.Util.Extensions
             return toAdDescriptor;
         }
 
-     
+
         /// <summary>
         /// 如果指定服务不存在，创建实例并添加
         /// </summary>
@@ -466,6 +707,319 @@ namespace JwSale.Util.Extensions
         {
             CheckNotNull(filename, paramName);
             Require<FileNotFoundException>(File.Exists(filename), string.Format(Resources.ParameterCheck_FileNotExists, filename));
+        }
+        public static byte[] ToBuffer(this Stream sm)
+        {
+            sm.Seek(0, SeekOrigin.Begin);
+            byte[] buffer = new byte[sm.Length];
+            sm.Read(buffer, 0, buffer.Length);
+            sm.Seek(0, SeekOrigin.Begin);
+            return buffer;
+        }
+
+        public static async Task<byte[]> ToBufferAsync(this Stream sm)
+        {
+            sm.Seek(0, SeekOrigin.Begin);
+            byte[] buffer = new byte[sm.Length];
+            await sm.ReadAsync(buffer, 0, buffer.Length);
+            sm.Seek(0, SeekOrigin.Begin);
+            return buffer;
+        }
+
+        /// <summary>
+        /// 生成二维码
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="pixel"></param>
+        /// <returns></returns>
+        public static Bitmap CreateQRCode(this string url, int pixel = 5)
+        {
+            QRCodeEncoder qRCodeEncoder = new QRCodeEncoder();
+            //设置二维码编码格式
+            qRCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+            //设置编码测量度
+            qRCodeEncoder.QRCodeScale = 80;
+            //设置编码版本
+            qRCodeEncoder.QRCodeVersion = 7;
+            //设置错误校验
+            qRCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M;
+
+            Bitmap img = qRCodeEncoder.Encode(url);
+
+            return img;
+
+
+        }
+
+
+
+        /// <summary>
+        /// 解码二维码
+        /// </summary>
+        /// <param name="buffer">待解码的二维码图片</param>
+        /// <returns>扫码结果</returns>
+        public static string DecodeQrCode(this byte[] buffer)
+        {
+            MemoryStream sm = new MemoryStream();
+            sm.Write(buffer, 0, buffer.Length);
+            Bitmap bitMap = new Bitmap(sm);//实例化位图对象，把文件实例化为带有颜色信息的位图对象  
+            QRCodeDecoder decoder = new QRCodeDecoder();//实例化QRCodeDecoder  
+            //通过.decoder方法把颜色信息转换成字符串信息  
+            var decoderStr = decoder.decode(new QRCodeBitmapImage(bitMap), System.Text.Encoding.UTF8);
+            return decoderStr;
+        }
+
+        public static string DecodeQrCode(this Stream sm)
+        {
+            Bitmap bitMap = new Bitmap(sm);//实例化位图对象，把文件实例化为带有颜色信息的位图对象  
+            QRCodeDecoder decoder = new QRCodeDecoder();//实例化QRCodeDecoder  
+            //通过.decoder方法把颜色信息转换成字符串信息  
+            var decoderStr = decoder.decode(new QRCodeBitmapImage(bitMap), System.Text.Encoding.UTF8);
+            return decoderStr;
+        }
+
+
+        public static NameValueCollection ParseUrl(this string url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("url");
+            }
+            NameValueCollection nvc = new NameValueCollection();
+
+            if (url == "")
+                return nvc;
+            int questionMarkIndex = url.IndexOf('?');
+            if (questionMarkIndex == -1)
+            {
+                return nvc;
+            }
+
+            if (questionMarkIndex == url.Length - 1)
+                return nvc;
+            string ps = url.Substring(questionMarkIndex + 1);
+            // 开始分析参数对  
+            Regex re = new Regex(@"(^|&)?(\w+)=([^&]+)(&|$)?", RegexOptions.Compiled);
+            MatchCollection mc = re.Matches(ps);
+            foreach (Match m in mc)
+            {
+                nvc.Add(m.Result("$2").ToLower(), m.Result("$3"));
+            }
+            return nvc;
+        }
+
+        /// <summary>
+        /// 导出Excel
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="sheetName"></param>
+        /// <param name="isNo"></param>
+        public static ExcelPackage AddSheet<T>(this ExcelPackage ep, IList<T> list) where T : class, new()
+        {
+            ExcelWorkbook wb = ep.Workbook;
+            string sheetName = null;
+            IExcelTypeFormater defaultExcelTypeFormater = null;
+            var excelAttribute = typeof(T).GetCustomAttribute<ExcelAttribute>();
+            if (excelAttribute == null)
+            {
+                sheetName = typeof(T).Name;
+                defaultExcelTypeFormater = new DefaultExcelTypeFormater();
+            }
+            else
+            {
+                if (excelAttribute.IsIncrease)
+                {
+                    sheetName = $"{excelAttribute.SheetName}{wb.Worksheets.Count + 1}";
+                }
+                else
+                {
+                    sheetName = excelAttribute.SheetName;
+                }
+                if (excelAttribute.ExcelType != null)
+                {
+                    defaultExcelTypeFormater = Activator.CreateInstance(excelAttribute.ExcelType) as IExcelTypeFormater;
+                }
+                else
+                {
+                    defaultExcelTypeFormater = new DefaultExcelTypeFormater();
+                }
+            }
+
+            ExcelWorksheet ws1 = wb.Worksheets.Add(sheetName);
+            Dictionary<PropertyInfo, ExportColumnAttribute> mainDic = new Dictionary<PropertyInfo, ExportColumnAttribute>();
+
+            typeof(T).GetProperties().ToList().ForEach(o =>
+            {
+                var attribute = o.GetCustomAttribute<ExportColumnAttribute>();
+                if (attribute != null)
+                {
+                    mainDic.Add(o, attribute);
+                }
+            });
+            var mainPropertieList = mainDic.OrderBy(o => o.Value.Order).ToList();
+
+
+            IList<IExcelTypeFormater> excelTypes = new List<IExcelTypeFormater>();
+            int row = 1;
+            int column = 1;
+
+            //表头行
+            foreach (var item in mainPropertieList)
+            {
+                IExcelTypeFormater excelType = null;
+                if (item.Value.ExcelType != null)
+                {
+                    excelType = excelTypes.Where(o => o.GetType().FullName == item.Value.ExcelType.FullName).FirstOrDefault();
+                    if (excelType == null)
+                    {
+                        excelType = Activator.CreateInstance(item.Value.ExcelType) as IExcelTypeFormater;
+                        excelTypes.Add(excelType);
+                    }
+                }
+                else
+                {
+                    excelType = defaultExcelTypeFormater;
+                }
+                excelType.SetHeaderCell()?.Invoke(ws1.Cells[row, column], item.Value.Name);
+                column++;
+            }
+
+            row++;
+
+            //数据行 
+            foreach (var item in list)
+            {
+                column = 1;
+                foreach (var mainPropertie in mainPropertieList)
+                {
+                    IExcelTypeFormater excelType = null;
+                    var mainValue = mainPropertie.Key.GetValue(item);
+                    if (mainPropertie.Value.ExcelType != null)
+                    {
+                        excelType = excelTypes.Where(o => o.GetType().FullName == mainPropertie.Value.ExcelType.FullName).FirstOrDefault();
+                        if (excelType == null)
+                        {
+                            excelType = Activator.CreateInstance(mainPropertie.Value.ExcelType) as IExcelTypeFormater;
+                            excelTypes.Add(excelType);
+                        }
+                    }
+                    else
+                    {
+                        excelType = defaultExcelTypeFormater;
+                    }
+                    excelType.SetBodyCell()?.Invoke(ws1.Cells[row, column], mainValue);
+                    column++;
+                }
+                row++;
+            }
+
+            return ep;
+
+        }
+
+        public static IList<T> ToList<T>(this ExcelPackage ep, string sheetName = null) where T : class, new()
+        {
+            ExcelWorkbook wb = ep.Workbook;
+            ExcelWorksheet ws1 = null;
+            if (string.IsNullOrEmpty(sheetName))
+            {
+                ws1 = wb.Worksheets[1];
+            }
+            else
+            {
+                ws1 = wb.Worksheets[sheetName];
+            }
+
+
+            Dictionary<PropertyInfo, ExportColumnAttribute> mainDic = new Dictionary<PropertyInfo, ExportColumnAttribute>();
+
+            typeof(T).GetProperties().ToList().ForEach(o =>
+            {
+                var attribute = o.GetCustomAttribute<ExportColumnAttribute>();
+                if (attribute != null)
+                {
+                    mainDic.Add(o, attribute);
+                }
+            });
+            var mainPropertieList = mainDic.OrderBy(o => o.Value.Order).ToList();
+
+            int totalRows = ws1.Dimension.Rows;
+            int totalColums = ws1.Dimension.Columns;
+
+            IList<T> list = new List<T>();
+            //表头行
+            int row = 1;
+            IList<PropertyInfo> propertyInfos = new List<PropertyInfo>();
+            for (int i = 1; i <= totalColums; i++)
+            {
+                var property = mainPropertieList.Where(o => o.Value.Name.Equals(ws1.Cells[row, i].Value?.ToString()?.Trim()) || o.Key.Name.Equals(ws1.Cells[row, i].Value?.ToString()?.Trim())).FirstOrDefault().Key;
+                propertyInfos.Add(property);
+            }
+
+            row++;
+
+            for (int i = row; i <= totalRows; i++)
+            {
+                T t = new T();
+                int column = 1;
+                foreach (var property in propertyInfos)
+                {
+                    if (property != null)
+                    {
+                        object cellValue = ws1.GetValue(row, column);
+                        if (cellValue == null)
+                        {
+                            cellValue = "";
+                        }
+                        else if (property.PropertyType == typeof(string))
+                        {
+                            cellValue = cellValue.ToString();
+                        }
+                        else if (property.PropertyType == typeof(int))
+                        {
+                            cellValue = Convert.ToInt32(cellValue);
+                        }
+                        else if (property.PropertyType == typeof(long))
+                        {
+                            cellValue = Convert.ToInt64(cellValue);
+                        }
+                        else if (property.PropertyType == typeof(double))
+                        {
+                            cellValue = Convert.ToDecimal(cellValue);
+                        }
+                        else if (property.PropertyType == typeof(DateTime))
+                        {
+                            cellValue = Convert.ToDateTime(cellValue);
+
+                        }
+                        else
+                        {
+                            cellValue = cellValue.ToString();
+                        }
+                        property?.SetValue(t, cellValue);
+                    }
+
+
+                    column++;
+                }
+                list.Add(t);
+            }
+            return list;
+
+        }
+
+
+        public static (string, int) ToIpPort(this string url)
+        {
+            var urlArr = url.Split(":");
+
+            int port = 80;
+            if (urlArr.Length == 2)
+            {
+                port = Convert.ToInt32(urlArr[1]);
+            }
+            return (urlArr[0], port);
         }
     }
 }

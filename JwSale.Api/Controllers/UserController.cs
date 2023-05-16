@@ -5,6 +5,9 @@ using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Common;
+using JwSale.Model.Dto.Request.User;
+using JwSale.Model.Dto.Response.User;
+using JwSale.Model.Dto.Response.UserRole;
 using JwSale.Model.Enums;
 using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
@@ -99,6 +102,7 @@ namespace JwSale.Api.Controllers
                             ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
                             UserInfo = userinfo,
                             Permissions = permissions,
+                            LoginDevice = login.LoginDevice,
                             LoginTime = DateTime.Now
                         };
 
@@ -123,11 +127,14 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
+
+
+
         /// <summary>
         /// 获取用户信息
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("获取用户信息", false)]
+        [MoudleInfo("获取用户信息")]
         [HttpPost("api/User/GetUserInfo")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserInfo()
         {
@@ -151,7 +158,7 @@ namespace JwSale.Api.Controllers
         /// 获取角色权限
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("获取角色权限", false)]
+        [MoudleInfo("获取角色权限")]
         [HttpPost("api/User/GetUserPermission")]
         public async Task<ActionResult<ResponseBase<LoginResponse>>> GetUserPermission()
         {
@@ -164,187 +171,187 @@ namespace JwSale.Api.Controllers
 
 
 
-        ///// <summary>
-        ///// 添加用户
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost("api/User/AddUser")]
-        //[MoudleInfo("添加用户")]
-        //public async Task<ActionResult<ResponseBase<UserInfo>>> AddUser(AddUser addUser)
-        //{
-        //    ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
-        //    if (DbContext.UserInfos.Where(o => o.UserName == addUser.UserName).Any())
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.BadRequest;
-        //        response.Message = $"{addUser.UserName}用户名已存在";
-        //    }
-        //    else
-        //    {
-        //        UserInfo userInfo = new UserInfo()
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            UserName = addUser.UserName,
-        //            Password = addUser.Password.ToMd5(),
-        //            RealName = addUser.RealName,
-        //            RealNamePin = addUser.RealName?.ToPinYin(),
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("api/User/AddUser")]
+        [MoudleInfo("添加用户")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> AddUser(AddUser addUser)
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            if (DbContext.UserInfos.Where(o => o.UserName == addUser.UserName).Any())
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"{addUser.UserName}用户名已存在";
+            }
+            else
+            {
+                UserInfo userInfo = new UserInfo()
+                {
+                    Id = Guid.NewGuid(),
+                    UserName = addUser.UserName,
+                    Password = addUser.Password.ToMd5(),
+                    RealName = addUser.RealName,
+                    RealNamePin = addUser.RealName?.ToPinYin(),
 
-        //            Phone = addUser.Phone,
-        //            IdCard=addUser.IdCard,
-        //            BirthDay=addUser.BirthDay,
-        //            Province = addUser.Province,
-        //            City = addUser.City,
-        //            Area = addUser.Area,
-        //            Address = addUser.Address,
-        //            Remark = addUser.Remark,
-        //            Qq = addUser.Qq,
-        //            WxNo = addUser.WxNo,
-        //            TelPhone = addUser.TelPhone,
-        //            PositionName = addUser.PositionName,
-        //            HeadImageUrl = addUser.HeadImageUrl,
+                    Phone = addUser.Phone,
+                    IdCard = addUser.IdCard,
+                    BirthDay = addUser.BirthDay,
+                    Province = addUser.Province,
+                    City = addUser.City,
+                    Area = addUser.Area,
+                    Address = addUser.Address,
+                    Remark = addUser.Remark,
+                    Qq = addUser.Qq,
+                    WxNo = addUser.WxNo,
+                    TelPhone = addUser.TelPhone,
+                    PositionName = addUser.PositionName,
+                    HeadImageUrl = addUser.HeadImageUrl,
 
-        //            Type = addUser.Type,
-        //            ExpiredTime = addUser.ExpiredTime,
-        //            WxCount = addUser.WxCount,
-
-
-        //            AddTime = DateTime.Now,
-        //            AddUserId = UserInfo.Id,
-        //            AddUserRealName = UserInfo.RealName,
-        //            UpdateTime = DateTime.Now,
-        //            UpdateUserId = UserInfo.Id,
-        //            UpdateUserRealName = UserInfo.RealName,
-        //        };
-        //        DbContext.Add(userInfo);
+                    Type = addUser.Type,
+                    ExpiredTime = addUser.ExpiredTime?.Date ?? DateTime.Now.AddYears(1),
+                    WxCount = addUser.WxCount,
 
 
-
-        //        await DbContext.SaveChangesAsync();
-
-        //        response.Data = userInfo;
-        //    }
+                    AddTime = DateTime.Now,
+                    AddUserId = UserInfo.Id,
+                    AddUserRealName = UserInfo.RealName,
+                    UpdateTime = DateTime.Now,
+                    UpdateUserId = UserInfo.Id,
+                    UpdateUserRealName = UserInfo.RealName,
+                };
+                DbContext.Add(userInfo);
 
 
 
+                await DbContext.SaveChangesAsync();
 
-        //    LoginResponse loginResponse = new LoginResponse();
-        //    return await response.ToJsonResultAsync();
-        //}
-
-
-        ///// <summary>
-        ///// 设置所有权限
-        ///// </summary>
-        ///// <param name="setAllPermisson"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/User/SetAllPermisson")]
-        //[MoudleInfo("设置所有权限")]
-        //public async Task<ActionResult<ResponseBase<UserInfo>>> SetAllPermisson(SetAllPermisson setAllPermisson)
-        //{
-        //    ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
-        //    if (!DbContext.UserInfos.Where(o => o.Id == setAllPermisson.UserId).Any())
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.BadRequest;
-        //        response.Message = $"{setAllPermisson.UserId}用户名不存在";
-        //    }
-        //    else
-        //    {
+                response.Data = userInfo;
+            }
 
 
-        //        var functionInfos = await DbContext.FunctionInfos.ToListAsync();
-
-        //        await DbContext.UserPermissionInfos.Where(o => o.UserId == setAllPermisson.UserId).DeleteAsync();
 
 
-        //        IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
+            LoginResponse loginResponse = new LoginResponse();
+            return await response.ToJsonResultAsync();
+        }
 
 
-        //        foreach (var funciton in functionInfos)
-        //        {
-        //            UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
-        //            {
-        //                Id = Guid.NewGuid(),
-        //                UserId = setAllPermisson.UserId,
-        //                FunctionId = funciton.Id,
-        //                Type = 0,
-
-        //                AddTime = DateTime.Now,
-        //                AddUserId = UserInfo.Id,
-        //                AddUserRealName = UserInfo.RealName,
-        //                UpdateTime = DateTime.Now,
-        //                UpdateUserId = UserInfo.Id,
-        //                UpdateUserRealName = UserInfo.RealName,
-        //            };
-        //            userPermissionInfos.Add(userPermissionInfo);
-        //        }
-        //        await DbContext.AddRangeAsync(userPermissionInfos);
-
-        //        await DbContext.SaveChangesAsync();
-
-        //        response.Data = await getPermissions(setAllPermisson.UserId);
+        /// <summary>
+        /// 设置所有权限
+        /// </summary>
+        /// <param name="setAllPermisson"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetAllPermisson")]
+        [MoudleInfo("设置所有权限")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetAllPermisson(SetAllPermisson setAllPermisson)
+        {
+            ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
+            if (!DbContext.UserInfos.Where(o => o.Id == setAllPermisson.UserId).Any())
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"{setAllPermisson.UserId}用户名不存在";
+            }
+            else
+            {
 
 
-        //    }
-        //    return await response.ToJsonResultAsync();
+                var functionInfos = await DbContext.FunctionInfos.ToListAsync();
 
-        //}
-
-        ///// <summary>
-        ///// 获取用户列表
-        ///// </summary>
-        ///// <param name="getUsers"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/User/GetUsers")]
-        //[MoudleInfo("获取用户列表")]
-        //public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
-        //{
-        //    PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
-        //    var userinfos = DbContext.UserInfos.AsEnumerable();
-        //    if (!string.IsNullOrEmpty(getUsers.Name))
-        //    {
-        //        userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName?.Contains(getUsers.Name) == true || o.RealNamePin?.ToLower()?.Contains(getUsers.Name.ToLower()) == true);
-        //    }
-        //    if (getUsers.Status != null)
-        //    {
-        //        userinfos = userinfos.Where(o => o.Status == getUsers.Status);
-        //    }
-        //    response.TotalCount = userinfos.Count();
-        //    userinfos = userinfos.OrderBy(getUsers.OrderBys).ToPage(getUsers.PageIndex, getUsers.PageSize);
-        //    response.Data = userinfos;
-
-        //    return await response.ToJsonResultAsync();
-        //}
+                await DbContext.UserPermissionInfos.Where(o => o.UserId == setAllPermisson.UserId).DeleteAsync();
 
 
-        ///// <summary>
-        ///// 设置用户状态
-        ///// </summary>
-        ///// <param name="setUserStatus"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/User/SetUserStatus")]
-        //[MoudleInfo("设置用户状态")]
-        //public async Task<ActionResult<ResponseBase>> SetUserStatus(SetUserStatus setUserStatus)
-        //{
-        //    ResponseBase response = new ResponseBase();
-        //    var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserStatus.UserId).FirstOrDefault();
-        //    if (userinfo == null)
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.NotFound;
-        //        response.Message = "用户不存在";
-        //    }
-        //    else
-        //    {
-        //        userinfo.Status = setUserStatus.Status;
-        //        userinfo.UpdateUserId = UserInfo.UpdateUserId;
-        //        userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
-        //        userinfo.UpdateTime = DateTime.Now;
-        //        await DbContext.SaveChangesAsync();
+                IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
 
-        //    }
-        //    return await response.ToJsonResultAsync();
-        //}
+
+                foreach (var funciton in functionInfos)
+                {
+                    UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = setAllPermisson.UserId,
+                        FunctionId = funciton.Id,
+                        Type = 0,
+
+                        AddTime = DateTime.Now,
+                        AddUserId = UserInfo.Id,
+                        AddUserRealName = UserInfo.RealName,
+                        UpdateTime = DateTime.Now,
+                        UpdateUserId = UserInfo.Id,
+                        UpdateUserRealName = UserInfo.RealName,
+                    };
+                    userPermissionInfos.Add(userPermissionInfo);
+                }
+                await DbContext.AddRangeAsync(userPermissionInfos);
+
+                await DbContext.SaveChangesAsync();
+
+                response.Data = await getPermissions(setAllPermisson.UserId);
+
+
+            }
+            return await response.ToJsonResultAsync();
+
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="getUsers"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/GetUsers")]
+        [MoudleInfo("获取用户列表")]
+        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
+        {
+            PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
+            var userinfos = DbContext.UserInfos.AsEnumerable();
+            if (!string.IsNullOrEmpty(getUsers.Name))
+            {
+                userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName?.Contains(getUsers.Name) == true || o.RealNamePin?.ToLower()?.Contains(getUsers.Name.ToLower()) == true);
+            }
+            if (getUsers.Status != null)
+            {
+                userinfos = userinfos.Where(o => o.Status == getUsers.Status);
+            }
+            response.TotalCount = userinfos.Count();
+            userinfos = userinfos.OrderBy(getUsers.OrderBys).ToPage(getUsers.PageIndex, getUsers.PageSize);
+            response.Data = userinfos;
+
+            return await response.ToJsonResultAsync();
+        }
+
+
+        /// <summary>
+        /// 设置用户状态
+        /// </summary>
+        /// <param name="setUserStatus"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetUserStatus")]
+        [MoudleInfo("设置用户状态")]
+        public async Task<ActionResult<ResponseBase>> SetUserStatus(SetUserStatus setUserStatus)
+        {
+            ResponseBase response = new ResponseBase();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserStatus.UserId).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.Status = setUserStatus.Status;
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
+
+            }
+            return await response.ToJsonResultAsync();
+        }
 
         /// <summary>
         /// 重置用户密码
@@ -428,41 +435,41 @@ namespace JwSale.Api.Controllers
 
 
 
-        ///// <summary>
-        ///// 修改用户授权
-        ///// </summary>
-        ///// <param name="setUserAuth"></param>
-        ///// <returns></returns>
-        //[HttpPost("api/User/SetUserAuth")]
-        //[MoudleInfo("修改用户授权")]
-        //public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserAuth(SetUserAuth setUserAuth)
-        //{
-        //    ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
-        //    var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserAuth.UserId).FirstOrDefault();
-        //    if (userinfo == null)
-        //    {
-        //        response.Success = false;
-        //        response.Code = HttpStatusCode.NotFound;
-        //        response.Message = "用户不存在";
-        //    }
-        //    else
-        //    {
+        /// <summary>
+        /// 修改用户授权
+        /// </summary>
+        /// <param name="setUserAuth"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/SetUserAuth")]
+        [MoudleInfo("修改用户授权")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserAuth(SetUserAuth setUserAuth)
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserAuth.UserId).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
 
-        //        userinfo.Type = setUserAuth.Type;
-        //        userinfo.ExpiredTime = setUserAuth.ExpiredTime;
-        //        userinfo.WxCount = setUserAuth.WxCount;
+                userinfo.Type = setUserAuth.Type;
+                userinfo.ExpiredTime = setUserAuth.ExpiredTime?.Date ?? DateTime.Now.AddYears(1);
+                userinfo.WxCount = setUserAuth.WxCount;
 
-        //        userinfo.UpdateUserId = UserInfo.UpdateUserId;
-        //        userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
-        //        userinfo.UpdateTime = DateTime.Now;
-        //        await DbContext.SaveChangesAsync();
+                userinfo.UpdateUserId = UserInfo.UpdateUserId;
+                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
+                userinfo.UpdateTime = DateTime.Now;
+                await DbContext.SaveChangesAsync();
 
-        //        response.Data = userinfo;
+                response.Data = userinfo;
 
-        //    }
-        //    return await response.ToJsonResultAsync();
+            }
+            return await response.ToJsonResultAsync();
 
-        //}
+        }
 
 
         /// <summary>
@@ -481,69 +488,69 @@ namespace JwSale.Api.Controllers
 
 
 
-        ///// <summary>
-        ///// 获取用户功能列表
-        ///// </summary> 
-        ///// <returns></returns>
-        //[MoudleInfo("获取用户功能列表", true)]
-        //[HttpPost("api/UserRole/GetUserFunctions")]
-        //public async Task<ActionResult<ResponseBase<IList<FunctionTree>>>> GetUserFunctions()
-        //{
-        //    ResponseBase<IList<FunctionTree>> response = new ResponseBase<IList<FunctionTree>>();
+        /// <summary>
+        /// 获取用户功能列表
+        /// </summary> 
+        /// <returns></returns>
+        [MoudleInfo("获取用户功能列表", true)]
+        [HttpPost("api/UserRole/GetUserFunctions")]
+        public async Task<ActionResult<ResponseBase<IList<FunctionTree>>>> GetUserFunctions()
+        {
+            ResponseBase<IList<FunctionTree>> response = new ResponseBase<IList<FunctionTree>>();
 
-        //    var functions = DbContext.FunctionInfos.OrderBy(o => o.Order).AsEnumerable();
-        //    var permissions = await (
-        //                from u in DbContext.UserInfos.AsNoTracking()
-        //                join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
-        //                join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
-        //                join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
-        //                join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
-        //                where u.Id == UserInfo.Id
-        //                select new BriefInfoWithId()
-        //                {
-        //                    Id = f.Id,
-        //                    Code = f.Code,
-        //                    Name = f.Name
-        //                }).Union(
-        //                    from u in DbContext.UserInfos.AsNoTracking()
-        //                    join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-        //                    join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-        //                    where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Increase
-        //                    select new BriefInfoWithId()
-        //                    {
-        //                        Id = f.Id,
-        //                        Code = f.Code,
-        //                        Name = f.Name
-        //                    }).Except(
-        //                      from u in DbContext.UserInfos.AsNoTracking()
-        //                      join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-        //                      join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-        //                      where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Decut
-        //                      select new BriefInfoWithId()
-        //                      {
-        //                          Id = f.Id,
-        //                          Code = f.Code,
-        //                          Name = f.Name
-        //                      }).ToListAsync();
-        //    FunctionTree functionTree = new FunctionTree()
-        //    {
-        //        Id = Guid.Empty,
-        //        Code = "Root",
-        //        Name = "根节点"
-        //    };
-        //    getfuntions(functions, functionTree, permissions);
+            var functions = DbContext.FunctionInfos.OrderBy(o => o.Order).AsEnumerable();
+            var permissions = await (
+                        from u in DbContext.UserInfos.AsNoTracking()
+                        join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
+                        join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
+                        join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
+                        join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
+                        where u.Id == UserInfo.Id
+                        select new Permssion()
+                        {
+                            Id = f.Id,
+                            Code = f.Code,
+                            Name = f.Name
+                        }).Union(
+                            from u in DbContext.UserInfos.AsNoTracking()
+                            join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                            join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                            where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Increase
+                            select new Permssion()
+                            {
+                                Id = f.Id,
+                                Code = f.Code,
+                                Name = f.Name
+                            }).Except(
+                              from u in DbContext.UserInfos.AsNoTracking()
+                              join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                              join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                              where u.Id == UserInfo.Id && up.Type == (short)PermissionType.Decut
+                              select new Permssion()
+                              {
+                                  Id = f.Id,
+                                  Code = f.Code,
+                                  Name = f.Name
+                              }).ToListAsync();
+            FunctionTree functionTree = new FunctionTree()
+            {
+                Id = Guid.Empty,
+                Code = "Root",
+                Name = "根节点"
+            };
+            getfuntions(functions, functionTree, permissions);
 
-        //    response.Data = functionTree.Tree;
-        //    return await response.ToJsonResultAsync();
-        //}
-
-
+            response.Data = functionTree.Tree;
+            return await response.ToJsonResultAsync();
+        }
 
 
 
 
 
-        private void getfuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<BriefInfo> permissions)
+
+
+        private void getfuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<Permssion> permissions)
         {
             var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTree
             {

@@ -1,4 +1,7 @@
 ﻿using Hangfire;
+using Hangfire.MySql;
+using Hangfire.SqlServer;
+using JwSale.Model.Enums;
 using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
 using JwSale.Packs.Pack;
@@ -27,7 +30,35 @@ namespace JwSale.Packs.Packs
             var jwSaleOptions = configuration.Get<JwSaleOptions>();
             if (jwSaleOptions?.HangFire?.Enabled == true)
             {
-                services.AddHangfire(x => x.UseSqlServerStorage(jwSaleOptions.HangFire.ConnectionString));
+                if (jwSaleOptions?.HangFire?.DatabaseType == DatabaseType.MsSqlServer)
+                {
+                    services.AddHangfire(x => x.UseSqlServerStorage(jwSaleOptions.HangFire.ConnectionString));
+                }
+                else if (jwSaleOptions?.HangFire?.DatabaseType == DatabaseType.MySql)
+                {
+                    services.AddHangfire(x => x.UseStorage(new MySqlStorage(jwSaleOptions.HangFire.ConnectionString,
+                        new MySqlStorageOptions
+                        {
+                            //CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                            //SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            //QueuePollInterval = TimeSpan.Zero,
+                            //UseRecommendedIsolationLevel = true,
+                            //DisableGlobalLocks = true
+                        }))); 
+                }
+                else
+                {
+                    services.AddHangfire(x => x.UseStorage(new MySqlStorage(jwSaleOptions.HangFire.ConnectionString,
+                          new MySqlStorageOptions
+                          {
+                            //CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                            //SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            //QueuePollInterval = TimeSpan.Zero,
+                            //UseRecommendedIsolationLevel = true,
+                            //DisableGlobalLocks = true
+                        })));
+                }
+             
             }
 
             return services;

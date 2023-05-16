@@ -33,7 +33,9 @@ namespace JwSale.Packs.Packs
         {
             var configuration = services.GetSingletonInstance<IConfiguration>();
             var jwSaleOptions = configuration.Get<JwSaleOptions>();
-            if (jwSaleOptions.Rabbitmq != null)
+            services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
+
+            if (jwSaleOptions.Rabbitmq != null && !jwSaleOptions.Rabbitmq.HostUrl.IsNullOrWhiteSpace())
             {  //创建连接工厂
                 IConnectionFactory factory = new ConnectionFactory
                 {
@@ -67,11 +69,11 @@ namespace JwSale.Packs.Packs
 
                         }
                     }
-                    else  if (typeof(IRabbitmqConsumer).IsAssignableFrom(type))
+                    else if (typeof(IRabbitmqConsumer).IsAssignableFrom(type))
                     {
                         IRabbitmqConsumer instance = Activator.CreateInstance(type) as IRabbitmqConsumer;
                         if (instance != null)
-                        {                             
+                        {
                             services.AddSingleton<IRabbitmqConsumer>(instance);
 
                         }

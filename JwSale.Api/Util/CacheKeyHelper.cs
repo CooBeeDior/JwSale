@@ -9,18 +9,19 @@ namespace JwSale.Api.Util
     {
         public static string GetUserTempTokenKey(string tempToken)
         {
-            return $"temptoken_{tempToken}";
-        }
-        public static string GetUserTokenKey(string token)
-        {
-            return $"token_{token}";
+            return $"temptoken:{tempToken}";
         }
 
-        public static string GetWechatKey(string wxid)
+        public static string GetUserTokenKey(string username)
         {
-            return $"wechat_{wxid}";
-
+            return $"token:{username}";
         }
+        public static string GetUserTokenKey(string userName, string loginType)
+        {
+            return $"token:{userName}_{loginType}";
+        }
+
+
         public static string GetHttpContextUserKey()
         {
             return "currentUser";

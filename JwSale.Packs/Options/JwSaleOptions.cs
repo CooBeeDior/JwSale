@@ -52,12 +52,21 @@ namespace JwSale.Packs.Options
 
     public class JwSaleSqlServerOptions
     {
+        /// <summary>
+        /// 数据库上下文名称
+        /// </summary>
         public string DbContextTypeName { get; set; }
-
+        /// <summary>
+        /// 数据库连接字符串
+        /// </summary>
         public string ConnectionString { get; set; }
-
+        /// <summary>
+        /// 数据库类型
+        /// </summary>
         public DatabaseType DatabaseType { get; set; }
-
+        /// <summary>
+        /// 是否启动延迟加载
+        /// </summary>
         public bool UseLazyLoadingProxies { get; set; }
     }
 
@@ -76,19 +85,35 @@ namespace JwSale.Packs.Options
 
     public class HangFireOptios
     {
+        /// <summary>
+        /// 是否启用
+        /// </summary>
         public bool Enabled { get; set; }
-
+        /// <summary>
+        /// 数据库连接字符串
+        /// </summary>
         public string ConnectionString { get; set; }
+        /// <summary>
+        /// 数据库类型
+        /// </summary>
+        public DatabaseType DatabaseType { get; set; }
     }
 
 
 
     public class RedisOptions
     {
+        /// <summary>
+        /// 是否启用
+        /// </summary>
         public bool Enabled { get; set; }
-
+        /// <summary>
+        /// 连接配置
+        /// </summary>
         public string Configuration { get; set; }
-
+        /// <summary>
+        /// 实例名称
+        /// </summary>
         public string InstanceName { get; set; }
     }
 
@@ -101,11 +126,20 @@ namespace JwSale.Packs.Options
 
     public class RabbitmqOptions
     {
+        /// <summary>
+        /// 连接地址
+        /// </summary>
+        public string HostUrl { get; set; }
+        /// <summary>
+        /// 用户名
+        /// </summary>
         public string UserName { get; set; }
-
+        /// <summary>
+        /// 密码
+        /// </summary>
         public string Password { get; set; }
 
-        public string HostUrl { get; set; }
+
 
     }
 

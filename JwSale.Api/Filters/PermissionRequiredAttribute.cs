@@ -34,28 +34,47 @@ namespace JwSale.Api.Filters
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            bool isAuth = false;
             if (controllerActionDescriptor != null)
             {
-                var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
-                if (noAuthRequiredAttribute != null)
+                var permissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<PermissionRequiredAttribute>(true);
+                if (permissionRequiredAttribute != null)
                 {
-                    return;
+                    isAuth = true;
                 }
-                noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
-                if (noAuthRequiredAttribute != null)
+                var authRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<AuthRequiredAttribute>(true);
+                if (authRequiredAttribute != null)
                 {
-                    return;
+                    isAuth = true;
                 }
-                var noPermissionRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
-                if (noPermissionRequiredAttribute != null)
+
+                if (!isAuth)
                 {
-                    return;
+                    var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                    if (noAuthRequiredAttribute != null)
+                    {
+                        isAuth = false;
+                    }
+                    noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                    if (noAuthRequiredAttribute != null)
+                    {
+                        isAuth = false;
+                    }
+                    var noPermissionRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
+                    if (noPermissionRequiredAttribute != null)
+                    {
+                        isAuth = false;
+                    }
+                    noPermissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
+                    if (noPermissionRequiredAttribute != null)
+                    {
+                        isAuth = false;
+                    }
                 }
-                noPermissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
-                if (noPermissionRequiredAttribute != null)
-                {
-                    return;
-                }
+            }
+            if (isAuth == false)
+            {
+                return;
             }
             var userinfo = context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] as UserInfo;
             if (userinfo == null)

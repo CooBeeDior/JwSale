@@ -31,11 +31,11 @@ namespace JwSale.Api.Controllers
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost("api/Test")]
-        public ActionResult<ResponseBase> Test([FromForm] IFormFile file)
+        public ActionResult<ResponseBase> Test()
         {
             ResponseBase response = new ResponseBase();
 
-
+            response.Message = "it is a test;";
             return response;
         }
 

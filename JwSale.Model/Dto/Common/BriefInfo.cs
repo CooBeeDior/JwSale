@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Model.Dto
+namespace JwSale.Model.Dto.Common
 {
     public class BriefInfo
     {

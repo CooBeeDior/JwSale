@@ -26,4 +26,8 @@
     <ProjectReference Include="..\JwSale.Util\JwSale.Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\Request\" />
+  </ItemGroup>
+
 </Project>

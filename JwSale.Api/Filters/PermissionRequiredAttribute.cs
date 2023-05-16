@@ -2,21 +2,17 @@
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
-using JwSale.Model.Enums;
 using JwSale.Packs.Attributes;
 using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace JwSale.Api.Filters
 {

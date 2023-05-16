@@ -16,7 +16,7 @@ namespace JwSale.Api
 {
     /// <summary>
     /// Exceptionless日志对象提供者
-    /// <summary>
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)

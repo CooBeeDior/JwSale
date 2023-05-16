@@ -255,15 +255,7 @@ namespace JwSale.Util.Extensions
 
         public static T ToObj<T>(this string soucre)
         {
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(soucre);
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return default(T);
+            return JsonConvert.DeserializeObject<T>(soucre);
         }
         public static object ToObj(this string soucre)
         {

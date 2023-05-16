@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JwSale.Model.Dto.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -33,4 +34,6 @@ namespace JwSale.Model.Dto.Cache
         /// </summary>
         public DateTime LoginTime { get; set; }
     }
+
+
 }

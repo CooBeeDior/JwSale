@@ -1,10 +1,5 @@
-﻿using JwSale.Model;
-using JwSale.Model.Dto.Response.User;
-using JwSale.Util.Extensions;
+﻿using JwSale.Util.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace JwSale.Api.Util
 {

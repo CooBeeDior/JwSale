@@ -114,18 +114,7 @@ namespace JwSale.Api.Extensions
         }
 
 
-        public static Dictionary<string, string> ToDictionary(this IList<ArticleHttpHeader> source)
-        {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            if (source != null)
-            {
-                foreach (var item in source)
-                {
-                    dic.Add(item.Key, item.Value);
-                }
-            }
-            return dic;
-        }
+    
 
         public static IQueryable<T> AsQueryable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
         {

@@ -1,21 +1,10 @@
-﻿using JwSale.Api.Const;
-using JwSale.Api.Filters;
-using JwSale.Api.Http;
+﻿using JwSale.Api.Filters;
 using JwSale.Api.Util;
 using JwSale.Model;
-using JwSale.Model.Dto.Wechat;
 using JwSale.Repository.Context;
 using JwSale.Util.Dependencys;
-using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Z.EntityFramework.Plus;
 
 namespace JwSale.Api.Controllers
 {

@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
-using System.Threading.Tasks;
-using JwSale.Util.Extensions;
-using JwSale.Api.Extensions;
-using JwSale.Model.Dto.Wechat;
+﻿using JwSale.Api.Extensions;
 using JwSale.Api.Util;
-using System.Text.Encodings.Web;
-using System.Net;
 using JwSale.Model.Dto.Common;
 using JwSale.Util.Dependencys;
+using JwSale.Util.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
-using JwSale.Model.Dto.Cache;
-using System.Linq;
-using JwSale.Util.ObjectPools;
 using Polly;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace JwSale.Api.Http
 {
@@ -148,26 +143,7 @@ namespace JwSale.Api.Http
             });
         }
 
-        public static async Task<T> PostVxApiAsync<T>(string cgiType, WechatResponseBase wechatResponseBase, ProxyInfo proxyInfo = null) where T : new()
-        {
-            if (string.IsNullOrEmpty(wechatResponseBase.url))
-            {
-                return new T();
-            }
-            if (proxyInfo == null)
-            {
-                var cache = ServiceLocator.Instance.GetService<IDistributedCache>();
-                var wechatCacheStr = await cache.GetStringAsync(CacheKeyHelper.GetUserTokenKey(wechatResponseBase.token));
-                var wechatCache = wechatCacheStr?.ToObj<WechatCache>();
-                proxyInfo = wechatCache?.ProxyInfo;
-            }
-            var packetResp = await PostPacketAsync(wechatResponseBase.url, wechatResponseBase.packet, proxyInfo);
-            AnalysisData analysisData = new AnalysisData(wechatResponseBase.token, packetResp);
-            var analysisUrl = WechatHelper.GetUrl(cgiType.ToAnalysis());
-            var result = await PostAsync<T>(analysisUrl, analysisData);
-            return result;
-
-        }
+  
         public static HttpClient CreateHttpClient(ProxyInfo proxyInfo = null)
         {
             IWebProxy webProxy = null;

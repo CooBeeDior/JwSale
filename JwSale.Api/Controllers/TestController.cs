@@ -9,6 +9,7 @@ using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RabbitmqCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,6 +88,9 @@ namespace JwSale.Api.Controllers
             response.Data = userInfo;
             return response;
         }
+
+ 
+
 
     }
 }

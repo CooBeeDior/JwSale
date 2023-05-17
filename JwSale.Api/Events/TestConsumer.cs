@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitmqCore;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace JwSale.Api.Events
         /// <summary>
         /// 订阅消息
         /// </summary>
-        public void Register()
+        public void Subscripe()
         {
 
             var connection = _connectionFactory.CreateConnection();
@@ -44,7 +45,7 @@ namespace JwSale.Api.Events
             {
                 try
                 {
-                    var message = Encoding.UTF8.GetString(ea.Body);
+                    var message = Encoding.UTF8.GetString(ea.Body.Span);
                     var refreshWxInfoEvent = message.ToObj<TestEvent>();
                     _mediator.Publish(refreshWxInfoEvent);
                     //确认该消息已被消费

@@ -34,31 +34,27 @@ namespace Microsoft.Extensions.DependencyInjection
                     throw new Exception($"{item.Name}数据库注入失败");
                 }
 
-            } 
+            }
             services.AddSingleton(ib);
-         
+
         }
 
-        public static void AddFreeSql(this IServiceCollection services, Action<FreeSqlDbOptions> action )
+        public static void AddFreeSql(this IServiceCollection services, Action<FreeSqlDbOptions> action)
         {
             FreeSqlDbOptions freeSqlOptions = new FreeSqlDbOptions();
             action?.Invoke(freeSqlOptions);
             services.AddSingleton(freeSqlOptions);
-            try
-            {
-                var freesql = new FreeSqlBuilder()
-                 .UseConnectionString(freeSqlOptions.DataType, freeSqlOptions.ConnectString)
-                 .UseAutoSyncStructure(freeSqlOptions.IsAutoSyncStructure) //自动同步实体结构到数据库
-                 .UseNoneCommandParameter(freeSqlOptions.IsNoneCommandParameter)
-                 .UseLazyLoading(freeSqlOptions.IsLazyLoading)
-                 .UseNameConvert(freeSqlOptions.NameConvertType)
-                 .UseMonitorCommand(freeSqlOptions.Executing, freeSqlOptions.Executed).Build();
-                freesql.UseJsonMap();
-                services.AddSingleton(freesql);
-            }
-            catch (Exception ex)
-            { 
-            }
+
+            var freesql = new FreeSqlBuilder()
+             .UseConnectionString(freeSqlOptions.DataType, freeSqlOptions.ConnectString)
+             .UseAutoSyncStructure(freeSqlOptions.IsAutoSyncStructure) //自动同步实体结构到数据库
+             .UseNoneCommandParameter(freeSqlOptions.IsNoneCommandParameter)
+             .UseLazyLoading(freeSqlOptions.IsLazyLoading)
+             .UseNameConvert(freeSqlOptions.NameConvertType)
+             .UseMonitorCommand(freeSqlOptions.Executing, freeSqlOptions.Executed).Build();
+            freesql.UseJsonMap();
+            services.AddSingleton(freesql);
+
 
 
         }

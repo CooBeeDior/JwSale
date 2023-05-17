@@ -118,7 +118,7 @@
             消费者
             </summary>
         </member>
-        <member name="M:JwSale.Api.Events.TestConsumer.Register">
+        <member name="M:JwSale.Api.Events.TestConsumer.Subscripe">
             <summary>
             订阅消息
             </summary>

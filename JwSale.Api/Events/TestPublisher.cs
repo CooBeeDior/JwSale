@@ -4,6 +4,7 @@ using JwSale.Packs.Attributes;
 using JwSale.Packs.Manager;
 using JwSale.Util.Extensions;
 using RabbitMQ.Client;
+using RabbitmqCore;
 using System;
 using System.Collections.Generic;
 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Packs.Manager
+namespace RabbitmqCore
 {
     /// <summary>
     /// 消费者
@@ -13,6 +13,6 @@ namespace JwSale.Packs.Manager
         /// <summary>
         /// 订阅消息
         /// </summary>
-        void Register();
+        void Subscripe();
     }
 }

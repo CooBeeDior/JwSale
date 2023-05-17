@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace JwSale.Packs.Manager
+namespace RabbitmqCore
 {
     public interface IRabbitmqPublisher : IRabbitmq
     {

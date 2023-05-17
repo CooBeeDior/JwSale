@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
+using RabbitmqCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,9 @@ namespace JwSale.Packs.Packs
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
 
             if (jwSaleOptions.Rabbitmq != null && !jwSaleOptions.Rabbitmq.HostUrl.IsNullOrWhiteSpace())
-            {  //创建连接工厂
+            {
+                services.AddSingleton(jwSaleOptions.Rabbitmq);
+                //创建连接工厂
                 IConnectionFactory factory = new ConnectionFactory
                 {
                     UserName = jwSaleOptions.Rabbitmq.UserName,//用户名
@@ -95,8 +98,8 @@ namespace JwSale.Packs.Packs
                 var eventAttribute = item.GetType().GetCustomAttribute<EventAttribute>();
                 if (eventAttribute.IsInitialization)
                 {
-                    item.Register();
-                } 
+                    item.Subscripe();
+                }
             }
 
         }

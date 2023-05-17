@@ -1,4 +1,5 @@
-﻿using JwSale.Api.Extensions;
+﻿using FeignCore.Apis;
+using JwSale.Api.Extensions;
 using JwSale.Api.Filters;
 using JwSale.Api.Http;
 using JwSale.Model;
@@ -9,6 +10,7 @@ using JwSale.Repository.Context;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using RabbitmqCore;
 using System;
 using System.Collections.Generic;
@@ -26,20 +28,24 @@ namespace JwSale.Api.Controllers
         private readonly IRabbitmqPublisher _rabbitmqPublisher;
         private readonly IFreeSql _freesql;
         private readonly IdleBus<IFreeSql> _idleBusFreeSql;
+        private readonly IStringLocalizer<TestController> _stringLocalizer;
         // private readonly ISpiderHttpClientFactory _spiderHttpClientFactory;
         // private readonly IHttpClientFactory _httpClientFactory;
-        //private readonly IUserApi _userApi;
-        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher, IFreeSql freesql, IdleBus<IFreeSql> idleBusFreeSql
-            //ISpiderHttpClientFactory spiderHttpClientFactory, IHttpClientFactory httpClientFactory,
-            //IUserApi userApi
+        private readonly IUserApi _userApi;
+        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher,
+            IFreeSql freesql, IdleBus<IFreeSql> idleBusFreeSql,
+            IStringLocalizer<TestController> stringLocalizer,
+        //ISpiderHttpClientFactory spiderHttpClientFactory, IHttpClientFactory httpClientFactory,
+        IUserApi userApi
             ) : base(context)
         {
             _rabbitmqPublisher = rabbitmqPublisher;
             _freesql = freesql;
             _idleBusFreeSql = idleBusFreeSql;
+            _stringLocalizer = stringLocalizer;
             //_spiderHttpClientFactory = spiderHttpClientFactory;
             //_httpClientFactory = httpClientFactory;
-            //_userApi = userApi;
+            _userApi = userApi;
         }
 
         /// <summary>
@@ -68,7 +74,10 @@ namespace JwSale.Api.Controllers
             _rabbitmqPublisher.Publish("it is a test event");
             return response;
         }
-
+        /// <summary>
+        /// FreeSql测试
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("api/TestFreeSql")]
         public ActionResult<ResponseBase> TestFreeSql()
         {
@@ -78,6 +87,10 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// IdleBusFreeSql测试
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("api/TestIdleBusFreeSql")]
         public ActionResult<ResponseBase> TestIdleBusFreeSql()
         {
@@ -89,7 +102,44 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
- 
+
+        /// <summary>
+        /// Feign测试
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("api/TestFeign")]
+        public async Task<ActionResult<ResponseBase>> TestFeign()
+        {
+            ResponseBase response = new ResponseBase();
+            var result = await _userApi.GetQrCode();
+            response.Message = result?.ToJson();
+            return response;
+        }
+
+        /// <summary>
+        /// 本地化测试
+        /// url：
+        ///?culture=zh-CN&ui-culture=zh-CN
+        ///?culture = zh-CN
+        ///?ui-culture=zh-CN  
+        ///cookie：
+        ///键名称：.AspNetCore.Culture
+        ///值内容：
+        ///c=zh-CN|uic=zh-CN
+        ///c = zh - CN
+        ///uic=zh-CN  
+        ///Header:
+        ///Accept-Language:zh-CN,zh;q=0.9
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("api/TestLocalizedString")]
+        public ActionResult<ResponseBase> TestLocalizedString()
+        {
+            ResponseBase<IEnumerable<LocalizedString>> response = new ResponseBase<IEnumerable<LocalizedString>>();
+            var result = _stringLocalizer.GetAllStrings();
+            response.Data = result;
+            return response;
+        }
 
 
     }

@@ -22,6 +22,30 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.TestController.TestFreeSql">
+            <summary>
+            FreeSql测试
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TestController.TestIdleBusFreeSql">
+            <summary>
+            IdleBusFreeSql测试
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TestController.TestFeign">
+            <summary>
+            Feign测试
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.TestController.TestLocalizedString">
+            <summary>
+            本地化测试
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理

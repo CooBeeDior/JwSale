@@ -14,6 +14,7 @@ namespace FreeSqlCore
 
         protected override void OnModelCreating(ICodeFirst codefirst)
         {
+          
         }
     }
 }

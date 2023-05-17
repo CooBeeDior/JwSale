@@ -17,6 +17,7 @@
     <PackageReference Include="FreeSql.Provider.SqlServer" Version="3.2.696-preview20230510" />
     <PackageReference Include="IdleBus" Version="1.5.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="MySql.Data" Version="6.7.9" />
   </ItemGroup>
 
 </Project>

@@ -86,6 +86,11 @@ namespace JwSale.Packs.Options
         ///// </summary>
         //public RateLimitingOptions RateLimiting { get; set; }
 
+        /// <summary>
+        /// 微信小程序配置
+        /// </summary>
+        public WxMiniProgramOptions WxMiniProgram { get; set; }
+
     }
 
 
@@ -183,6 +188,24 @@ namespace JwSale.Packs.Options
 
 
 
+    }
+
+    public class WxMiniProgramOptions
+    {
+        /// <summary>
+        /// 小程序名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 小程序 appId
+        /// </summary>
+        public string AppId { get; set; }
+
+        /// <summary>
+        /// 小程序 appSecret
+        /// </summary>
+        public string AppSecret { get; set; }
     }
 
 }

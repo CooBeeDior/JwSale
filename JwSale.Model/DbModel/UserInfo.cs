@@ -95,14 +95,19 @@ namespace JwSale.Model
         public string Remark { get; set; }
 
         /// <summary>
-        /// 类型 1:端口授权  2:月租授权
+        /// 类型  
         /// </summary>
         public int Type { get; set; }
+     
         /// <summary>
-        /// 微信号数量
+        /// 微信OpenId
         /// </summary>
-        public int WxCount { get; set; }
+        public string WxOpenId { get; set; }
 
+        /// <summary>
+        /// 微信UnionId
+        /// </summary>
+        public string WxUnionId { get; set; }
         /// <summary>
         /// 过期时间
         /// </summary>

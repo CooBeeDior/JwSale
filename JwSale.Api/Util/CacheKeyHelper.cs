@@ -16,6 +16,11 @@ namespace JwSale.Api.Util
         {
             return $"token:{username}";
         }
+        public static string GetWxLoginTokenKey(string openid)
+        {
+            return $"token:{openid}";
+        }
+     
         public static string GetUserTokenKey(string userName, string loginType)
         {
             return $"token:{userName}_{loginType}";

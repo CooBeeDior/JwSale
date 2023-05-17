@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 
@@ -12,8 +13,16 @@ namespace JwSale.Api
     {
 
         public static void Main(string[] args)
-        { 
-            CreateWebHostBuilder(args).Build().Run();
+        {
+            try
+            {
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText("application.log", ex.Message);
+
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

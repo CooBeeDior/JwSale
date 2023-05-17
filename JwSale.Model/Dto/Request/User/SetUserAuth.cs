@@ -20,10 +20,7 @@ namespace JwSale.Model.Dto.Request.User
         /// </summary>
         public int Type { get; set; }
 
-        /// <summary>
-        /// 微信号数量
-        /// </summary>
-        public int WxCount { get; set; }
+   
         /// <summary>
         /// 过期时间
         /// </summary>

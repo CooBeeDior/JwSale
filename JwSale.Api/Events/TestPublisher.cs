@@ -2,6 +2,7 @@
 using JwSale.Api.Const.JwSale.Api.Const;
 using JwSale.Packs.Attributes;
 using JwSale.Packs.Manager;
+using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using RabbitMQ.Client;
 using RabbitmqCore;

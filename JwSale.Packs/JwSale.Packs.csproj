@@ -45,11 +45,16 @@
   <ItemGroup>
     <ProjectReference Include="..\FeignCore\FeignCore.csproj" />
     <ProjectReference Include="..\FreeSqlCore\FreeSqlCore.csproj" />
+    <ProjectReference Include="..\JsSaleService\JsSaleService.csproj" />
     <ProjectReference Include="..\JwSale.Model\JwSale.Model.csproj" />
     <ProjectReference Include="..\JwSale.Repository\JwSale.Repository.csproj" />
     <ProjectReference Include="..\JwSale.Util\JwSale.Util.csproj" />
     <ProjectReference Include="..\LocalizerCore\LocalizerCore.csproj" />
     <ProjectReference Include="..\RabbitmqCore\RabbitmqCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Util\" />
   </ItemGroup>
 
 </Project>

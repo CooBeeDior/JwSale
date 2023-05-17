@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeignCore", "FeignCore\Feig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizerCore", "LocalizerCore\LocalizerCore.csproj", "{33742BDA-007D-43BC-98AE-CFEB3BB89FF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsSaleService", "JsSaleService\JsSaleService.csproj", "{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{33742BDA-007D-43BC-98AE-CFEB3BB89FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33742BDA-007D-43BC-98AE-CFEB3BB89FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33742BDA-007D-43BC-98AE-CFEB3BB89FF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

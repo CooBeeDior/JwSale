@@ -5,11 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebApiClient.JIT" Version="1.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\FreeSqlCore\FreeSqlCore.csproj" />
     <ProjectReference Include="..\JwSale.Model\JwSale.Model.csproj" />
+    <ProjectReference Include="..\JwSale.Repository\JwSale.Repository.csproj" />
+    <ProjectReference Include="..\JwSale.Util\JwSale.Util.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,8 +14,8 @@ namespace JwSale.Util.Assemblies
 
         static AssemblyFinder()
         {
-            var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll", SearchOption.TopDirectoryOnly)
-                .Concat(Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.exe", SearchOption.TopDirectoryOnly));
+            var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "JWSale*.dll", SearchOption.TopDirectoryOnly)
+                .Concat(Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*Core.dll", SearchOption.TopDirectoryOnly));
 
             //allAssembly = new List<Assembly>();
 

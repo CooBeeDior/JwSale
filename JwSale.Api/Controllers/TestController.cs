@@ -14,6 +14,7 @@ using Microsoft.Extensions.Localization;
 using RabbitmqCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -22,6 +23,9 @@ using System.Web;
 
 namespace JwSale.Api.Controllers
 {
+    /// <summary>
+    /// 测试接口使用
+    /// </summary>
     [NoAuthRequired]
     public class TestController : JwSaleControllerBase
     {
@@ -118,23 +122,25 @@ namespace JwSale.Api.Controllers
 
         /// <summary>
         /// 本地化测试
-        /// url：
-        ///?culture=zh-CN&ui-culture=zh-CN
-        ///?culture = zh-CN
-        ///?ui-culture=zh-CN  
-        ///cookie：
-        ///键名称：.AspNetCore.Culture
-        ///值内容：
-        ///c=zh-CN|uic=zh-CN
-        ///c = zh - CN
-        ///uic=zh-CN  
-        ///Header:
-        ///Accept-Language:zh-CN,zh;q=0.9
         /// </summary>
+        ///<example>  
+        ///url：
+        /// ?culture=en-US&ui-culture=zh-CN
+        /// cookie：
+        /// 键名称：.AspNetCore.Culture
+        /// 值内容：
+        /// c=en-US|uic=zh-CN
+        /// c = en - US
+        /// uic=zh-CN
+        /// Header:
+        /// Accept-Language:zh-CN,zh;q=0.9
+        ///</example>    
         /// <returns></returns>
         [HttpPost("api/TestLocalizedString")]
         public ActionResult<ResponseBase> TestLocalizedString()
         {
+            var ss = CultureInfo.CurrentCulture;
+            var s11s = CultureInfo.CurrentUICulture;
             ResponseBase<IEnumerable<LocalizedString>> response = new ResponseBase<IEnumerable<LocalizedString>>();
             var result = _stringLocalizer.GetAllStrings();
             response.Data = result;

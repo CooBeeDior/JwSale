@@ -9,6 +9,11 @@
             基类
             </summary> 
         </member>
+        <member name="T:JwSale.Api.Controllers.TestController">
+            <summary>
+            测试接口使用
+            </summary>
+        </member>
         <member name="M:JwSale.Api.Controllers.TestController.Test">
             <summary>
             测试
@@ -40,12 +45,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.TestController.TestLocalizedString">
-            <summary>
-            本地化测试
-            </summary>
-            <returns></returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:JwSale.Api.Controllers.TestController.TestLocalizedString" -->
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理
@@ -130,11 +130,16 @@
             </summary> 
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.getPermissions(System.Guid)">
+        <member name="T:JwSale.Api.Controllers.WechatController">
             <summary>
-            获取用户权限
+            微信小程序
             </summary>
-            <param name="userId"></param>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.Login(JwSale.Model.Dto.Request.Wechat.WechatLoginRequest)">
+            <summary>
+            微信小程序授权登录
+            </summary>
+            <param name="login"></param>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Events.TestConsumer">

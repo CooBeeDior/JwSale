@@ -7,6 +7,7 @@ using JwSale.Repository.Context;
 using JwSale.Repository.Repositorys;
 using JwSale.Repository.UnitOfWork;
 using JwSale.Util.Assemblies;
+using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;

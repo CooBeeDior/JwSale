@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwSale.Api", "JwSale.Api\JwSale.Api.csproj", "{FB18E175-F2A0-47E6-9F98-6C3C83488F69}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwSale.Packs", "JwSale.Packs\JwSale.Packs.csproj", "{0D639FAD-9235-42B7-B034-82BF135264F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwSale.Repository", "JwSale.Repository\JwSale.Repository.csproj", "{45C932C4-F5C2-4ADF-9344-8EE9DC18296D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSqlCore", "FreeSqlCore\FreeSqlCore.csproj", "{25464117-2F42-4718-9506-E794D22DAE9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{45C932C4-F5C2-4ADF-9344-8EE9DC18296D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45C932C4-F5C2-4ADF-9344-8EE9DC18296D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45C932C4-F5C2-4ADF-9344-8EE9DC18296D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25464117-2F42-4718-9506-E794D22DAE9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25464117-2F42-4718-9506-E794D22DAE9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25464117-2F42-4718-9506-E794D22DAE9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25464117-2F42-4718-9506-E794D22DAE9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

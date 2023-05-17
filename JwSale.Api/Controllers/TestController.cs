@@ -1,6 +1,7 @@
 ﻿using JwSale.Api.Extensions;
 using JwSale.Api.Filters;
 using JwSale.Api.Http;
+using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Common;
 using JwSale.Packs.Manager;
@@ -22,9 +23,22 @@ namespace JwSale.Api.Controllers
     public class TestController : JwSaleControllerBase
     {
         private readonly IRabbitmqPublisher _rabbitmqPublisher;
-        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher) : base(context)
+        private readonly IFreeSql _freesql;
+        private readonly IdleBus<IFreeSql> _idleBusFreeSql;
+        // private readonly ISpiderHttpClientFactory _spiderHttpClientFactory;
+        // private readonly IHttpClientFactory _httpClientFactory;
+        //private readonly IUserApi _userApi;
+        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher, IFreeSql freesql, IdleBus<IFreeSql> idleBusFreeSql
+            //ISpiderHttpClientFactory spiderHttpClientFactory, IHttpClientFactory httpClientFactory,
+            //IUserApi userApi
+            ) : base(context)
         {
             _rabbitmqPublisher = rabbitmqPublisher;
+            _freesql = freesql;
+            _idleBusFreeSql = idleBusFreeSql;
+            //_spiderHttpClientFactory = spiderHttpClientFactory;
+            //_httpClientFactory = httpClientFactory;
+            //_userApi = userApi;
         }
 
         /// <summary>
@@ -54,6 +68,25 @@ namespace JwSale.Api.Controllers
             return response;
         }
 
+        [HttpPost("api/TestFreeSql")]
+        public ActionResult<ResponseBase> TestFreeSql()
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            var userInfo = _freesql.Select<UserInfo>().ToOne();
+            response.Data = userInfo;
+            return response;
+        }
+
+        [HttpPost("api/TestIdleBusFreeSql")]
+        public ActionResult<ResponseBase> TestIdleBusFreeSql()
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            var freeSqls = _idleBusFreeSql.GetAll();
+            var freeSql = freeSqls.FirstOrDefault();
+            var userInfo = _freesql.Select<UserInfo>().ToOne();
+            response.Data = userInfo;
+            return response;
+        }
 
     }
 }

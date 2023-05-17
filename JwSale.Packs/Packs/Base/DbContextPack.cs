@@ -29,29 +29,6 @@ namespace JwSale.Packs.Packs
             services.GetOrAdd(new ServiceDescriptor(typeof(IUnitOfWork<>), typeof(UnitOfWork<>), ServiceLifetime.Scoped));
             services.GetOrAdd(new ServiceDescriptor(typeof(IUnitOfWorkManager), typeof(UnitOfWorkManager), ServiceLifetime.Scoped));
 
-            var configuration = services.GetSingletonInstance<IConfiguration>();
-
-            var jwSaleOptions = configuration.Get<JwSaleOptions>();
-
-            var jwSaleSqlServer = jwSaleOptions?.JwSaleSqlServers?.Where(o => o.DbContextTypeName == typeof(TDbContext).FullName)?.FirstOrDefault();
-
-            if (jwSaleSqlServer?.DatabaseType == DatabaseType.MsSqlServer)
-            {
-                services.AddDbContext<TDbContext>(options =>
-                {
-                    options.UseSqlServer(jwSaleSqlServer.ConnectionString);
-                    if (jwSaleSqlServer.UseLazyLoadingProxies)
-                    {
-                        options.UseLazyLoadingProxies();
-                    }
-
-                });
-            }
-            else
-            {
-                throw new System.Exception($"未找到{typeof(TDbContext).FullName}数据库配置");
-            } 
-
             return services;
 
 

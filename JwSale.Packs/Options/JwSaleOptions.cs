@@ -1,4 +1,5 @@
-﻿using JwSale.Model.Enums;
+﻿using FreesqlCore;
+using JwSale.Model.Enums;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -43,6 +44,46 @@ namespace JwSale.Packs.Options
         /// rabbitmq消息队列配置
         /// </summary>
         public RabbitmqOptions Rabbitmq { get; set; }
+
+
+        /// <summary>
+        /// FreeSql批量处理配置
+        /// </summary>
+        public FreeSqlBusOptions FreeSqlBus { get; set; }
+
+        /// <summary>
+        /// FreeSql配置
+        /// </summary>
+        public FreeSqlDbOptions FreeSql { get; set; }
+
+
+        ///// <summary>
+        ///// ElasticSearch配置
+        ///// </summary>
+        //public ElasticSearchOptions ElasticSearch { get; set; }
+
+        ///// <summary>
+        ///// Spider配置
+        ///// </summary>
+        //public SpiderOptions Spider { get; set; }
+
+
+
+        ///// <summary>
+        /////  MongoDb配置
+        ///// </summary>
+        //public MongoDbOptions MongoDb { get; set; }
+
+
+        ///// <summary>
+        ///// mongodb本地化配置
+        ///// </summary>
+        //public MongodbLocalizerOptions MongodbLocalizer { get; set; }
+
+        ///// <summary>
+        ///// 限流配置
+        ///// </summary>
+        //public RateLimitingOptions RateLimiting { get; set; }
 
     }
 

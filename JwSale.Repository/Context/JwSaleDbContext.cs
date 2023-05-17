@@ -12,15 +12,10 @@ namespace JwSale.Repository.Context
         {
         }
 
-        public DbSet<AddressBook> AddressBooks { get; set; }
-        public DbSet<ChatRoomInfo> ChatRoomInfos { get; set; }
-        public DbSet<ChatRoomMemberInfo> ChatRoomMemberInfos { get; set; }
-        public DbSet<ChatRoomTaskInfo> ChatRoomTaskInfos { get; set; }
-        public DbSet<WxFriendInfo> WxFriendInfos { get; set; }
-        public DbSet<WxInfo> WxInfos { get; set; }
-        public DbSet<WxNoTaskInfo> WxNoTaskInfos { get; set; }
+     
 
-        public DbSet<GhInfo> GhInfos { get; set; }
+
+
         public DbSet<FunctionInfo> FunctionInfos { get; set; }
         public DbSet<RoleInfo> RoleInfos { get; set; }
         public DbSet<RolePermissionInfo> RolePermissionInfos { get; set; }

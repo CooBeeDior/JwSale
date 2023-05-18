@@ -10,8 +10,7 @@ namespace JwSale.Api.Controllers
 {
     /// <summary>
     /// 微信控制器
-    /// </summary>
-    [NoAuthRequired]
+    /// </summary> 
     [TypeFilter(typeof(WechatAuthAttribute))]
     public abstract class WechatControllerBase : JwSaleControllerBase
     {

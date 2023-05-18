@@ -7,7 +7,7 @@ using StackExchange.Profiling;
 namespace JwSale.Packs.Packs
 {
 
-    [Pack("MiniProfile模块")]
+    [Pack("MiniProfile模块", IsInitialization = false)]
     [PackDependecy(typeof(JwSaleDbContextPack))]
     public class MiniProfilerPack : JwSalePack
     {

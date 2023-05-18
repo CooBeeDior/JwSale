@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -515,6 +516,50 @@ namespace JwSale.Util.Extensions
             return string.IsNullOrWhiteSpace(str);
         }
 
+        /// <summary>
+        ///反射 深拷贝
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T DeepCopyByReflection<T>(this T obj) 
+        {
+            if (obj is string || obj.GetType().IsValueType)
+                return obj;
+
+            object retval = Activator.CreateInstance(obj.GetType());
+            FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+            foreach (var field in fields)
+            {
+                try
+                {
+                    field.SetValue(retval, DeepCopyByReflection(field.GetValue(obj)));
+                }
+                catch { }
+            }
+
+            return (T)retval;
+        }
+
+        /// <summary>
+        /// 二进制序列化和反序列化 深拷贝
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T DeepCopyByBinary<T>(this T obj) where T : new()
+        {
+            object retval;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(ms, obj);
+                ms.Seek(0, SeekOrigin.Begin);
+                retval = bf.Deserialize(ms);
+                ms.Close();
+            }
+            return (T)retval;
+        }
 
 
         /// <summary>
@@ -1039,9 +1084,9 @@ namespace JwSale.Util.Extensions
         public static string WxOpenId(this HttpContext httpContext)
         {
             string wxOpenId = httpContext.Items[CacheKeyHelper.WXOPENID]?.ToString();
-           
+
             return wxOpenId;
         }
- 
+
     }
 }

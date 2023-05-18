@@ -1,24 +1,18 @@
 ﻿using JsSaleService;
-using JwSale.Api.Util;
 using JwSale.Model.Dto;
-using JwSale.Model.Dto.Service;
+using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
 using JwSale.Repository.Context;
 using JwSale.Util;
 using JwSale.Util.Extensions;
-using JwSale.Util.Initialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
-
 namespace JwSale.Api.Filters
 {
 
@@ -99,9 +93,26 @@ namespace JwSale.Api.Filters
             }
             else
             {
-            
-                   var wechatUser = _hospitalService.GetWechatUser(openId, context.HttpContext.HospitalId());
-                if (wechatUser == null)
+                var wechatUserStr = cache.GetString(CacheKeyHelper.GetWxUserKey(openId));
+                WechatUserCache wechatUserCache = null;
+                if (!string.IsNullOrWhiteSpace(wechatUserStr))
+                {
+                    wechatUserCache = wechatUserStr.ToObj<WechatUserCache>();
+
+                }
+                else
+                {
+                    var wechatUser = _hospitalService.GetWechatUser(openId, context.HttpContext.HospitalId()).ConfigureAwait(false).GetAwaiter().GetResult();
+                    if (wechatUser != null)
+                    {
+                        var cc =111wechatUserCache.DeepCopyByReflection<WechatUserCache>();
+                    }
+
+                }
+
+
+
+                if (wechatUserCache == null)
                 {
                     ResponseBase response = new ResponseBase();
                     response.Success = false;
@@ -112,10 +123,11 @@ namespace JwSale.Api.Filters
                 }
                 else
                 {
-                    context.HttpContext.Items[CacheKeyHelper.WECHATUSER] = wechatUser;
+                    cache.SetString(CacheKeyHelper.GetWxUserKey(openId), wechatUserCache.ToJson());
+                    context.HttpContext.Items[CacheKeyHelper.WECHATUSER] = wechatUserCache;
                 }
 
-              
+
             }
 
 

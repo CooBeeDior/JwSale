@@ -30,7 +30,7 @@ namespace JwSale.Api.Controllers
     /// 微信小程序
     /// </summary>
 
-    [MoudleInfo("微信小程序", 1)]
+    [MoudleInfo("微信小程序", 1, IsFunction = false)]
     public class WechatController : WechatControllerBase
     {
         private readonly IWxMiniProgram _wxMiniProgram;

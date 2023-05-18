@@ -4,11 +4,7 @@ using System;
 namespace JwSale.Util
 {
     public class UserHelper
-    {
-
-
-
-
+    { 
 
         public static string GenerateToken(UserToken userToken, string key)
         {

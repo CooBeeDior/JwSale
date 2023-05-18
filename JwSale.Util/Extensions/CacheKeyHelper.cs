@@ -14,13 +14,16 @@ namespace JwSale.Util
 
         public static string GetUserTokenKey(string username)
         {
-            return $"token:{username}";
+            return $"user:token:{username}";
         }
         public static string GetWxLoginTokenKey(string openid)
         {
-            return $"token:{openid}";
+            return $"wxlogin:token:{openid}";
         }
-
+        public static string GetWxUserKey(string openid)
+        {
+            return $"wxuser:token:{openid}";
+        }
         public static string GetUserTokenKey(string userName, string loginType)
         {
             return $"token:{userName}_{loginType}";

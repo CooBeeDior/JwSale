@@ -10,8 +10,10 @@ namespace JwSale.Packs.Attributes
     {
         public string Name { get; }
 
+        public bool IsInitialization { get; set; }
+
         public Level Level { get; }
-        public PackAttribute(string Name, Level Level = Level.Medium)
+        public PackAttribute(string Name, Level Level = Level.Medium, bool IsInitialization = true)
         {
             this.Name = Name;
             this.Level = Level;

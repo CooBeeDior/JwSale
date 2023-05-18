@@ -60,8 +60,9 @@ namespace JwSale.Packs.Manager
                 }
                 Packs = packs;
                 DependencyPacks = dependencyPacks;
-                return this;
             }
+            return this;
+
         }
 
 
@@ -78,16 +79,20 @@ namespace JwSale.Packs.Manager
                     foreach (var packType in filterTypes)
                     {
                         var packAttribute = packType.GetCustomAttribute<TAttribute>();
-                        packs.AddIfNotNullAndNotExsit<PackType>(new PackType(packType, packAttribute.Level));
-                        var packDependecyAttributes = packType.GetCustomAttributes<PackDependecyAttribute>();
-                        foreach (var packDependecyAttribute in packDependecyAttributes)
+                        if (packAttribute.IsInitialization)
                         {
-                            var depencyList = packDependecyAttribute?.PackDependecyTypes?.Where(o => typeof(JwSalePack).IsAssignableFrom(o) && o.IsClass && !o.IsAbstract)?.ToList()?.Select(o =>
-                              {
-                                  var depencyPackAttribute = packType.GetCustomAttribute<TAttribute>();
-                                  return new PackType(o, depencyPackAttribute.Level);
-                              })?.ToList();
-                            dependencyPacks.AddIfNotNullAndNotExsit(depencyList);
+                            packs.AddIfNotNullAndNotExsit<PackType>(new PackType(packType, packAttribute.Level));
+                            var packDependecyAttributes = packType.GetCustomAttributes<PackDependecyAttribute>();
+                            foreach (var packDependecyAttribute in packDependecyAttributes)
+                            {
+                                var depencyList = packDependecyAttribute?.PackDependecyTypes?.Where(o => typeof(JwSalePack).IsAssignableFrom(o) && o.IsClass && !o.IsAbstract)?.ToList()?.Select(o =>
+                                {
+                                    var depencyPackAttribute = packType.GetCustomAttribute<TAttribute>();
+                                    return new PackType(o, depencyPackAttribute.Level);
+                                })?.ToList();
+                                dependencyPacks.AddIfNotNullAndNotExsit(depencyList);
+                            }
+
                         }
                     }
 

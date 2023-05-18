@@ -1,4 +1,6 @@
 ﻿using JwSale.Api.Http;
+using JwSale.Model.Dto.Cache;
+using JwSale.Model.Dto.Service;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -14,6 +16,7 @@ namespace JwSale.Api
 
         public static void Main(string[] args)
         {
+            
             try
             {
                 CreateWebHostBuilder(args).Build().Run();

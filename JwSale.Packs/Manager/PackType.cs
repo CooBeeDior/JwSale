@@ -11,6 +11,7 @@ namespace JwSale.Packs.Manager
 
         public Level Level { get; set; }
 
+
         public PackType(Type type, Level level)
         {
             this.Type = type;

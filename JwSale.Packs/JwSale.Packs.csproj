@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Core\**" />
+    <Compile Remove="Util\**" />
     <EmbeddedResource Remove="Core\**" />
+    <EmbeddedResource Remove="Util\**" />
     <None Remove="Core\**" />
+    <None Remove="Util\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,10 +54,6 @@
     <ProjectReference Include="..\JwSale.Util\JwSale.Util.csproj" />
     <ProjectReference Include="..\LocalizerCore\LocalizerCore.csproj" />
     <ProjectReference Include="..\RabbitmqCore\RabbitmqCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Util\" />
   </ItemGroup>
 
 </Project>

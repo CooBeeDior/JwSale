@@ -7,12 +7,12 @@ namespace JwSale.Model.Dto.Response.UserRole
     /// <summary>
     /// 权限
     /// </summary>
-    public class Permssion
+    public class PermssionResponse
     {
         /// <summary>
         /// 主键标志
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 编码

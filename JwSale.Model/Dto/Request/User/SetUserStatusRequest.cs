@@ -8,13 +8,13 @@ namespace JwSale.Model.Dto.Request.User
     /// <summary>
     /// 设置用户状态
     /// </summary>
-    public class SetUserStatus : RequestBase
+    public class SetUserStatusRequest : RequestBase
     { 
         /// <summary>
        /// 用户Id
        /// </summary>
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
  
 
         /// <summary>

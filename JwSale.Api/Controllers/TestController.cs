@@ -3,10 +3,13 @@ using JwSale.Api.Extensions;
 using JwSale.Api.Filters;
 using JwSale.Api.Http;
 using JwSale.Model;
+using JwSale.Model.DbModel;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Common;
 using JwSale.Packs.Manager;
 using JwSale.Repository.Context;
+using JwSale.Util;
+using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +17,11 @@ using Microsoft.Extensions.Localization;
 using RabbitmqCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -86,10 +91,34 @@ namespace JwSale.Api.Controllers
         public ActionResult<ResponseBase> TestFreeSql()
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+        
+           
+            Doctor Ddctor = new Doctor()
+            {
+                Id = Guid.NewGuid().ToString(),
+                BelongHospitalId = Guid.NewGuid().ToString(),
+                EpartmeneId = Guid.NewGuid().ToString(),
+                Professional = "",
+                AddTime = DateTime.Now,
+                AddUserId = DefaultUserInfo.UserInfo.Id,
+                AddUserRealName = DefaultUserInfo.UserInfo.RealName,
+                UpdateTime = DateTime.Now,
+                UpdateUserId = DefaultUserInfo.UserInfo.Id,
+                UpdateUserRealName = DefaultUserInfo.UserInfo.RealName,
+                UserId = Guid.NewGuid().ToString(),
+                Remark = ""
+
+
+            };
+            int count = _freesql.Insert<Doctor>(Ddctor).ExecuteAffrows();
+            var doctor = _freesql.Select<Doctor>().ToOne();
             var userInfo = _freesql.Select<UserInfo>().ToOne();
             response.Data = userInfo;
             return response;
         }
+
+
+
 
         /// <summary>
         /// IdleBusFreeSql测试

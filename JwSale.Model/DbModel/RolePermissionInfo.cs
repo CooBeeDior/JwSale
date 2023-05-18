@@ -16,11 +16,11 @@ namespace JwSale.Model
         /// <summary>
         /// 角色Id
         /// </summary>
-        public Guid RoleId { get; set; }
+        public string RoleId { get; set; }
         /// <summary>
         /// 功能Id
         /// </summary>
-        public Guid FunctionId { get; set; }
+        public string FunctionId { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

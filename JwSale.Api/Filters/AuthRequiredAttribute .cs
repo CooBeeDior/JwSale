@@ -3,6 +3,7 @@ using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
 using JwSale.Repository.Context;
+using JwSale.Util;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -143,7 +144,7 @@ namespace JwSale.Api.Filters
                                 }
                                 else
                                 {
-                                    context.HttpContext.Items[CacheKeyHelper.GetHttpContextUserKey()] = userInfo;
+                                    context.HttpContext.Items[CacheKeyHelper.CURRENTUSER] = userInfo;
                                 }
 
                             }

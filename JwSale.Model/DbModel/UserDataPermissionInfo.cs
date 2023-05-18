@@ -15,11 +15,11 @@ namespace JwSale.Model
         /// <summary>
         /// 用户Id
         /// </summary>
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 允许访问的用户Id
         /// </summary>
-        public Guid ToUserId { get; set; }
+        public string ToUserId { get; set; }
         /// <summary>
         /// 类型 0：可以访问 1：不能访问
         /// </summary>

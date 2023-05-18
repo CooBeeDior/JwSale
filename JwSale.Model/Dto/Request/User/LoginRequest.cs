@@ -8,7 +8,7 @@ namespace JwSale.Model.Dto.Request.User
     /// <summary>
     /// 登录
     /// </summary>
-    public class Login : RequestBase
+    public class LoginRequest : RequestBase
     {
         /// <summary>
         /// 用户名

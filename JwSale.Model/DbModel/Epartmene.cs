@@ -20,7 +20,7 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 医院Id
         /// </summary>
-        public Guid HospitalId { get; set; }
+        public string HospitalId { get; set; }
         /// <summary>
         /// 位置
         /// </summary>

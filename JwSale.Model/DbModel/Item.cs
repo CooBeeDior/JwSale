@@ -9,7 +9,7 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 医院Id
         /// </summary>
-        public Guid HospitalId { get; set; }
+        public string HospitalId { get; set; }
         /// <summary>
         /// 名称
         /// </summary>
@@ -17,7 +17,7 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 项目类别Id
         /// </summary>
-        public Guid ItemTypeId { get; set; }
+        public string ItemTypeId { get; set; }
         /// <summary>
         /// 单价
         /// </summary>

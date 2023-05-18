@@ -1,6 +1,8 @@
 ﻿using JwSale.Util.Attributes;
 using JwSale.Util.Excels;
+using JwSale.Util.Initialization;
 using JwSale.Util.Properties;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.International.Converters.PinYinConverter;
@@ -1013,5 +1015,33 @@ namespace JwSale.Util.Extensions
             }
             return (urlArr[0], port);
         }
+
+        /// <summary>
+        /// 获取医院Id
+        /// </summary>
+        /// <param name="httpContextAccessor"></param>
+        /// <returns></returns>
+        public static string HospitalId(this HttpContext httpContext)
+        {
+            string hospitalId = httpContext.Items[CacheKeyHelper.HOSPITALID]?.ToString();
+            if (string.IsNullOrWhiteSpace(hospitalId))
+            {
+                hospitalId = DefaultHospital.Hospital.Id;
+            }
+            return hospitalId;
+        }
+
+        /// <summary>
+        /// 获取微信号openId
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public static string WxOpenId(this HttpContext httpContext)
+        {
+            string wxOpenId = httpContext.Items[CacheKeyHelper.WXOPENID]?.ToString();
+           
+            return wxOpenId;
+        }
+ 
     }
 }

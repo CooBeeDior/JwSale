@@ -15,11 +15,11 @@ namespace JwSale.Model
         /// <summary>
         /// 用户Id
         /// </summary>
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 角色Id
         /// </summary>
-        public Guid RoleId { get; set; }
+        public string RoleId { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

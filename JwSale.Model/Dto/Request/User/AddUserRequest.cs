@@ -8,7 +8,7 @@ namespace JwSale.Model.Dto.Request.User
     /// <summary>
     /// 添加用户
     /// </summary>
-    public class AddUser : RequestBase
+    public class AddUserRequest : RequestBase
     {
         /// <summary>
         /// 用户名

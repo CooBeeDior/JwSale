@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JwSale.Api.Util
+namespace JwSale.Util
 {
     public class CacheKeyHelper
     {
@@ -20,16 +20,26 @@ namespace JwSale.Api.Util
         {
             return $"token:{openid}";
         }
-     
+
         public static string GetUserTokenKey(string userName, string loginType)
         {
             return $"token:{userName}_{loginType}";
         }
 
 
-        public static string GetHttpContextUserKey()
-        {
-            return "currentUser";
-        }
+        public const string CURRENTUSER = "CURRENT_USER";
+
+
+
+        public const string WECHATUSER = "WECHAT_USER";
+
+
+        public const string PHONENUMER = "phoneNumer";
+
+        public const string WXOPENID = "wxOpenId";
+
+
+        public const string HOSPITALID = "hospitalId";
+
     }
 }

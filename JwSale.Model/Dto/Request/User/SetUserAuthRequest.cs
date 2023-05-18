@@ -8,13 +8,13 @@ namespace JwSale.Model.Dto.Request.User
     /// <summary>
     /// 设置用户授权
     /// </summary>
-    public class SetUserAuth : RequestBase
+    public class SetUserAuthRequest : RequestBase
     {
         /// <summary>
         /// 用户Id
         /// </summary>
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 类型 1:端口授权  2:月租授权
         /// </summary>

@@ -6,14 +6,14 @@ using System.Text;
 namespace JwSale.Model.Dto.Request.User
 {
     /// <summary>
-    /// 重置密码
+    /// 设置所有权限
     /// </summary>
-    public class ResetUserPwd : RequestBase
-    {         
+    public class SetAllPermissonRequest: RequestBase
+    {
         /// <summary>
-        /// 密码
-        /// </summary> 
+        /// 用户Id
+        /// </summary>
         [Required]
-        public string NewPassword { get; set; }
+        public string UserId { get; set; }
     }
 }

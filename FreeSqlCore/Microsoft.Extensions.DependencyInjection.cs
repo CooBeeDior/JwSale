@@ -2,6 +2,8 @@
 using FreesqlCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -19,14 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var isRegisterSucess = ib.TryRegister(item.Name, () =>
                 {
-                    var freesql = new FreeSqlBuilder()
-                     .UseConnectionString(item.DataType, item.ConnectString)
-                     .UseAutoSyncStructure(item.IsAutoSyncStructure) //自动同步实体结构到数据库
-                     .UseNoneCommandParameter(item.IsNoneCommandParameter)
-                     .UseLazyLoading(item.IsLazyLoading)
-                     .UseNameConvert(item.NameConvertType)
-                     .UseMonitorCommand(item.Executing, item.Executed).Build();
-                    freesql.UseJsonMap();
+                    var freesql = freeSqlBuildService(item);
                     return freesql;
                 });
                 if (!isRegisterSucess)
@@ -45,18 +40,35 @@ namespace Microsoft.Extensions.DependencyInjection
             action?.Invoke(freeSqlOptions);
             services.AddSingleton(freeSqlOptions);
 
-            var freesql = new FreeSqlBuilder()
-             .UseConnectionString(freeSqlOptions.DataType, freeSqlOptions.ConnectString)
-             .UseAutoSyncStructure(freeSqlOptions.IsAutoSyncStructure) //自动同步实体结构到数据库
-             .UseNoneCommandParameter(freeSqlOptions.IsNoneCommandParameter)
-             .UseLazyLoading(freeSqlOptions.IsLazyLoading)
-             .UseNameConvert(freeSqlOptions.NameConvertType)
-             .UseMonitorCommand(freeSqlOptions.Executing, freeSqlOptions.Executed).Build();
-            freesql.UseJsonMap();
+            var freesql = freeSqlBuildService(freeSqlOptions);
             services.AddSingleton(freesql);
 
 
 
+        }
+
+
+        private static IFreeSql freeSqlBuildService(FreeSqlDbOptions freeSqlOptions)
+        {
+            var freesql = new FreeSqlBuilder()
+               .UseConnectionString(freeSqlOptions.DataType, freeSqlOptions.ConnectString)
+               .UseAutoSyncStructure(freeSqlOptions.IsAutoSyncStructure) //自动同步实体结构到数据库
+               .UseNoneCommandParameter(freeSqlOptions.IsNoneCommandParameter)
+               .UseLazyLoading(freeSqlOptions.IsLazyLoading)
+               .UseNameConvert(freeSqlOptions.NameConvertType)
+               .UseMonitorCommand(freeSqlOptions.Executing, freeSqlOptions.Executed).Build();
+            freesql.UseJsonMap();
+
+            freesql.Aop.ConfigEntityProperty += (e, obj) =>
+            {
+                var attr = obj.Property.GetCustomAttribute<TimestampAttribute>();
+                if (attr != null)
+                {
+                    obj.ModifyResult.IsIgnore = true;
+                    obj.ModifyResult.IsVersion = true;
+                }
+            };
+            return freesql;
         }
     }
 }

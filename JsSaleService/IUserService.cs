@@ -9,7 +9,7 @@ namespace JsSaleService
 {
     public interface IUserService : IService
     {
-        Task<IList<FunctionTree>> GetUserFunctions(Guid userId);
+        Task<IList<FunctionTreeResponse>> GetUserFunctions(string userId);
 
         /// <summary>
         /// 获取功能列表
@@ -17,7 +17,7 @@ namespace JsSaleService
         /// <param name="functions"></param>
         /// <param name="functionTree"></param>
         /// <param name="permissions"></param>
-        void GetFuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<Permssion> permissions);
+        void GetFuntions(IEnumerable<FunctionInfo> functions, FunctionTreeResponse functionTree, IList<PermssionResponse> permissions);
 
 
 
@@ -27,7 +27,7 @@ namespace JsSaleService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<BriefInfo>> GetPermissions(Guid userId);
+        Task<IList<BriefInfo>> GetPermissions(string userId);
 
 
         /// <summary>

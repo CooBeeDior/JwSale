@@ -47,7 +47,7 @@ namespace JsSaleService
             _repositoryUserPermissionInfo = repositoryUserPermissionInfo;
             _jwSaleUnitOfWork = jwSaleUnitOfWork;
         }
-        public async Task<IList<FunctionTree>> GetUserFunctions(Guid userId)
+        public async Task<IList<FunctionTreeResponse>> GetUserFunctions(string userId)
         {
 
             var functions = DbContext.FunctionInfos.OrderBy(o => o.Order).AsEnumerable();
@@ -58,7 +58,7 @@ namespace JsSaleService
                         join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
                         join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
                         where u.Id == userId
-                        select new Permssion()
+                        select new PermssionResponse()
                         {
                             Id = f.Id,
                             Code = f.Code,
@@ -68,7 +68,7 @@ namespace JsSaleService
                             join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
                             join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
                             where u.Id == userId && up.Type == (short)PermissionType.Increase
-                            select new Permssion()
+                            select new PermssionResponse()
                             {
                                 Id = f.Id,
                                 Code = f.Code,
@@ -78,15 +78,15 @@ namespace JsSaleService
                               join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
                               join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
                               where u.Id == userId && up.Type == (short)PermissionType.Decut
-                              select new Permssion()
+                              select new PermssionResponse()
                               {
                                   Id = f.Id,
                                   Code = f.Code,
                                   Name = f.Name
                               }).ToListAsync();
-            FunctionTree functionTree = new FunctionTree()
+            FunctionTreeResponse functionTree = new FunctionTreeResponse()
             {
-                Id = Guid.Empty,
+                Id = string.Empty,
                 Code = "Root",
                 Name = "根节点"
             };
@@ -102,9 +102,9 @@ namespace JsSaleService
         /// <param name="functions"></param>
         /// <param name="functionTree"></param>
         /// <param name="permissions"></param>
-        public void GetFuntions(IEnumerable<FunctionInfo> functions, FunctionTree functionTree, IList<Permssion> permissions)
+        public void GetFuntions(IEnumerable<FunctionInfo> functions, FunctionTreeResponse functionTree, IList<PermssionResponse> permissions)
         {
-            var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTree
+            var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTreeResponse
             {
                 Id = o.Id,
                 Name = o.Name,
@@ -129,7 +129,7 @@ namespace JsSaleService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IList<BriefInfo>> GetPermissions(Guid userId)
+        public async Task<IList<BriefInfo>> GetPermissions(string userId)
         {
             return await (
                  from u in DbContext.UserInfos.AsNoTracking()
@@ -177,14 +177,14 @@ namespace JsSaleService
         /// </summary>
         /// <returns></returns>
         public IList<FunctionInfo> InitFunctions()
-        { 
+        {
             _jwSaleUnitOfWork.BeginOrUseTransaction();
             _repositoryFunctionInfo.Delete(s => true);
-          
+
             IList<FunctionInfo> functionInfos = new List<FunctionInfo>();
 
             DateTime dateNow = DateTime.Now;
-            Guid userId = DefaultUserInfo.UserInfo.Id;
+            string userId = DefaultUserInfo.UserInfo.Id;
             string userRealName = DefaultUserInfo.UserInfo.RealName;
             foreach (var assembly in AssemblyFinder.AllAssembly)
             {
@@ -194,7 +194,7 @@ namespace JsSaleService
                     var moudleInfoAttribute = type.GetCustomAttribute<MoudleInfoAttribute>();
                     var nameArr = moudleInfoAttribute.Name.Split('-', '/', '\\', '_');
 
-                    Guid parentId = Guid.Empty;
+                    string parentId = string.Empty;
 
 
                     var path = type.GetCustomAttribute<RouteAttribute>()?.Template ?? type.GetCustomAttribute<HttpGetAttribute>()?.Template ?? type.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
@@ -202,7 +202,7 @@ namespace JsSaleService
                     {
                         FunctionInfo functionInfo = new FunctionInfo()
                         {
-                            Id = Guid.NewGuid(),
+                            Id = Guid.NewGuid().ToString(),
                             Name = name,
                             Code = string.IsNullOrEmpty(moudleInfoAttribute.Code) ? name.ToPinYin() : moudleInfoAttribute.Code,
                             ParentId = parentId,
@@ -230,7 +230,7 @@ namespace JsSaleService
                         var methodPath = method.GetCustomAttribute<RouteAttribute>()?.Template ?? method.GetCustomAttribute<HttpGetAttribute>()?.Template ?? method.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
                         FunctionInfo functionInfo = new FunctionInfo()
                         {
-                            Id = Guid.NewGuid(),
+                            Id = Guid.NewGuid().ToString(),
                             Name = methodMoudleInfoAttribute.Name,
                             Code = string.IsNullOrEmpty(methodMoudleInfoAttribute.Code) ? methodMoudleInfoAttribute.Name.ToPinYin() : methodMoudleInfoAttribute.Code,
                             ParentId = parentId,
@@ -263,7 +263,7 @@ namespace JsSaleService
             _jwSaleUnitOfWork.BeginOrUseTransaction();
 
             DateTime dateNow = DateTime.Now;
-            Guid userId = DefaultUserInfo.UserInfo.Id;
+            string userId = DefaultUserInfo.UserInfo.Id;
             string userRealName = DefaultUserInfo.UserInfo.RealName;
 
 
@@ -347,7 +347,7 @@ namespace JsSaleService
 
                     UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.NewGuid().ToString(),
                         UserId = userId,
                         FunctionId = funciton.Id,
                         Type = 0,

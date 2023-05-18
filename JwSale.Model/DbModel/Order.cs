@@ -10,11 +10,11 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 医院Id
         /// </summary>
-        public Guid HospitalId { get; set; }
+        public string HospitalId { get; set; }
         /// <summary>
         /// 开单医生Id
         /// </summary>
-        public Guid DoctorId { get; set; }
+        public string DoctorId { get; set; }
         /// <summary>
         /// 总价
         /// </summary>

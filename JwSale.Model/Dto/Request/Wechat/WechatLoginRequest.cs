@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request.Wechat
 {
-    public class WechatLoginRequest
+    public class WechatLoginRequest: RequestBase
     {
         /// <summary>
         /// 登录Code

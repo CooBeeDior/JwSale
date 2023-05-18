@@ -40,9 +40,9 @@ namespace JwSale.Api.Extensions
         }
 
 
-        public static IEnumerable<T> AsEnumerable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
+        public static IEnumerable<T> AsEnumerable<T>(this IQueryable<T> source, string userId) where T : Entity
         {
-            if (userId == null || userId == Guid.Empty)
+            if (userId == null || userId == string.Empty)
             {
                 return source;
             }
@@ -114,11 +114,11 @@ namespace JwSale.Api.Extensions
         }
 
 
-    
 
-        public static IQueryable<T> AsQueryable<T>(this IQueryable<T> source, Guid? userId) where T : Entity
+
+        public static IQueryable<T> AsQueryable<T>(this IQueryable<T> source, string userId) where T : Entity
         {
-            if (userId == null || userId == Guid.Empty)
+            if (userId == null || userId == string.Empty)
             {
                 return source;
             }

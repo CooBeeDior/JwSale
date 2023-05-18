@@ -12,15 +12,15 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 所属医院Id
         /// </summary>
-        public Guid BelongHospitalId { get; set; }
+        public string BelongHospitalId { get; set; }
         /// <summary>
         /// 就诊医生Id
         /// </summary>
-        public Guid BelongDoctorId { get; set; }
+        public string BelongDoctorId { get; set; }
         /// <summary>
         /// 关联用户Id
         /// </summary>
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 病情描述
         /// </summary>

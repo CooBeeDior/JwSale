@@ -36,6 +36,8 @@ namespace JwSale.Packs.Packs
                     options.ConnectString = jwSaleOptions.FreeSql.ConnectString;
                     options.Executing = (command) => { };
                     options.Executed = (command, sql) => { };
+
+
                 });
             }
 
@@ -54,6 +56,10 @@ namespace JwSale.Packs.Packs
                 });
 
             }
+
+
+          
+
             //services.AddFreeSqlWithIdleBus(options =>
             //{
             //    var db0 = new FreeSqlDbOptions()

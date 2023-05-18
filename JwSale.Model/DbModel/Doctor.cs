@@ -13,17 +13,17 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 所属医院
         /// </summary>
-        public Guid BelongHospitalId { get; set; }
+        public string BelongHospitalId { get; set; }
 
         /// <summary>
         /// 部门Id
         /// </summary>
-        public Guid EpartmeneId { get; set; }
+        public string EpartmeneId { get; set; }
 
         /// <summary>
         /// 关联用户Id
         /// </summary>
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 职位 职级
         /// </summary>

@@ -16,11 +16,11 @@ namespace JwSale.Model
         /// <summary>
         /// 用户Id
         /// </summary>
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         /// <summary>
         /// 功能Id
         /// </summary>
-        public Guid FunctionId { get; set; }
+        public string FunctionId { get; set; }
         /// <summary>
         /// 类型：0增加 1：减少
         /// </summary>

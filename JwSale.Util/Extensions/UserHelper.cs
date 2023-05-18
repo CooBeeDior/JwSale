@@ -1,7 +1,7 @@
 ﻿using JwSale.Util.Extensions;
 using System;
 
-namespace JwSale.Api.Util
+namespace JwSale.Util
 {
     public class UserHelper
     {
@@ -32,7 +32,7 @@ namespace JwSale.Api.Util
 
     public class UserToken
     {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public string UserName { get; set; }
 

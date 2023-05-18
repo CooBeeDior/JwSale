@@ -13,6 +13,7 @@ using JwSale.Model.Enums;
 using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
 using JwSale.Repository.Context;
+using JwSale.Util;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,7 @@ namespace JwSale.Api.Controllers
     /// 用户管理
     /// </summary>
     [MoudleInfo("用户管理", 1)]
-    public class UserController : JwSaleControllerBase
+    public class UserController : ManageControllerBase
     {
         private readonly IUserService _userService;
         private IDistributedCache _cache;
@@ -58,7 +59,7 @@ namespace JwSale.Api.Controllers
         [MoudleInfo("登录", false)]
         [NoAuthRequired]
         [HttpPost("api/User/Login")]
-        public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(Login login)
+        public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(LoginRequest login)
         {
             ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();
             var userinfo = DbContext.UserInfos.Where(o => o.UserName == login.UserName).FirstOrDefault();
@@ -181,7 +182,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/AddUser")]
         [MoudleInfo("添加用户")]
-        public async Task<ActionResult<ResponseBase<UserInfo>>> AddUser(AddUser addUser)
+        public async Task<ActionResult<ResponseBase<UserInfo>>> AddUser(AddUserRequest addUser)
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
             if (DbContext.UserInfos.Where(o => o.UserName == addUser.UserName).Any())
@@ -194,7 +195,7 @@ namespace JwSale.Api.Controllers
             {
                 UserInfo userInfo = new UserInfo()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     UserName = addUser.UserName,
                     Password = addUser.Password.ToMd5(),
                     RealName = addUser.RealName,
@@ -216,7 +217,7 @@ namespace JwSale.Api.Controllers
 
                     Type = addUser.Type,
                     ExpiredTime = addUser.ExpiredTime?.Date ?? DateTime.Now.AddYears(1),
-                
+
 
 
                     AddTime = DateTime.Now,
@@ -250,7 +251,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/SetAllPermisson")]
         [MoudleInfo("设置所有权限")]
-        public async Task<ActionResult<ResponseBase>> SetAllPermisson(SetAllPermisson setAllPermisson)
+        public async Task<ActionResult<ResponseBase>> SetAllPermisson(SetAllPermissonRequest setAllPermisson)
         {
             ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
             if (!DbContext.UserInfos.Where(o => o.Id == setAllPermisson.UserId).Any())
@@ -275,7 +276,7 @@ namespace JwSale.Api.Controllers
                 {
                     UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.NewGuid().ToString(),
                         UserId = setAllPermisson.UserId,
                         FunctionId = funciton.Id,
                         Type = 0,
@@ -308,7 +309,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/GetUsers")]
         [MoudleInfo("获取用户列表")]
-        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsers getUsers)
+        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsersRequest getUsers)
         {
             PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
             var userinfos = DbContext.UserInfos.AsEnumerable();
@@ -335,7 +336,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/SetUserStatus")]
         [MoudleInfo("设置用户状态")]
-        public async Task<ActionResult<ResponseBase>> SetUserStatus(SetUserStatus setUserStatus)
+        public async Task<ActionResult<ResponseBase>> SetUserStatus(SetUserStatusRequest setUserStatus)
         {
             ResponseBase response = new ResponseBase();
             var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserStatus.UserId).FirstOrDefault();
@@ -364,7 +365,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/ResetUserPwd")]
         [MoudleInfo("重置用户密码")]
-        public async Task<ActionResult<ResponseBase<string>>> ResetUserPwd(ResetUserPwd resetUserPwd)
+        public async Task<ActionResult<ResponseBase<string>>> ResetUserPwd(ResetUserPwdRequest resetUserPwd)
         {
             ResponseBase<string> response = new ResponseBase<string>();
             var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == UserInfo.Id).FirstOrDefault();
@@ -398,7 +399,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/SetUserProfile")]
         [MoudleInfo("修改用户简介")]
-        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserProfile(SetUserProfile setUserProfile)
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserProfile(SetUserProfileRequest setUserProfile)
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
             var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == UserInfo.Id).FirstOrDefault();
@@ -446,7 +447,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [HttpPost("api/User/SetUserAuth")]
         [MoudleInfo("修改用户授权")]
-        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserAuth(SetUserAuth setUserAuth)
+        public async Task<ActionResult<ResponseBase<UserInfo>>> SetUserAuth(SetUserAuthRequest setUserAuth)
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
             var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserAuth.UserId).FirstOrDefault();
@@ -461,7 +462,7 @@ namespace JwSale.Api.Controllers
 
                 userinfo.Type = setUserAuth.Type;
                 userinfo.ExpiredTime = setUserAuth.ExpiredTime?.Date ?? DateTime.Now.AddYears(1);
-             
+
 
                 userinfo.UpdateUserId = UserInfo.UpdateUserId;
                 userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
@@ -498,9 +499,9 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [MoudleInfo("获取用户功能列表", true)]
         [HttpPost("api/UserRole/GetUserFunctions")]
-        public async Task<ActionResult<ResponseBase<IList<FunctionTree>>>> GetUserFunctions()
+        public async Task<ActionResult<ResponseBase<IList<FunctionTreeResponse>>>> GetUserFunctions()
         {
-            ResponseBase<IList<FunctionTree>> response = new ResponseBase<IList<FunctionTree>>();
+            ResponseBase<IList<FunctionTreeResponse>> response = new ResponseBase<IList<FunctionTreeResponse>>();
 
             response.Data = await _userService.GetUserFunctions(UserInfo.Id);
             return await response.ToJsonResultAsync();

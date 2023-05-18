@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,9 +11,9 @@ namespace JwSale.Model
     /// 描  述：UserInfo实体
     /// </summary>
     [Table("UserInfo")]
-    public class UserInfo: Entity
+    public class UserInfo : Entity
     {
-    
+
         /// <summary>
         /// 用户名
         /// </summary>
@@ -28,6 +29,7 @@ namespace JwSale.Model
         /// <summary>
         /// 密码
         /// </summary>
+        [JsonIgnore]
         public string Password { get; set; }
         /// <summary>
         /// 真实姓名
@@ -36,7 +38,7 @@ namespace JwSale.Model
         /// <summary>
         /// 性别 1：男 2：女
         /// </summary>
-        public int Sex { get; set; } 
+        public int Sex { get; set; }
         /// <summary>
         /// 生日
         /// </summary>
@@ -98,7 +100,7 @@ namespace JwSale.Model
         /// 类型  
         /// </summary>
         public int Type { get; set; }
-     
+
         /// <summary>
         /// 微信OpenId
         /// </summary>

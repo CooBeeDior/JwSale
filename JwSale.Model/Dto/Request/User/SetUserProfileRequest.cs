@@ -8,7 +8,7 @@ namespace JwSale.Model.Dto.Request.User
     /// <summary>
     /// 修改用户简介
     /// </summary>
-    public class SetUserProfile : RequestBase
+    public class SetUserProfileRequest : RequestBase
     { 
        
         /// <summary>

@@ -27,7 +27,7 @@ namespace JwSale.Model
         /// <summary>
         /// ¸¸¼¶±ðId
         /// </summary>
-        public Guid ParentId { get; set; }
+        public string ParentId { get; set; }
    
     }
 }

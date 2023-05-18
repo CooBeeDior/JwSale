@@ -7,7 +7,7 @@ namespace JwSale.Model.Dto.Request.User
     /// <summary>
     /// 获取用户
     /// </summary>
-    public class GetUsers : RequestPageBase
+    public class GetUsersRequest : RequestPageBase
     {
 
         public string Name { get; set; }

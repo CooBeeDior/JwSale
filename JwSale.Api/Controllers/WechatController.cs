@@ -1,12 +1,18 @@
 ﻿using FeignCore.Apis;
+using JsSaleService;
 using JwSale.Api.Filters;
 using JwSale.Api.Util;
+using JwSale.Model;
+using JwSale.Model.DbModel;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
+using JwSale.Model.Dto.Request.Hospital;
 using JwSale.Model.Dto.Request.Wechat;
+using JwSale.Model.Dto.Service;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Options;
 using JwSale.Repository.Context;
+using JwSale.Util;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -23,18 +29,24 @@ namespace JwSale.Api.Controllers
     /// <summary>
     /// 微信小程序
     /// </summary>
+
     [MoudleInfo("微信小程序", 1)]
-    [NoAuthRequired]
-    public class WechatController : JwSaleControllerBase
+    public class WechatController : WechatControllerBase
     {
         private readonly IWxMiniProgram _wxMiniProgram;
         private readonly JwSaleOptions _jwSaleOptions;
         private readonly IDistributedCache _cache;
-        public WechatController(JwSaleDbContext context, IWxMiniProgram wxMiniProgram, IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache) : base(context)
+        private readonly IFreeSql _freeSql;
+        private readonly IHospitalService _hospitalService;
+        public WechatController(JwSaleDbContext context, IWxMiniProgram wxMiniProgram,
+            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IFreeSql freeSql,
+            IHospitalService hospitalService) : base(context)
         {
             _wxMiniProgram = wxMiniProgram;
             _jwSaleOptions = jwSaleOptions.Value;
             _cache = cache;
+            _freeSql = freeSql;
+            _hospitalService = hospitalService;
         }
 
         /// <summary>
@@ -43,8 +55,8 @@ namespace JwSale.Api.Controllers
         /// <param name="login"></param>
         /// <returns></returns>
         [MoudleInfo("微信小程序授权登录", false)]
-        [NoAuthRequired]
         [HttpPost("api/Wechat/Login")]
+        [WechatNoAuthRequired]
         public async Task<ActionResult<ResponseBase<WxLoginResponse>>> Login(WechatLoginRequest login)
         {
             ResponseBase<WxLoginResponse> response = new ResponseBase<WxLoginResponse>();
@@ -58,9 +70,9 @@ namespace JwSale.Api.Controllers
 
 
                 WxLoginCache wxLoginCache = new WxLoginCache();
-                wxLoginCache.OpenId= result.OpenId;
+                wxLoginCache.OpenId = result.OpenId;
                 wxLoginCache.UnionId = result.UnionId;
-                wxLoginCache.SessionKey = result.SessionKey;             
+                wxLoginCache.SessionKey = result.SessionKey;
                 await _cache.SetStringAsync(CacheKeyHelper.GetWxLoginTokenKey(result.OpenId), wxLoginCache.ToJson());
             }
             else
@@ -72,5 +84,49 @@ namespace JwSale.Api.Controllers
 
 
         }
+
+        /// <summary>
+        /// 绑定微信用户信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [MoudleInfo("绑定微信用户信息", false)]
+        [HttpPost("api/Wechat/BindWechatUser")]
+        [WechatNoAuthRequired]
+        public async Task<ActionResult<ResponseBase>> BindWechatUser(BindWechatUserRequest request)
+        {
+            ResponseBase<string> response = new ResponseBase<string>();
+
+
+            var wxLoginCacheStr = await _cache.GetStringAsync(CacheKeyHelper.GetWxLoginTokenKey(HttpContext.WxOpenId()));
+
+            var wxLoginCache = wxLoginCacheStr?.ToObj<WxLoginCache>();
+            if (wxLoginCache == null)
+            {
+                response.Message = "绑定失败";
+                response.Code = HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                BindWechatUser bindWechatUser = new BindWechatUser()
+                {
+
+                    HospitalId = HttpContext.HospitalId(),
+                    WxNo = request.WxNo,
+                    PhoneNumer = request.PhoneNumer,
+                    WxOpenId = HttpContext.WxOpenId(),
+                    WxUnionId = wxLoginCache.UnionId,
+                    HeadImageUrl = request.HeadImageUrl,
+                };
+                var userId = await _hospitalService.BindWechatUser(bindWechatUser);
+                response.Data = userId;
+            }
+
+
+            return response;
+
+
+        }
+
     }
 }

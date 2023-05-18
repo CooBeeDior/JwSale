@@ -4,9 +4,9 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Response.UserRole
 {
-    public class FunctionTree: Function
+    public class FunctionTreeResponse: Function
     {
-        public IList<FunctionTree> Tree { get; set; }
+        public IList<FunctionTreeResponse> Tree { get; set; }
     }
 
     public class Function
@@ -14,7 +14,7 @@ namespace JwSale.Model.Dto.Response.UserRole
         /// <summary>
         /// ID
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 编码

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace JwSale.Model
@@ -34,11 +35,11 @@ namespace JwSale.Model
         /// <summary>
         /// AddUserId
         /// </summary>
-        Guid AddUserId { get; set; }
+        string AddUserId { get; set; }
         /// <summary>
         /// UpdateUserId
         /// </summary>
-        Guid UpdateUserId { get; set; }
+        string UpdateUserId { get; set; }
         /// <summary>
         /// AddUserRealName
         /// </summary>
@@ -51,9 +52,10 @@ namespace JwSale.Model
 
 
     [Entity]
-    public class Entity : IEntity<Guid>
+    public class Entity : IEntity<string>
     {
-        public Guid Id { get; set; }
+         
+        public string Id { get; set; }
         /// <summary>
         /// 版本
         /// </summary>
@@ -70,11 +72,11 @@ namespace JwSale.Model
         /// <summary>
         /// AddUserId
         /// </summary>
-        public Guid AddUserId { get; set; }
+        public string AddUserId { get; set; }
         /// <summary>
         /// UpdateUserId
         /// </summary>
-        public Guid UpdateUserId { get; set; }
+        public string UpdateUserId { get; set; }
         /// <summary>
         /// AddUserRealName
         /// </summary>

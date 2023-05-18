@@ -9,7 +9,7 @@ namespace JwSale.Model.Dto.Common
         /// <summary>
         /// 标识
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         /// <summary>
         /// 编码
         /// </summary>
@@ -27,6 +27,6 @@ namespace JwSale.Model.Dto.Common
         /// <summary>
         /// 父Id
         /// </summary>
-        public Guid ParentId { get; set; }
+        public string ParentId { get; set; }
     }
 }

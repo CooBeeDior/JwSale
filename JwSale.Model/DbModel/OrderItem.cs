@@ -9,15 +9,15 @@ namespace JwSale.Model.DbModel
         /// <summary>
         /// 医院Id
         /// </summary>
-        public Guid HospitalId { get; set; }
+        public string HospitalId { get; set; }
         /// <summary>
         /// 项目Id
         /// </summary>
-        public Guid OrderId { get; set; }
+        public string OrderId { get; set; }
         /// <summary>
         /// 项目Id
         /// </summary>
-        public Guid ItemId { get; set; }
+        public string ItemId { get; set; }
         /// <summary>
         /// 项目名称
         /// </summary>

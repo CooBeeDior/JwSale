@@ -7,4 +7,8 @@ namespace JwSale.Model.Dto.Response
     public interface IResponse
     {
     }
+
+ 
+
+
 }

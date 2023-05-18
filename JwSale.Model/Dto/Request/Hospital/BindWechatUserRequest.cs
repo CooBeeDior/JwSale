@@ -6,8 +6,9 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request.Hospital
 {
-    public class BindWechatUserRequest
+    public class BindWechatUserRequest : RequestBase
     {
+        
         /// <summary>
         /// 微信号
         /// </summary>

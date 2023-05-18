@@ -23,7 +23,7 @@ namespace JwSale.Api
             }
             catch (Exception ex)
             {
-                File.AppendAllText("application.log", ex.Message);
+                File.AppendAllText("application.error.log", ex.Message);
 
             }
         }

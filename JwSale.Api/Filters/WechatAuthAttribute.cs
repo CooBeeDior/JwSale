@@ -105,7 +105,7 @@ namespace JwSale.Api.Filters
                     var wechatUser = _hospitalService.GetWechatUser(openId, context.HttpContext.HospitalId()).ConfigureAwait(false).GetAwaiter().GetResult();
                     if (wechatUser != null)
                     {
-                        var cc =111wechatUserCache.DeepCopyByReflection<WechatUserCache>();
+                        wechatUser = wechatUserCache.DeepCopyByReflection<WechatUserCache>();
                     }
 
                 }

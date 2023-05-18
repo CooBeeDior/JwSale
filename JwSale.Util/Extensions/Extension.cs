@@ -1,6 +1,5 @@
 ﻿using JwSale.Util.Attributes;
 using JwSale.Util.Excels;
-using JwSale.Util.Initialization;
 using JwSale.Util.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -8,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.International.Converters.PinYinConverter;
 using Newtonsoft.Json;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using Polly;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -155,6 +152,7 @@ namespace JwSale.Util.Extensions
             return sb.ToString();
 
         }
+
         /// <summary>
         /// 汉字转化为拼音首字母
         /// </summary>
@@ -522,10 +520,9 @@ namespace JwSale.Util.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T DeepCopyByReflection<T>(this T obj) 
+        public static T DeepCopyByReflection<T>(this object obj) where T : new()
         {
-            if (obj is string || obj.GetType().IsValueType)
-                return obj;
+
 
             object retval = Activator.CreateInstance(obj.GetType());
             FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
@@ -533,7 +530,7 @@ namespace JwSale.Util.Extensions
             {
                 try
                 {
-                    field.SetValue(retval, DeepCopyByReflection(field.GetValue(obj)));
+                    field.SetValue(retval, DeepCopyByReflection<object>(field.GetValue(obj)));
                 }
                 catch { }
             }
@@ -547,7 +544,7 @@ namespace JwSale.Util.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T DeepCopyByBinary<T>(this T obj) where T : new()
+        public static T DeepCopyByBinary<T>(this object obj) where T : new()
         {
             object retval;
             using (MemoryStream ms = new MemoryStream())
@@ -1086,6 +1083,21 @@ namespace JwSale.Util.Extensions
             string wxOpenId = httpContext.Items[CacheKeyHelper.WXOPENID]?.ToString();
 
             return wxOpenId;
+        }
+
+        public static int ToTotalPage(this long totalCount, int pageSize)
+        {
+            int totalPage = 0;
+            if (totalCount % pageSize == 0)
+            {
+                totalPage = (int)totalCount / pageSize;
+            }
+            else
+            {
+                totalPage = (int)totalCount / pageSize + 1;
+            }
+            return totalPage;
+
         }
 
     }

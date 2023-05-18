@@ -41,13 +41,12 @@ namespace JwSale.Api.Controllers
 
         private JwSaleOptions jwSaleOptions;
 
-        private IHttpContextAccessor accessor;
-        public UserController(JwSaleDbContext context, IUserService userService, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions, IHttpContextAccessor accessor) : base(context)
+
+        public UserController(JwSaleDbContext context, IUserService userService, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions) : base(context)
         {
             this._userService = userService;
             this._cache = cache;
             this.jwSaleOptions = jwSaleOptions.Value;
-            this.accessor = accessor;
 
         }
 
@@ -85,7 +84,7 @@ namespace JwSale.Api.Controllers
                         {
                             UserId = userinfo.Id,
                             UserName = userinfo.UserName,
-                            Ip = accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                            Ip = HttpContext.Connection.RemoteIpAddress.ToString(),
                             Expireds = 60 * 60 * 24 * 30 * 3,
                             AddTime = DateTime.Now
                         };
@@ -476,7 +475,46 @@ namespace JwSale.Api.Controllers
 
         }
 
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("api/User/DeleteUser")]
+        [MoudleInfo("删除用户")]
+        public async Task<ActionResult<ResponseBase<UserInfo>>> DeleteUser(string id)
+        {
+            ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = "id不能为空";
+                return response;
+            }
+            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == id).FirstOrDefault();
+            var doctor = DbContext.Doctors.AsEnumerable().Where(o => o.UserId == id).FirstOrDefault();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                DbContext.UserInfos.Remove(userinfo);
+                if (doctor != null)
+                {
+                    DbContext.Doctors.Remove(doctor);
+                }
+                await DbContext.SaveChangesAsync();
 
+                response.Data = userinfo;
+
+            }
+            return await response.ToJsonResultAsync();
+
+        }
         /// <summary>
         /// 登出
         /// </summary>
@@ -507,7 +545,31 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
+        /// <summary>
+        /// 解绑微信小程序
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("获取用户功能列表", true)]
+        [HttpPost("api/User/UnBindWechatUser")]
+        public async Task<ActionResult<ResponseBase<IList<FunctionTreeResponse>>>> UnBindWechatUser(UnBindWechatUserRequest request)
+        {
+            ResponseBase<IList<FunctionTreeResponse>> response = new ResponseBase<IList<FunctionTreeResponse>>();
 
+            var userinfo =await DbContext.UserInfos.Where(o => o.Id == request.UserId && o.WxOpenId == request.WxOpenId).FirstOrDefaultAsync();
+            if (userinfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.NotFound;
+                response.Message = "用户不存在";
+            }
+            else
+            {
+                userinfo.WxOpenId = null;
+                userinfo.WxUnionId = null;
+                await DbContext.SaveChangesAsync();
+            }
+            return await response.ToJsonResultAsync();
+        }
 
 
 

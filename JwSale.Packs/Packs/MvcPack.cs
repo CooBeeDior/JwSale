@@ -1,6 +1,7 @@
 ﻿using JwSale.Packs.Attributes;
 using JwSale.Packs.Pack;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 namespace JwSale.Packs.Packs
 {
@@ -17,6 +18,7 @@ namespace JwSale.Packs.Packs
         {
             services.AddHttpContextAccessor();
             services.AddMvc();
+            services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
             return services;
         }
 

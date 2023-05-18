@@ -1,119 +1,128 @@
-using Newtonsoft.Json;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+ï»¿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace JwSale.Model
+namespace JwSale.Model.Dto.Service
 {
     /// <summary>
-    /// ´´½¨ÈË£ºLTL
-    /// ÈÕ  ÆÚ£º2019.06.11 10:13
-    /// Ãè  Êö£ºUserInfoÊµÌå
+    /// ç”¨æˆ·åŒ»ç”Ÿä¿¡æ¯
     /// </summary>
-    [Table("UserInfo")]
-    public class UserInfo : Entity
+    public class UserDoctorInfo
     {
-
         /// <summary>
-        /// ÓÃ»§Ãû
+        /// ç”¨æˆ·Id
+        /// </summary>
+        public string UserId { get; set; }
+        /// <summary>
+        /// ç”¨æˆ·å
         /// </summary>
         public string UserName { get; set; }
         /// <summary>
-        /// ÊÖ»úºÅÂë
+        /// æ‰‹æœºå·ç 
         /// </summary>
         public string Phone { get; set; }
         /// <summary>
-        /// ÓÊÏä
+        /// é‚®ç®±
         /// </summary>
         public string Email { get; set; }
+
         /// <summary>
-        /// ÃÜÂë
-        /// </summary>
-        [JsonIgnore]
-        public string Password { get; set; }
-        /// <summary>
-        /// ÕæÊµĞÕÃû
+        /// çœŸå®å§“å
         /// </summary>
         public string RealName { get; set; }
         /// <summary>
-        /// ĞÔ±ğ 1£ºÄĞ 2£ºÅ®
+        /// æ€§åˆ« 1ï¼šç”· 2ï¼šå¥³
         /// </summary>
         public int Sex { get; set; }
         /// <summary>
-        /// ÉúÈÕ
+        /// ç”Ÿæ—¥
         /// </summary>
         public DateTime? BirthDay { get; set; }
         /// <summary>
-        /// Éí·İÖ¤
+        /// èº«ä»½è¯
         /// </summary>
         public string IdCard { get; set; }
         /// <summary>
-        /// ÕæÊµĞÕÃûÆ´Òô
+        /// çœŸå®å§“åæ‹¼éŸ³
         /// </summary>
         public string RealNamePin { get; set; }
         /// <summary>
-        /// qqºÅ
+        /// qqå·
         /// </summary>
         public string Qq { get; set; }
         /// <summary>
-        /// Î¢ĞÅºÅ
+        /// å¾®ä¿¡å·
         /// </summary>
         public string WxNo { get; set; }
         /// <summary>
-        /// ×ù»ú
+        /// åº§æœº
         /// </summary>
         public string TelPhone { get; set; }
         /// <summary>
-        /// Ö°Î»Ãû³Æ
+        /// èŒä½åç§°
         /// </summary>
         public string PositionName { get; set; }
         /// <summary>
-        /// Ê¡
+        /// çœ
         /// </summary>
         public string Province { get; set; }
         /// <summary>
-        /// ÊĞ
+        /// å¸‚
         /// </summary>
         public string City { get; set; }
         /// <summary>
-        /// Çø
+        /// åŒº
         /// </summary>
         public string Area { get; set; }
         /// <summary>
-        /// ÏêÏ¸µØÖ·
+        /// è¯¦ç»†åœ°å€
         /// </summary>
         public string Address { get; set; }
         /// <summary>
-        /// Í·Ïñ
+        /// å¤´åƒ
         /// </summary>
         public string HeadImageUrl { get; set; }
+
         /// <summary>
-        /// ×´Ì¬£º0£ºÆôÓÃ 1£ºÍ£ÓÃ
-        /// </summary>
-        public short Status { get; set; }
-        /// <summary>
-        /// ±¸×¢
+        /// å¤‡æ³¨
         /// </summary>
         public string Remark { get; set; }
 
-        /// <summary>
-        /// ÀàĞÍ Ä¬ÈÏ£º1
-        /// </summary>
-        public int Type { get; set; } = 1;
+
+        public string DoctorId { get; set; }
 
         /// <summary>
-        /// Î¢ĞÅOpenId
+        /// èŒä½ èŒçº§
         /// </summary>
-        public string WxOpenId { get; set; }
+        public string Professional { get; set; }
 
         /// <summary>
-        /// Î¢ĞÅUnionId
+        /// ç§‘å®¤Id
         /// </summary>
-        public string WxUnionId { get; set; }
+        public string EpartmeneId { get; set; }
+
         /// <summary>
-        /// ¹ıÆÚÊ±¼ä
+        /// ç§‘å®¤åç§°
         /// </summary>
-        public DateTime ExpiredTime { get; set; }
+        public string EpartmeneName { get; set; }
+
+        public string HospitalId { get; set; }
+        /// <summary>
+        /// åŒ»é™¢ç¼–ç 
+        /// </summary>
+        public string HospitalCode { get; set; }
+        /// <summary>
+        /// åŒ»é™¢åç§°
+        /// </summary>
+        public string HospitalName { get; set; }
+        /// <summary>
+        /// åŒ»é™¢å…¨ç§°
+        /// </summary>
+        public string HospitalFullName { get; set; }
+
+
+
+
 
     }
 }

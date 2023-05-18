@@ -39,7 +39,7 @@ namespace JwSale.Util
 
         public const string PHONENUMER = "phoneNumer";
 
-        public const string WXOPENID = "wxOpenId";
+        public const string WXOPENID = "openid";
 
 
         public const string HOSPITALID = "hospitalId";

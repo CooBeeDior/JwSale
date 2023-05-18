@@ -8,6 +8,7 @@ using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Request.Hospital;
 using JwSale.Model.Dto.Request.Wechat;
+using JwSale.Model.Dto.Response.Wechat;
 using JwSale.Model.Dto.Service;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Options;
@@ -74,9 +75,11 @@ namespace JwSale.Api.Controllers
                 wxLoginCache.UnionId = result.UnionId;
                 wxLoginCache.SessionKey = result.SessionKey;
                 await _cache.SetStringAsync(CacheKeyHelper.GetWxLoginTokenKey(result.OpenId), wxLoginCache.ToJson());
+                 
             }
             else
             {
+                response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
             }
             response.Message = result.ErrMsg;
@@ -105,6 +108,7 @@ namespace JwSale.Api.Controllers
             {
                 response.Message = "绑定失败";
                 response.Code = HttpStatusCode.BadRequest;
+                response.Success = false;
             }
             else
             {
@@ -120,6 +124,8 @@ namespace JwSale.Api.Controllers
                 };
                 var userId = await _hospitalService.BindWechatUser(bindWechatUser);
                 response.Data = userId;
+
+                await _cache.RemoveAsync(CacheKeyHelper.GetWxLoginTokenKey(bindWechatUser.WxOpenId));
             }
 
 
@@ -127,6 +133,34 @@ namespace JwSale.Api.Controllers
 
 
         }
+
+
+        /// <summary>
+        /// 获取微信用户信息
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("获取微信用户医生信息", false)]
+        [HttpPost("api/Wechat/GetUserDoctorInfo")]
+        public async Task<ActionResult<ResponseBase>> GetUserDoctorInfo()
+        {
+            ResponseBase<UserDoctorInfoResponse> response = new ResponseBase<UserDoctorInfoResponse>();
+            var result = await _hospitalService.GetUserDoctorInfo(HttpContext.WxOpenId(), HttpContext.HospitalId());
+            if (result == null)
+            {
+                response.Message = "用户医生信息不存在";
+                response.Code = HttpStatusCode.BadRequest;
+                response.Success = false;
+            }
+            else
+            {
+                response.Data = result.DeepCopyByBinary<UserDoctorInfoResponse>();
+            }
+
+            return response;
+
+
+        }
+
 
     }
 }

@@ -19,6 +19,146 @@
             微信控制器
             </summary> 
         </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.AddItemType(JwSale.Model.Dto.Request.Hospital.ItemTypeRequest)">
+            <summary>
+            新增收费类别
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.UpdateItemType(JwSale.Model.Dto.Request.Hospital.UpdateItemTypeRequest)">
+            <summary>
+            修改收费类别
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.DeleteItemType(JwSale.Model.Dto.Request.Hospital.DeleteItemTypeRequest)">
+            <summary>
+            删除收费类别
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetItemTypes(JwSale.Model.Dto.Request.Hospital.GetItemTypesRequest)">
+            <summary>
+            获取收费类别列表
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetItemType(System.String)">
+            <summary>
+            获取收费类别
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.AddItem(JwSale.Model.Dto.Request.Hospital.ItemRequest)">
+            <summary>
+            新增收费项目
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.UpdateItem(JwSale.Model.Dto.Request.Hospital.UpdateItemRequest)">
+            <summary>
+            修改收费类别
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.DeleteItem(JwSale.Model.Dto.Request.Hospital.DeleteItemRequest)">
+            <summary>
+            删除收费项目
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetItems(JwSale.Model.Dto.Request.Hospital.GetItemsRequest)">
+            <summary>
+            获取收费项目列表
+            </summary>
+            <param name="request"></param> 
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetItem(System.String)">
+            <summary>
+            获取收费项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.AddEpartmene(JwSale.Model.Dto.Request.Hospital.EpartmeneRequest)">
+            <summary>
+            新增科室
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.UpdateEpartmene(JwSale.Model.Dto.Request.Hospital.UpdateEpartmeneRequest)">
+            <summary>
+            修改科室
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.DeleteEpartmene(JwSale.Model.Dto.Request.Hospital.DeleteEpartmeneRequest)">
+            <summary>
+            删除科室
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetEpartmenes(JwSale.Model.Dto.Request.Hospital.GetEpartmenesRequest)">
+            <summary>
+            获取科室列表
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetEpartmene(System.String)">
+            <summary>
+            获取科室
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.AddDoctor(JwSale.Model.Dto.Request.Hospital.DoctorRequest)">
+            <summary>
+            新增医生信息
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.UpdateDoctor(JwSale.Model.Dto.Request.Hospital.UpdateDoctorRequest)">
+            <summary>
+            修改医生信息
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.DeleteDoctor(JwSale.Model.Dto.Request.Hospital.DeleteDoctorRequest)">
+            <summary>
+            删除医生信息
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetDoctors(JwSale.Model.Dto.Request.Hospital.GetDoctorsRequest)">
+            <summary>
+            获取医生信息列表
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.GetDoctor(System.String)">
+            <summary>
+            获取医生
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.TestController">
             <summary>
             测试接口使用
@@ -128,6 +268,13 @@
             <param name="setUserAuth"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteUser(System.String)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.Logout">
             <summary>
             登出
@@ -138,6 +285,12 @@
             <summary>
             获取用户功能列表
             </summary> 
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.UnBindWechatUser(JwSale.Model.Dto.Request.User.UnBindWechatUserRequest)">
+            <summary>
+            解绑微信小程序
+            </summary>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Controllers.WechatController">
@@ -157,6 +310,12 @@
             绑定微信用户信息
             </summary>
             <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.GetUserDoctorInfo">
+            <summary>
+            获取微信用户信息
+            </summary>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Events.TestConsumer">

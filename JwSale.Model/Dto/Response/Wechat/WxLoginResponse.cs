@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using JwSale.Model.Dto.Response;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JwSale.Model.Dto.Wechat
 {
-    public class WxLoginResponse
+    public class WxLoginResponse : Response.IResponse
     {
         /// <summary>
         /// OpenId

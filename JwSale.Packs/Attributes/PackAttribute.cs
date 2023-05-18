@@ -17,6 +17,7 @@ namespace JwSale.Packs.Attributes
         {
             this.Name = Name;
             this.Level = Level;
+            this.IsInitialization = IsInitialization;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace JwSale.Model.Dto.Response.UserRole
     /// <summary>
     /// 权限
     /// </summary>
-    public class PermssionResponse
+    public class PermssionResponse : IResponse
     {
         /// <summary>
         /// 主键标志

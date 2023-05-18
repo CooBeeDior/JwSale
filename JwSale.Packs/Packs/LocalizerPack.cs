@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 namespace JwSale.Packs.Packs
 {
-    [Pack("本地化模块")]
+    [Pack("本地化模块", IsInitialization = false)]
     [PackDependecy(typeof(JwSaleOptionsPack))]
     public class LocalizerPack : JwSalePack
     {

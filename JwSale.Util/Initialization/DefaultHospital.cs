@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Util.Initialization
+namespace JwSale.Util
 {
     public class DefaultHospital
     {
@@ -13,10 +13,10 @@ namespace JwSale.Util.Initialization
                 return new DefaultHospital()
                 {
                     Id = new Guid("B025749E-2B58-4702-9EC2-97549169F888").ToString(),
-                    Code = "JIUJIANGFUSHUYIYUAN",
-                    Name = "九江附属医院",
-                    FullName = "九江学院附属医院"
-
+                    Code = "MORENYIYUAN",
+                    Name = "默认医院",
+                    FullName = "默认医院",
+                    Remark = "默认初始化医院"
                 };
             }
         }
@@ -33,5 +33,10 @@ namespace JwSale.Util.Initialization
         /// 全称
         /// </summary>
         public string FullName { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
     }
 }

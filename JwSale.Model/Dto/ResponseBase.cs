@@ -58,6 +58,23 @@ namespace JwSale.Model.Dto
         public string Token { get; set; }
     }
 
+    public class ResponsePage<T> : ResponseBase<T>
+    {
+        public ResponsePage() {
+            Page = new Page();
+        }
+        public Page Page { get; set; }
+    }
+
+
+    public class Page
+    {
+        public long TotalCount { get; set; }
+
+        public int TotalPage { get; set; }
+
+
+    }
     public class ResponseBase<T1, T2> : ResponseBase<T1>
     {
         /// <summary>

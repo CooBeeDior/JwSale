@@ -21,7 +21,7 @@ namespace JwSale.Api.Controllers
         {
             var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
 
-            UserInfo = accessor.HttpContext.Items[CacheKeyHelper.WECHATUSER] as UserInfo;
+            UserInfo = accessor.HttpContext.Items[CacheKeyHelper.CURRENTUSER] as UserInfo;
  
         }
     }

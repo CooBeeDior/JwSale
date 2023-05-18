@@ -13,6 +13,10 @@ namespace JwSale.Model
 
     public class RequestPageBase
     {
+        public RequestPageBase()
+        {
+            OrderBys = new List<OrderByBase>();
+        }
         /// <summary>
         /// 页索引
         /// </summary> 
@@ -34,6 +38,7 @@ namespace JwSale.Model
         /// <summary>
         /// 名称
         /// </summary>
+       [Required]
         public string Name { get; set; }
 
         /// <summary>

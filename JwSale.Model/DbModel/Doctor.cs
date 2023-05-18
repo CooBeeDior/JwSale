@@ -16,7 +16,7 @@ namespace JwSale.Model.DbModel
         public string BelongHospitalId { get; set; }
 
         /// <summary>
-        /// 部门Id
+        /// 科室Id
         /// </summary>
         public string EpartmeneId { get; set; }
 

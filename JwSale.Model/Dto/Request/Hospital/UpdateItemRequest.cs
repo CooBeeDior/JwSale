@@ -1,30 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-namespace JwSale.Model.DbModel
+using System.Text;
+
+namespace JwSale.Model.Dto.Request.Hospital
 {
-    [Table("Item")]
-    public class Item : Entity
+    public class UpdateItemRequest : RequestBase
     {
-        /// <summary>
-        /// 医院Id
-        /// </summary>
-        public string HospitalId { get; set; }
+        [Required]
+        public string Id { get; set; }
+
         /// <summary>
         /// 名称
         /// </summary>
+        [Required]
         public string Name { get; set; }
         /// <summary>
         /// 项目类别Id
         /// </summary>
+        [Required]
         public string ItemTypeId { get; set; }
         /// <summary>
         /// 单价
-        /// </summary>  
+        /// </summary>
+        [Required]
         public decimal Price { get; set; }
         /// <summary>
         /// 图片
-        /// </summary>
+        /// </summary>      
         public string ImageUrl { get; set; }
         /// <summary>
         /// 1:上架 2：下架

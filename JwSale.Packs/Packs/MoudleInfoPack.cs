@@ -30,8 +30,9 @@ namespace JwSale.Packs.Packs
             {
 
                 var userService = scope.ServiceProvider.GetService<IUserService>();
-
+                var hospitalService = scope.ServiceProvider.GetService<IHospitalService>();
                 userService.InitAdminUserAndRole();
+                hospitalService.InitHospital();
                 //初始化系统模块信息
 
                 //--SELECT * FROM dbo.FunctionInfo

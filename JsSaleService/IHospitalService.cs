@@ -32,5 +32,19 @@ namespace JsSaleService
         /// <param name="bindWechatUser"></param>
         /// <returns></returns>
         Task<string> BindWechatUser(BindWechatUser bindWechatUser);
+
+        /// <summary>
+        /// 获取用户医生信息
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <param name="hospitalId"></param>
+        /// <returns></returns>
+        Task<UserDoctorInfo> GetUserDoctorInfo(string openId, string hospitalId);
+
+        /// <summary>
+        /// 初始化医院信息
+        /// </summary> 
+        /// <returns></returns>
+        int InitHospital();
     }
 }

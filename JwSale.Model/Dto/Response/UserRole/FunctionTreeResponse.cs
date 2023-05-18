@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Response.UserRole
 {
-    public class FunctionTreeResponse: Function
+    public class FunctionTreeResponse : Function, IResponse
     {
         public IList<FunctionTreeResponse> Tree { get; set; }
     }

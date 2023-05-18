@@ -1,4 +1,5 @@
 ﻿using JwSale.Model;
+using JwSale.Model.DbModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace JwSale.Repository.Context
         public DbSet<UserRoleInfo> UserRoleInfos { get; set; }
 
 
-
+        public DbSet<Doctor> Doctors { get; set; }
 
 
 

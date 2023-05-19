@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 namespace JwSale.Api.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class ExceptionAttribute : ExceptionFilterAttribute
+    public class ExceptionFilterAttribute : Microsoft.AspNetCore.Mvc.Filters.ExceptionFilterAttribute
     {
-        ILogger<ExceptionAttribute> logger;
-        public ExceptionAttribute(ILoggerFactory loggerFactory)
+        ILogger<ExceptionFilterAttribute> logger;
+        public ExceptionFilterAttribute(ILoggerFactory loggerFactory)
         {
-            logger = loggerFactory.CreateLogger<ExceptionAttribute>();
+            logger = loggerFactory.CreateLogger<ExceptionFilterAttribute>();
         }
 
 

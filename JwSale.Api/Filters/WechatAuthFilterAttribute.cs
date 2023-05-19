@@ -1,4 +1,5 @@
 ﻿using JsSaleService;
+using JwSale.Api.Attributes;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
@@ -17,7 +18,7 @@ namespace JwSale.Api.Filters
 {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class WechatAuthAttribute : Attribute, IAuthorizationFilter
+    public class WechatAuthFilterAttribute : Attribute, IAuthorizationFilter
     {
 
         private IDistributedCache cache;
@@ -28,7 +29,7 @@ namespace JwSale.Api.Filters
         private readonly IHospitalService _hospitalService;
 
 
-        public WechatAuthAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache,
+        public WechatAuthFilterAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache,
             IOptions<JwSaleOptions> jwSaleOptions, IHospitalService hospitalService)
         {
             this.jwSaleDbContext = jwSaleDbContext;
@@ -43,41 +44,37 @@ namespace JwSale.Api.Filters
             bool isAuth = false;
             if (controllerActionDescriptor != null)
             {
-                var permissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
-                if (permissionRequiredAttribute != null)
+                var wechatNoAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<WechatAuthRequiredAttribute>(true);
+                if (wechatNoAuthRequiredAttribute != null)
                 {
                     isAuth = true;
+                    goto Tag;
                 }
-                var authRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<AuthRequiredAttribute>(true);
-                if (authRequiredAttribute != null)
+                var noWechatNoAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
+                if (noWechatNoAuthRequiredAttribute != null)
                 {
-                    isAuth = true;
+                    isAuth = false;
+                    goto Tag;
                 }
 
-                if (!isAuth)
+                var wechatNoAuControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<WechatAuthRequiredAttribute>(true);
+                if (wechatNoAuControllerRequiredAttribute != null)
                 {
-                    var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
-                    if (noAuthRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
-                    noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
-                    if (noAuthRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
-                    var noPermissionRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
-                    if (noPermissionRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
-                    noPermissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
-                    if (noPermissionRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
+                    isAuth = true;
+                    goto Tag;
                 }
+
+                var noWechatNoAuControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<WechatNoAuthRequiredAttribute>(true);
+                if (noWechatNoAuControllerRequiredAttribute != null)
+                {
+                    isAuth = false;
+                    goto Tag;
+                }
+
+
             }
+
+        Tag:
             if (isAuth == false)
             {
                 return;

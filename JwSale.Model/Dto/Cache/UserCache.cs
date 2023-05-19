@@ -14,6 +14,7 @@ namespace JwSale.Model.Dto.Cache
         /// token
         /// </summary>
         public string Token { get; set; }
+      
 
         /// <summary>
         /// 过期时间

@@ -12,11 +12,11 @@ namespace JwSale.Api.Filters
 {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class LogAttribute : ActionFilterAttribute
+    public class LogFilterAttribute : ActionFilterAttribute
     {
         ILoggerFactory loggerfactory;
         Stopwatch stopwatch = new Stopwatch();
-        public LogAttribute(ILoggerFactory loggerfactory)
+        public LogFilterAttribute(ILoggerFactory loggerfactory)
         {
             stopwatch.Start();
             this.loggerfactory = loggerfactory;
@@ -57,7 +57,7 @@ namespace JwSale.Api.Filters
             }
 
 
-            var logger = loggerfactory.CreateLogger(context.Controller?.GetType() ?? typeof(LogAttribute));
+            var logger = loggerfactory.CreateLogger(context.Controller?.GetType() ?? typeof(LogFilterAttribute));
             logger.LogInformation($"{moudleInfoAttribute?.Name}{context.HttpContext.Request.Path} 耗时：{stopwatch.ElapsedMilliseconds}ms {context.HttpContext.Connection.RemoteIpAddress.ToString()} \n参数：{requestStr}\n结果：{context.Result.ToString()}");
 
 

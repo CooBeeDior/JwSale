@@ -17,14 +17,16 @@ namespace JwSale.Model.Dto.Request.Hospital
 
         /// <summary>
         /// 备注
-        /// </summary>
+        /// </summary> 
         public string Remark { get; set; }
 
         [Required]
+        [Phone]
         public string Phone { get; set; }
         /// <summary>
         /// 邮箱
         /// </summary>
+        //[EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
@@ -81,6 +83,7 @@ namespace JwSale.Model.Dto.Request.Hospital
         /// <summary>
         /// 头像
         /// </summary>
+        //[Url]
         public string HeadImageUrl { get; set; }
     }
 }

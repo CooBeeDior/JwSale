@@ -1,4 +1,5 @@
-﻿using JwSale.Api.Util;
+﻿using JwSale.Api.Attributes;
+using JwSale.Api.Util;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
@@ -20,7 +21,7 @@ namespace JwSale.Api.Filters
 {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class AuthRequiredAttribute : Attribute, IAuthorizationFilter
+    public class AuthRequiredFilterAttribute : Attribute, IAuthorizationFilter
     {
 
         private IDistributedCache cache;
@@ -30,7 +31,7 @@ namespace JwSale.Api.Filters
         private JwSaleDbContext jwSaleDbContext;
 
 
-        public AuthRequiredAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
+        public AuthRequiredFilterAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
         {
             this.jwSaleDbContext = jwSaleDbContext;
             this.cache = cache;
@@ -41,19 +42,43 @@ namespace JwSale.Api.Filters
         {
 
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            bool isAuth = false;
             if (controllerActionDescriptor != null)
             {
-                var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                var authRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<AuthRequiredAttribute>(true);
+                if (authRequiredAttribute != null)
+                {
+                    isAuth = true;
+                    goto Tag;
+                }
+                var noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
                 if (noAuthRequiredAttribute != null)
                 {
-                    return;
+                    isAuth = false;
+                    goto Tag;
                 }
-                noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
-                if (noAuthRequiredAttribute != null)
+
+                var authControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<AuthRequiredAttribute>(true);
+                if (authControllerRequiredAttribute != null)
                 {
-                    return;
+                    isAuth = true;
+                    goto Tag;
                 }
+
+                var noAuthControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                if (noAuthControllerRequiredAttribute != null)
+                {
+                    isAuth = false;
+                    goto Tag;
+                } 
             }
+
+        Tag:
+            if (isAuth == false)
+            {
+                return;
+            }
+            var loginDevice = context.HttpContext.LoginDevice();
             string token = context.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "", StringComparison.OrdinalIgnoreCase);
             if (string.IsNullOrEmpty(token))
             {
@@ -85,8 +110,8 @@ namespace JwSale.Api.Filters
                 //}
                 else
                 {
-                    var userTokenCache = cache.GetString(CacheKeyHelper.GetUserTokenKey(userToken.UserName));
-                    if (string.IsNullOrEmpty(userTokenCache))
+                    var userCacheStr = cache.GetString(CacheKeyHelper.GetLoginUserKey(userToken.UserName, loginDevice));
+                    if (string.IsNullOrEmpty(userCacheStr))
                     {
                         ResponseBase response = new ResponseBase();
                         response.Success = false;
@@ -96,7 +121,7 @@ namespace JwSale.Api.Filters
                     }
                     else
                     {
-                        var userCache = userTokenCache.ToObj<UserCache>();
+                        var userCache = userCacheStr.ToObj<UserCache>();
                         if (userCache == null || userCache.UserInfo == null)
                         {
                             ResponseBase response = new ResponseBase();

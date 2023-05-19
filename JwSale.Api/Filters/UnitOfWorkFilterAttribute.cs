@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace JwSale.Api.Filters
 {
-    public class UnitOfWorkAttribute : TypeFilterAttribute
+    public class UnitOfWorkFilterAttribute : TypeFilterAttribute
     {
-        public UnitOfWorkAttribute() : base(typeof(UnitOfWorkFilter))
+        public UnitOfWorkFilterAttribute() : base(typeof(UnitOfWorkFilter))
         {
 
         }

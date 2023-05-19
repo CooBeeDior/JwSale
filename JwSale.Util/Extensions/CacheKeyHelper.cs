@@ -12,21 +12,22 @@ namespace JwSale.Util
             return $"temptoken:{tempToken}";
         }
 
-        public static string GetUserTokenKey(string username)
-        {
-            return $"user:token:{username}";
-        }
+        //public static string GetUserTokenKey(string username)
+        //{
+        //    return $"user:token:{username}";
+        //}
         public static string GetWxLoginTokenKey(string openid)
         {
             return $"wxlogin:token:{openid}";
         }
         public static string GetWxUserKey(string openid)
         {
-            return $"wxuser:token:{openid}";
+            return $"wxuser:{openid}";
         }
-        public static string GetUserTokenKey(string userName, string loginType)
+        public static string GetLoginUserKey(string userName, string loginDevice)
         {
-            return $"token:{userName}_{loginType}";
+            string loginDeviceStr = string.IsNullOrWhiteSpace(loginDevice) ? null : $"_{loginDevice}";
+            return $"user:token:{userName}{loginDeviceStr}";
         }
 
 
@@ -40,6 +41,8 @@ namespace JwSale.Util
         public const string PHONENUMER = "phoneNumer";
 
         public const string WXOPENID = "openid";
+
+        public const string LOGINDEVICE = "logindevice";
 
 
         public const string HOSPITALID = "hospitalId";

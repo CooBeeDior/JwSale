@@ -1,4 +1,5 @@
 ﻿using JsSaleService;
+using JwSale.Api.Attributes;
 using JwSale.Api.Extensions;
 using JwSale.Api.Filters;
 using JwSale.Api.Util;
@@ -106,12 +107,12 @@ namespace JwSale.Api.Controllers
                             ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
                             UserInfo = userinfo,
                             Permissions = permissions,
-                            LoginDevice = login.LoginDevice,
+                            LoginDevice = HttpContext.LoginDevice(),
                             LoginTime = DateTime.Now
                         };
 
                         var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
-                        await _cache.SetStringAsync(CacheKeyHelper.GetUserTokenKey(userinfo.UserName), userCache.ToJson(), cacheEntryOptions);
+                        await _cache.SetStringAsync(CacheKeyHelper.GetLoginUserKey(userinfo.UserName, HttpContext.LoginDevice()), userCache.ToJson(), cacheEntryOptions);
                         response.Data = loginResponse;
                     }
                 }
@@ -261,40 +262,8 @@ namespace JwSale.Api.Controllers
             }
             else
             {
-
-
-                var functionInfos = await DbContext.FunctionInfos.ToListAsync();
-
-                await DbContext.UserPermissionInfos.Where(o => o.UserId == setAllPermisson.UserId).DeleteAsync();
-
-
-                IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
-
-
-                foreach (var funciton in functionInfos)
-                {
-                    UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = setAllPermisson.UserId,
-                        FunctionId = funciton.Id,
-                        Type = 0,
-
-                        AddTime = DateTime.Now,
-                        AddUserId = UserInfo.Id,
-                        AddUserRealName = UserInfo.RealName,
-                        UpdateTime = DateTime.Now,
-                        UpdateUserId = UserInfo.Id,
-                        UpdateUserRealName = UserInfo.RealName,
-                    };
-                    userPermissionInfos.Add(userPermissionInfo);
-                }
-                await DbContext.AddRangeAsync(userPermissionInfos);
-
-                await DbContext.SaveChangesAsync();
-
+                await _userService.SetUserAllPermission(setAllPermisson.UserId);
                 response.Data = await _userService.GetPermissions(setAllPermisson.UserId);
-
 
             }
             return await response.ToJsonResultAsync();
@@ -524,8 +493,8 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult> Logout()
         {
             ResponseBase response = new ResponseBase();
-
-            await _cache.RemoveAsync(CacheKeyHelper.GetUserTokenKey(UserInfo.UserName));
+            var loginDevice = HttpContext.LoginDevice();
+            await _cache.RemoveAsync(CacheKeyHelper.GetLoginUserKey(UserInfo.UserName, loginDevice));
             return await response.ToJsonResultAsync();
         }
 
@@ -555,7 +524,7 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase<IList<FunctionTreeResponse>> response = new ResponseBase<IList<FunctionTreeResponse>>();
 
-            var userinfo =await DbContext.UserInfos.Where(o => o.Id == request.UserId && o.WxOpenId == request.WxOpenId).FirstOrDefaultAsync();
+            var userinfo = await DbContext.UserInfos.Where(o => o.Id == request.UserId && o.WxOpenId == request.WxOpenId).FirstOrDefaultAsync();
             if (userinfo == null)
             {
                 response.Success = false;

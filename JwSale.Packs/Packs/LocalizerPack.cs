@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 namespace JwSale.Packs.Packs
 {
-    [Pack("本地化模块", IsInitialization = false)]
+    [Pack("本地化模块")]
     [PackDependecy(typeof(JwSaleOptionsPack))]
     public class LocalizerPack : JwSalePack
     {
@@ -23,9 +23,9 @@ namespace JwSale.Packs.Packs
             var jwSaleOptions = configuration.Get<JwSaleOptions>();
             services.AddMongodbLocalizer(opts =>
             {
-                opts.CollectionName = jwSaleOptions.MongodbLocalizer.CollectionName;
-                opts.ConnectionString = jwSaleOptions.MongodbLocalizer.ConnectionString;
-                opts.DatabaseName = jwSaleOptions.MongodbLocalizer.DatabaseName;
+                opts.CollectionName = jwSaleOptions.MongodbLocalizer?.CollectionName;
+                opts.ConnectionString = jwSaleOptions.MongodbLocalizer?.ConnectionString;
+                opts.DatabaseName = jwSaleOptions.MongodbLocalizer?.DatabaseName;
 
             });
 

@@ -1065,7 +1065,7 @@ namespace JwSale.Util.Extensions
         /// <returns></returns>
         public static string HospitalId(this HttpContext httpContext)
         {
-            string hospitalId = httpContext.Items[CacheKeyHelper.HOSPITALID]?.ToString();
+            string hospitalId = httpContext.Request.Headers[CacheKeyHelper.HOSPITALID].ToString();
             if (string.IsNullOrWhiteSpace(hospitalId))
             {
                 hospitalId = DefaultHospital.Hospital.Id;
@@ -1080,9 +1080,21 @@ namespace JwSale.Util.Extensions
         /// <returns></returns>
         public static string WxOpenId(this HttpContext httpContext)
         {
-            string wxOpenId = httpContext.Items[CacheKeyHelper.WXOPENID]?.ToString();
+            string wxOpenId = httpContext.Request.Headers[CacheKeyHelper.WXOPENID].ToString();
 
             return wxOpenId;
+        }
+
+        /// <summary>
+        /// 获取登录设备
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public static string LoginDevice(this HttpContext httpContext)
+        {
+            string LoginDevice = httpContext.Request.Headers[CacheKeyHelper.LOGINDEVICE].ToString();
+
+            return LoginDevice;
         }
 
         public static int ToTotalPage(this long totalCount, int pageSize)

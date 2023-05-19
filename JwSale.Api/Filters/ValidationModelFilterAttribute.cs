@@ -12,7 +12,7 @@ namespace JwSale.Api.Filters
 {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class ValidationModelAttribute : ActionFilterAttribute
+    public class ValidationModelFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {

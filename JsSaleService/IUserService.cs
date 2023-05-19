@@ -41,5 +41,13 @@ namespace JsSaleService
         /// 初始化超级管理员用户权限
         /// </summary>
         void InitAdminUserAndRole();
+
+
+        /// <summary>
+        /// 给用户添加所有权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task SetUserAllPermission(string userId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using JwSale.Api.Filters;
+﻿using JwSale.Api.Attributes;
+using JwSale.Api.Filters;
 using JwSale.Repository.Context;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,12 +12,13 @@ namespace JwSale.Api.Controllers
     /// <summary>
     /// 微信控制器
     /// </summary> 
-    [TypeFilter(typeof(WechatAuthAttribute))]
+    [TypeFilter(typeof(WechatAuthFilterAttribute))]
+    [WechatAuthRequired]
     public abstract class WechatControllerBase : JwSaleControllerBase
     {
         public WechatControllerBase(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
         {
-         
+
 
         }
     }

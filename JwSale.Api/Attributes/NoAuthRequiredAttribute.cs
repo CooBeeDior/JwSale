@@ -4,16 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JwSale.Api.Filters
+namespace JwSale.Api.Attributes
 {
-   
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class WechatNoAuthRequiredAttribute : ActionFilterAttribute
+    public class NoAuthRequiredAttribute : Attribute
     {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
-        }
+        
 
     }
+ 
 }

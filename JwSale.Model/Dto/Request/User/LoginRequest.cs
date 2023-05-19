@@ -22,10 +22,7 @@ namespace JwSale.Model.Dto.Request.User
         [Required]
         public string Password { get; set; }
 
-        /// <summary>
-        /// 登录设备
-        /// </summary> 
-        public string LoginDevice { get; set; }
+      
 
     }
 

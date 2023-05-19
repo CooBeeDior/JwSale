@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="2.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FreeSqlCore\FreeSqlCore.csproj" />
     <ProjectReference Include="..\JwSale.Model\JwSale.Model.csproj" />
     <ProjectReference Include="..\JwSale.Repository\JwSale.Repository.csproj" />

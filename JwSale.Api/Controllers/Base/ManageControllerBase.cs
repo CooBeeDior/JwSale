@@ -1,4 +1,5 @@
-﻿using JwSale.Api.Filters;
+﻿using JwSale.Api.Attributes;
+using JwSale.Api.Filters;
 using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Repository.Context;
@@ -12,8 +13,10 @@ namespace JwSale.Api.Controllers
     /// <summary>
     /// 管理后台控制器
     /// </summary>
-    [TypeFilter(typeof(AuthRequiredAttribute))]
-    [TypeFilter(typeof(PermissionRequiredAttribute))]
+    [TypeFilter(typeof(AuthRequiredFilterAttribute))]
+    [TypeFilter(typeof(PermissionRequiredFilterAttribute))]
+    [PermissionRequired]
+    [AuthRequired]
     public abstract class ManageControllerBase : JwSaleControllerBase
     {
         protected UserInfo UserInfo { get; private set; }
@@ -22,7 +25,7 @@ namespace JwSale.Api.Controllers
             var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
 
             UserInfo = accessor.HttpContext.Items[CacheKeyHelper.CURRENTUSER] as UserInfo;
- 
+
         }
     }
 }

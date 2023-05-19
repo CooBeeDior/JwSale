@@ -49,7 +49,7 @@
         </member>
         <member name="M:JwSale.Api.Controllers.ManagementController.GetItemType(System.String)">
             <summary>
-            获取收费类别
+            获取收费类别详情
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -84,7 +84,7 @@
         </member>
         <member name="M:JwSale.Api.Controllers.ManagementController.GetItem(System.String)">
             <summary>
-            获取收费项目
+            获取收费项目详情
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -119,9 +119,9 @@
         </member>
         <member name="M:JwSale.Api.Controllers.ManagementController.GetEpartmene(System.String)">
             <summary>
-            获取科室
+            获取科室详情
             </summary>
-            <param name="request"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.ManagementController.AddDoctor(JwSale.Model.Dto.Request.Hospital.DoctorRequest)">
@@ -154,7 +154,7 @@
         </member>
         <member name="M:JwSale.Api.Controllers.ManagementController.GetDoctor(System.String)">
             <summary>
-            获取医生
+            获取医生详情
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -349,7 +349,7 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="T:JwSale.Api.Filters.PermissionRequiredAttribute">
+        <member name="T:JwSale.Api.Filters.PermissionRequiredFilterAttribute">
             <summary>
             模块授权验证
             </summary>

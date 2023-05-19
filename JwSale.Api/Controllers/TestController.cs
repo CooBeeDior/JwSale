@@ -1,4 +1,5 @@
 ﻿using FeignCore.Apis;
+using JwSale.Api.Attributes;
 using JwSale.Api.Extensions;
 using JwSale.Api.Filters;
 using JwSale.Api.Http;

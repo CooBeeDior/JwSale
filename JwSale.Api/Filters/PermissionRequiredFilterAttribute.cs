@@ -1,4 +1,5 @@
-﻿using JwSale.Api.Util;
+﻿using JwSale.Api.Attributes;
+using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
@@ -23,11 +24,11 @@ namespace JwSale.Api.Filters
     /// 模块授权验证
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class PermissionRequiredAttribute : Attribute, IAuthorizationFilter
+    public class PermissionRequiredFilterAttribute : Attribute, IAuthorizationFilter
     {
         private IDistributedCache cache;
         private JwSaleDbContext jwSaleDbContext;
-        public PermissionRequiredAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache)
+        public PermissionRequiredFilterAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache)
         {
             this.jwSaleDbContext = jwSaleDbContext;
             this.cache = cache;
@@ -43,37 +44,45 @@ namespace JwSale.Api.Filters
                 if (permissionRequiredAttribute != null)
                 {
                     isAuth = true;
+                    goto Tag;
                 }
-                var authRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<AuthRequiredAttribute>(true);
-                if (authRequiredAttribute != null)
+                var noPermissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
+                if (noPermissionRequiredAttribute != null)
                 {
-                    isAuth = true;
+                    isAuth = false;
+                    goto Tag;
+                }
+                var noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                if (noAuthRequiredAttribute != null)
+                {
+                    isAuth = false;
+                    goto Tag;
+                }
+                var noAuthControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
+                if (noAuthControllerRequiredAttribute != null)
+                {
+                    isAuth = false;
+                    goto Tag;
                 }
 
-                if (!isAuth)
+                var permissionControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<PermissionRequiredAttribute>(true);
+                if (permissionControllerRequiredAttribute != null)
                 {
-                    var noAuthRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
-                    if (noAuthRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
-                    noAuthRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoAuthRequiredAttribute>(true);
-                    if (noAuthRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
-                    var noPermissionRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
-                    if (noPermissionRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
-                    noPermissionRequiredAttribute = controllerActionDescriptor.MethodInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
-                    if (noPermissionRequiredAttribute != null)
-                    {
-                        isAuth = false;
-                    }
+                    isAuth = true;
+                    goto Tag;
                 }
+
+                var noPermissionControllerRequiredAttribute = controllerActionDescriptor.ControllerTypeInfo.GetCustomAttribute<NoPermissionRequiredAttribute>(true);
+                if (noPermissionControllerRequiredAttribute != null)
+                {
+                    isAuth = false;
+                    goto Tag;
+                }
+
+
             }
+
+        Tag:
             if (isAuth == false)
             {
                 return;
@@ -91,13 +100,13 @@ namespace JwSale.Api.Filters
             {
                 var controllerMoudleInfo = controllerActionDescriptor?.ControllerTypeInfo?.GetCustomAttribute<MoudleInfoAttribute>();
                 var actionMoudleInfo = controllerActionDescriptor?.MethodInfo?.GetCustomAttribute<MoudleInfoAttribute>();
-
-                var userTokenCache = cache.GetString(CacheKeyHelper.GetUserTokenKey(userinfo.UserName))?.ToObj<UserCache>();
+                string loginDevice = context.HttpContext.LoginDevice();
+                var userCache = cache.GetString(CacheKeyHelper.GetLoginUserKey(userinfo.UserName, loginDevice))?.ToObj<UserCache>();
 
                 string code = string.IsNullOrEmpty(controllerMoudleInfo.Code) ? controllerMoudleInfo.Name.ToPinYin() : controllerMoudleInfo.Code;
-                string parentId = userTokenCache?.Permissions?.FirstOrDefault(o => o.Code.Equals(code))?.Id ?? string.Empty;
+           
                 code = string.IsNullOrEmpty(actionMoudleInfo.Code) ? actionMoudleInfo.Name.ToPinYin() : actionMoudleInfo.Code;
-                var permission = userTokenCache?.Permissions?.FirstOrDefault(o => o.ParentId.Equals(parentId) && o.Code.Equals(code));
+                var permission = userCache?.Permissions?.FirstOrDefault(o => o.Path.ToLower().Trim('/').Equals(context.HttpContext.Request.Path.ToString().ToLower().Trim('/')) && o.Code.Equals(code));
 
                 if (permission == null)
                 {

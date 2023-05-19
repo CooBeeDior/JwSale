@@ -204,11 +204,11 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 获取收费类别
+        /// 获取收费类别详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [MoudleInfo("获取收费类别")]
+        [MoudleInfo("获取收费类别详情")]
         [HttpGet("api/Management/GetItemType")]
         public async Task<ActionResult<ResponseBase>> GetItemType(string id)
         {
@@ -394,11 +394,11 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 获取收费项目
+        /// 获取收费项目详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [MoudleInfo("获取收费项目")]
+        [MoudleInfo("获取收费项目详情")]
         [HttpGet("api/Management/GetItem")]
         public async Task<ActionResult<ResponseBase>> GetItem(string id)
         {
@@ -593,12 +593,12 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 获取科室
+        /// 获取科室详情
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [MoudleInfo("获取科室")]
-        [HttpPost("api/Management/GetEpartmene")]
+        [MoudleInfo("获取科室详情")]
+        [HttpGet("api/Management/GetEpartmene")]
         public async Task<ActionResult<ResponseBase>> GetEpartmene(string id)
         {
             ResponseBase<GetEpartmeneResponse> response = new ResponseBase<GetEpartmeneResponse>();
@@ -656,62 +656,128 @@ namespace JwSale.Api.Controllers
             }
             else
             {
-                _freeSql.Transaction(() =>
+                UserInfo exsitUserInfo = await _freeSql.Select<UserInfo>().Where(o => o.Phone == request.Phone).ToOneAsync();
+
+                if (exsitUserInfo != null)
                 {
-
-                    UserInfo userInfo = new UserInfo()
+                    var isExsitDoctor = await _freeSql.Select<Doctor>().Where(o => o.BelongHospitalId == HttpContext.HospitalId() && o.UserId == exsitUserInfo.Id).AnyAsync();
+                    if (isExsitDoctor)
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Password = DefaultPassword.PASSWORD.ToMd5(),
-                        UserName = request.Phone,
-                        Phone = request.Phone,
-                        Email = request.Email,
-                        RealName = request.RealName,
-                        Sex = request.Sex,
-                        BirthDay = request.BirthDay,
-                        IdCard = request.IdCard,
-                        RealNamePin = request.RealName?.ToPinYin(),
-                        Qq = request.Qq,
-                        WxNo = request.WxNo,
-                        TelPhone = request.TelPhone,
-                        PositionName = request.PositionName,
-                        Province = request.Province,
-                        City = request.City,
-                        Area = request.Area,
-                        Address = request.Address,
-                        ExpiredTime = DateTime.Now.AddYears(100),
-                        Status = 0,
-                        Type = 1,
-                        HeadImageUrl = request.HeadImageUrl,
-                        Remark = request.Remark,
-                        AddTime = DateTime.Now,
-                        AddUserId = UserInfo.Id,
-                        AddUserRealName = UserInfo.RealName,
-                        UpdateTime = DateTime.Now,
-                        UpdateUserId = UserInfo.Id,
-                        UpdateUserRealName = UserInfo.RealName
-                    };
-                    int count = _freeSql.Insert<UserInfo>(userInfo).ExecuteAffrows();
-                    Doctor doctor = new Doctor()
+                        response.Message = "存在当前医生用户";
+                        response.Code = HttpStatusCode.BadRequest;
+                        response.Success = false;
+                    }
+                    else
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        EpartmeneId = request.EpartmeneId,
-                        BelongHospitalId = epartmene.HospitalId,
-                        Professional = request.PositionName,
-                        Remark = request.Remark,
-                        UserId = userInfo.Id,
-                        AddTime = DateTime.Now,
-                        AddUserId = UserInfo.Id,
-                        AddUserRealName = UserInfo.RealName,
-                        UpdateTime = DateTime.Now,
-                        UpdateUserId = UserInfo.Id,
-                        UpdateUserRealName = UserInfo.RealName
+                        _freeSql.Transaction(() =>
+                        {
+                            string realNamePinYin = (request.RealName?.ToPinYin());
+                            int count = _freeSql.Update<UserInfo>(exsitUserInfo.Id)                               
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Phone), a => a.Phone == request.Phone)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Email), a => a.Email == request.Email)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.RealName), a => a.RealName == request.RealName)
+                                    .SetIf(request.Sex != 0, a => a.Sex == request.Sex)
+                                    .SetIf(request.BirthDay != null, a => a.BirthDay == request.BirthDay)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.IdCard), a => a.IdCard == request.IdCard)
+                                    .SetIf(!string.IsNullOrWhiteSpace(realNamePinYin), a => a.RealNamePin == realNamePinYin)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Qq), a => a.Qq == request.Qq)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.WxNo), a => a.WxNo == request.WxNo)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.TelPhone), a => a.TelPhone == request.TelPhone)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.PositionName), a => a.PositionName == request.PositionName)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Province), a => a.Province == request.Province)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.City), a => a.City == request.City)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Area), a => a.Area == request.Area)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Address), a => a.Address == request.Address)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.HeadImageUrl), a => a.HeadImageUrl == request.HeadImageUrl)
+                                    .SetIf(!string.IsNullOrWhiteSpace(request.Remark), a => a.Remark == request.Remark)
+                                    .Set(a => a.UpdateUserId == UserInfo.Id)
+                                    .Set(a => a.UpdateUserRealName == UserInfo.UpdateUserRealName)
+                                    .Set(a => a.UpdateTime == UserInfo.UpdateTime)
+                                    .ExecuteAffrows();
 
-                    };
-                    count = _freeSql.Insert<Doctor>(doctor).ExecuteAffrows();
+                            Doctor doctor = new Doctor()
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                EpartmeneId = request.EpartmeneId,
+                                BelongHospitalId = epartmene.HospitalId,
+                                Professional = request.PositionName,
+                                Remark = request.Remark,
+                                UserId = exsitUserInfo.Id,
+                                AddTime = DateTime.Now,
+                                AddUserId = UserInfo.Id,
+                                AddUserRealName = UserInfo.RealName,
+                                UpdateTime = DateTime.Now,
+                                UpdateUserId = UserInfo.Id,
+                                UpdateUserRealName = UserInfo.RealName
 
-                    response.Data = doctor.Id;
-                });
+                            };
+                            count = _freeSql.Insert<Doctor>(doctor).ExecuteAffrows();
+                            response.Data = doctor.Id;
+                        });
+
+                    }
+
+
+                }
+                else
+                {
+                    _freeSql.Transaction(() =>
+                    {
+
+                        UserInfo userInfo = new UserInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Password = DefaultPassword.PASSWORD.ToMd5(),
+                            UserName = request.Phone,
+                            Phone = request.Phone,
+                            Email = request.Email,
+                            RealName = request.RealName,
+                            Sex = request.Sex,
+                            BirthDay = request.BirthDay,
+                            IdCard = request.IdCard,
+                            RealNamePin = request.RealName?.ToPinYin(),
+                            Qq = request.Qq,
+                            WxNo = request.WxNo,
+                            TelPhone = request.TelPhone,
+                            PositionName = request.PositionName,
+                            Province = request.Province,
+                            City = request.City,
+                            Area = request.Area,
+                            Address = request.Address,
+                            ExpiredTime = DateTime.Now.AddYears(100),
+                            Status = 0,
+                            Type = 1,
+                            HeadImageUrl = request.HeadImageUrl,
+                            Remark = request.Remark,
+                            AddTime = DateTime.Now,
+                            AddUserId = UserInfo.Id,
+                            AddUserRealName = UserInfo.RealName,
+                            UpdateTime = DateTime.Now,
+                            UpdateUserId = UserInfo.Id,
+                            UpdateUserRealName = UserInfo.RealName
+                        };
+                        int count = _freeSql.Insert<UserInfo>(userInfo).ExecuteAffrows();
+                        Doctor doctor = new Doctor()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            EpartmeneId = request.EpartmeneId,
+                            BelongHospitalId = epartmene.HospitalId,
+                            Professional = request.PositionName,
+                            Remark = request.Remark,
+                            UserId = userInfo.Id,
+                            AddTime = DateTime.Now,
+                            AddUserId = UserInfo.Id,
+                            AddUserRealName = UserInfo.RealName,
+                            UpdateTime = DateTime.Now,
+                            UpdateUserId = UserInfo.Id,
+                            UpdateUserRealName = UserInfo.RealName
+
+                        };
+                        count = _freeSql.Insert<Doctor>(doctor).ExecuteAffrows();
+
+                        response.Data = doctor.Id;
+                    });
+                }
 
 
             }
@@ -754,41 +820,81 @@ namespace JwSale.Api.Controllers
                     {
                         throw new Exception("医生用户信息不存在");
                     }
+                    var exsitUserInfo = _freeSql.Select<UserInfo>().Where(o => o.Id != doctor.UserId && o.Phone == request.Phone).ToOne();
+                    string realNamePinYin = (request.RealName?.ToPinYin());
+                    if (exsitUserInfo != null)
+                    {
+                        int count = _freeSql.Update<Doctor>(request.Id)
+                              .Set(a => a.BelongHospitalId == epartmene.HospitalId)
+                              .Set(a => a.EpartmeneId == epartmene.Id)
+                              .Set(a => a.Professional == request.PositionName)
+                              .Set(a => a.UserId == exsitUserInfo.Id)
+                              .Set(a => a.Remark == request.Remark)
+                              .Set(a => a.UpdateUserId == UserInfo.Id)
+                              .Set(a => a.UpdateUserRealName == UserInfo.UpdateUserRealName)
+                              .Set(a => a.UpdateTime == UserInfo.UpdateTime)
+                              .ExecuteAffrows();
 
-                    int count = _freeSql.Update<Doctor>(request.Id)
-                                .Set(a => a.BelongHospitalId == epartmene.HospitalId)
-                                .Set(a => a.EpartmeneId == epartmene.Id)
-                                .Set(a => a.Professional == request.PositionName)
-                                .Set(a => a.Remark == request.Remark)
+                        int uCount = _freeSql.Update<UserInfo>(exsitUserInfo.Id)                       
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Phone), a => a.Phone == request.Phone)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Email), a => a.Email == request.Email)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.RealName), a => a.RealName == request.RealName)
+                                .SetIf(request.Sex != 0, a => a.Sex == request.Sex)
+                                .SetIf(request.BirthDay != null, a => a.BirthDay == request.BirthDay)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.IdCard), a => a.IdCard == request.IdCard)
+                                .SetIf(!string.IsNullOrWhiteSpace(realNamePinYin), a => a.RealNamePin == realNamePinYin)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Qq), a => a.Qq == request.Qq)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.WxNo), a => a.WxNo == request.WxNo)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.TelPhone), a => a.TelPhone == request.TelPhone)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.PositionName), a => a.PositionName == request.PositionName)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Province), a => a.Province == request.Province)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.City), a => a.City == request.City)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Area), a => a.Area == request.Area)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Address), a => a.Address == request.Address)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.HeadImageUrl), a => a.HeadImageUrl == request.HeadImageUrl)
+                                .SetIf(!string.IsNullOrWhiteSpace(request.Remark), a => a.Remark == request.Remark)
                                 .Set(a => a.UpdateUserId == UserInfo.Id)
                                 .Set(a => a.UpdateUserRealName == UserInfo.UpdateUserRealName)
                                 .Set(a => a.UpdateTime == UserInfo.UpdateTime)
                                 .ExecuteAffrows();
+                    }
+                    else
+                    {
+                        int count = _freeSql.Update<Doctor>(request.Id)
+                              .Set(a => a.BelongHospitalId == epartmene.HospitalId)
+                              .Set(a => a.EpartmeneId == epartmene.Id)
+                              .Set(a => a.Professional == request.PositionName)
+                              .Set(a => a.Remark == request.Remark)
+                              .Set(a => a.UpdateUserId == UserInfo.Id)
+                              .Set(a => a.UpdateUserRealName == UserInfo.UpdateUserRealName)
+                              .Set(a => a.UpdateTime == UserInfo.UpdateTime)
+                              .ExecuteAffrows();
 
-                    string realNamePinYin = (request.RealName?.ToPinYin());
-                    count = _freeSql.Update<UserInfo>(userInfo.Id)
-                            .Set(a => a.UserName == request.Phone)
-                            .Set(a => a.Phone == request.Phone)
-                            .Set(a => a.Email == request.Email)
-                            .Set(a => a.RealName == request.RealName)
-                            .Set(a => a.Sex == request.Sex)
-                            .Set(a => a.BirthDay == request.BirthDay)
-                            .Set(a => a.IdCard == request.IdCard)
-                            .Set(a => a.RealNamePin == realNamePinYin)
-                            .Set(a => a.Qq == request.Qq)
-                            .Set(a => a.WxNo == request.WxNo)
-                            .Set(a => a.TelPhone == request.TelPhone)
-                            .Set(a => a.PositionName == request.PositionName)
-                            .Set(a => a.Province == request.Province)
-                            .Set(a => a.City == request.City)
-                            .Set(a => a.Area == request.Area)
-                            .Set(a => a.Address == request.Address)
-                            .Set(a => a.HeadImageUrl == request.HeadImageUrl)
-                            .Set(a => a.Remark == request.Remark)
-                            .Set(a => a.UpdateUserId == UserInfo.Id)
-                            .Set(a => a.UpdateUserRealName == UserInfo.UpdateUserRealName)
-                            .Set(a => a.UpdateTime == UserInfo.UpdateTime)
-                            .ExecuteAffrows();
+                        count = _freeSql.Update<UserInfo>(userInfo.Id)                     
+                           .Set(a => a.Phone == request.Phone)
+                           .Set(a => a.Email == request.Email)
+                           .Set(a => a.RealName == request.RealName)
+                           .Set(a => a.Sex == request.Sex)
+                           .Set(a => a.BirthDay == request.BirthDay)
+                           .Set(a => a.IdCard == request.IdCard)
+                           .Set(a => a.RealNamePin == realNamePinYin)
+                           .Set(a => a.Qq == request.Qq)
+                           .Set(a => a.WxNo == request.WxNo)
+                           .Set(a => a.TelPhone == request.TelPhone)
+                           .Set(a => a.PositionName == request.PositionName)
+                           .Set(a => a.Province == request.Province)
+                           .Set(a => a.City == request.City)
+                           .Set(a => a.Area == request.Area)
+                           .Set(a => a.Address == request.Address)
+                           .Set(a => a.HeadImageUrl == request.HeadImageUrl)
+                           .Set(a => a.Remark == request.Remark)
+                           .Set(a => a.UpdateUserId == UserInfo.Id)
+                           .Set(a => a.UpdateUserRealName == UserInfo.UpdateUserRealName)
+                           .Set(a => a.UpdateTime == UserInfo.UpdateTime)
+                           .ExecuteAffrows();
+                    }
+
+
                     response.Data = doctor.Id;
                 });
 
@@ -819,10 +925,14 @@ namespace JwSale.Api.Controllers
                     throw new Exception("医生信息不存在");
                 }
 
-
+              
                 int count = _freeSql.Delete<Doctor>().Where(o => o.Id == request.Id).ExecuteAffrows();
-                count += _freeSql.Delete<UserInfo>().Where(o => o.Id == doctor.UserId).ExecuteAffrows();
 
+                bool isExistDoctor = _freeSql.Select<Doctor>().Where(o => o.UserId == doctor.UserId).Any();
+                if (!isExistDoctor)
+                {
+                    count += _freeSql.Delete<UserInfo>().Where(o => o.Id == doctor.UserId).ExecuteAffrows();
+                }
                 if (count == 0)
                 {
                     throw new Exception("医生用户信息不存在");
@@ -977,13 +1087,13 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 获取医生
+        /// 获取医生详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [MoudleInfo("获取医生")]
-        [HttpPost("api/Management/GetDoctor")]
-        public async Task<ActionResult<ResponseBase>> GetDoctor([Required] string id)
+        [MoudleInfo("获取医生详情")]
+        [HttpGet("api/Management/GetDoctor")]
+        public async Task<ActionResult<ResponseBase>> GetDoctor(string id)
         {
             ResponseBase<GetDoctorResponse> response = new ResponseBase<GetDoctorResponse>();
             if (string.IsNullOrWhiteSpace(id))
@@ -1037,6 +1147,8 @@ namespace JwSale.Api.Controllers
 
             return await response.ToJsonResultAsync();
         }
+
+
 
 
     }

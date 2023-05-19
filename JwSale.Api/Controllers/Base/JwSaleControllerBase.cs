@@ -11,9 +11,9 @@ namespace JwSale.Api.Controllers
     /// <summary>
     /// 基类
     /// </summary> 
-    [TypeFilter(typeof(ValidationModelAttribute))]
-    [TypeFilter(typeof(ExceptionAttribute))]
-    [TypeFilter(typeof(LogAttribute))]
+    [TypeFilter(typeof(ValidationModelFilterAttribute))]
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
+    [TypeFilter(typeof(LogFilterAttribute))]
     [ApiController] 
     public abstract class JwSaleControllerBase : ControllerBase
     {

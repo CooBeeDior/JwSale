@@ -9,6 +9,7 @@ using JwSale.Util;
 using JwSale.Util.Assemblies;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace JsSaleService
 {
@@ -33,10 +35,13 @@ namespace JsSaleService
         private readonly IJwSaleRepository<RolePermissionInfo> _repositoryRolePermissionInfo;
         private readonly IJwSaleRepository<UserPermissionInfo> _repositoryUserPermissionInfo;
         private readonly IJwSaleUnitOfWork _jwSaleUnitOfWork;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public UserService(JwSaleDbContext jwSaleDbContext, IFreeSql freeSql, IJwSaleRepository<UserInfo> repositoryUserInfo,
             IJwSaleRepository<FunctionInfo> repositoryFunctionInfo, IJwSaleRepository<RoleInfo> repositoryRoleInfo,
             IJwSaleRepository<UserRoleInfo> repositoryUserRoleInfo, IJwSaleRepository<RolePermissionInfo> repositoryRolePermissionInfo,
-             IJwSaleRepository<UserPermissionInfo> repositoryUserPermissionInfo, IJwSaleUnitOfWork jwSaleUnitOfWork) : base(jwSaleDbContext, freeSql)
+             IJwSaleRepository<UserPermissionInfo> repositoryUserPermissionInfo, IJwSaleUnitOfWork jwSaleUnitOfWork,
+             IHttpContextAccessor httpContextAccessor) : base(jwSaleDbContext, freeSql)
         {
 
             _repositoryUserInfo = repositoryUserInfo;
@@ -46,6 +51,7 @@ namespace JsSaleService
             _repositoryRolePermissionInfo = repositoryRolePermissionInfo;
             _repositoryUserPermissionInfo = repositoryUserPermissionInfo;
             _jwSaleUnitOfWork = jwSaleUnitOfWork;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IList<FunctionTreeResponse>> GetUserFunctions(string userId)
         {
@@ -131,6 +137,53 @@ namespace JsSaleService
         /// <returns></returns>
         public async Task<IList<BriefInfo>> GetPermissions(string userId)
         {
+
+            var ss = from u in DbContext.UserInfos.AsNoTracking()
+                     join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
+                     join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
+                     join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
+                     join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
+                     where u.Id == userId
+                     select new BriefInfo()
+                     {
+                         Id = f.Id,
+                         Code = f.Code,
+                         Path = f.Path,
+                         Name = f.Name,
+                         ParentId = f.ParentId
+                     };
+            var kk = ss.ToList();
+
+            var adda = from u in DbContext.UserInfos.AsNoTracking()
+                       join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                       join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                       where u.Id == userId && up.Type == (short)PermissionType.Decut
+                       select new BriefInfo()
+                       {
+                           Id = f.Id,
+                           Code = f.Code,
+                           Path = f.Path,
+                           Name = f.Name,
+                           ParentId = f.ParentId
+                       };
+            var faafaf = adda.ToList();
+
+
+            var dfa = (from u in DbContext.UserInfos.AsNoTracking()
+                       join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
+                       join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
+                       where u.Id == userId && up.Type == (short)PermissionType.Decut
+                       select new BriefInfo()
+                       {
+                           Id = f.Id,
+                           Code = f.Code,
+                           Path = f.Path,
+                           Name = f.Name,
+                           ParentId = f.ParentId
+                       }).ToList();
+
+
+
             return await (
                  from u in DbContext.UserInfos.AsNoTracking()
                  join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
@@ -278,7 +331,7 @@ namespace JsSaleService
                     Password = DefaultUserInfo.UserInfo.Password.ToMd5(),
                     RealName = userRealName,
                     RealNamePin = userRealName.ToPinYin(),
-
+                    Phone = DefaultUserInfo.UserInfo.Phone,
                     ExpiredTime = dateNow.AddYears(100),
 
                     AddTime = dateNow,
@@ -369,6 +422,47 @@ namespace JsSaleService
 
 
 
+            _jwSaleUnitOfWork.Commit();
+
+        }
+
+        /// <summary>
+        /// 给用户添加所有权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task SetUserAllPermission(string userId)
+        {
+            _jwSaleUnitOfWork.BeginOrUseTransaction();
+            var functionInfos = await DbContext.FunctionInfos.ToListAsync();
+
+            await DbContext.UserPermissionInfos.Where(o => o.UserId == userId).DeleteAsync();
+
+
+            IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
+
+            var currentUserInfo = _httpContextAccessor.HttpContext.Items[CacheKeyHelper.CURRENTUSER] as UserInfo;
+            foreach (var funciton in functionInfos)
+            {
+                UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = userId,
+                    FunctionId = funciton.Id,
+                    Type = 0,
+
+                    AddTime = DateTime.Now,
+                    AddUserId = currentUserInfo?.Id ?? DefaultUserInfo.UserInfo.Id,
+                    AddUserRealName = currentUserInfo?.RealName ?? DefaultUserInfo.UserInfo.RealName,
+                    UpdateTime = DateTime.Now,
+                    UpdateUserId = currentUserInfo?.Id ?? DefaultUserInfo.UserInfo.Id,
+                    UpdateUserRealName = currentUserInfo?.RealName ?? DefaultUserInfo.UserInfo.RealName,
+                };
+                userPermissionInfos.Add(userPermissionInfo);
+            }
+            await DbContext.AddRangeAsync(userPermissionInfos);
+
+            await DbContext.SaveChangesAsync();
             _jwSaleUnitOfWork.Commit();
 
         }

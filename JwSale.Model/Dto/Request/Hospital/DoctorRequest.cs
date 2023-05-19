@@ -7,16 +7,16 @@ namespace JwSale.Model.Dto.Request.Hospital
 {
     public class DoctorRequest : RequestBase
     {
- 
+
 
         /// <summary>
         /// 科室Id
         /// </summary>
-       [Required]
+        [Required]
         public string EpartmeneId { get; set; }
 
- 
- 
+
+
 
         /// <summary>
         /// 备注
@@ -25,15 +25,17 @@ namespace JwSale.Model.Dto.Request.Hospital
 
 
 
-     
+
         /// <summary>
         /// 手机号码
         /// </summary>
         [Required]
+        [Phone]
         public string Phone { get; set; }
         /// <summary>
         /// 邮箱
         /// </summary>
+        //[EmailAddress]
         public string Email { get; set; }
         /// <summary>
         /// 密码
@@ -56,7 +58,7 @@ namespace JwSale.Model.Dto.Request.Hospital
         /// 身份证
         /// </summary>
         public string IdCard { get; set; }
- 
+
         /// <summary>
         /// qq号
         /// </summary>
@@ -92,8 +94,9 @@ namespace JwSale.Model.Dto.Request.Hospital
         /// <summary>
         /// 头像
         /// </summary>
+        //[Url]
         public string HeadImageUrl { get; set; }
-  
-     
+
+
     }
 }

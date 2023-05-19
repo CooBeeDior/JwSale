@@ -1,5 +1,6 @@
 ﻿using FeignCore.Apis;
 using JsSaleService;
+using JwSale.Api.Attributes;
 using JwSale.Api.Filters;
 using JwSale.Api.Util;
 using JwSale.Model;
@@ -95,7 +96,7 @@ namespace JwSale.Api.Controllers
         /// <returns></returns>
         [MoudleInfo("绑定微信用户信息", false)]
         [HttpPost("api/Wechat/BindWechatUser")]
-        [WechatNoAuthRequired]
+        [WechatAuthRequired]
         public async Task<ActionResult<ResponseBase>> BindWechatUser(BindWechatUserRequest request)
         {
             ResponseBase<string> response = new ResponseBase<string>();

@@ -39,24 +39,12 @@ namespace JwSale.Packs.Packs
                     services.AddHangfire(x => x.UseStorage(new MySqlStorage(jwSaleOptions.HangFire.ConnectionString,
                         new MySqlStorageOptions
                         {
-                            //CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                            //SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                            //QueuePollInterval = TimeSpan.Zero,
-                            //UseRecommendedIsolationLevel = true,
-                            //DisableGlobalLocks = true
+                        
                         })));
                 }
                 else
                 {
-                    services.AddHangfire(x => x.UseStorage(new MySqlStorage(jwSaleOptions.HangFire.ConnectionString,
-                          new MySqlStorageOptions
-                          {
-                              //CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                              //SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                              //QueuePollInterval = TimeSpan.Zero,
-                              //UseRecommendedIsolationLevel = true,
-                              //DisableGlobalLocks = true
-                          })));
+                    services.AddHangfire(x => x.UseSqlServerStorage(jwSaleOptions.HangFire.ConnectionString));
                 }
 
             }

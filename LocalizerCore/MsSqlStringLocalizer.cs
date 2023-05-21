@@ -10,24 +10,7 @@ using System.Linq;
 
 namespace LocalizerCore
 {
-    [Table(Name = "LocalizedString")]
-    public class LocalizedStringTable
-    {
-        [Column(IsIdentity = true, IsPrimary = true)]
-        public string Id { get; set; }
 
-        public string Name { get; set; }
-        public string TypeName { get; set; }
-
-        public string LocalizedStringTemplate { get; set; }
-
-        public string Culture { get; set; }
-
-        public DateTime CreateTime { get; set; }
-
-        public DateTime UpdateTime { get; set; }
-
-    }
     public class MsSqlStringLocalizer : IStringLocalizer
     {
         private readonly string _typeName;
@@ -45,7 +28,7 @@ namespace LocalizerCore
         private LocalizedString getLocallizedString(string name, params object[] arguments)
         {
             var freeSql = _idleBusFreeSql.Get(nameof(MsSqlStringLocalizerOptions));
-            var localizedString = freeSql.Select<LocalizedStringTable>().Where(o => o.TypeName == _typeName && o.Name == name && o.Culture == CultureInfo.CurrentCulture.Name).ToOne();
+            var localizedString = freeSql.Select<MsSqlStringLocalizedTable>().Where(o => o.TypeName == _typeName && o.Name == name && o.Culture == CultureInfo.CurrentCulture.Name).ToOne();
             if (localizedString != null)
             {
                 return new LocalizedString(name, string.Format(localizedString.LocalizedStringTemplate, arguments));
@@ -75,7 +58,7 @@ namespace LocalizerCore
         {
             var list = new List<LocalizedString>();
             var freeSql = _idleBusFreeSql.Get(nameof(MsSqlStringLocalizerOptions));
-            var localizedStrings = freeSql.Select<LocalizedStringTable>().Where(o => o.TypeName == _typeName && o.Culture == CultureInfo.CurrentCulture.Name).ToList();
+            var localizedStrings = freeSql.Select<MsSqlStringLocalizedTable>().Where(o => o.TypeName == _typeName && o.Culture == CultureInfo.CurrentCulture.Name).ToList();
             if (localizedStrings != null && localizedStrings.Count > 0)
             {
                 foreach (var item in localizedStrings)

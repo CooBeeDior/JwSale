@@ -1,4 +1,6 @@
-﻿using LocalizerAbstraction;
+﻿using FreeSql;
+using FreesqlCore;
+using LocalizerAbstraction;
 using LocalizerCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -27,6 +29,19 @@ namespace Microsoft.Extensions.DependencyInjection
             MsSqlStringLocalizerOptions options = new MsSqlStringLocalizerOptions();
             action?.Invoke(options);
             services.AddSingleton(options);
+         
+
+            services.AddFreeSqlWithIdleBus(s =>
+            {
+                var db0 = new FreeSqlDbOptions()
+                {
+                    Name = nameof(MsSqlStringLocalizerOptions),
+                    DataType = DataType.SqlServer,
+                    ConnectString = options.ConnectString,
+
+                };
+                s.FreeSqlDbs.Add(db0);
+            });
             //本地序列化
             services.AddLocalization();
             services.AddSingleton<IStringLocalizerFactory, MsSqlStringLocalizerFactory>();

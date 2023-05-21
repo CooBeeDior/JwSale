@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace JwSale.Model.Dto.Request.Hospital
+namespace JwSale.Model.Dto.Request.User
 {
     public class BindWechatUserRequest : RequestBase
     {

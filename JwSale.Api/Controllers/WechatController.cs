@@ -1,15 +1,10 @@
 ﻿using FeignCore.Apis;
 using JsSaleService;
 using JwSale.Api.Attributes;
-using JwSale.Api.Filters;
-using JwSale.Api.Util;
-using JwSale.Model;
-using JwSale.Model.DbModel;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
-using JwSale.Model.Dto.Request.Hospital;
+using JwSale.Model.Dto.Request.User;
 using JwSale.Model.Dto.Request.Wechat;
-using JwSale.Model.Dto.Response.Wechat;
 using JwSale.Model.Dto.Service;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Options;
@@ -20,9 +15,6 @@ using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -39,16 +31,18 @@ namespace JwSale.Api.Controllers
         private readonly JwSaleOptions _jwSaleOptions;
         private readonly IDistributedCache _cache;
         private readonly IFreeSql _freeSql;
-        private readonly IHospitalService _hospitalService;
+        private readonly IUserService _userService;
+ 
         public WechatController(JwSaleDbContext context, IWxMiniProgram wxMiniProgram,
-            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IFreeSql freeSql,
-            IHospitalService hospitalService) : base(context)
+            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IFreeSql freeSql, IUserService userService) : base(context)
         {
             _wxMiniProgram = wxMiniProgram;
             _jwSaleOptions = jwSaleOptions.Value;
             _cache = cache;
             _freeSql = freeSql;
-            _hospitalService = hospitalService;
+            _userService = userService;
+
+
         }
 
         /// <summary>
@@ -114,16 +108,14 @@ namespace JwSale.Api.Controllers
             else
             {
                 BindWechatUser bindWechatUser = new BindWechatUser()
-                {
-
-                    HospitalId = HttpContext.HospitalId(),
+                { 
                     WxNo = request.WxNo,
                     PhoneNumer = request.PhoneNumer,
                     WxOpenId = HttpContext.WxOpenId(),
                     WxUnionId = wxLoginCache.UnionId,
                     HeadImageUrl = request.HeadImageUrl,
                 };
-                var userId = await _hospitalService.BindWechatUser(bindWechatUser);
+                var userId = await _userService.BindWechatUser(bindWechatUser);
                 response.Data = userId;
 
                 await _cache.RemoveAsync(CacheKeyHelper.GetWxLoginTokenKey(bindWechatUser.WxOpenId));
@@ -136,31 +128,7 @@ namespace JwSale.Api.Controllers
         }
 
 
-        /// <summary>
-        /// 获取微信用户信息
-        /// </summary>
-        /// <returns></returns>
-        [MoudleInfo("获取微信用户医生信息", false)]
-        [HttpPost("api/Wechat/GetUserDoctorInfo")]
-        public async Task<ActionResult<ResponseBase>> GetUserDoctorInfo()
-        {
-            ResponseBase<UserDoctorInfoResponse> response = new ResponseBase<UserDoctorInfoResponse>();
-            var result = await _hospitalService.GetUserDoctorInfo(HttpContext.WxOpenId(), HttpContext.HospitalId());
-            if (result == null)
-            {
-                response.Message = "用户医生信息不存在";
-                response.Code = HttpStatusCode.BadRequest;
-                response.Success = false;
-            }
-            else
-            {
-                response.Data = result.DeepCopyByBinary<UserDoctorInfoResponse>();
-            }
-
-            return response;
-
-
-        }
+ 
 
 
     }

@@ -1,6 +1,7 @@
 ﻿using JwSale.Model;
 using JwSale.Model.Dto.Common;
 using JwSale.Model.Dto.Response.UserRole;
+using JwSale.Model.Dto.Service;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -49,5 +50,22 @@ namespace JsSaleService
         /// <param name="userId"></param>
         /// <returns></returns>
         Task SetUserAllPermission(string userId);
+
+
+
+        /// <summary>
+        /// 绑定微信用户信息
+        /// </summary>
+        /// <param name="bindWechatUser"></param>
+        /// <returns></returns>
+        Task<string> BindWechatUser(BindWechatUser bindWechatUser);
+
+        /// <summary>
+        /// 获取绑定微信用户信息
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        WechatUser GetWechatUser(string openId);
+
     }
 }

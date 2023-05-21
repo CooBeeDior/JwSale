@@ -5,21 +5,7 @@ using System.Text;
 namespace JwSale.Model.Dto.Service
 {
     public class WechatUser
-    {
-        public string DoctorId { get; set; }
-
-        public string DoctorName { get; set; }
-
-
-        /// <summary>
-        /// 所属医院
-        /// </summary>
-        public string HospitalId { get; set; }
-
-        /// <summary>
-        /// 部门Id
-        /// </summary>
-        public string EpartmeneId { get; set; }
+    {  
 
         /// <summary>
         /// 关联用户Id
@@ -30,6 +16,11 @@ namespace JwSale.Model.Dto.Service
         /// 手机号码
         /// </summary>
         public string Phone { get; set; }
+
+        /// <summary>
+        /// 真是姓名
+        /// </summary>
+        public string RealName { get; set; }
         /// <summary>
         /// 微信OpenId
         /// </summary>

@@ -462,7 +462,7 @@ namespace JwSale.Api.Controllers
                 return response;
             }
             var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == id).FirstOrDefault();
-            var doctor = DbContext.Doctors.AsEnumerable().Where(o => o.UserId == id).FirstOrDefault();
+ 
             if (userinfo == null)
             {
                 response.Success = false;
@@ -471,13 +471,8 @@ namespace JwSale.Api.Controllers
             }
             else
             {
-                DbContext.UserInfos.Remove(userinfo);
-                if (doctor != null)
-                {
-                    DbContext.Doctors.Remove(doctor);
-                }
+                DbContext.UserInfos.Remove(userinfo);        
                 await DbContext.SaveChangesAsync();
-
                 response.Data = userinfo;
 
             }

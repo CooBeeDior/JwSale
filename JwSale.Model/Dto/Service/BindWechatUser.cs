@@ -5,8 +5,7 @@ using System.Text;
 namespace JwSale.Model.Dto.Service
 {
     public class BindWechatUser
-    {
-        public string HospitalId { get; set; }
+    {      
 
 
         /// <summary>

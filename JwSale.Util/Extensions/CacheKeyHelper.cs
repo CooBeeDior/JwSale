@@ -45,7 +45,7 @@ namespace JwSale.Util
         public const string LOGINDEVICE = "logindevice";
 
 
-        public const string HOSPITALID = "hospitalId";
+ 
 
     }
 }

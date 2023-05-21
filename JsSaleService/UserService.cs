@@ -1,6 +1,7 @@
 ﻿using JwSale.Model;
 using JwSale.Model.Dto.Common;
 using JwSale.Model.Dto.Response.UserRole;
+using JwSale.Model.Dto.Service;
 using JwSale.Model.Enums;
 using JwSale.Repository.Context;
 using JwSale.Repository.Repositorys;
@@ -466,5 +467,53 @@ namespace JsSaleService
             _jwSaleUnitOfWork.Commit();
 
         }
+
+
+        /// <summary>
+        /// 绑定微信用户信息
+        /// </summary>
+        /// <param name="bindWechatUser"></param>
+        /// <returns></returns>
+        public async Task<string> BindWechatUser(BindWechatUser bindWechatUser)
+        {
+            var userInfo = await FreeSql.Select<UserInfo>().Where(o => o.Phone == bindWechatUser.PhoneNumer).ToOneAsync();
+            if (userInfo != null)
+            {
+                userInfo.WxOpenId = bindWechatUser.WxOpenId;
+                userInfo.WxUnionId = bindWechatUser.WxUnionId;
+                userInfo.HeadImageUrl = bindWechatUser.HeadImageUrl;
+                userInfo.WxNo = bindWechatUser.WxNo;
+                userInfo.UpdateTime = DateTime.Now;
+                var count = FreeSql.Update<UserInfo>(userInfo).ExecuteAffrowsAsync();
+            }
+            return userInfo.Id;
+        }
+
+        /// <summary>
+        /// 获取绑定微信用户信息
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public WechatUser GetWechatUser(string openId)
+        {
+            WechatUser wechatUser = null;
+            var userInfo = FreeSql.Select<UserInfo>().Where(o => o.WxOpenId == openId).ToOne();
+            if (userInfo != null)
+            {
+                wechatUser = new WechatUser()
+                {
+                    Phone = userInfo.Phone,
+                    RealName = userInfo.RealName,
+                    UserId = userInfo.Id,
+
+                    WxOpenId = userInfo.WxOpenId,
+                    WxUnionId = userInfo.WxUnionId
+                };
+
+            }
+            return wechatUser;
+        }
+
+
     }
 }

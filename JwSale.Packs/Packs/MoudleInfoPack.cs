@@ -29,10 +29,9 @@ namespace JwSale.Packs.Packs
             using (var scope = app.ApplicationServices.CreateScope())
             {
 
-                var userService = scope.ServiceProvider.GetService<IUserService>();
-                var hospitalService = scope.ServiceProvider.GetService<IHospitalService>();
+                var userService = scope.ServiceProvider.GetService<IUserService>(); 
                 userService.InitAdminUserAndRole();
-                hospitalService.InitHospital();
+ 
                 //初始化系统模块信息
 
                 //--SELECT * FROM dbo.FunctionInfo

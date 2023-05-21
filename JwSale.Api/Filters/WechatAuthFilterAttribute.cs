@@ -26,16 +26,17 @@ namespace JwSale.Api.Filters
         private JwSaleOptions jwSaleOptions;
 
         private JwSaleDbContext jwSaleDbContext;
-        private readonly IHospitalService _hospitalService;
+        private readonly IUserService userService;
+ 
 
 
         public WechatAuthFilterAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache,
-            IOptions<JwSaleOptions> jwSaleOptions, IHospitalService hospitalService)
+            IOptions<JwSaleOptions> jwSaleOptions, IUserService userService)
         {
             this.jwSaleDbContext = jwSaleDbContext;
             this.cache = cache;
             this.jwSaleOptions = jwSaleOptions.Value;
-            _hospitalService = hospitalService;
+            this.userService = userService;
 
         }
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -99,15 +100,12 @@ namespace JwSale.Api.Filters
                 }
                 else
                 {
-                    var wechatUser = _hospitalService.GetWechatUser(openId, context.HttpContext.HospitalId()).ConfigureAwait(false).GetAwaiter().GetResult();
+                    var wechatUser = userService.GetWechatUser(openId);
                     if (wechatUser != null)
                     {
-                        wechatUser = wechatUserCache.DeepCopyByReflection<WechatUserCache>();
-                    }
-
-                }
-
-
+                        wechatUserCache = wechatUser.DeepCopyByReflection<WechatUserCache>();
+                    } 
+                } 
 
                 if (wechatUserCache == null)
                 {

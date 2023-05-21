@@ -524,8 +524,8 @@ namespace JwSale.Util.Extensions
         {
 
 
-            object retval = Activator.CreateInstance(obj.GetType());
-            FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+            object retval = Activator.CreateInstance(typeof(T));
+            FieldInfo[] fields = typeof(T).GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
             foreach (var field in fields)
             {
                 try
@@ -1058,20 +1058,7 @@ namespace JwSale.Util.Extensions
             return (urlArr[0], port);
         }
 
-        /// <summary>
-        /// 获取医院Id
-        /// </summary>
-        /// <param name="httpContextAccessor"></param>
-        /// <returns></returns>
-        public static string HospitalId(this HttpContext httpContext)
-        {
-            string hospitalId = httpContext.Request.Headers[CacheKeyHelper.HOSPITALID].ToString();
-            if (string.IsNullOrWhiteSpace(hospitalId))
-            {
-                hospitalId = DefaultHospital.Hospital.Id;
-            }
-            return hospitalId;
-        }
+  
 
         /// <summary>
         /// 获取微信号openId

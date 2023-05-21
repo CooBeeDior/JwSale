@@ -1,4 +1,5 @@
 ﻿using LocalizerAbstraction;
+using LocalizerCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System;
@@ -18,6 +19,17 @@ namespace Microsoft.Extensions.DependencyInjection
             //本地序列化
             services.AddLocalization();
             services.AddSingleton<IStringLocalizerFactory, MongodbStringLocalizerFactory>();
+
+        }
+
+        public static void AddMsSqlLocalizer(this IServiceCollection services, Action<MsSqlStringLocalizerOptions> action = null)
+        {
+            MsSqlStringLocalizerOptions options = new MsSqlStringLocalizerOptions();
+            action?.Invoke(options);
+            services.AddSingleton(options);
+            //本地序列化
+            services.AddLocalization();
+            services.AddSingleton<IStringLocalizerFactory, MsSqlStringLocalizerFactory>();
 
         }
     }

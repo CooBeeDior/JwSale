@@ -13,15 +13,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwSale.Packs", "JwSale.Pack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwSale.Repository", "JwSale.Repository\JwSale.Repository.csproj", "{45C932C4-F5C2-4ADF-9344-8EE9DC18296D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeSqlCore", "FreeSqlCore\FreeSqlCore.csproj", "{25464117-2F42-4718-9506-E794D22DAE9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeSqlCore", "FreeSqlCore\FreeSqlCore.csproj", "{25464117-2F42-4718-9506-E794D22DAE9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitmqCore", "RabbitmqCore\RabbitmqCore.csproj", "{CCBBD38F-A2DD-47B0-91C1-ED559F2345E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitmqCore", "RabbitmqCore\RabbitmqCore.csproj", "{CCBBD38F-A2DD-47B0-91C1-ED559F2345E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeignCore", "FeignCore\FeignCore.csproj", "{63F57A14-3DDE-4477-BC35-8A9C95FD45F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeignCore", "FeignCore\FeignCore.csproj", "{63F57A14-3DDE-4477-BC35-8A9C95FD45F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizerCore", "LocalizerCore\LocalizerCore.csproj", "{33742BDA-007D-43BC-98AE-CFEB3BB89FF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizerCore", "LocalizerCore\LocalizerCore.csproj", "{33742BDA-007D-43BC-98AE-CFEB3BB89FF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsSaleService", "JsSaleService\JsSaleService.csproj", "{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsSaleService", "JsSaleService\JsSaleService.csproj", "{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongodbCore", "MongodbCore\MongodbCore.csproj", "{F7806495-DE1D-4783-B30D-2BB5A5343112}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

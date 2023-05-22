@@ -82,7 +82,7 @@ namespace JwSale.Api.Filters
                 ResponseBase response = new ResponseBase();
                 response.Success = false;
                 response.Code = HttpStatusCode.Unauthorized;
-                response.Message = "未授权";
+                response.Message = "未绑定授权";
                 context.Result = new JsonResult(response);
             }
             else

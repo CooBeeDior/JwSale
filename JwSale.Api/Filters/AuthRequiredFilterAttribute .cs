@@ -138,7 +138,7 @@ namespace JwSale.Api.Filters
                         }
                         else
                         {
-                            var userInfo = _freeSql.Select<UserInfo>().Where(o => o.Id == userCache.UserInfo.Id).ToOne();
+                            var userInfo = userCache.UserInfo;// _freeSql.Select<UserInfo>().Where(o => o.Id == userCache.UserInfo.Id).ToOne();
                             if (userInfo == null)
                             {
                                 ResponseBase response = new ResponseBase();

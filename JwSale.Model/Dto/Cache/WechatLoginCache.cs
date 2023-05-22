@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Cache
 {
-    public class WxLoginCache
+    public class WechatLoginCache
     {
         public string OpenId { get; set; }
 

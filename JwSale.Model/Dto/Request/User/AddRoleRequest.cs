@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace JwSale.Model.Dto.Request.User
 {
-    public class UnBindWechatUserRequest : RequestBase
+    public class AddRoleRequest
     {
-         
     }
 }

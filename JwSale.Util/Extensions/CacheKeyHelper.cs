@@ -20,9 +20,9 @@ namespace JwSale.Util
         {
             return $"wxlogin:token:{openid}";
         }
-        public static string GetWxUserKey(string openid)
+        public static string GetWechatUserKey(string openid)
         {
-            return $"wxuser:{openid}";
+            return $"wechatuser:{openid}";
         }
         public static string GetLoginUserKey(string userName, string loginDevice)
         {
@@ -40,7 +40,7 @@ namespace JwSale.Util
 
         public const string PHONENUMER = "phoneNumer";
 
-        public const string WXOPENID = "openid";
+        public const string WECHATOPENID = "openid";
 
         public const string LOGINDEVICE = "logindevice";
 

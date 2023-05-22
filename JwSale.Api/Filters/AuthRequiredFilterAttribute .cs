@@ -1,9 +1,8 @@
 ﻿using JwSale.Api.Attributes;
-using JwSale.Api.Util;
+using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
-using JwSale.Repository.Context;
 using JwSale.Util;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -23,19 +22,18 @@ namespace JwSale.Api.Filters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class AuthRequiredFilterAttribute : Attribute, IAuthorizationFilter
     {
-
-        private IDistributedCache cache;
-
-        private JwSaleOptions jwSaleOptions;
-
-        private JwSaleDbContext jwSaleDbContext;
+        private readonly IFreeSql _freeSql;
+        private IDistributedCache _cache;
+        private JwSaleOptions _jwSaleOptions;
 
 
-        public AuthRequiredFilterAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
+
+
+        public AuthRequiredFilterAttribute(IFreeSql freeSql, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
         {
-            this.jwSaleDbContext = jwSaleDbContext;
-            this.cache = cache;
-            this.jwSaleOptions = jwSaleOptions.Value;
+            _freeSql = freeSql;
+            _cache = cache;
+            _jwSaleOptions = jwSaleOptions.Value;
 
         }
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -70,7 +68,7 @@ namespace JwSale.Api.Filters
                 {
                     isAuth = false;
                     goto Tag;
-                } 
+                }
             }
 
         Tag:
@@ -91,7 +89,7 @@ namespace JwSale.Api.Filters
             else
             {
 
-                var userToken = UserHelper.AnalysisToken(token, jwSaleOptions.TokenKey);
+                var userToken = token.AnalysisToken(_jwSaleOptions.TokenKey);
                 if (userToken == null)
                 {
                     ResponseBase response = new ResponseBase();
@@ -110,7 +108,7 @@ namespace JwSale.Api.Filters
                 //}
                 else
                 {
-                    var userCacheStr = cache.GetString(CacheKeyHelper.GetLoginUserKey(userToken.UserName, loginDevice));
+                    var userCacheStr = _cache.GetString(CacheKeyHelper.GetLoginUserKey(userToken.UserName, loginDevice));
                     if (string.IsNullOrEmpty(userCacheStr))
                     {
                         ResponseBase response = new ResponseBase();
@@ -140,7 +138,7 @@ namespace JwSale.Api.Filters
                         }
                         else
                         {
-                            var userInfo = jwSaleDbContext.UserInfos.Where(o => o.Id == userCache.UserInfo.Id).FirstOrDefault();
+                            var userInfo = _freeSql.Select<UserInfo>().Where(o => o.Id == userCache.UserInfo.Id).ToOne();
                             if (userInfo == null)
                             {
                                 ResponseBase response = new ResponseBase();

@@ -15,18 +15,15 @@ namespace JwSale.Api.Controllers
         private IDistributedCache _cache;
 
         private JwSaleOptions jwSaleOptions;
-        private readonly IFreeSql _freeSql;
+ 
 
 
         public ManagementController(JwSaleDbContext context, IUserService userService,
-            IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions,
-          IFreeSql freeSql) : base(context)
+            IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
         {
             this._userService = userService;
             this._cache = cache;
-            this.jwSaleOptions = jwSaleOptions.Value;
-            this._freeSql = freeSql;
-
+            this.jwSaleOptions = jwSaleOptions.Value;       
 
         }
     }

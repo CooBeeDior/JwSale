@@ -28,7 +28,6 @@
             <summary>
             测试
             </summary>
-            <param name="file"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.TestController.TestEvent">
@@ -68,9 +67,39 @@
             <param name="login"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.Logout">
+            <summary>
+            登出
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.GetUserInfo">
             <summary>
             获取用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserFunctions">
+            <summary>
+            获取用户功能列表
+            </summary> 
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddRole">
+            <summary>
+            添加角色
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.UpdateRole">
+            <summary>
+            修改角色
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteRole">
+            <summary>
+            删除角色
             </summary>
             <returns></returns>
         </member>
@@ -84,13 +113,6 @@
             <summary>
             添加用户
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.SetAllPermisson(JwSale.Model.Dto.Request.User.SetAllPermissonRequest)">
-            <summary>
-            设置所有权限
-            </summary>
-            <param name="setAllPermisson"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.UserController.GetUsers(JwSale.Model.Dto.Request.User.GetUsersRequest)">
@@ -135,24 +157,6 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.Logout">
-            <summary>
-            登出
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserFunctions">
-            <summary>
-            获取用户功能列表
-            </summary> 
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.UnBindWechatUser(JwSale.Model.Dto.Request.User.UnBindWechatUserRequest)">
-            <summary>
-            解绑微信小程序
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:JwSale.Api.Controllers.WechatController">
             <summary>
             微信小程序
@@ -167,9 +171,15 @@
         </member>
         <member name="M:JwSale.Api.Controllers.WechatController.BindWechatUser(JwSale.Model.Dto.Request.User.BindWechatUserRequest)">
             <summary>
-            绑定微信用户信息
+            绑定微信小程序
             </summary>
             <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.WechatController.UnBindWechatUser(JwSale.Model.Dto.Request.User.UnBindWechatUserRequest)">
+            <summary>
+            解绑微信小程序
+            </summary>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Events.TestConsumer">

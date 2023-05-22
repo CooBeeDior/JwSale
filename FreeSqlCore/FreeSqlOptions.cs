@@ -7,24 +7,6 @@ using System.Data.Common;
 
 namespace FreesqlCore
 {
-    public class FreeSqlBusOptions
-    {
-        public FreeSqlBusOptions()
-        {
-            FreeSqlDbs = new List<FreeSqlDbOptions>();
-        }
-
-        public TimeSpan TimeSpan { get; set; } = TimeSpan.FromMinutes(10);
-        public IList<FreeSqlDbOptions> FreeSqlDbs { get; set; }
-
-
-        public string GetRandomName()
-        {
-            int index = new Random().Next(0, FreeSqlDbs.Count - 1);
-            return FreeSqlDbs[index]?.Name;
-        }
-    }
-
     public class FreeSqlDbOptions
     {
         public string Name { get; set; }
@@ -50,4 +32,23 @@ namespace FreesqlCore
 
         public Action<DbCommand, string> Executed { get; set; }
     }
+    public class FreeSqlBusOptions
+    {
+        public FreeSqlBusOptions()
+        {
+            FreeSqlDbs = new List<FreeSqlDbOptions>();
+        }
+
+        public TimeSpan TimeSpan { get; set; } = TimeSpan.FromMinutes(10);
+        public IList<FreeSqlDbOptions> FreeSqlDbs { get; set; }
+
+
+        public string GetRandomName()
+        {
+            int index = new Random().Next(0, FreeSqlDbs.Count - 1);
+            return FreeSqlDbs[index]?.Name;
+        }
+    }
+
+   
 }

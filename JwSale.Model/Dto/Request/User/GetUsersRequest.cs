@@ -12,6 +12,24 @@ namespace JwSale.Model.Dto.Request.User
 
         public string Name { get; set; }
 
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public string IdCard { get; set; }
+
+        public int? Sex { get; set; }
+
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? BirthDayStart { get; set; }
+
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? BirthDayEnd { get; set; }
+
         public int? Status { get; set; }
 
 

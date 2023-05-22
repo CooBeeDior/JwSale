@@ -1,14 +1,12 @@
-﻿using FeignCore.Actions;
-using FeignCore.Filters;
+﻿using FeignCore.Filters;
 using System.Threading;
-using System.Threading.Tasks;
 using WebApiClient;
 using WebApiClient.Attributes;
 namespace FeignCore.Apis
 {
     [HttpHost("http://api.coobeedior.com")]
-    [Service("wechat")]
-    [Log]
+    [ServiceFilter("wechat")]
+    [LogFilter]
     public interface IUserApi : IHttpApi
     {
         [HttpPost("/api/Login/GetQrCode")]

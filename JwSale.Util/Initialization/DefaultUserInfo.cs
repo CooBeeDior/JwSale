@@ -16,9 +16,10 @@ namespace JwSale.Util
                 {
                     Id = new Guid("B025749E-2B58-4702-9EC2-97549169F552").ToString(),
                     UserName = "admin",
-                    RealName = "超级管理员",
+                    RealName = "默认用户",
                     Password = "123456",
-                    Phone = "18138258825"
+                    Phone = "18138258825",
+                    Remark = "默认初始化用户"
                 };
             }
         }
@@ -31,6 +32,9 @@ namespace JwSale.Util
         public string Password { get; set; }
 
         public string Phone { get; set; }
-
+        public string Remark { get; set; }
     }
+
+
+
 }

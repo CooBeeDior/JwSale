@@ -7,7 +7,7 @@ using WebApiClient.Contexts;
 
 namespace FeignCore.Filters
 {
-    public class LogAttribute : ApiActionFilterAttribute, IApiActionFilterAttribute
+    public class LogFilterAttribute : ApiActionFilterAttribute, IApiActionFilterAttribute
     {
         //
         // 摘要:
@@ -18,7 +18,7 @@ namespace FeignCore.Filters
         //     上下文
         public override Task OnBeginRequestAsync(ApiActionContext context)
         {
-            var logger = context.GetService<ILogger<LogAttribute>>();
+            var logger = context.GetService<ILogger<LogFilterAttribute>>();
             return Task.CompletedTask;
         }
         //
@@ -30,7 +30,7 @@ namespace FeignCore.Filters
         //     上下文
         public override Task OnEndRequestAsync(ApiActionContext context)
         {
-            var logger = context.GetService<ILogger<LogAttribute>>();
+            var logger = context.GetService<ILogger<LogFilterAttribute>>();
             return Task.CompletedTask;
         }
     }

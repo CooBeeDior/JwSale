@@ -3,7 +3,6 @@ using JwSale.Model.Dto.Common;
 using JwSale.Model.Dto.Response.UserRole;
 using JwSale.Model.Dto.Service;
 using JwSale.Model.Enums;
-using JwSale.Repository.Context;
 using JwSale.Repository.Repositorys;
 using JwSale.Repository.UnitOfWork;
 using JwSale.Util;
@@ -27,80 +26,264 @@ namespace JsSaleService
     /// </summary>
     public class UserService : Service, IUserService
     {
-
-        private readonly IJwSaleRepository<UserInfo> _repositoryUserInfo;
-        private readonly IJwSaleRepository<FunctionInfo> _repositoryFunctionInfo;
-        private readonly IJwSaleRepository<RoleInfo> _repositoryRoleInfo;
-        private readonly IJwSaleRepository<UserRoleInfo> _repositoryUserRoleInfo;
-
-        private readonly IJwSaleRepository<RolePermissionInfo> _repositoryRolePermissionInfo;
-        private readonly IJwSaleRepository<UserPermissionInfo> _repositoryUserPermissionInfo;
-        private readonly IJwSaleUnitOfWork _jwSaleUnitOfWork;
-
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(JwSaleDbContext jwSaleDbContext, IFreeSql freeSql, IJwSaleRepository<UserInfo> repositoryUserInfo,
-            IJwSaleRepository<FunctionInfo> repositoryFunctionInfo, IJwSaleRepository<RoleInfo> repositoryRoleInfo,
-            IJwSaleRepository<UserRoleInfo> repositoryUserRoleInfo, IJwSaleRepository<RolePermissionInfo> repositoryRolePermissionInfo,
-             IJwSaleRepository<UserPermissionInfo> repositoryUserPermissionInfo, IJwSaleUnitOfWork jwSaleUnitOfWork,
-             IHttpContextAccessor httpContextAccessor) : base(jwSaleDbContext, freeSql)
+        public UserService(IFreeSql freeSql, IHttpContextAccessor httpContextAccessor) : base(freeSql)
         {
-
-            _repositoryUserInfo = repositoryUserInfo;
-            _repositoryFunctionInfo = repositoryFunctionInfo;
-            _repositoryRoleInfo = repositoryRoleInfo;
-            _repositoryUserRoleInfo = repositoryUserRoleInfo;
-            _repositoryRolePermissionInfo = repositoryRolePermissionInfo;
-            _repositoryUserPermissionInfo = repositoryUserPermissionInfo;
-            _jwSaleUnitOfWork = jwSaleUnitOfWork;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<IList<FunctionTreeResponse>> GetUserFunctions(string userId)
+        /// <summary>
+        /// 获取用户权限功能树
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IList<FunctionTreeResponse>> GetUserPermissionTree(string userId)
         {
 
-            var functions = DbContext.FunctionInfos.OrderBy(o => o.Order).AsEnumerable();
+            var functions = await FreeSql.Select<FunctionInfo>().OrderBy(o => o.Order).ToListAsync();
+
+            var result = await FreeSql.Select<UserInfo, UserRoleInfo, RoleInfo, RolePermissionInfo, FunctionInfo>()
+                 .LeftJoin((u, ur, r, rp, f) => u.Id == ur.UserId)
+                 .LeftJoin((u, ur, r, rp, f) => ur.RoleId == r.Id)
+                 .LeftJoin((u, ur, r, rp, f) => ur.RoleId == rp.RoleId)
+                 .LeftJoin((u, ur, r, rp, f) => rp.FunctionId == f.Id)
+                 .Where((u, ur, r, rp, f) => u.Id == userId).ToListAsync((u, ur, r, rp, f) => new PermssionResponse
+                 {
+                     Id = f.Id,
+                     Code = f.Code,
+                     Name = f.Name
+                 });
+
             var permissions = await (
-                        from u in DbContext.UserInfos.AsNoTracking()
-                        join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
-                        join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
-                        join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
-                        join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
+                        from u in FreeSql.Select<UserInfo>()
+                        join ur in FreeSql.Select<UserRoleInfo>() on u.Id equals ur.UserId
+                        join r in FreeSql.Select<RoleInfo>() on ur.RoleId equals r.Id
+                        join rp in FreeSql.Select<RolePermissionInfo>() on ur.RoleId equals rp.RoleId
+                        join f in FreeSql.Select<FunctionInfo>() on rp.FunctionId equals f.Id
                         where u.Id == userId
                         select new PermssionResponse()
                         {
                             Id = f.Id,
                             Code = f.Code,
                             Name = f.Name
-                        }).Union(
-                            from u in DbContext.UserInfos.AsNoTracking()
-                            join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                            join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                            where u.Id == userId && up.Type == (short)PermissionType.Increase
-                            select new PermssionResponse()
-                            {
-                                Id = f.Id,
-                                Code = f.Code,
-                                Name = f.Name
-                            }).Except(
-                              from u in DbContext.UserInfos.AsNoTracking()
-                              join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                              join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                              where u.Id == userId && up.Type == (short)PermissionType.Decut
-                              select new PermssionResponse()
-                              {
-                                  Id = f.Id,
-                                  Code = f.Code,
-                                  Name = f.Name
-                              }).ToListAsync();
+                        }).ToListAsync();
             FunctionTreeResponse functionTree = new FunctionTreeResponse()
             {
                 Id = string.Empty,
                 Code = "Root",
                 Name = "根节点"
             };
-            GetFuntions(functions, functionTree, permissions);
+            toUserFuntionTree(functions, functionTree, permissions);
             return functionTree.Tree;
         }
 
+
+
+        /// <summary>
+        /// 获取用户所有权限
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IList<BriefInfo>> GetUserPermissions(string userId)
+        {
+            return await (from u in FreeSql.Select<UserInfo>()
+                          join ur in FreeSql.Select<UserRoleInfo>() on u.Id equals ur.UserId
+                          join r in FreeSql.Select<RoleInfo>() on ur.RoleId equals r.Id
+                          join rp in FreeSql.Select<RolePermissionInfo>() on ur.RoleId equals rp.RoleId
+                          join f in FreeSql.Select<FunctionInfo>() on rp.FunctionId equals f.Id
+                          where u.Id == userId
+                          select new BriefInfo()
+                          {
+                              Id = f.Id,
+                              Code = f.Code,
+                              Path = f.Path,
+                              Name = f.Name,
+                              ParentId = f.ParentId
+                          }).ToListAsync();
+        }
+
+        /// <summary>
+        /// 初始化系统功能模块
+        /// </summary>
+        /// <param name="compulsory">是否强制执行</param>
+        public IList<FunctionInfo> InitFunctions(bool compulsory = false)
+        {
+            IList<FunctionInfo> functionInfos = new List<FunctionInfo>();
+            if (compulsory || !FreeSql.Select<FunctionInfo>().Any())
+            {
+                FreeSql.Transaction(() =>
+                {
+                    int count = FreeSql.Delete<FunctionInfo>().ExecuteAffrows();
+
+                    DateTime dateNow = DateTime.Now;
+                    string userId = DefaultUserInfo.UserInfo.Id;
+                    string userRealName = DefaultUserInfo.UserInfo.RealName;
+                    foreach (var assembly in AssemblyFinder.AllAssembly)
+                    {
+                        var filterTypes = assembly.GetTypes().Where(o => Attribute.IsDefined(o, typeof(MoudleInfoAttribute)) && o.IsClass && !o.IsAbstract && o.IsPublic).ToList();
+                        foreach (var type in filterTypes)
+                        {
+                            var moudleInfoAttribute = type.GetCustomAttribute<MoudleInfoAttribute>();
+                            var nameArr = moudleInfoAttribute.Name.Split('-', '/', '\\', '_');
+
+                            string parentId = string.Empty;
+
+
+                            var path = type.GetCustomAttribute<RouteAttribute>()?.Template ?? type.GetCustomAttribute<HttpGetAttribute>()?.Template ?? type.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
+                            foreach (var name in nameArr)
+                            {
+                                FunctionInfo functionInfo = new FunctionInfo()
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    Name = name,
+                                    Code = string.IsNullOrEmpty(moudleInfoAttribute.Code) ? name.ToPinYin() : moudleInfoAttribute.Code,
+                                    ParentId = parentId,
+                                    Order = moudleInfoAttribute.Order,
+                                    Path = path,
+                                    AddTime = dateNow,
+                                    AddUserId = userId,
+                                    AddUserRealName = userRealName,
+                                    UpdateTime = dateNow,
+                                    UpdateUserId = userId,
+                                    UpdateUserRealName = userRealName,
+                                };
+                                parentId = functionInfo.Id;
+                                functionInfos.Add(functionInfo);
+                            }
+
+                            var methods = type.GetMethods().Where(o => Attribute.IsDefined(o, typeof(MoudleInfoAttribute)) && !o.IsAbstract && o.IsPublic);
+                            foreach (var method in methods)
+                            {
+                                var methodMoudleInfoAttribute = method.GetCustomAttribute<MoudleInfoAttribute>();
+                                if (!methodMoudleInfoAttribute.IsFunction || functionInfos.Where(o => o.Name == methodMoudleInfoAttribute.Name && o.ParentId == parentId).Count() > 0)
+                                {
+                                    continue;
+                                }
+                                var methodPath = method.GetCustomAttribute<RouteAttribute>()?.Template ?? method.GetCustomAttribute<HttpGetAttribute>()?.Template ?? method.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
+                                FunctionInfo functionInfo = new FunctionInfo()
+                                {
+                                    Id = Guid.NewGuid().ToString(),
+                                    Name = methodMoudleInfoAttribute.Name,
+                                    Code = string.IsNullOrEmpty(methodMoudleInfoAttribute.Code) ? methodMoudleInfoAttribute.Name.ToPinYin() : methodMoudleInfoAttribute.Code,
+                                    ParentId = parentId,
+                                    Order = moudleInfoAttribute.Order,
+                                    Path = methodPath,
+                                    AddTime = dateNow,
+                                    AddUserId = userId,
+                                    AddUserRealName = userRealName,
+                                    UpdateTime = dateNow,
+                                    UpdateUserId = userId,
+                                    UpdateUserRealName = userRealName,
+                                };
+                                functionInfos.Add(functionInfo);
+                            }
+
+                        }
+                    }
+                    count = FreeSql.Insert(functionInfos).ExecuteAffrows();
+
+                });
+            }
+
+            return functionInfos;
+        }
+
+        /// <summary>
+        /// 初始化超级管理员用户权限
+        /// </summary>
+        /// <param name="compulsory">是否强制执行</param>
+        public void InitAdminUserAndRole(bool compulsory = false)
+        {
+            if (compulsory || !FreeSql.Select<UserInfo>().Where(o => o.Id == DefaultUserInfo.UserInfo.Id).Any())
+            {
+                FreeSql.Transaction(() =>
+                {
+                    var dateNow = DateTime.Now;
+                    int count = FreeSql.Delete<UserInfo>().Where(o => o.Id == DefaultUserInfo.UserInfo.Id).ExecuteAffrows();
+                    count += FreeSql.Delete<RoleInfo>().Where(o => o.Id == DefaultRoleInfo.RoleInfo.Id).ExecuteAffrows();
+                    count += FreeSql.Delete<UserRoleInfo>().Where(o => o.UserId == DefaultUserInfo.UserInfo.Id).ExecuteAffrows();
+                    count += FreeSql.Delete<RolePermissionInfo>().Where(o => o.RoleId == DefaultRoleInfo.RoleInfo.Id).ExecuteAffrows();
+                    var functionInfos = InitFunctions();
+                    //初始化超级管理员
+                    UserInfo userInfo = new UserInfo()
+                    {
+                        Id = DefaultUserInfo.UserInfo.Id,
+                        UserName = DefaultUserInfo.UserInfo.UserName,
+                        Password = DefaultUserInfo.UserInfo.Password.ToMd5(),
+                        RealName = DefaultUserInfo.UserInfo.RealName,
+                        RealNamePin = DefaultUserInfo.UserInfo.RealName.ToPinYin(),
+                        Phone = DefaultUserInfo.UserInfo.Phone,
+                        ExpiredTime = dateNow.AddYears(100),
+                        Remark = DefaultUserInfo.UserInfo.Remark,
+                        AddTime = dateNow,
+                        AddUserId = DefaultUserInfo.UserInfo.Id,
+                        AddUserRealName = DefaultUserInfo.UserInfo.RealName,
+                        UpdateTime = dateNow,
+                        UpdateUserId = DefaultUserInfo.UserInfo.Id,
+                        UpdateUserRealName = DefaultUserInfo.UserInfo.RealName,
+                    };
+                    count += FreeSql.Insert(userInfo).ExecuteAffrows();
+
+
+                    RoleInfo roleInfo = new RoleInfo()
+                    {
+                        Id = DefaultRoleInfo.RoleInfo.Id,
+                        Name = DefaultRoleInfo.RoleInfo.Name,
+                        ParentId = string.Empty,
+                        Remark = DefaultRoleInfo.RoleInfo.Remark,
+                        AddTime = dateNow,
+                        AddUserId = DefaultUserInfo.UserInfo.Id,
+                        AddUserRealName = DefaultUserInfo.UserInfo.RealName,
+                        UpdateTime = dateNow,
+                        UpdateUserId = DefaultUserInfo.UserInfo.Id,
+                        UpdateUserRealName = DefaultUserInfo.UserInfo.RealName,
+                    };
+                    count += FreeSql.Insert(roleInfo).ExecuteAffrows();
+
+                    UserRoleInfo userRoleInfo = new UserRoleInfo()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        RoleId = DefaultRoleInfo.RoleInfo.Id,
+                        UserId = DefaultUserInfo.UserInfo.Id,
+
+                        AddTime = dateNow,
+                        AddUserId = DefaultUserInfo.UserInfo.Id,
+                        AddUserRealName = DefaultUserInfo.UserInfo.RealName,
+                        UpdateTime = dateNow,
+                        UpdateUserId = DefaultUserInfo.UserInfo.Id,
+                        UpdateUserRealName = DefaultUserInfo.UserInfo.RealName,
+                    };
+                    count += FreeSql.Insert(userRoleInfo).ExecuteAffrows();
+                    IList<RolePermissionInfo> rolePermissionInfos = new List<RolePermissionInfo>();
+                    foreach (var funciton in functionInfos)
+                    {
+                        RolePermissionInfo rolePermissionInfo = new RolePermissionInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            FunctionId= funciton.Id,
+                            RoleId= DefaultRoleInfo.RoleInfo.Id,
+                            AddTime = dateNow,
+                            AddUserId = DefaultUserInfo.UserInfo.Id,
+                            AddUserRealName = DefaultUserInfo.UserInfo.RealName,
+                            UpdateTime = dateNow,
+                            UpdateUserId = DefaultUserInfo.UserInfo.Id,
+                            UpdateUserRealName = DefaultUserInfo.UserInfo.RealName,
+                        };
+                        rolePermissionInfos.Add(rolePermissionInfo);
+                    }
+                    count += FreeSql.Insert(rolePermissionInfos).ExecuteAffrows();
+
+                });
+
+            }
+
+
+
+
+
+
+        }
+
+         
 
 
         /// <summary>
@@ -109,7 +292,7 @@ namespace JsSaleService
         /// <param name="functions"></param>
         /// <param name="functionTree"></param>
         /// <param name="permissions"></param>
-        public void GetFuntions(IEnumerable<FunctionInfo> functions, FunctionTreeResponse functionTree, IList<PermssionResponse> permissions)
+        private void toUserFuntionTree(IEnumerable<FunctionInfo> functions, FunctionTreeResponse functionTree, IList<PermssionResponse> permissions)
         {
             var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTreeResponse
             {
@@ -125,395 +308,8 @@ namespace JsSaleService
                 {
                     item.IsPermission = true;
                 }
-                GetFuntions(functions, item, permissions);
+                toUserFuntionTree(functions, item, permissions);
             }
         }
-
-
-
-        /// <summary>
-        /// 获取用户权限
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<IList<BriefInfo>> GetPermissions(string userId)
-        {
-
-            var ss = from u in DbContext.UserInfos.AsNoTracking()
-                     join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
-                     join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
-                     join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
-                     join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
-                     where u.Id == userId
-                     select new BriefInfo()
-                     {
-                         Id = f.Id,
-                         Code = f.Code,
-                         Path = f.Path,
-                         Name = f.Name,
-                         ParentId = f.ParentId
-                     };
-            var kk = ss.ToList();
-
-            var adda = from u in DbContext.UserInfos.AsNoTracking()
-                       join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                       join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                       where u.Id == userId && up.Type == (short)PermissionType.Decut
-                       select new BriefInfo()
-                       {
-                           Id = f.Id,
-                           Code = f.Code,
-                           Path = f.Path,
-                           Name = f.Name,
-                           ParentId = f.ParentId
-                       };
-            var faafaf = adda.ToList();
-
-
-            var dfa = (from u in DbContext.UserInfos.AsNoTracking()
-                       join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                       join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                       where u.Id == userId && up.Type == (short)PermissionType.Decut
-                       select new BriefInfo()
-                       {
-                           Id = f.Id,
-                           Code = f.Code,
-                           Path = f.Path,
-                           Name = f.Name,
-                           ParentId = f.ParentId
-                       }).ToList();
-
-
-
-            return await (
-                 from u in DbContext.UserInfos.AsNoTracking()
-                 join ur in DbContext.UserRoleInfos.AsNoTracking() on u.Id equals ur.UserId
-                 join r in DbContext.RoleInfos.AsNoTracking() on ur.RoleId equals r.Id
-                 join rp in DbContext.RolePermissionInfos.AsNoTracking() on ur.RoleId equals rp.RoleId
-                 join f in DbContext.FunctionInfos.AsNoTracking() on rp.FunctionId equals f.Id
-                 where u.Id == userId
-                 select new BriefInfo()
-                 {
-                     Id = f.Id,
-                     Code = f.Code,
-                     Path = f.Path,
-                     Name = f.Name,
-                     ParentId = f.ParentId
-                 }).Union(
-                     from u in DbContext.UserInfos.AsNoTracking()
-                     join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                     join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                     where u.Id == userId && up.Type == (short)PermissionType.Increase
-                     select new BriefInfo()
-                     {
-                         Id = f.Id,
-                         Code = f.Code,
-                         Path = f.Path,
-                         Name = f.Name,
-                         ParentId = f.ParentId
-                     }).Except(
-                       from u in DbContext.UserInfos.AsNoTracking()
-                       join up in DbContext.UserPermissionInfos.AsNoTracking() on u.Id equals up.UserId
-                       join f in DbContext.FunctionInfos.AsNoTracking() on up.FunctionId equals f.Id
-                       where u.Id == userId && up.Type == (short)PermissionType.Decut
-                       select new BriefInfo()
-                       {
-                           Id = f.Id,
-                           Code = f.Code,
-                           Path = f.Path,
-                           Name = f.Name,
-                           ParentId = f.ParentId
-                       }).ToListAsync();
-        }
-
-        /// <summary>
-        /// 初始化模块
-        /// </summary>
-        /// <returns></returns>
-        public IList<FunctionInfo> InitFunctions()
-        {
-            _jwSaleUnitOfWork.BeginOrUseTransaction();
-            _repositoryFunctionInfo.Delete(s => true);
-
-            IList<FunctionInfo> functionInfos = new List<FunctionInfo>();
-
-            DateTime dateNow = DateTime.Now;
-            string userId = DefaultUserInfo.UserInfo.Id;
-            string userRealName = DefaultUserInfo.UserInfo.RealName;
-            foreach (var assembly in AssemblyFinder.AllAssembly)
-            {
-                var filterTypes = assembly.GetTypes().Where(o => Attribute.IsDefined(o, typeof(MoudleInfoAttribute)) && o.IsClass && !o.IsAbstract && o.IsPublic).ToList();
-                foreach (var type in filterTypes)
-                {
-                    var moudleInfoAttribute = type.GetCustomAttribute<MoudleInfoAttribute>();
-                    var nameArr = moudleInfoAttribute.Name.Split('-', '/', '\\', '_');
-
-                    string parentId = string.Empty;
-
-
-                    var path = type.GetCustomAttribute<RouteAttribute>()?.Template ?? type.GetCustomAttribute<HttpGetAttribute>()?.Template ?? type.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
-                    foreach (var name in nameArr)
-                    {
-                        FunctionInfo functionInfo = new FunctionInfo()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name = name,
-                            Code = string.IsNullOrEmpty(moudleInfoAttribute.Code) ? name.ToPinYin() : moudleInfoAttribute.Code,
-                            ParentId = parentId,
-                            Order = moudleInfoAttribute.Order,
-                            Path = path,
-                            AddTime = dateNow,
-                            AddUserId = userId,
-                            AddUserRealName = userRealName,
-                            UpdateTime = dateNow,
-                            UpdateUserId = userId,
-                            UpdateUserRealName = userRealName,
-                        };
-                        parentId = functionInfo.Id;
-                        functionInfos.Add(functionInfo);
-                    }
-
-                    var methods = type.GetMethods().Where(o => Attribute.IsDefined(o, typeof(MoudleInfoAttribute)) && !o.IsAbstract && o.IsPublic);
-                    foreach (var method in methods)
-                    {
-                        var methodMoudleInfoAttribute = method.GetCustomAttribute<MoudleInfoAttribute>();
-                        if (!methodMoudleInfoAttribute.IsFunction || functionInfos.Where(o => o.Name == methodMoudleInfoAttribute.Name && o.ParentId == parentId).Count() > 0)
-                        {
-                            continue;
-                        }
-                        var methodPath = method.GetCustomAttribute<RouteAttribute>()?.Template ?? method.GetCustomAttribute<HttpGetAttribute>()?.Template ?? method.GetCustomAttribute<HttpPostAttribute>()?.Template ?? "";
-                        FunctionInfo functionInfo = new FunctionInfo()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name = methodMoudleInfoAttribute.Name,
-                            Code = string.IsNullOrEmpty(methodMoudleInfoAttribute.Code) ? methodMoudleInfoAttribute.Name.ToPinYin() : methodMoudleInfoAttribute.Code,
-                            ParentId = parentId,
-                            Order = moudleInfoAttribute.Order,
-                            Path = methodPath,
-                            AddTime = dateNow,
-                            AddUserId = userId,
-                            AddUserRealName = userRealName,
-                            UpdateTime = dateNow,
-                            UpdateUserId = userId,
-                            UpdateUserRealName = userRealName,
-                        };
-                        functionInfos.Add(functionInfo);
-                    }
-
-                }
-            }
-            _repositoryFunctionInfo.BatchCreate(functionInfos);
-
-            _jwSaleUnitOfWork.Commit();
-            return functionInfos;
-
-        }
-
-        /// <summary>
-        /// 初始化超级管理员用户权限
-        /// </summary>
-        public void InitAdminUserAndRole()
-        {
-            _jwSaleUnitOfWork.BeginOrUseTransaction();
-
-            DateTime dateNow = DateTime.Now;
-            string userId = DefaultUserInfo.UserInfo.Id;
-            string userRealName = DefaultUserInfo.UserInfo.RealName;
-
-
-            if (_repositoryUserInfo.Count(o => o.Id == userId) == 0)
-            {
-                var functionInfos = InitFunctions();
-                //初始化超级管理员
-                UserInfo userInfo = new UserInfo()
-                {
-                    Id = userId,
-                    UserName = DefaultUserInfo.UserInfo.UserName,
-                    Password = DefaultUserInfo.UserInfo.Password.ToMd5(),
-                    RealName = userRealName,
-                    RealNamePin = userRealName.ToPinYin(),
-                    Phone = DefaultUserInfo.UserInfo.Phone,
-                    ExpiredTime = dateNow.AddYears(100),
-
-                    AddTime = dateNow,
-                    AddUserId = userId,
-                    AddUserRealName = userRealName,
-                    UpdateTime = dateNow,
-                    UpdateUserId = userId,
-                    UpdateUserRealName = userRealName,
-                };
-                _repositoryUserInfo.Create(userInfo);
-
-                //RoleInfo roleInfo = new RoleInfo()
-                //{
-                //    Id = Guid.NewGuid(),
-                //    Name = "超级管理员组",
-                //    ParentId = Guid.Empty,
-
-                //    AddTime = dateNow,
-                //    AddUserId = userId,
-                //    AddUserRealName = userRealName,
-                //    UpdateTime = dateNow,
-                //    UpdateUserId = userId,
-                //    UpdateUserRealName = userRealName,
-                //};
-                //_repositoryRoleInfo.Create(roleInfo);
-
-
-
-                //UserRoleInfo userRoleInfo = new UserRoleInfo()
-                //{
-                //    Id = Guid.NewGuid(),
-                //    UserId = userId,
-                //    RoleId = roleInfo.Id,
-
-                //    AddTime = dateNow,
-                //    AddUserId = userId,
-                //    AddUserRealName = userRealName,
-                //    UpdateTime = dateNow,
-                //    UpdateUserId = userId,
-                //    UpdateUserRealName = userRealName,
-
-                //};
-                //_repositoryUserRoleInfo.Create(userRoleInfo);
-
-
-                //IList<RolePermissionInfo> rolePermissionInfos = new List<RolePermissionInfo>();
-
-                _repositoryUserPermissionInfo.Delete(o => o.UserId == userId);
-                IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
-                foreach (var funciton in functionInfos)
-                {
-                    //RolePermissionInfo rolePermissionInfo = new RolePermissionInfo()
-                    //{
-                    //    Id = Guid.NewGuid(),
-                    //    RoleId = roleInfo.Id,
-                    //    FunctionId = funciton.Id,
-
-                    //    AddTime = dateNow,
-                    //    AddUserId = userId,
-                    //    AddUserRealName = userRealName,
-                    //    UpdateTime = dateNow,
-                    //    UpdateUserId = userId,
-                    //    UpdateUserRealName = userRealName,
-                    //};
-                    //rolePermissionInfos.Add(rolePermissionInfo);
-
-                    UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        UserId = userId,
-                        FunctionId = funciton.Id,
-                        Type = 0,
-
-                        AddTime = dateNow,
-                        AddUserId = userId,
-                        AddUserRealName = userRealName,
-                        UpdateTime = dateNow,
-                        UpdateUserId = userId,
-                        UpdateUserRealName = userRealName,
-                    };
-                    userPermissionInfos.Add(userPermissionInfo);
-                }
-                //_repositoryRolePermissionInfo.BatchCreate(rolePermissionInfos);
-                _repositoryUserPermissionInfo.BatchCreate(userPermissionInfos);
-            }
-
-
-
-
-
-            _jwSaleUnitOfWork.Commit();
-
-        }
-
-        /// <summary>
-        /// 给用户添加所有权限
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task SetUserAllPermission(string userId)
-        {
-            _jwSaleUnitOfWork.BeginOrUseTransaction();
-            var functionInfos = await DbContext.FunctionInfos.ToListAsync();
-
-            await DbContext.UserPermissionInfos.Where(o => o.UserId == userId).DeleteAsync();
-
-
-            IList<UserPermissionInfo> userPermissionInfos = new List<UserPermissionInfo>();
-
-            var currentUserInfo = _httpContextAccessor.HttpContext.Items[CacheKeyHelper.CURRENTUSER] as UserInfo;
-            foreach (var funciton in functionInfos)
-            {
-                UserPermissionInfo userPermissionInfo = new UserPermissionInfo()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UserId = userId,
-                    FunctionId = funciton.Id,
-                    Type = 0,
-
-                    AddTime = DateTime.Now,
-                    AddUserId = currentUserInfo?.Id ?? DefaultUserInfo.UserInfo.Id,
-                    AddUserRealName = currentUserInfo?.RealName ?? DefaultUserInfo.UserInfo.RealName,
-                    UpdateTime = DateTime.Now,
-                    UpdateUserId = currentUserInfo?.Id ?? DefaultUserInfo.UserInfo.Id,
-                    UpdateUserRealName = currentUserInfo?.RealName ?? DefaultUserInfo.UserInfo.RealName,
-                };
-                userPermissionInfos.Add(userPermissionInfo);
-            }
-            await DbContext.AddRangeAsync(userPermissionInfos);
-
-            await DbContext.SaveChangesAsync();
-            _jwSaleUnitOfWork.Commit();
-
-        }
-
-
-        /// <summary>
-        /// 绑定微信用户信息
-        /// </summary>
-        /// <param name="bindWechatUser"></param>
-        /// <returns></returns>
-        public async Task<string> BindWechatUser(BindWechatUser bindWechatUser)
-        {
-            var userInfo = await FreeSql.Select<UserInfo>().Where(o => o.Phone == bindWechatUser.PhoneNumer).ToOneAsync();
-            if (userInfo != null)
-            {
-                userInfo.WxOpenId = bindWechatUser.WxOpenId;
-                userInfo.WxUnionId = bindWechatUser.WxUnionId;
-                userInfo.HeadImageUrl = bindWechatUser.HeadImageUrl;
-                userInfo.WxNo = bindWechatUser.WxNo;
-                userInfo.UpdateTime = DateTime.Now;
-                var count = FreeSql.Update<UserInfo>(userInfo).ExecuteAffrowsAsync();
-            }
-            return userInfo.Id;
-        }
-
-        /// <summary>
-        /// 获取绑定微信用户信息
-        /// </summary>
-        /// <param name="openId"></param>
-        /// <returns></returns>
-        public WechatUser GetWechatUser(string openId)
-        {
-            WechatUser wechatUser = null;
-            var userInfo = FreeSql.Select<UserInfo>().Where(o => o.WxOpenId == openId).ToOne();
-            if (userInfo != null)
-            {
-                wechatUser = new WechatUser()
-                {
-                    Phone = userInfo.Phone,
-                    RealName = userInfo.RealName,
-                    UserId = userInfo.Id,
-
-                    WxOpenId = userInfo.WxOpenId,
-                    WxUnionId = userInfo.WxUnionId
-                };
-
-            }
-            return wechatUser;
-        }
-
-
     }
 }

@@ -1,15 +1,13 @@
 ﻿using JwSale.Api.Attributes;
 using JwSale.Api.Filters;
-using JwSale.Api.Util;
 using JwSale.Model;
-using JwSale.Repository.Context;
 using JwSale.Util;
-using JwSale.Util.Dependencys;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwSale.Api.Controllers
 {
+
     /// <summary>
     /// 管理后台控制器
     /// </summary>
@@ -19,12 +17,11 @@ namespace JwSale.Api.Controllers
     [AuthRequired]
     public abstract class ManageControllerBase : JwSaleControllerBase
     {
-        protected UserInfo UserInfo { get; private set; }
-        public ManageControllerBase(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
+        protected UserInfo CurrentUserInfo { get; private set; }
+ 
+        public ManageControllerBase()
         {
-            var accessor = ServiceLocator.Instance.GetService<IHttpContextAccessor>();
-
-            UserInfo = accessor.HttpContext.Items[CacheKeyHelper.CURRENTUSER] as UserInfo;
+            CurrentUserInfo = HttpContext.Items[CacheKeyHelper.CURRENTUSER] as UserInfo;
 
         }
     }

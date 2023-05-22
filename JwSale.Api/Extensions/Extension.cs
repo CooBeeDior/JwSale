@@ -1,7 +1,9 @@
-﻿using JwSale.Api.Util;
+﻿using FreeSql;
+using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Common;
+using JwSale.Util;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -129,12 +131,12 @@ namespace JwSale.Api.Extensions
 
         }
 
-        public static IQueryable<T> ToPage<T>(this IQueryable<T> source, RequestPageBase requestPageBase)
+        public static IQueryable<T> ToPage<T>(this IQueryable<T> source, RequestPageBase requestPageBase) where T : Entity
         {
             source = source.Skip((requestPageBase.PageIndex - 1) * requestPageBase.PageSize).Take(requestPageBase.PageSize).OrderBy(requestPageBase.OrderBys);
             return source;
         }
-        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, IList<OrderByBase> orderbys, string defaultOrderby = "AddTime")
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, IList<OrderByBase> orderbys, string defaultOrderby = "AddTime") where T : class, IEntity
         {
             if (orderbys == null || orderbys.Count == 0)
             {
@@ -164,6 +166,104 @@ namespace JwSale.Api.Extensions
             }
             return source;
         }
+
+
+
+
+        public static IUpdate<T> InitUpdateBaseEntityData<T>(this IUpdate<T> update, UserInfo userinfo) where T : Entity
+        {
+            var now = DateTime.Now;
+            update = update.Set(a => a.UpdateTime == now)
+               .Set(a => a.UpdateUserId == userinfo.Id)
+               .Set(a => a.UpdateUserRealName == userinfo.RealName);
+
+            return update;
+        }
+
+
+
+        public static T InitAddBaseEntityData<T>(this T entity, UserInfo userinfo) where T : Entity
+        {
+            entity.AddTime = DateTime.Now;
+            entity.AddUserId = userinfo.Id;
+            entity.AddUserRealName = userinfo.RealName;
+            entity.UpdateTime = DateTime.Now;
+            entity.UpdateUserId = userinfo.Id;
+            entity.UpdateUserRealName = userinfo.RealName;
+            return entity;
+        }
+
+        public static T InitAddBaseEntityData<T>(this T entity) where T : Entity
+        {
+            entity.AddTime = DateTime.Now;
+            entity.AddUserId = DefaultUserInfo.UserInfo.Id;
+            entity.AddUserRealName = DefaultUserInfo.UserInfo.RealName;
+            entity.UpdateTime = DateTime.Now;
+            entity.UpdateUserId = DefaultUserInfo.UserInfo.Id;
+            entity.UpdateUserRealName = DefaultUserInfo.UserInfo.RealName;
+            return entity;
+        }
+        public static T InitUpdateBaseEntityData<T>(this T entity, UserInfo userinfo) where T : Entity
+        {
+            entity.UpdateTime = DateTime.Now;
+            entity.UpdateUserId = userinfo.Id;
+            entity.UpdateUserRealName = userinfo.RealName;
+            return entity;
+        }
+        public static T InitUpdateBaseEntityData<T>(this T entity) where T : Entity
+        {
+            entity.UpdateTime = DateTime.Now;
+            entity.UpdateUserId = DefaultUserInfo.UserInfo.Id;
+            entity.UpdateUserRealName = DefaultUserInfo.UserInfo.RealName;
+            return entity;
+        }
+        public static ISelect<T> OrderBy<T>(this ISelect<T> select, IList<OrderByBase> orderBys) where T : Entity
+        {
+            if (orderBys != null)
+            {
+                foreach (var item in orderBys)
+                {
+                    if (item.IsAsc)
+                    {
+                        select = select.OrderByIf(!item.Name.IsNullOrWhiteSpace(), o => item.Name);
+                    }
+                    else
+                    {
+                        select = select.OrderByDescending(!item.Name.IsNullOrWhiteSpace(), o => item.Name);
+                    }
+
+                }
+            }
+            return select;
+        }
+
+        public static ISelect<T1, T2> OrderBy<T1, T2>(this ISelect<T1, T2> select, IList<OrderByBase> orderBys) where T1 : Entity where T2 : Entity
+        {
+            if (orderBys != null)
+            {
+                foreach (var item in orderBys)
+                {
+                    select = select.OrderByPropertyNameIf(!item.Name.IsNullOrWhiteSpace(), item.Name, item.IsAsc);
+
+                }
+            }
+            return select;
+        }
+
+        public static ISelect<T1, T2, T3> OrderBy<T1, T2, T3>(this ISelect<T1, T2, T3> select, IList<OrderByBase> orderBys) where T1 : Entity where T2 : Entity where T3 : Entity
+        {
+            if (orderBys != null)
+            {
+                foreach (var item in orderBys)
+                {
+                    select = select.OrderByPropertyNameIf(!item.Name.IsNullOrWhiteSpace(), item.Name, item.IsAsc);
+
+                }
+            }
+            return select;
+        }
+
+
 
     }
 }

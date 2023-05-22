@@ -1,6 +1,7 @@
 ﻿using FeignCore.Apis;
 using JsSaleService;
 using JwSale.Api.Attributes;
+using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Request.User;
@@ -8,15 +9,42 @@ using JwSale.Model.Dto.Request.Wechat;
 using JwSale.Model.Dto.Service;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Options;
-using JwSale.Repository.Context;
 using JwSale.Util;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using JsSaleService;
+using JwSale.Api.Attributes;
+using JwSale.Api.Extensions;
+using JwSale.Model;
+using JwSale.Model.Dto;
+using JwSale.Model.Dto.Cache;
+using JwSale.Model.Dto.Common;
+using JwSale.Model.Dto.Request.User;
+using JwSale.Model.Dto.Response.User;
+using JwSale.Model.Dto.Response.UserRole;
+using JwSale.Packs.Options;
+using JwSale.Util;
+using JwSale.Util.Attributes;
+using JwSale.Util.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
+using JwSale.Model.DbModel;
 
 namespace JwSale.Api.Controllers
 {
@@ -30,16 +58,15 @@ namespace JwSale.Api.Controllers
         private readonly IWxMiniProgram _wxMiniProgram;
         private readonly JwSaleOptions _jwSaleOptions;
         private readonly IDistributedCache _cache;
-        private readonly IFreeSql _freeSql;
+
         private readonly IUserService _userService;
- 
-        public WechatController(JwSaleDbContext context, IWxMiniProgram wxMiniProgram,
-            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IFreeSql freeSql, IUserService userService) : base(context)
+
+        public WechatController(IWxMiniProgram wxMiniProgram,
+            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IUserService userService)
         {
             _wxMiniProgram = wxMiniProgram;
             _jwSaleOptions = jwSaleOptions.Value;
             _cache = cache;
-            _freeSql = freeSql;
             _userService = userService;
 
 
@@ -51,7 +78,7 @@ namespace JwSale.Api.Controllers
         /// <param name="login"></param>
         /// <returns></returns>
         [MoudleInfo("微信小程序授权登录", false)]
-        [HttpPost("api/Wechat/Login")]
+        [HttpPost("api/wechat/login")]
         [WechatNoAuthRequired]
         public async Task<ActionResult<ResponseBase<WxLoginResponse>>> Login(WechatLoginRequest login)
         {
@@ -65,12 +92,12 @@ namespace JwSale.Api.Controllers
                 response.Data = wxLoginResponse;
 
 
-                WxLoginCache wxLoginCache = new WxLoginCache();
+                WechatLoginCache wxLoginCache = new WechatLoginCache();
                 wxLoginCache.OpenId = result.OpenId;
                 wxLoginCache.UnionId = result.UnionId;
                 wxLoginCache.SessionKey = result.SessionKey;
                 await _cache.SetStringAsync(CacheKeyHelper.GetWxLoginTokenKey(result.OpenId), wxLoginCache.ToJson());
-                 
+
             }
             else
             {
@@ -84,21 +111,21 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 绑定微信用户信息
+        /// 绑定微信小程序
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [MoudleInfo("绑定微信用户信息", false)]
-        [HttpPost("api/Wechat/BindWechatUser")]
+        [MoudleInfo("绑定微信小程序", false)]
+        [HttpPost("api/wechat/bindwechatuser")]
         [WechatAuthRequired]
         public async Task<ActionResult<ResponseBase>> BindWechatUser(BindWechatUserRequest request)
         {
             ResponseBase<string> response = new ResponseBase<string>();
 
 
-            var wxLoginCacheStr = await _cache.GetStringAsync(CacheKeyHelper.GetWxLoginTokenKey(HttpContext.WxOpenId()));
+            var wxLoginCacheStr = await _cache.GetStringAsync(CacheKeyHelper.GetWxLoginTokenKey(HttpContext.WechatOpenId()));
 
-            var wxLoginCache = wxLoginCacheStr?.ToObj<WxLoginCache>();
+            var wxLoginCache = wxLoginCacheStr?.ToObj<WechatLoginCache>();
             if (wxLoginCache == null)
             {
                 response.Message = "绑定失败";
@@ -107,18 +134,63 @@ namespace JwSale.Api.Controllers
             }
             else
             {
-                BindWechatUser bindWechatUser = new BindWechatUser()
-                { 
-                    WxNo = request.WxNo,
-                    PhoneNumer = request.PhoneNumer,
-                    WxOpenId = HttpContext.WxOpenId(),
-                    WxUnionId = wxLoginCache.UnionId,
-                    HeadImageUrl = request.HeadImageUrl,
-                };
-                var userId = await _userService.BindWechatUser(bindWechatUser);
-                response.Data = userId;
+                var userInfo = await FreeSql.Select<UserInfo>().Where(o => o.Phone == request.PhoneNumer).ToOneAsync();
+                if (userInfo != null)
+                {
+                    bool isExsitWechatUser = await FreeSql.Select<WechatUser>().Where(o => o.OpenId == HttpContext.WechatOpenId() && o.UserId == userInfo.Id).AnyAsync();
+                    if (!isExsitWechatUser)
+                    {
+                        WechatUserInfo wechatUserInfo = new WechatUserInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            OpenId = HttpContext.WechatOpenId(),
+                            NickName = request.NickName,
+                            UnionId = wxLoginCache.UnionId,
+                            UserId = userInfo.Id
+                        };
+                        wechatUserInfo.InitAddBaseEntityData();
+                        int count = await FreeSql.Insert(wechatUserInfo).ExecuteAffrowsAsync();
+                    }
+                    else
+                    {
+                        Logger.LogInformation($"微信Openid:【{HttpContext.WechatOpenId()}】已绑定用户【{userInfo.Id}】小程序");
+                    }
 
-                await _cache.RemoveAsync(CacheKeyHelper.GetWxLoginTokenKey(bindWechatUser.WxOpenId));
+                }
+                else
+                {
+                    FreeSql.Transaction(() =>
+                    {
+                        userInfo = new UserInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            UserName = request.PhoneNumer,
+                            Password = DefaultPassword.PASSWORD.ToMd5(),
+                            RealName = request.PhoneNumer,
+                            RealNamePin = request.PhoneNumer.ToPinYin(),
+                            Phone = request.PhoneNumer,
+                            HeadImageUrl = request.HeadImageUrl,
+                            Status = 0,
+                            Type = 1,
+                            ExpiredTime = DateTime.Now.AddYears(1),
+
+                        };
+                        userInfo.InitAddBaseEntityData();
+                        int count = FreeSql.Insert<UserInfo>(userInfo).ExecuteAffrows();
+
+                        WechatUserInfo wechatUserInfo = new WechatUserInfo()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            OpenId = HttpContext.WechatOpenId(),
+                            NickName = request.NickName,
+                            UnionId = wxLoginCache.UnionId
+                        };
+                        wechatUserInfo.InitAddBaseEntityData();
+                        count = FreeSql.Insert(wechatUserInfo).ExecuteAffrows();
+                    });
+
+                }
+                await _cache.RemoveAsync(CacheKeyHelper.GetWxLoginTokenKey(HttpContext.WechatOpenId()));
             }
 
 
@@ -128,8 +200,30 @@ namespace JwSale.Api.Controllers
         }
 
 
- 
 
+
+        /// <summary>
+        /// 解绑微信小程序
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("解绑微信小程序", false)]
+        [HttpPost("api/Wechat/unbindwechatuser")]
+        public async Task<ActionResult<ResponseBase>> UnBindWechatUser(UnBindWechatUserRequest request)
+        {
+            ResponseBase response = new ResponseBase();
+            var wechatUserInfo = await FreeSql.Select<WechatUserInfo>().Where(o => o.OpenId == HttpContext.WechatOpenId()).ToOneAsync();
+            if (wechatUserInfo == null)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = "小程序用户不存在";
+            }
+            else
+            {
+                int count = await FreeSql.Delete<WechatUserCache>(wechatUserInfo.Id).ExecuteAffrowsAsync();
+            }
+            return await response.ToJsonResultAsync();
+        }
 
     }
 }

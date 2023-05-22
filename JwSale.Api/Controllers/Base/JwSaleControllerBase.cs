@@ -1,7 +1,7 @@
 ﻿using JwSale.Api.Filters;
 using JwSale.Util.Dependencys;
-using log4net.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace JwSale.Api.Controllers
 {

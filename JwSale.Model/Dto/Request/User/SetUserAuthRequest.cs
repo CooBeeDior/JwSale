@@ -18,7 +18,7 @@ namespace JwSale.Model.Dto.Request.User
         /// <summary>
         /// 类型 1:端口授权  2:月租授权
         /// </summary>
-        public int Type { get; set; }
+        public int? Type { get; set; }
 
    
         /// <summary>

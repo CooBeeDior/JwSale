@@ -3,6 +3,7 @@ using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Common;
+using JwSale.Util;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -168,7 +169,7 @@ namespace JwSale.Api.Extensions
 
 
 
-    
+
         public static IUpdate<T> InitUpdateBaseEntityData<T>(this IUpdate<T> update, UserInfo userinfo) where T : Entity
         {
             var now = DateTime.Now;
@@ -179,7 +180,7 @@ namespace JwSale.Api.Extensions
             return update;
         }
 
-     
+
 
         public static T InitAddBaseEntityData<T>(this T entity, UserInfo userinfo) where T : Entity
         {
@@ -191,11 +192,29 @@ namespace JwSale.Api.Extensions
             entity.UpdateUserRealName = userinfo.RealName;
             return entity;
         }
+
+        public static T InitAddBaseEntityData<T>(this T entity) where T : Entity
+        {
+            entity.AddTime = DateTime.Now;
+            entity.AddUserId = DefaultUserInfo.UserInfo.Id;
+            entity.AddUserRealName = DefaultUserInfo.UserInfo.RealName;
+            entity.UpdateTime = DateTime.Now;
+            entity.UpdateUserId = DefaultUserInfo.UserInfo.Id;
+            entity.UpdateUserRealName = DefaultUserInfo.UserInfo.RealName;
+            return entity;
+        }
         public static T InitUpdateBaseEntityData<T>(this T entity, UserInfo userinfo) where T : Entity
         {
             entity.UpdateTime = DateTime.Now;
             entity.UpdateUserId = userinfo.Id;
             entity.UpdateUserRealName = userinfo.RealName;
+            return entity;
+        }
+        public static T InitUpdateBaseEntityData<T>(this T entity) where T : Entity
+        {
+            entity.UpdateTime = DateTime.Now;
+            entity.UpdateUserId = DefaultUserInfo.UserInfo.Id;
+            entity.UpdateUserRealName = DefaultUserInfo.UserInfo.RealName;
             return entity;
         }
         public static ISelect<T> OrderBy<T>(this ISelect<T> select, IList<OrderByBase> orderBys) where T : Entity

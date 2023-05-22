@@ -33,8 +33,7 @@ namespace JwSale.Api.Controllers
             IFreeSql freesql, IdleBus<IFreeSql> idleBusFreeSql,
             IStringLocalizer<TestController> stringLocalizer,
         //ISpiderHttpClientFactory spiderHttpClientFactory, IHttpClientFactory httpClientFactory,
-        IUserApi userApi
-            ) : base(context)
+        IUserApi userApi) : base()
         {
             _rabbitmqPublisher = rabbitmqPublisher;
             _freesql = freesql;
@@ -48,9 +47,8 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 测试
         /// </summary>
-        /// <param name="file"></param>
         /// <returns></returns>
-        [HttpPost("api/Test")]
+        [HttpPost("api/test")]
         public ActionResult<ResponseBase> Test()
         {
             ResponseBase response = new ResponseBase();
@@ -63,7 +61,7 @@ namespace JwSale.Api.Controllers
         /// 测试队列
         /// </summary>
         /// <returns></returns>
-        [HttpPost("api/TestEvent")]
+        [HttpPost("api/testevent")]
         public ActionResult<ResponseBase> TestEvent()
         {
             ResponseBase response = new ResponseBase();
@@ -75,13 +73,13 @@ namespace JwSale.Api.Controllers
         /// FreeSql测试
         /// </summary>
         /// <returns></returns>
-        [HttpPost("api/TestFreeSql")]
+        [HttpPost("api/testfreesql")]
         public ActionResult<ResponseBase> TestFreeSql()
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
-        
-           
-            
+
+
+
             var userInfo = _freesql.Select<UserInfo>().ToOne();
             response.Data = userInfo;
             return response;
@@ -94,7 +92,7 @@ namespace JwSale.Api.Controllers
         /// IdleBusFreeSql测试
         /// </summary>
         /// <returns></returns>
-        [HttpPost("api/TestIdleBusFreeSql")]
+        [HttpPost("api/testidlebusfreesql")]
         public ActionResult<ResponseBase> TestIdleBusFreeSql()
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
@@ -110,7 +108,7 @@ namespace JwSale.Api.Controllers
         /// Feign测试
         /// </summary>
         /// <returns></returns>
-        [HttpPost("api/TestFeign")]
+        [HttpPost("api/testfeign")]
         public async Task<ActionResult<ResponseBase>> TestFeign()
         {
             ResponseBase response = new ResponseBase();
@@ -122,20 +120,9 @@ namespace JwSale.Api.Controllers
         /// <summary>
         /// 本地化测试
         /// </summary>
-        ///<example>  
-        ///url：
-        /// ?culture=en-US&ui-culture=zh-CN
-        /// cookie：
-        /// 键名称：.AspNetCore.Culture
-        /// 值内容：
-        /// c=en-US|uic=zh-CN
-        /// c = en - US
-        /// uic=zh-CN
-        /// Header:
-        /// Accept-Language:zh-CN,zh;q=0.9
-        ///</example>    
+        ///<example>例1：【 url：?culture=en-US&ui-culture=zh-CN】  例2：【cookie：键名称：.AspNetCore.Culture 值内容：c=en-US|uic=zh-CN 】 例3：【Header:Accept-Language:zh-CN,zh;q=0.9】 </example> 
         /// <returns></returns>
-        [HttpPost("api/TestLocalizedString")]
+        [HttpPost("api/testlocalizedstring")]
         public ActionResult<ResponseBase> TestLocalizedString()
         {
             var ss = CultureInfo.CurrentCulture;

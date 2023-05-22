@@ -10,62 +10,38 @@ namespace JsSaleService
 {
     public interface IUserService : IService
     {
-        Task<IList<FunctionTreeResponse>> GetUserFunctions(string userId);
-
         /// <summary>
-        /// 获取功能列表
-        /// </summary>
-        /// <param name="functions"></param>
-        /// <param name="functionTree"></param>
-        /// <param name="permissions"></param>
-        void GetFuntions(IEnumerable<FunctionInfo> functions, FunctionTreeResponse functionTree, IList<PermssionResponse> permissions);
-
-
-
-
-        /// <summary>
-        /// 获取用户权限
+        /// 获取用户权限功能树
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<BriefInfo>> GetPermissions(string userId);
+        Task<IList<FunctionTreeResponse>> GetUserPermissionTree(string userId);
+
+
 
 
         /// <summary>
-        /// 初始化模块
+        /// 获取用户所有权限
         /// </summary>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        IList<FunctionInfo> InitFunctions();
+        Task<IList<BriefInfo>> GetUserPermissions(string userId);
+
+        /// <summary>
+        /// 初始化系统功能模块
+        /// </summary>
+        /// <param name="compulsory">是否强制执行</param>
+        IList<FunctionInfo> InitFunctions(bool compulsory = false);
 
 
         /// <summary>
         /// 初始化超级管理员用户权限
         /// </summary>
-        void InitAdminUserAndRole();
+        /// <param name="compulsory">是否强制执行</param>
+        void InitAdminUserAndRole(bool compulsory = false); 
 
-
-        /// <summary>
-        /// 给用户添加所有权限
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task SetUserAllPermission(string userId);
-
-
-
-        /// <summary>
-        /// 绑定微信用户信息
-        /// </summary>
-        /// <param name="bindWechatUser"></param>
-        /// <returns></returns>
-        Task<string> BindWechatUser(BindWechatUser bindWechatUser);
-
-        /// <summary>
-        /// 获取绑定微信用户信息
-        /// </summary>
-        /// <param name="openId"></param>
-        /// <returns></returns>
-        WechatUser GetWechatUser(string openId);
 
     }
+
+
 }

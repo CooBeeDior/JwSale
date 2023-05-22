@@ -101,15 +101,7 @@ namespace JwSale.Model
         /// </summary>
         public int Type { get; set; } = 1;
 
-        /// <summary>
-        /// 微信OpenId
-        /// </summary>
-        public string WxOpenId { get; set; }
 
-        /// <summary>
-        /// 微信UnionId
-        /// </summary>
-        public string WxUnionId { get; set; }
         /// <summary>
         /// 过期时间
         /// </summary>

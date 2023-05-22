@@ -1065,9 +1065,9 @@ namespace JwSale.Util.Extensions
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
-        public static string WxOpenId(this HttpContext httpContext)
+        public static string WechatOpenId(this HttpContext httpContext)
         {
-            string wxOpenId = httpContext.Request.Headers[CacheKeyHelper.WXOPENID].ToString();
+            string wxOpenId = httpContext.Request.Headers[CacheKeyHelper.WECHATOPENID].ToString();
 
             return wxOpenId;
         }

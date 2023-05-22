@@ -1,5 +1,6 @@
 ﻿using JsSaleService;
 using JwSale.Api.Attributes;
+using JwSale.Model.DbModel;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Packs.Options;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Reflection;
+using JwSale.Model;
 namespace JwSale.Api.Filters
 {
 
@@ -22,15 +24,15 @@ namespace JwSale.Api.Filters
 
         private readonly IDistributedCache _cache;
         private readonly JwSaleOptions _jwSaleOptions;
-        private readonly IUserService _userService; 
+        private readonly IFreeSql _freeSql;
 
         public WechatAuthFilterAttribute(IDistributedCache cache,
-            IOptions<JwSaleOptions> jwSaleOptions, IUserService userService)
+            IOptions<JwSaleOptions> jwSaleOptions, IFreeSql freeSql)
         {
 
             _cache = cache;
             _jwSaleOptions = jwSaleOptions.Value;
-            _userService = userService;
+            _freeSql = freeSql;
 
         }
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -74,7 +76,7 @@ namespace JwSale.Api.Filters
             {
                 return;
             }
-            var openId = context.HttpContext.WxOpenId();
+            var openId = context.HttpContext.WechatOpenId();
             if (string.IsNullOrWhiteSpace(openId))
             {
                 ResponseBase response = new ResponseBase();
@@ -85,7 +87,7 @@ namespace JwSale.Api.Filters
             }
             else
             {
-                var wechatUserStr = _cache.GetString(CacheKeyHelper.GetWxUserKey(openId));
+                var wechatUserStr = _cache.GetString(CacheKeyHelper.GetWechatUserKey(openId));
                 WechatUserCache wechatUserCache = null;
                 if (!string.IsNullOrWhiteSpace(wechatUserStr))
                 {
@@ -94,7 +96,13 @@ namespace JwSale.Api.Filters
                 }
                 else
                 {
-                    var wechatUser = _userService.GetWechatUser(openId);
+
+                    var wechatUser = _freeSql.Select<WechatUserInfo, UserInfo>().Where((w, u) => w.OpenId == openId).ToOne((w, u) =>
+                    new
+                    {
+                        WechatUserInfo = w,
+                        UserInfo = u,
+                    });
                     if (wechatUser != null)
                     {
                         wechatUserCache = wechatUser.DeepCopyByReflection<WechatUserCache>();
@@ -112,7 +120,7 @@ namespace JwSale.Api.Filters
                 }
                 else
                 {
-                    _cache.SetString(CacheKeyHelper.GetWxUserKey(openId), wechatUserCache.ToJson());
+                    _cache.SetString(CacheKeyHelper.GetWechatUserKey(openId), wechatUserCache.ToJson());
                     context.HttpContext.Items[CacheKeyHelper.WECHATUSER] = wechatUserCache;
                 }
 

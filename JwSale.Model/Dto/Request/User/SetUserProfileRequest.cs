@@ -9,22 +9,28 @@ namespace JwSale.Model.Dto.Request.User
     /// 修改用户简介
     /// </summary>
     public class SetUserProfileRequest : RequestBase
-    { 
-       
+    {
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        [Required]
+        public string UserId { get; set; }
+
         /// <summary>
         /// 手机号码
         /// </summary>
+        [Required]
         public string Phone { get; set; }
         /// <summary>
         /// 邮箱
         /// </summary>
         public string Email { get; set; }
- 
+
         /// <summary>
         /// 真实姓名
         /// </summary>
         public string RealName { get; set; }
-   
+
         /// <summary>
         /// qq号
         /// </summary>
@@ -61,7 +67,7 @@ namespace JwSale.Model.Dto.Request.User
         /// 头像
         /// </summary>
         public string HeadImageUrl { get; set; }
-       
+
         /// <summary>
         /// 备注
         /// </summary>

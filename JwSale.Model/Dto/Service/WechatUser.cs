@@ -24,11 +24,11 @@ namespace JwSale.Model.Dto.Service
         /// <summary>
         /// 微信OpenId
         /// </summary>
-        public string WxOpenId { get; set; }
+        public string OpenId { get; set; }
 
         /// <summary>
         /// 微信UnionId
         /// </summary>
-        public string WxUnionId { get; set; }
+        public string UnionId { get; set; }
     }
 }

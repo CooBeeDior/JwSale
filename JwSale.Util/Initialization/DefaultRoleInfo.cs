@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Util.Initialization
+namespace JwSale.Util
 {
     public class DefaultRoleInfo
     {
 
-        public static DefaultRoleInfo UserInfo
+        public static DefaultRoleInfo RoleInfo
         {
             get
             {

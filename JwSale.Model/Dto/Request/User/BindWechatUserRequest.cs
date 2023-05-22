@@ -9,10 +9,9 @@ namespace JwSale.Model.Dto.Request.User
     public class BindWechatUserRequest : RequestBase
     {
         
-        /// <summary>
-        /// 微信号
-        /// </summary>
-        public string WxNo { get; set; }
+      
+
+        public string NickName { get; set; }
         /// <summary>
         /// 头像
         /// </summary>

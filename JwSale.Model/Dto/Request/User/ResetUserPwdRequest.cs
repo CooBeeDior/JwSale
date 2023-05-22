@@ -9,9 +9,15 @@ namespace JwSale.Model.Dto.Request.User
     /// 重置密码
     /// </summary>
     public class ResetUserPwdRequest : RequestBase
-    {         
+    {
         /// <summary>
-        /// 密码
+        /// 用户Id
+        /// </summary>
+        [Required]
+        public string UserId { get; set; }
+     
+        /// <summary>
+        /// 新密码
         /// </summary> 
         [Required]
         public string NewPassword { get; set; }

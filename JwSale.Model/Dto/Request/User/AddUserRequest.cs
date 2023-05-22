@@ -15,11 +15,11 @@ namespace JwSale.Model.Dto.Request.User
         /// </summary>
         public string UserName { get; set; }
 
-        /// <summary>
-        /// 密码
-        /// </summary>
-        [Required]
-        public string Password { get; set; }
+        ///// <summary>
+        ///// 密码
+        ///// </summary>
+        //[Required]
+        //public string Password { get; set; }
 
         /// <summary>
         /// 真实姓名

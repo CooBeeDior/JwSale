@@ -8,7 +8,6 @@ using JwSale.Model.Dto.Request.Wechat;
 using JwSale.Model.Dto.Service;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Options;
-using JwSale.Repository.Context;
 using JwSale.Util;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
@@ -33,8 +32,8 @@ namespace JwSale.Api.Controllers
         private readonly IFreeSql _freeSql;
         private readonly IUserService _userService;
  
-        public WechatController(JwSaleDbContext context, IWxMiniProgram wxMiniProgram,
-            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IFreeSql freeSql, IUserService userService) : base(context)
+        public WechatController(IWxMiniProgram wxMiniProgram,
+            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IFreeSql freeSql, IUserService userService)
         {
             _wxMiniProgram = wxMiniProgram;
             _jwSaleOptions = jwSaleOptions.Value;

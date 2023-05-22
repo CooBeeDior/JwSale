@@ -352,7 +352,7 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase>> SetUserStatus(SetUserStatusRequest setUserStatus)
         {
             ResponseBase response = new ResponseBase();
-            var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == setUserStatus.UserId).FirstOrDefault();
+            var userinfo = await FreeSql.Select<UserInfo>().Where(o => o.Id == setUserStatus.UserId).ToOneAsync();
             if (userinfo == null)
             {
                 response.Success = false;
@@ -362,10 +362,9 @@ namespace JwSale.Api.Controllers
             else
             {
                 userinfo.Status = setUserStatus.Status;
-                userinfo.UpdateUserId = UserInfo.UpdateUserId;
-                userinfo.UpdateUserRealName = UserInfo.UpdateUserRealName;
-                userinfo.UpdateTime = DateTime.Now;
-                await DbContext.SaveChangesAsync();
+                userinfo.InitAddBaseEntityData(CurrentUserInfo);
+                FreeSql.Update<UserInfo>(setUserStatus.UserId)
+                    .Set(a=>a.Status== setUserStatus.Status)
 
             }
             return await response.ToJsonResultAsync();

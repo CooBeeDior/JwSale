@@ -17,11 +17,6 @@ namespace JwSale.Model.Dto.Cache
       
 
         /// <summary>
-        /// 过期时间
-        /// </summary>
-        public DateTime ExpiredTime { get; set; }
-
-        /// <summary>
         /// 登录设备
         /// </summary>
         public string LoginDevice { get; set; }

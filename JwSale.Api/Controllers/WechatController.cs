@@ -1,7 +1,9 @@
 ﻿using FeignCore.Apis;
 using JsSaleService;
 using JwSale.Api.Attributes;
+using JwSale.Api.Extensions;
 using JwSale.Model;
+using JwSale.Model.DbModel;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
 using JwSale.Model.Dto.Request.User;
@@ -12,39 +14,14 @@ using JwSale.Packs.Options;
 using JwSale.Util;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using JsSaleService;
-using JwSale.Api.Attributes;
-using JwSale.Api.Extensions;
-using JwSale.Model;
-using JwSale.Model.Dto;
-using JwSale.Model.Dto.Cache;
-using JwSale.Model.Dto.Common;
-using JwSale.Model.Dto.Request.User;
-using JwSale.Model.Dto.Response.User;
-using JwSale.Model.Dto.Response.UserRole;
-using JwSale.Packs.Options;
-using JwSale.Util;
-using JwSale.Util.Attributes;
-using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Z.EntityFramework.Plus;
-using JwSale.Model.DbModel;
 
 namespace JwSale.Api.Controllers
 {
@@ -207,7 +184,7 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [MoudleInfo("解绑微信小程序", false)]
-        [HttpPost("api/Wechat/unbindwechatuser")]
+        [HttpPost("api/wechat/unbindwechatuser")]
         public async Task<ActionResult<ResponseBase>> UnBindWechatUser(UnBindWechatUserRequest request)
         {
             ResponseBase response = new ResponseBase();

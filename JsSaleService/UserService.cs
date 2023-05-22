@@ -41,18 +41,31 @@ namespace JsSaleService
 
             var functions = await FreeSql.Select<FunctionInfo>().OrderBy(o => o.Order).ToListAsync();
 
-            var result = await FreeSql.Select<UserInfo, UserRoleInfo, RoleInfo, RolePermissionInfo, FunctionInfo>()
-                 .LeftJoin((u, ur, r, rp, f) => u.Id == ur.UserId)
-                 .LeftJoin((u, ur, r, rp, f) => ur.RoleId == r.Id)
-                 .LeftJoin((u, ur, r, rp, f) => ur.RoleId == rp.RoleId)
-                 .LeftJoin((u, ur, r, rp, f) => rp.FunctionId == f.Id)
-                 .Where((u, ur, r, rp, f) => u.Id == userId).ToListAsync((u, ur, r, rp, f) => new PermssionResponse
-                 {
-                     Id = f.Id,
-                     Code = f.Code,
-                     Name = f.Name
-                 });
-
+            var result = FreeSql.Select<UserInfo, UserRoleInfo, RoleInfo, RolePermissionInfo, FunctionInfo>()
+                 .InnerJoin((u, ur, r, rp, f) => u.Id == ur.UserId)
+                 .InnerJoin((u, ur, r, rp, f) => ur.RoleId == r.Id)
+                 .InnerJoin((u, ur, r, rp, f) => ur.RoleId == rp.RoleId)
+                 .InnerJoin((u, ur, r, rp, f) => rp.FunctionId == f.Id)
+                 .Where((u, ur, r, rp, f) => u.Id == userId).ToSql();
+            //.ToListAsync((u, ur, r, rp, f) => new PermssionResponse
+            //{
+            //    Id = f.Id,
+            //    Code = f.Code,
+            //    Name = f.Name
+            //});
+            var ada = (
+                        from u in FreeSql.Select<UserInfo>()
+                        join ur in FreeSql.Select<UserRoleInfo>() on u.Id equals ur.UserId
+                        join r in FreeSql.Select<RoleInfo>() on ur.RoleId equals r.Id
+                        join rp in FreeSql.Select<RolePermissionInfo>() on ur.RoleId equals rp.RoleId
+                        join f in FreeSql.Select<FunctionInfo>() on rp.FunctionId equals f.Id
+                        where u.Id == userId
+                        select new PermssionResponse()
+                        {
+                            Id = f.Id,
+                            Code = f.Code,
+                            Name = f.Name
+                        }).ToSql();
             var permissions = await (
                         from u in FreeSql.Select<UserInfo>()
                         join ur in FreeSql.Select<UserRoleInfo>() on u.Id equals ur.UserId
@@ -112,7 +125,7 @@ namespace JsSaleService
             {
                 FreeSql.Transaction(() =>
                 {
-                    int count = FreeSql.Delete<FunctionInfo>().ExecuteAffrows();
+                    int count = FreeSql.Delete<FunctionInfo>().Where(o => true).ExecuteAffrows();
 
                     DateTime dateNow = DateTime.Now;
                     string userId = DefaultUserInfo.UserInfo.Id;
@@ -123,6 +136,10 @@ namespace JsSaleService
                         foreach (var type in filterTypes)
                         {
                             var moudleInfoAttribute = type.GetCustomAttribute<MoudleInfoAttribute>();
+                            if (!moudleInfoAttribute.IsFunction || functionInfos.Where(o => o.Name == moudleInfoAttribute.Name && o.ParentId == string.Empty).Any())
+                            {
+                                continue;
+                            }
                             var nameArr = moudleInfoAttribute.Name.Split('-', '/', '\\', '_');
 
                             string parentId = string.Empty;
@@ -148,13 +165,14 @@ namespace JsSaleService
                                 };
                                 parentId = functionInfo.Id;
                                 functionInfos.Add(functionInfo);
+                                count = FreeSql.Insert(functionInfo).ExecuteAffrows();
                             }
 
                             var methods = type.GetMethods().Where(o => Attribute.IsDefined(o, typeof(MoudleInfoAttribute)) && !o.IsAbstract && o.IsPublic);
                             foreach (var method in methods)
                             {
                                 var methodMoudleInfoAttribute = method.GetCustomAttribute<MoudleInfoAttribute>();
-                                if (!methodMoudleInfoAttribute.IsFunction || functionInfos.Where(o => o.Name == methodMoudleInfoAttribute.Name && o.ParentId == parentId).Count() > 0)
+                                if (!methodMoudleInfoAttribute.IsFunction || functionInfos.Where(o => o.Name == methodMoudleInfoAttribute.Name && o.ParentId == parentId).Any())
                                 {
                                     continue;
                                 }
@@ -175,11 +193,13 @@ namespace JsSaleService
                                     UpdateUserRealName = userRealName,
                                 };
                                 functionInfos.Add(functionInfo);
+                                count = FreeSql.Insert(functionInfo).ExecuteAffrows();
                             }
 
                         }
                     }
-                    count = FreeSql.Insert(functionInfos).ExecuteAffrows();
+
+
 
                 });
             }
@@ -202,7 +222,7 @@ namespace JsSaleService
                     count += FreeSql.Delete<RoleInfo>().Where(o => o.Id == DefaultRoleInfo.RoleInfo.Id).ExecuteAffrows();
                     count += FreeSql.Delete<UserRoleInfo>().Where(o => o.UserId == DefaultUserInfo.UserInfo.Id).ExecuteAffrows();
                     count += FreeSql.Delete<RolePermissionInfo>().Where(o => o.RoleId == DefaultRoleInfo.RoleInfo.Id).ExecuteAffrows();
-                    var functionInfos = InitFunctions();
+                    var functionInfos = InitFunctions(compulsory);
                     //初始化超级管理员
                     UserInfo userInfo = new UserInfo()
                     {
@@ -259,8 +279,8 @@ namespace JsSaleService
                         RolePermissionInfo rolePermissionInfo = new RolePermissionInfo()
                         {
                             Id = Guid.NewGuid().ToString(),
-                            FunctionId= funciton.Id,
-                            RoleId= DefaultRoleInfo.RoleInfo.Id,
+                            FunctionId = funciton.Id,
+                            RoleId = DefaultRoleInfo.RoleInfo.Id,
                             AddTime = dateNow,
                             AddUserId = DefaultUserInfo.UserInfo.Id,
                             AddUserRealName = DefaultUserInfo.UserInfo.RealName,
@@ -269,8 +289,9 @@ namespace JsSaleService
                             UpdateUserRealName = DefaultUserInfo.UserInfo.RealName,
                         };
                         rolePermissionInfos.Add(rolePermissionInfo);
+                        count = FreeSql.Insert(rolePermissionInfo).ExecuteAffrows();
                     }
-                    count += FreeSql.Insert(rolePermissionInfos).ExecuteAffrows();
+
 
                 });
 
@@ -283,7 +304,7 @@ namespace JsSaleService
 
         }
 
-         
+
 
 
         /// <summary>

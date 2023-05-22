@@ -207,7 +207,7 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [MoudleInfo("解绑微信小程序", false)]
-        [HttpPost("api/Wechat/unbindwechatuser")]
+        [HttpPost("api/wechat/unbindwechatuser")]
         public async Task<ActionResult<ResponseBase>> UnBindWechatUser(UnBindWechatUserRequest request)
         {
             ResponseBase response = new ResponseBase();

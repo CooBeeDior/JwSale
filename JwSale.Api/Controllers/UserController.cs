@@ -1,8 +1,6 @@
 ﻿using JsSaleService;
 using JwSale.Api.Attributes;
 using JwSale.Api.Extensions;
-using JwSale.Api.Filters;
-using JwSale.Api.Util;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
@@ -10,10 +8,7 @@ using JwSale.Model.Dto.Common;
 using JwSale.Model.Dto.Request.User;
 using JwSale.Model.Dto.Response.User;
 using JwSale.Model.Dto.Response.UserRole;
-using JwSale.Model.Enums;
-using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
-using JwSale.Repository.Context;
 using JwSale.Util;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
@@ -39,11 +34,10 @@ namespace JwSale.Api.Controllers
     {
         private readonly IUserService _userService;
         private IDistributedCache _cache;
-
         private JwSaleOptions jwSaleOptions;
 
 
-        public UserController(JwSaleDbContext context, IUserService userService, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions) : base(context)
+        public UserController(IUserService userService, IDistributedCache cache, IOptions<JwSaleOptions> jwSaleOptions)
         {
             this._userService = userService;
             this._cache = cache;
@@ -62,7 +56,7 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<LoginResponse>>> Login(LoginRequest login)
         {
             ResponseBase<LoginResponse> response = new ResponseBase<LoginResponse>();
-            var userinfo = DbContext.UserInfos.Where(o => o.UserName == login.UserName).FirstOrDefault();
+            var userinfo = await FreeSql.Select<UserInfo>().Where(o => o.UserName == login.UserName).ToOneAsync();
             if (userinfo != null)
             {
                 if (userinfo.Password.Equals(login.Password.ToMd5(), StringComparison.CurrentCultureIgnoreCase))
@@ -86,7 +80,7 @@ namespace JwSale.Api.Controllers
                             UserId = userinfo.Id,
                             UserName = userinfo.UserName,
                             Ip = HttpContext.Connection.RemoteIpAddress.ToString(),
-                            Expireds = 60 * 60 * 24 * 30 * 3,
+                            ExpiredTime = userinfo.ExpiredTime,
                             AddTime = DateTime.Now
                         };
                         string token = UserHelper.GenerateToken(userToken, jwSaleOptions.TokenKey);
@@ -104,14 +98,13 @@ namespace JwSale.Api.Controllers
                         UserCache userCache = new UserCache()
                         {
                             Token = token,
-                            ExpiredTime = userToken.AddTime.AddSeconds(userToken.Expireds),
                             UserInfo = userinfo,
                             Permissions = permissions,
                             LoginDevice = HttpContext.LoginDevice(),
                             LoginTime = DateTime.Now
                         };
 
-                        var cacheEntryOptions = new DistributedCacheEntryOptions() { SlidingExpiration = TimeSpan.FromSeconds(userToken.Expireds) };
+                        var cacheEntryOptions = new DistributedCacheEntryOptions() { AbsoluteExpiration = new DateTimeOffset(userinfo.ExpiredTime) };
                         await _cache.SetStringAsync(CacheKeyHelper.GetLoginUserKey(userinfo.UserName, HttpContext.LoginDevice()), userCache.ToJson(), cacheEntryOptions);
                         response.Data = loginResponse;
                     }
@@ -132,7 +125,63 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
 
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("退出", false)]
+        [HttpPost("api/User/Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            ResponseBase response = new ResponseBase();
+            var loginDevice = HttpContext.LoginDevice();
+            await _cache.RemoveAsync(CacheKeyHelper.GetLoginUserKey(UserInfo.UserName, loginDevice));
+            return await response.ToJsonResultAsync();
+        }
 
+
+
+        /// <summary>
+        /// 添加角色
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("添加角色", false)]
+        [HttpPost("api/User/AddRole")]
+        public async Task<ActionResult> AddRole()
+        {
+            ResponseBase response = new ResponseBase();
+
+            return await response.ToJsonResultAsync();
+        }
+
+
+        /// <summary>
+        /// 修改角色
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("修改角色", false)]
+        [HttpPost("api/User/UpdateRole")]
+        public async Task<ActionResult> UpdateRole()
+        {
+            ResponseBase response = new ResponseBase();
+
+
+            return await response.ToJsonResultAsync();
+        }
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <returns></returns>
+        [MoudleInfo("删除角色", false)]
+        [HttpPost("api/User/DeleteRole")]
+        public async Task<ActionResult> DeleteRole()
+        {
+            ResponseBase response = new ResponseBase();
+
+
+            return await response.ToJsonResultAsync();
+        }
 
 
         /// <summary>
@@ -145,7 +194,7 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
 
-            var userinfo = DbContext.UserInfos.Where(o => o.Id == UserInfo.Id).FirstOrDefault();
+            var userinfo = await FreeSql.Select<UserInfo>().Where(o => o.Id == UserInfo.Id).ToOneAsync();
             if (userinfo != null)
             {
                 response.Data = userinfo;
@@ -185,7 +234,8 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<UserInfo>>> AddUser(AddUserRequest addUser)
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
-            if (DbContext.UserInfos.Where(o => o.UserName == addUser.UserName).Any())
+            bool isExsitUser = await FreeSql.Select<UserInfo>().Where(o => o.Phone == addUser.Phone).WhereIf(string.IsNullOrWhiteSpace(addUser.UserName), o => o.UserName == addUser.UserName).AnyAsync();
+            if (isExsitUser)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
@@ -196,7 +246,7 @@ namespace JwSale.Api.Controllers
                 UserInfo userInfo = new UserInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
-                    UserName = addUser.UserName,
+                    UserName = string.IsNullOrWhiteSpace(addUser.UserName) ? addUser.Phone : addUser.UserName,
                     Password = addUser.Password.ToMd5(),
                     RealName = addUser.RealName,
                     RealNamePin = addUser.RealName?.ToPinYin(),
@@ -227,19 +277,10 @@ namespace JwSale.Api.Controllers
                     UpdateUserId = UserInfo.Id,
                     UpdateUserRealName = UserInfo.RealName,
                 };
-                DbContext.Add(userInfo);
-
-
-
-                await DbContext.SaveChangesAsync();
-
+                int count = await FreeSql.Insert<UserInfo>(userInfo).ExecuteAffrowsAsync();
                 response.Data = userInfo;
             }
 
-
-
-
-            LoginResponse loginResponse = new LoginResponse();
             return await response.ToJsonResultAsync();
         }
 
@@ -254,7 +295,8 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase>> SetAllPermisson(SetAllPermissonRequest setAllPermisson)
         {
             ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
-            if (!DbContext.UserInfos.Where(o => o.Id == setAllPermisson.UserId).Any())
+            bool isExsitUser = await FreeSql.Select<UserInfo>().Where(o => o.Id == setAllPermisson.UserId).AnyAsync();
+            if (!isExsitUser)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
@@ -280,18 +322,21 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> GetUsers(GetUsersRequest getUsers)
         {
             PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
-            var userinfos = DbContext.UserInfos.AsEnumerable();
-            if (!string.IsNullOrEmpty(getUsers.Name))
-            {
-                userinfos = userinfos.Where(o => o.UserName.Contains(getUsers.Name) || o.RealName?.Contains(getUsers.Name) == true || o.RealNamePin?.ToLower()?.Contains(getUsers.Name.ToLower()) == true);
-            }
-            if (getUsers.Status != null)
-            {
-                userinfos = userinfos.Where(o => o.Status == getUsers.Status);
-            }
-            response.TotalCount = userinfos.Count();
-            userinfos = userinfos.OrderBy(getUsers.OrderBys).ToPage(getUsers.PageIndex, getUsers.PageSize);
-            response.Data = userinfos;
+
+            var selectUserInfo = FreeSql.Select<UserInfo>()
+                   .WhereIf(!string.IsNullOrEmpty(getUsers.Name), o => o.UserName.Contains(getUsers.Name) || o.RealName.Contains(getUsers.Name) == true || o.RealNamePin.ToLower().Contains(getUsers.Name.ToLower()) == true)
+                   .WhereIf(getUsers.Status != null, o => o.Status == getUsers.Status)
+                   .WhereIf(!string.IsNullOrEmpty(getUsers.Phone), o => o.Phone.Contains(getUsers.Phone))
+                   .WhereIf(!string.IsNullOrEmpty(getUsers.Email), o => o.Email.Contains(getUsers.Email))
+                   .WhereIf(!string.IsNullOrEmpty(getUsers.IdCard), o => o.IdCard.Contains(getUsers.IdCard))
+                   .WhereIf(getUsers.Sex != null, o => o.Sex == getUsers.Sex)
+                   .WhereIf(getUsers.BirthDayStart != null, o => o.BirthDay >= getUsers.BirthDayStart)
+                   .WhereIf(getUsers.BirthDayEnd != null, o => o.BirthDay <= getUsers.BirthDayEnd);
+
+            response.TotalCount = await selectUserInfo.CountAsync();
+
+            response.Data = await selectUserInfo.OrderBy(getUsers.OrderBys).Page(getUsers.PageIndex, getUsers.PageSize).ToListAsync();
+
 
             return await response.ToJsonResultAsync();
         }
@@ -462,7 +507,7 @@ namespace JwSale.Api.Controllers
                 return response;
             }
             var userinfo = DbContext.UserInfos.AsEnumerable().Where(o => o.Id == id).FirstOrDefault();
- 
+
             if (userinfo == null)
             {
                 response.Success = false;
@@ -471,7 +516,7 @@ namespace JwSale.Api.Controllers
             }
             else
             {
-                DbContext.UserInfos.Remove(userinfo);        
+                DbContext.UserInfos.Remove(userinfo);
                 await DbContext.SaveChangesAsync();
                 response.Data = userinfo;
 
@@ -479,19 +524,7 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
 
         }
-        /// <summary>
-        /// 登出
-        /// </summary>
-        /// <returns></returns>
-        [MoudleInfo("退出", false)]
-        [HttpPost("api/User/Logout")]
-        public async Task<ActionResult> Logout()
-        {
-            ResponseBase response = new ResponseBase();
-            var loginDevice = HttpContext.LoginDevice();
-            await _cache.RemoveAsync(CacheKeyHelper.GetLoginUserKey(UserInfo.UserName, loginDevice));
-            return await response.ToJsonResultAsync();
-        }
+
 
 
 

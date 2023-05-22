@@ -3,10 +3,10 @@ using System;
 
 namespace JwSale.Util
 {
-    public class UserHelper
+    public static class UserExtension
     { 
 
-        public static string GenerateToken(UserToken userToken, string key)
+        public static string GenerateToken(this UserToken userToken, string key)
         {
             var userTokenJson = userToken.ToJson();
 
@@ -17,12 +17,12 @@ namespace JwSale.Util
 
 
 
-        public static UserToken AnalysisToken(string token, string key)
+        public static UserToken AnalysisToken(this string token, string key)
         {
             var josn = token.FromDes(key);
             var userToken = josn?.ToObj<UserToken>();
             return userToken;
-        }
+        } 
 
     }
 
@@ -35,8 +35,10 @@ namespace JwSale.Util
 
         public string Ip { get; set; }
 
-
-        public int Expireds { get; set; }
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime ExpiredTime { get; set; }
 
 
         public DateTime AddTime { get; set; }

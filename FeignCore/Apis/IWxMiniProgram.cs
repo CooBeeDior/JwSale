@@ -1,18 +1,13 @@
-﻿using FeignCore.Actions;
-using FeignCore.Filters;
-using JwSale.Model.Dto.Wechat;
+﻿using FeignCore.Filters;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WebApiClient;
 using WebApiClient.Attributes;
 
 namespace FeignCore.Apis
 {
     [HttpHost("https://api.weixin.qq.com")]
-    [Service("wechat")]
-    [Log]
+    [ServiceFilter("wechat")]
+    [LogFilter]
     public interface IWxMiniProgram : IHttpApi
     {
         [HttpGet("/sns/jscode2session")]

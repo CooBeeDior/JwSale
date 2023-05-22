@@ -1,9 +1,6 @@
 ﻿using JwSale.Api.Filters;
-using JwSale.Api.Util;
-using JwSale.Model;
-using JwSale.Repository.Context;
 using JwSale.Util.Dependencys;
-using Microsoft.AspNetCore.Http;
+using log4net.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwSale.Api.Controllers
@@ -14,20 +11,17 @@ namespace JwSale.Api.Controllers
     [TypeFilter(typeof(ValidationModelFilterAttribute))]
     [TypeFilter(typeof(ExceptionFilterAttribute))]
     [TypeFilter(typeof(LogFilterAttribute))]
-    [ApiController] 
+    [ApiController]
     public abstract class JwSaleControllerBase : ControllerBase
     {
-        protected JwSaleDbContext DbContext { get; }
-
-  
-        public JwSaleControllerBase(JwSaleDbContext jwSaleDbContext)
+        protected ILogger Logger { get; }
+        protected IFreeSql FreeSql { get; }
+        public JwSaleControllerBase()
         {
-            DbContext = jwSaleDbContext;
-    
-
-        
+            Logger = ServiceLocator.Instance.GetService<ILogger>();
+            FreeSql = ServiceLocator.Instance.GetService<IFreeSql>();
         }
-         
+
 
     }
 }

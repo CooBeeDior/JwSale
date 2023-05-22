@@ -21,22 +21,17 @@ namespace JwSale.Api.Filters
     public class WechatAuthFilterAttribute : Attribute, IAuthorizationFilter
     {
 
-        private IDistributedCache cache;
+        private readonly IDistributedCache _cache;
+        private readonly JwSaleOptions _jwSaleOptions;
+        private readonly IUserService _userService; 
 
-        private JwSaleOptions jwSaleOptions;
-
-        private JwSaleDbContext jwSaleDbContext;
-        private readonly IUserService userService;
- 
-
-
-        public WechatAuthFilterAttribute(JwSaleDbContext jwSaleDbContext, IDistributedCache cache,
+        public WechatAuthFilterAttribute(IDistributedCache cache,
             IOptions<JwSaleOptions> jwSaleOptions, IUserService userService)
         {
-            this.jwSaleDbContext = jwSaleDbContext;
-            this.cache = cache;
-            this.jwSaleOptions = jwSaleOptions.Value;
-            this.userService = userService;
+
+            _cache = cache;
+            _jwSaleOptions = jwSaleOptions.Value;
+            _userService = userService;
 
         }
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -91,7 +86,7 @@ namespace JwSale.Api.Filters
             }
             else
             {
-                var wechatUserStr = cache.GetString(CacheKeyHelper.GetWxUserKey(openId));
+                var wechatUserStr = _cache.GetString(CacheKeyHelper.GetWxUserKey(openId));
                 WechatUserCache wechatUserCache = null;
                 if (!string.IsNullOrWhiteSpace(wechatUserStr))
                 {
@@ -100,12 +95,12 @@ namespace JwSale.Api.Filters
                 }
                 else
                 {
-                    var wechatUser = userService.GetWechatUser(openId);
+                    var wechatUser = _userService.GetWechatUser(openId);
                     if (wechatUser != null)
                     {
                         wechatUserCache = wechatUser.DeepCopyByReflection<WechatUserCache>();
-                    } 
-                } 
+                    }
+                }
 
                 if (wechatUserCache == null)
                 {
@@ -118,7 +113,7 @@ namespace JwSale.Api.Filters
                 }
                 else
                 {
-                    cache.SetString(CacheKeyHelper.GetWxUserKey(openId), wechatUserCache.ToJson());
+                    _cache.SetString(CacheKeyHelper.GetWxUserKey(openId), wechatUserCache.ToJson());
                     context.HttpContext.Items[CacheKeyHelper.WECHATUSER] = wechatUserCache;
                 }
 

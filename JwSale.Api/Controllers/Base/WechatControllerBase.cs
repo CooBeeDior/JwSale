@@ -16,9 +16,8 @@ namespace JwSale.Api.Controllers
     [WechatAuthRequired]
     public abstract class WechatControllerBase : JwSaleControllerBase
     {
-        public WechatControllerBase(JwSaleDbContext jwSaleDbContext) : base(jwSaleDbContext)
+        public WechatControllerBase()
         {
-
 
         }
     }

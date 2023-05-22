@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using WebApiClient;
 using WebApiClient.Attributes;
 using WebApiClient.Contexts;
-namespace FeignCore.Actions
+namespace FeignCore.Filters
 {
-    public class ServiceAttribute : ApiActionAttribute, IApiActionAttribute
+    public class ServiceFilterAttribute : ApiActionAttribute, IApiActionAttribute
     {
         public string Name { get; }
-        public ServiceAttribute(string name)
+        public ServiceFilterAttribute(string name)
         {
             this.Name = name;
         } 

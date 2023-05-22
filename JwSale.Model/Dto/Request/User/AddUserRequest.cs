@@ -13,7 +13,6 @@ namespace JwSale.Model.Dto.Request.User
         /// <summary>
         /// 用户名
         /// </summary>
-        [Required]
         public string UserName { get; set; }
 
         /// <summary>

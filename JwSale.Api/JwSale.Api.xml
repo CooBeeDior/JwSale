@@ -4,6 +4,21 @@
         <name>JwSale.Api</name>
     </assembly>
     <members>
+        <member name="F:JwSale.Api.Const.JwSale.Api.Const.QueueConst.TEST">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.JwSale.Api.Const.QueueConst.ADDUSERSUCCEED">
+            <summary>
+            添加用户陈宫
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.JwSale.Api.Const.QueueConst.BINDWECHATUSERSUCCEED">
+            <summary>
+            绑定微信小程序成功
+            </summary>
+        </member>
         <member name="T:JwSale.Api.Controllers.JwSaleControllerBase">
             <summary>
             基类
@@ -85,6 +100,12 @@
             </summary> 
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermission">
+            <summary>
+            获取角色权限
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.AddRole(JwSale.Model.Dto.Request.AddRoleRequest)">
             <summary>
             添加角色
@@ -105,10 +126,39 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermission">
+        <member name="M:JwSale.Api.Controllers.UserController.AddUserRole(JwSale.Model.Dto.Request.AddUserRoleRequest)">
             <summary>
-            获取角色权限
+            添加用户角色
             </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteUserRole(System.String)">
+            <summary>
+            删除用户角色
+            </summary>
+            <param name="id">用户角色id</param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddRolePermission(JwSale.Model.Dto.Request.AddRolePermissionRequest)">
+            <summary>
+            添加角色权限
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.BatchAddRolePermission(JwSale.Model.Dto.Request.BatchAddRolePermissionRequest)">
+            <summary>
+            批量添加角色权限
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteRolePermission(System.String)">
+            <summary>
+            删除角色权限
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.UserController.AddUser(JwSale.Model.Dto.Request.AddUserRequest)">
@@ -184,6 +234,68 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:JwSale.Api.Events.AddUserSucceedConsumer">
+            <summary>
+            消费者
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.AddUserSucceedConsumer.Subscripe">
+            <summary>
+            订阅消息
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.AddUserSucceedEvent">
+            <summary>
+            测试事件
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.AddUserSucceedPublisher">
+            <summary>
+            发布者
+            </summary> 
+        </member>
+        <member name="M:JwSale.Api.Events.AddUserSucceedPublisher.Initialization">
+            <summary>
+            初始化队列信息
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.AddUserSucceedPublisher.Publish(JwSale.Api.Events.AddUserSucceedEvent)">
+            <summary>
+            发布消息
+            </summary>
+            <param name="event"></param>
+        </member>
+        <member name="T:JwSale.Api.Events.BindWechatUserSucceedConsumer">
+            <summary>
+            消费者
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.BindWechatUserSucceedConsumer.Subscripe">
+            <summary>
+            订阅消息
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.BindWechatUserSucceedEvent">
+            <summary>
+            绑定微信小程序成功
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.BindWechatUserSucceedPublisher">
+            <summary>
+            发布者
+            </summary> 
+        </member>
+        <member name="M:JwSale.Api.Events.BindWechatUserSucceedPublisher.Initialization">
+            <summary>
+            初始化队列信息
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.BindWechatUserSucceedPublisher.Publish(JwSale.Api.Events.BindWechatUserSucceedEvent)">
+            <summary>
+            发布消息
+            </summary>
+            <param name="event"></param>
+        </member>
         <member name="T:JwSale.Api.Events.TestConsumer">
             <summary>
             消费者
@@ -209,11 +321,11 @@
             初始化队列信息
             </summary>
         </member>
-        <member name="M:JwSale.Api.Events.TestPublisher.Publish(System.String)">
+        <member name="M:JwSale.Api.Events.TestPublisher.Publish(JwSale.Api.Events.TestEvent)">
             <summary>
             发布消息
             </summary>
-            <param name="message"></param>
+            <param name="event"></param>
         </member>
         <member name="T:JwSale.Api.Filters.PermissionRequiredFilterAttribute">
             <summary>

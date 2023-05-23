@@ -14,9 +14,7 @@ namespace JwSale.Repository.Context
         public DbSet<RolePermissionInfo> RolePermissionInfos { get; set; }
         public DbSet<SysDictionary> SysDictionarys { get; set; }
         public DbSet<SysLog> SysLogs { get; set; }
-
-        public DbSet<UserInfo> UserInfos { get; set; }
-        public DbSet<UserPermissionInfo> UserPermissionInfos { get; set; }
+        public DbSet<UserInfo> UserInfos { get; set; } 
 
         public DbSet<UserRoleInfo> UserRoleInfos { get; set; }
 

@@ -63,45 +63,42 @@ namespace JwSale.Packs.Packs
 
                 foreach (var type in types)
                 {
-                    if (typeof(IRabbitmqPublisher).IsAssignableFrom(type))
-                    {
-                        services.AddSingleton(typeof(IRabbitmqPublisher), type);
 
-                    }
-                    else if (typeof(IRabbitmqConsumer).IsAssignableFrom(type))
+                    var interfaces = type.GetInterfaces().Where(o => typeof(IRabbitmqPublisher).IsAssignableFrom(o)|| typeof(IRabbitmqConsumer).IsAssignableFrom(o)).ToList();
+                    foreach (var rabbitmqInterface in interfaces)
                     {
-                        services.AddSingleton(typeof(IRabbitmqConsumer), type);
+                        services.AddSingleton(rabbitmqInterface, type);
+         
                     }
-                    services.AddSingleton(type);
+                    //services.AddSingleton(typeof(IRabbitmq), type);
                 }
             }
-
-
-
             return services;
         }
 
         protected override void UsePack(IApplicationBuilder app)
         {
-            var rabbitmqIRabbitmqPublisher = app.ApplicationServices.GetServices<IRabbitmqPublisher>();
-            foreach (var item in rabbitmqIRabbitmqPublisher)
+            List<Type> types = new List<Type>();
+            var rabbitmqPublishers = app.ApplicationServices.GetServices<IRabbitmqPublisher>();
+            var rbbitmqConsumers = app.ApplicationServices.GetServices<IRabbitmqConsumer>();
+            foreach (var rabbitmqPublisher in rabbitmqPublishers)
             {
-                var eventAttribute = item.GetType().GetCustomAttribute<EventAttribute>();
+                var eventAttribute = rabbitmqPublisher.GetType().GetCustomAttribute<EventAttribute>();
                 if (eventAttribute.IsInitialization)
                 {
-                    item.Initialization();
+                    rabbitmqPublisher.Initialization();
                 }
+            }
+            foreach (var rabbitmqConsumer in rbbitmqConsumers)
+            {
+                var eventAttribute = rabbitmqConsumer.GetType().GetCustomAttribute<EventAttribute>();
+                if (eventAttribute.IsInitialization)
+                {
+                    rabbitmqConsumer.Subscripe();
+                }
+            }
 
-            }
-            var rabbitmqConsumers = app.ApplicationServices.GetServices<IRabbitmqConsumer>();
-            foreach (var item in rabbitmqConsumers)
-            {
-                var eventAttribute = item.GetType().GetCustomAttribute<EventAttribute>();
-                if (eventAttribute.IsInitialization)
-                {
-                    item.Subscripe();
-                }
-            }
+  
 
         }
 

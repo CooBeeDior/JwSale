@@ -1,5 +1,6 @@
 ﻿using FeignCore.Apis;
 using JwSale.Api.Attributes;
+using JwSale.Api.Events;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Repository.Context;
@@ -22,14 +23,14 @@ namespace JwSale.Api.Controllers
     [NoAuthRequired]
     public class TestController : JwSaleControllerBase
     {
-        private readonly IRabbitmqPublisher _rabbitmqPublisher;
+        private readonly IRabbitmqPublisher<TestEvent> _rabbitmqPublisher;
         private readonly IFreeSql _freesql;
         private readonly IdleBus<IFreeSql> _idleBusFreeSql;
         private readonly IStringLocalizer<TestController> _stringLocalizer;
         // private readonly ISpiderHttpClientFactory _spiderHttpClientFactory;
         // private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUserApi _userApi;
-        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher,
+        public TestController(JwSaleDbContext context, IRabbitmqPublisher<TestEvent> rabbitmqPublisher,
             IFreeSql freesql, IdleBus<IFreeSql> idleBusFreeSql,
             IStringLocalizer<TestController> stringLocalizer,
         //ISpiderHttpClientFactory spiderHttpClientFactory, IHttpClientFactory httpClientFactory,
@@ -66,7 +67,7 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase response = new ResponseBase();
 
-            _rabbitmqPublisher.Publish("it is a test event");
+            _rabbitmqPublisher.Publish(new TestEvent("it is a test event"));
             return response;
         }
         /// <summary>

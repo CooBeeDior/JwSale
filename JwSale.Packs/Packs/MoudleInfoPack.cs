@@ -32,7 +32,7 @@ namespace JwSale.Packs.Packs
                 var userService = scope.ServiceProvider.GetService<IUserService>();
 
                 //初始化系统模块 用户信息
-                userService.InitAdminUserAndRole(true);
+                userService.InitAdminUserAndRole(false);
 
             }
         }

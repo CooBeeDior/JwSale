@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JwSale.Util.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -23,13 +24,25 @@ namespace JwSale.Model.Dto.Request
 
         /// <summary>
         /// 真实姓名
-        /// </summary>
+        /// </summary>    
         public string RealName { get; set; }
 
         /// <summary>
         /// 手机号码
         /// </summary>
+        [Phone]
         public string Phone { get; set; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        //[EmailAddress]
+        public string Email { get; set; }
+
+        /// <summary>
+        /// 性别 1：男 2：女
+        /// </summary>
+        public SexType? Sex { get; set; }
         /// <summary>
         /// 生日
         /// </summary>
@@ -37,6 +50,7 @@ namespace JwSale.Model.Dto.Request
         /// <summary>
         /// 身份证
         /// </summary>
+
         public string IdCard { get; set; }
 
         /// <summary>
@@ -89,7 +103,7 @@ namespace JwSale.Model.Dto.Request
         /// </summary>
         public int Type { get; set; }
 
-     
+
         /// <summary>
         /// 过期时间
         /// </summary>

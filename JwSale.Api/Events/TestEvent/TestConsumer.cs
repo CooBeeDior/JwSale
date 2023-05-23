@@ -43,8 +43,8 @@ namespace JwSale.Api.Events
                 try
                 {
                     var message = Encoding.UTF8.GetString(ea.Body.Span);
-                    var refreshWxInfoEvent = message.ToObj<TestEvent>();
-                    await _mediator.Publish(refreshWxInfoEvent);
+                    var @event = message.ToObj<TestEvent>();
+                    await _mediator.Publish(@event);
                     //确认该消息已被消费
                     channel.BasicAck(ea.DeliveryTag, false);
                 }

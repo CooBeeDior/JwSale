@@ -47,8 +47,8 @@ namespace JwSale.Api.Events
                  try
                  {
                      var message = Encoding.UTF8.GetString(ea.Body.Span);
-                     var addUserEvent = message.ToObj<AddUserSucceedEvent>();
-                     await _mediator.Publish(addUserEvent);
+                     var @event = message.ToObj<AddUserSucceedEvent>();
+                     await _mediator.Publish(@event);
                     //确认该消息已被消费
                     channel.BasicAck(ea.DeliveryTag, false);
                  }
@@ -57,7 +57,7 @@ namespace JwSale.Api.Events
                      _logger.LogError(ex, ex.Message);
                  }
              };
-            channel.BasicConsume(QueueConst.TEST, false, consumer);
+            channel.BasicConsume(QueueConst.ADDUSERSUCCEED, false, consumer);
         }
 
 

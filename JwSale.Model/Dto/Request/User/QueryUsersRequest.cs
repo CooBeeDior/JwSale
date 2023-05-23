@@ -41,7 +41,10 @@ namespace JwSale.Model.Dto.Request
         /// </summary>
         public DateTime? BirthDayEnd { get; set; }
 
-        public int? Status { get; set; }
+        /// <summary>
+        /// 用户状态
+        /// </summary>
+        public UserStatus? Status { get; set; }
 
 
 

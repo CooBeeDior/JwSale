@@ -35,20 +35,10 @@ namespace JwSale.Packs.Packs
                 //    Description = "QQ：506599090",
 
                 //});
-                options.SwaggerDoc("v1",  new Info
+                options.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = @"
-_________              ___.                 ________  .__              
-\_   ___ \  ____   ____\_ |__   ____   ____ \______ \ |__| ___________ 
-/    \  \/ /  _ \ /  _ \| __ \_/ __ \_/ __ \ |    |  \|  |/  _ \_  __ \
-\     \___(  <_> |  <_> ) \_\ \  ___/\  ___/ |    `   \  (  <_> )  | \/
- \______  /\____/ \____/|___  /\___  >\___  >_______  /__|\____/|__|   
-        \/                  \/     \/     \/        \/              
-
-
-
-",
+                    Title = @"Api 标题",
                     Description = "QQ：506599090",
 
                 });
@@ -76,8 +66,8 @@ _________              ___.                 ________  .__
                         options.IncludeXmlComments(xmlPath);
                     }
                 }
-           
-       
+
+
                 options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new ApiKeyScheme
                 {
                     Description = "请输入Token",

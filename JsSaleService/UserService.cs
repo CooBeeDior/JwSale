@@ -31,7 +31,7 @@ namespace JsSaleService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IList<FunctionTreeResponse>> GetUserPermissionTree(string userId)
+        public async Task<IList<UserPermissionTreeResponse>> GetUserPermissionTree(string userId)
         {
 
             var functions = await FreeSql.Select<FunctionInfo>().OrderBy(o => o.Order).ToListAsync();
@@ -74,7 +74,7 @@ namespace JsSaleService
                             Code = f.Code,
                             Name = f.Name
                         }).ToListAsync();
-            FunctionTreeResponse functionTree = new FunctionTreeResponse()
+            UserPermissionTreeResponse functionTree = new UserPermissionTreeResponse()
             {
                 Id = string.Empty,
                 Code = "Root",
@@ -308,9 +308,9 @@ namespace JsSaleService
         /// <param name="functions"></param>
         /// <param name="functionTree"></param>
         /// <param name="permissions"></param>
-        private void toUserFuntionTree(IEnumerable<FunctionInfo> functions, FunctionTreeResponse functionTree, IList<PermssionResponse> permissions)
+        private void toUserFuntionTree(IEnumerable<FunctionInfo> functions, UserPermissionTreeResponse functionTree, IList<PermssionResponse> permissions)
         {
-            var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new FunctionTreeResponse
+            var filterFunctions = functions.Where(o => o.ParentId == functionTree.Id).Select(o => new UserPermissionTreeResponse
             {
                 Id = o.Id,
                 Name = o.Name,

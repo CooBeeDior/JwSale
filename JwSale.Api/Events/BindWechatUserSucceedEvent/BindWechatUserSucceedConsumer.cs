@@ -43,8 +43,8 @@ namespace JwSale.Api.Events
                 try
                 {
                     var message = Encoding.UTF8.GetString(ea.Body.Span);
-                    var refreshWxInfoEvent = message.ToObj<BindWechatUserSucceedEvent>();
-                    await _mediator.Publish(refreshWxInfoEvent);
+                    var @event = message.ToObj<BindWechatUserSucceedEvent>();
+                    await _mediator.Publish(@event);
                     //确认该消息已被消费
                     channel.BasicAck(ea.DeliveryTag, false);
                 }
@@ -53,7 +53,7 @@ namespace JwSale.Api.Events
                     _logger.LogError(ex, ex.Message);
                 }
             };
-            channel.BasicConsume(QueueConst.ADDUSERSUCCEED, false, consumer);
+            channel.BasicConsume(QueueConst.BINDWECHATUSERSUCCEED, false, consumer);
         }
     }
 }

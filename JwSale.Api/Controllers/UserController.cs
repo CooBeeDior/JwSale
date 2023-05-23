@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Z.EntityFramework.Plus;
 
 namespace JwSale.Api.Controllers
 {
@@ -167,14 +166,14 @@ namespace JwSale.Api.Controllers
             return await response.ToJsonResultAsync();
         }
         /// <summary>
-        /// 获取用户功能列表
+        /// 获取用户角色权限树
         /// </summary> 
         /// <returns></returns>
-        [MoudleInfo("获取用户功能列表")]
-        [HttpPost("api/userrole/getuserfunctions")]
-        public async Task<ActionResult<ResponseBase<IList<FunctionTreeResponse>>>> GetUserFunctions()
+        [MoudleInfo("获取用户角色权限树")]
+        [HttpPost("api/userrole/getuserpermissiontree")]
+        public async Task<ActionResult<ResponseBase<IList<UserPermissionTreeResponse>>>> GetUserPermissionTree()
         {
-            ResponseBase<IList<FunctionTreeResponse>> response = new ResponseBase<IList<FunctionTreeResponse>>();
+            ResponseBase<IList<UserPermissionTreeResponse>> response = new ResponseBase<IList<UserPermissionTreeResponse>>();
 
             response.Data = await _userService.GetUserPermissionTree(CurrentUserInfo.Id);
             return await response.ToJsonResultAsync();
@@ -183,12 +182,12 @@ namespace JwSale.Api.Controllers
 
 
         /// <summary>
-        /// 获取角色权限
+        /// 获取用户角色权限
         /// </summary>
         /// <returns></returns>
-        [MoudleInfo("获取角色权限")]
-        [HttpPost("api/user/getuserpermission")]
-        public async Task<ActionResult<ResponseBase<IList<BriefInfo>>>> GetUserPermission()
+        [MoudleInfo("获取用户角色权限")]
+        [HttpPost("api/user/getuserpermissions")]
+        public async Task<ActionResult<ResponseBase<IList<BriefInfo>>>> GetUserPermissions()
         {
             ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
 
@@ -210,16 +209,23 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<string>>> AddRole(AddRoleRequest request)
         {
             ResponseBase<string> response = new ResponseBase<string>();
-            var roleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Name == request.Name && o.ParentId == request.ParentId).ToOneAsync();
-            if (roleInfo != null)
+            bool isExsitRoleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Name == request.Name && o.ParentId == request.ParentId).AnyAsync();
+            if (isExsitRoleInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
                 response.Message = $"【{request.Name}】角色已存在";
             }
+            else if (!await FreeSql.Select<RoleInfo>().WhereIf(!request.ParentId.IsNullOrWhiteSpace(), o => o.Id == request.ParentId).AnyAsync())
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"父角色不存在";
+            }
             else
             {
-                roleInfo = new RoleInfo()
+
+                var roleInfo = new RoleInfo()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = request.Name,
@@ -245,18 +251,29 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase>> UpdateRole(UpdateRoleRequest request)
         {
             ResponseBase response = new ResponseBase();
-
-            var roleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id != request.Id).Where(o => o.Name == request.Name && o.ParentId == request.ParentId).ToOneAsync();
-            if (roleInfo != null)
+            if (request.Id == request.ParentId)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"父级不能是自己";
+                return await response.ToJsonResultAsync();
+            }
+            bool isExsitRoleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id != request.Id).Where(o => o.Name == request.Name && o.ParentId == request.ParentId).AnyAsync();
+            if (isExsitRoleInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
                 response.Message = $"【{request.Name}】角色已存在";
             }
+            else if (!await FreeSql.Select<RoleInfo>().WhereIf(!request.ParentId.IsNullOrWhiteSpace(), o => o.Id == request.ParentId).AnyAsync())
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"父角色不存在";
+            }
             else
             {
-
-                int count = await FreeSql.Update<RoleInfo>()
+                int count = await FreeSql.Update<RoleInfo>(request.Id)
                     .Set(o => o.Name == request.Name)
                     .Set(o => o.ParentId == request.ParentId)
                     .Set(o => o.Remark == request.Remark)
@@ -294,7 +311,7 @@ namespace JwSale.Api.Controllers
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
-                response.Message = "用户不存在";
+                response.Message = "角色不存在";
             }
             else
             {
@@ -316,20 +333,28 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<string>>> AddUserRole(AddUserRoleRequest request)
         {
             ResponseBase<string> response = new ResponseBase<string>();
-            var userInfo = await FreeSql.Select<UserInfo>().Where(o => o.Id == request.UserId).ToOneAsync();
-            if (userInfo != null)
+            var isExsitUserInfo = await FreeSql.Select<UserInfo>().Where(o => o.Id == request.UserId).AnyAsync();
+            if (!isExsitUserInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
                 response.Message = $"用户不存在";
                 return await response.ToJsonResultAsync(); ;
             }
-            var roleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id == request.RoleId).ToOneAsync();
-            if (roleInfo != null)
+            var isExsitRoleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id == request.RoleId).AnyAsync();
+            if (!isExsitRoleInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
                 response.Message = $"角色不存在";
+                return await response.ToJsonResultAsync(); ;
+            }
+            var isExsitUserRoleInfo = await FreeSql.Select<UserRoleInfo>().Where(o => o.RoleId == request.RoleId && o.UserId == request.UserId).AnyAsync();
+            if (isExsitUserRoleInfo)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"用户角色已存在";
                 return await response.ToJsonResultAsync(); ;
             }
             UserRoleInfo userRoleInfo = new UserRoleInfo()
@@ -338,9 +363,9 @@ namespace JwSale.Api.Controllers
                 UserId = request.UserId,
                 RoleId = request.RoleId
             };
-            roleInfo.InitAddBaseEntityData(CurrentUserInfo);
+            userRoleInfo.InitAddBaseEntityData(CurrentUserInfo);
             int count = await FreeSql.Insert(userRoleInfo).ExecuteAffrowsAsync();
-            response.Data = roleInfo.Id;
+            response.Data = userRoleInfo.Id;
             return await response.ToJsonResultAsync();
         }
 
@@ -392,23 +417,31 @@ namespace JwSale.Api.Controllers
         public async Task<ActionResult<ResponseBase<string>>> AddRolePermission(AddRolePermissionRequest request)
         {
             ResponseBase<string> response = new ResponseBase<string>();
-            var rolePermissionInfo = await FreeSql.Select<RolePermissionInfo>().Where(o => o.RoleId == request.RoleId && o.FunctionId == request.FunctionId).ToOneAsync();
-            if (rolePermissionInfo != null)
+            var isExsitRolePermissionInfo = await FreeSql.Select<RolePermissionInfo>().Where(o => o.RoleId == request.RoleId && o.FunctionId == request.FunctionId).AnyAsync();
+            if (isExsitRolePermissionInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
                 response.Message = $"角色权限已存在";
                 return await response.ToJsonResultAsync(); ;
             }
-            var roleInfo = await FreeSql.Select<UserRoleInfo>().Where(o => o.Id == request.RoleId).ToOneAsync();
-            if (roleInfo == null)
+            var isExsitRoleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id == request.RoleId).AnyAsync();
+            if (!isExsitRoleInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
-                response.Message = "用户角色不存在";
+                response.Message = "角色不存在";
                 return await response.ToJsonResultAsync(); ;
             }
-            rolePermissionInfo = new RolePermissionInfo()
+            var isExsitFunctionInfo = await FreeSql.Select<FunctionInfo>().Where(o => o.Id == request.FunctionId).AnyAsync();
+            if (!isExsitFunctionInfo)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = "系统功能不存在";
+                return await response.ToJsonResultAsync(); ;
+            }
+            var rolePermissionInfo = new RolePermissionInfo()
             {
                 Id = Guid.NewGuid().ToString(),
                 FunctionId = request.FunctionId,
@@ -431,8 +464,8 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase<IList<string>> response = new ResponseBase<IList<string>>();
             IList<string> list = new List<string>();
-            var roleInfo = await FreeSql.Select<UserRoleInfo>().Where(o => o.Id == request.RoleId).ToOneAsync();
-            if (roleInfo == null)
+            var isExsitRoleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id == request.RoleId).AnyAsync();
+            if (!isExsitRoleInfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
@@ -440,7 +473,49 @@ namespace JwSale.Api.Controllers
                 return await response.ToJsonResultAsync(); ;
             }
             int count = FreeSql.Delete<RolePermissionInfo>().Where(o => o.RoleId == request.RoleId).ExecuteAffrows();
-            foreach (var functionId in request.FunctionIds)
+            var functionIds = FreeSql.Select<FunctionInfo>().Where(o => request.FunctionIds.Contains(o.Id)).ToList(o => o.Id);
+            foreach (var functionId in functionIds)
+            {
+                var rolePermissionInfo = new RolePermissionInfo()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    FunctionId = functionId,
+                    RoleId = request.RoleId
+                };
+                rolePermissionInfo.InitAddBaseEntityData(CurrentUserInfo);
+                list.Add(rolePermissionInfo.Id);
+                count = await FreeSql.Insert(rolePermissionInfo).ExecuteAffrowsAsync();
+            }
+
+            response.Data = list;
+            return await response.ToJsonResultAsync();
+        }
+
+
+        /// <summary>
+        /// 添加角色所有权限
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [MoudleInfo("添加角色所有权限", Type = FunctionType.Add)]
+        [HttpPost("api/user/addroleallpermission")]
+        public async Task<ActionResult<ResponseBase<IList<string>>>> AddRoleAllPermission(AddRoleAllPermissionRequest request)
+        {
+            ResponseBase<IList<string>> response = new ResponseBase<IList<string>>();
+            IList<string> list = new List<string>();
+            var isExsitRoleInfo = await FreeSql.Select<RoleInfo>().Where(o => o.Id == request.RoleId).AnyAsync();
+            if (!isExsitRoleInfo)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = "用户角色不存在";
+                return await response.ToJsonResultAsync(); ;
+            }
+            int count = FreeSql.Delete<RolePermissionInfo>().Where(o => o.RoleId == request.RoleId).ExecuteAffrows();
+
+            var functionIds = await FreeSql.Select<FunctionInfo>().ToListAsync(o => o.Id);
+
+            foreach (var functionId in functionIds)
             {
                 var rolePermissionInfo = new RolePermissionInfo()
                 {
@@ -516,7 +591,9 @@ namespace JwSale.Api.Controllers
                     Password = DefaultPassword.PASSWORD.ToMd5(),
                     RealName = addUser.RealName,
                     RealNamePin = addUser.RealName?.ToPinYin(),
-
+                    Email = addUser.Email,
+                    Sex = (int)(addUser.Sex ?? SexType.UnKnown),
+                    Status = 0,
                     Phone = addUser.Phone,
                     IdCard = addUser.IdCard,
                     BirthDay = addUser.BirthDay,
@@ -548,7 +625,7 @@ namespace JwSale.Api.Controllers
                 {
                     _rabbitmqPublisher.Publish(new AddUserSucceedEvent(userInfo));
                     response.Data = userInfo.Id;
-                } 
+                }
             }
 
             return await response.ToJsonResultAsync();
@@ -575,7 +652,7 @@ namespace JwSale.Api.Controllers
             else
             {
                 int count = await FreeSql.Update<UserInfo>(setUserStatus.UserId)
-                      .Set(a => a.Status == setUserStatus.Status)
+                      .Set(a => a.Status == (int)setUserStatus.Status)
                       .InitUpdateBaseEntityData(CurrentUserInfo).ExecuteAffrowsAsync();
 
             }
@@ -633,6 +710,7 @@ namespace JwSale.Api.Controllers
                 int count = await FreeSql.Update<UserInfo>(CurrentUserInfo.Id)
                      .Set(a => a.Phone == setUserProfile.Phone)
                      .Set(a => a.Email == setUserProfile.Email)
+                     .Set(a => a.Sex == (int)(setUserProfile.Sex ?? SexType.UnKnown))
                      .Set(a => a.RealName == setUserProfile.RealName)
                      .Set(a => a.RealNamePin == pinyin)
                      .Set(a => a.Qq == setUserProfile.Qq)
@@ -704,8 +782,8 @@ namespace JwSale.Api.Controllers
                 response.Message = "id不能为空";
                 return await response.ToJsonResultAsync(); ;
             }
-            var userinfo = await FreeSql.Select<UserInfo>().Where(o => o.Id == id).ToOneAsync();
-            if (userinfo == null)
+            var isExistUserinfo = await FreeSql.Select<UserInfo>().Where(o => o.Id == id).AnyAsync();
+            if (!isExistUserinfo)
             {
                 response.Success = false;
                 response.Code = HttpStatusCode.BadRequest;
@@ -727,34 +805,7 @@ namespace JwSale.Api.Controllers
 
 
 
-        /// <summary>
-        /// 查询用户列表
-        /// </summary>
-        /// <param name="getUsers"></param>
-        /// <returns></returns>
-        [HttpPost("api/user/queryusers")]
-        [MoudleInfo("获取用户列表")]
-        public async Task<ActionResult<PageResponseBase<IEnumerable<UserInfo>>>> QueryUsers(QueryUsersRequest getUsers)
-        {
-            PageResponseBase<IEnumerable<UserInfo>> response = new PageResponseBase<IEnumerable<UserInfo>>();
 
-            var selectUserInfo = FreeSql.Select<UserInfo>()
-                   .WhereIf(!string.IsNullOrEmpty(getUsers.Name), o => o.UserName.Contains(getUsers.Name) || o.RealName.Contains(getUsers.Name) == true || o.RealNamePin.ToLower().Contains(getUsers.Name.ToLower()) == true)
-                   .WhereIf(getUsers.Status != null, o => o.Status == getUsers.Status)
-                   .WhereIf(!string.IsNullOrEmpty(getUsers.Phone), o => o.Phone.Contains(getUsers.Phone))
-                   .WhereIf(!string.IsNullOrEmpty(getUsers.Email), o => o.Email.Contains(getUsers.Email))
-                   .WhereIf(!string.IsNullOrEmpty(getUsers.IdCard), o => o.IdCard.Contains(getUsers.IdCard))
-                   .WhereIf(getUsers.Sex != null, o => o.Sex == (int)getUsers.Sex)
-                   .WhereIf(getUsers.BirthDayStart != null, o => o.BirthDay >= getUsers.BirthDayStart)
-                   .WhereIf(getUsers.BirthDayEnd != null, o => o.BirthDay <= getUsers.BirthDayEnd);
-
-            response.TotalCount = await selectUserInfo.CountAsync();
-
-            response.Data = await selectUserInfo.OrderBy(getUsers.OrderBys).Page(getUsers.PageIndex, getUsers.PageSize).ToListAsync();
-
-
-            return await response.ToJsonResultAsync();
-        }
 
 
 

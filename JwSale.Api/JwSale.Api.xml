@@ -34,6 +34,13 @@
             微信控制器
             </summary> 
         </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.QueryUsers(JwSale.Model.Dto.Request.QueryUsersRequest)">
+            <summary>
+            查询用户列表
+            </summary>
+            <param name="getUsers"></param>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.TestController">
             <summary>
             测试接口使用
@@ -69,7 +76,15 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:JwSale.Api.Controllers.TestController.TestLocalizedString" -->
+        <member name="M:JwSale.Api.Controllers.TestController.TestLocalizedString">
+            <summary>
+            多语言本地化测试------------------------------  
+            例1：【 url：?culture=en-US  ui-culture=zh-CN】  
+            例2：【cookie：键名称：.AspNetCore.Culture 值内容：c=en-US|uic=zh-CN 】
+            例3：【Header:Accept-Language:zh-CN,zh;q=0.9】
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理
@@ -94,15 +109,15 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserFunctions">
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissionTree">
             <summary>
-            获取用户功能列表
+            获取用户角色权限树
             </summary> 
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermission">
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissions">
             <summary>
-            获取角色权限
+            获取用户角色权限
             </summary>
             <returns></returns>
         </member>
@@ -154,6 +169,13 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddRoleAllPermission(JwSale.Model.Dto.Request.AddRoleAllPermissionRequest)">
+            <summary>
+            添加角色所有权限
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:JwSale.Api.Controllers.UserController.DeleteRolePermission(System.String)">
             <summary>
             删除角色权限
@@ -200,13 +222,6 @@
             删除用户
             </summary>
             <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.QueryUsers(JwSale.Model.Dto.Request.QueryUsersRequest)">
-            <summary>
-            查询用户列表
-            </summary>
-            <param name="getUsers"></param>
             <returns></returns>
         </member>
         <member name="T:JwSale.Api.Controllers.WechatController">

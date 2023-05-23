@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JwSale.Util.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -25,6 +26,11 @@ namespace JwSale.Model.Dto.Request
         /// 邮箱
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// 性别 1：男 2：女
+        /// </summary>
+        public SexType? Sex { get; set; }
 
         /// <summary>
         /// 真实姓名

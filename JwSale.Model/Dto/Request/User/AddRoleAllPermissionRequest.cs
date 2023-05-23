@@ -5,17 +5,13 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request
 {
-    public class AddUserRoleRequest : RequestBase
+    public class AddRoleAllPermissionRequest : RequestBase
     {
-        /// <summary>
-        /// 用户Id
-        /// </summary>
-        [Required]
-        public string UserId { get; set; }
         /// <summary>
         /// 角色Id
         /// </summary>
         [Required]
         public string RoleId { get; set; }
+ 
     }
 }

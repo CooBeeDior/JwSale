@@ -13,7 +13,7 @@ namespace JsSaleService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<FunctionTreeResponse>> GetUserPermissionTree(string userId);
+        Task<IList<UserPermissionTreeResponse>> GetUserPermissionTree(string userId);
 
 
 

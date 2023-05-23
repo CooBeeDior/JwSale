@@ -77,7 +77,7 @@ namespace JwSale.Api.Filters
                 return;
             }
             var openId = context.HttpContext.WechatOpenId();
-            if (string.IsNullOrWhiteSpace(openId))
+            if (openId.IsNullOrWhiteSpace())
             {
                 ResponseBase response = new ResponseBase();
                 response.Success = false;
@@ -89,7 +89,7 @@ namespace JwSale.Api.Filters
             {
                 var wechatUserStr = _cache.GetString(CacheKeyHelper.GetWechatUserKey(openId));
                 WechatUserCache wechatUserCache = null;
-                if (!string.IsNullOrWhiteSpace(wechatUserStr))
+                if (!wechatUserStr.IsNullOrWhiteSpace())
                 {
                     wechatUserCache = wechatUserStr.ToObj<WechatUserCache>();
 

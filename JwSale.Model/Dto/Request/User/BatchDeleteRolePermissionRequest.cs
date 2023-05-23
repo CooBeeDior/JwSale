@@ -5,12 +5,12 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request
 {
-    public class WechatLoginRequest: RequestBase
+    public class BatchDeleteRolePermissionRequest : RequestBase
     {
         /// <summary>
-        /// 登录Code
+        /// id列表
         /// </summary>
         [Required]
-        public string Code { get; set; }
+        public IList<string> Ids { get; set; }
     }
 }

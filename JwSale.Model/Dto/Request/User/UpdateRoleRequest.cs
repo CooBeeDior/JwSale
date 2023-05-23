@@ -5,8 +5,11 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request
 {
-    public class AddRoleRequest
+
+    public class UpdateRoleRequest
     {
+        [Required]
+        public string Id { get; set; }
         /// <summary>
         /// 功能名称
         /// </summary>

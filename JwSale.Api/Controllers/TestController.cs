@@ -1,5 +1,6 @@
 ﻿using FeignCore.Apis;
 using JwSale.Api.Attributes;
+using JwSale.Api.Events;
 using JwSale.Model;
 using JwSale.Model.Dto;
 using JwSale.Repository.Context;
@@ -22,20 +23,21 @@ namespace JwSale.Api.Controllers
     [NoAuthRequired]
     public class TestController : JwSaleControllerBase
     {
-        private readonly IRabbitmqPublisher _rabbitmqPublisher;
+        private readonly IRabbitmqPublisher<TestEvent> _rabbitmqPublisher;
+        private readonly IRabbitmqPublisher<AddUserSucceedEvent> _rabbitmqAddUserSucceedPublisher;
         private readonly IFreeSql _freesql;
         private readonly IdleBus<IFreeSql> _idleBusFreeSql;
         private readonly IStringLocalizer<TestController> _stringLocalizer;
         // private readonly ISpiderHttpClientFactory _spiderHttpClientFactory;
         // private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUserApi _userApi;
-        public TestController(JwSaleDbContext context, IRabbitmqPublisher rabbitmqPublisher,
+        public TestController(IRabbitmqPublisher<TestEvent> rabbitmqPublisher, IRabbitmqPublisher<AddUserSucceedEvent> rabbitmqAddUserSucceedPublisher,
             IFreeSql freesql, IdleBus<IFreeSql> idleBusFreeSql,
             IStringLocalizer<TestController> stringLocalizer,
-        //ISpiderHttpClientFactory spiderHttpClientFactory, IHttpClientFactory httpClientFactory,
         IUserApi userApi) : base()
         {
             _rabbitmqPublisher = rabbitmqPublisher;
+            _rabbitmqAddUserSucceedPublisher = rabbitmqAddUserSucceedPublisher;
             _freesql = freesql;
             _idleBusFreeSql = idleBusFreeSql;
             _stringLocalizer = stringLocalizer;
@@ -66,9 +68,10 @@ namespace JwSale.Api.Controllers
         {
             ResponseBase response = new ResponseBase();
 
-            _rabbitmqPublisher.Publish("it is a test event");
+            _rabbitmqPublisher.Publish(new TestEvent("it is a test event"));
             return response;
         }
+
         /// <summary>
         /// FreeSql测试
         /// </summary>
@@ -118,9 +121,11 @@ namespace JwSale.Api.Controllers
         }
 
         /// <summary>
-        /// 本地化测试
+        /// 多语言本地化测试------------------------------  
+        /// 例1：【 url：?culture=en-US  ui-culture=zh-CN】  
+        /// 例2：【cookie：键名称：.AspNetCore.Culture 值内容：c=en-US|uic=zh-CN 】
+        /// 例3：【Header:Accept-Language:zh-CN,zh;q=0.9】
         /// </summary>
-        ///<example>例1：【 url：?culture=en-US&ui-culture=zh-CN】  例2：【cookie：键名称：.AspNetCore.Culture 值内容：c=en-US|uic=zh-CN 】 例3：【Header:Accept-Language:zh-CN,zh;q=0.9】 </example> 
         /// <returns></returns>
         [HttpPost("api/testlocalizedstring")]
         public ActionResult<ResponseBase> TestLocalizedString()

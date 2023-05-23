@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Model.Dto.Response.UserRole
+namespace JwSale.Model.Dto.Response
 {
-    public class FunctionTreeResponse : Function, IResponse
+    public class UserPermissionTreeResponse : Function, IResponse
     {
-        public IList<FunctionTreeResponse> Tree { get; set; }
+        public IList<UserPermissionTreeResponse> Tree { get; set; }
     }
 
     public class Function

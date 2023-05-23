@@ -945,252 +945,252 @@
             父Id
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.AddUser">
+        <member name="T:JwSale.Model.Dto.Request.AddUser">
             <summary>
             添加用户
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.UserName">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.UserName">
             <summary>
             用户名
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Password">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Password">
             <summary>
             密码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.RealName">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.RealName">
             <summary>
             真实姓名
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Phone">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Phone">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.BirthDay">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.BirthDay">
             <summary>
             生日
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.IdCard">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.IdCard">
             <summary>
             身份证
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Province">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Province">
             <summary>
             省
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.City">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.City">
             <summary>
             市
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Area">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Area">
             <summary>
             区
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Address">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Address">
             <summary>
             详细地址
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Remark">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Qq">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Qq">
             <summary>
             qq号
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.WxNo">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.WxNo">
             <summary>
             微信号
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.TelPhone">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.TelPhone">
             <summary>
             座机
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.PositionName">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.PositionName">
             <summary>
             职位名称
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.HeadImageUrl">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.HeadImageUrl">
             <summary>
             头像
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.Type">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.Type">
             <summary>
             类型 1:端口授权  2:月租授权
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.WxCount">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.WxCount">
             <summary>
             微信号数量
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.AddUser.ExpiredTime">
+        <member name="P:JwSale.Model.Dto.Request.AddUser.ExpiredTime">
             <summary>
             过期时间
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.GetUsers">
+        <member name="T:JwSale.Model.Dto.Request.GetUsers">
             <summary>
             获取用户
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.Login">
+        <member name="T:JwSale.Model.Dto.Request.Login">
             <summary>
             登录
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.Login.UserName">
+        <member name="P:JwSale.Model.Dto.Request.Login.UserName">
             <summary>
             用户名
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.Login.Password">
+        <member name="P:JwSale.Model.Dto.Request.Login.Password">
             <summary>
             密码
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.ResetUserPwd">
+        <member name="T:JwSale.Model.Dto.Request.ResetUserPwd">
             <summary>
             重置密码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.ResetUserPwd.NewPassword">
+        <member name="P:JwSale.Model.Dto.Request.ResetUserPwd.NewPassword">
             <summary>
             密码
             </summary> 
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.SetAllPermisson">
+        <member name="T:JwSale.Model.Dto.Request.SetAllPermisson">
             <summary>
             设置所有权限
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetAllPermisson.UserId">
+        <member name="P:JwSale.Model.Dto.Request.SetAllPermisson.UserId">
             <summary>
             用户Id
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.SetUserAuth">
+        <member name="T:JwSale.Model.Dto.Request.SetUserAuth">
             <summary>
             设置用户授权
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.UserId">
+        <member name="P:JwSale.Model.Dto.Request.SetUserAuth.UserId">
             <summary>
             用户Id
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.Type">
+        <member name="P:JwSale.Model.Dto.Request.SetUserAuth.Type">
             <summary>
             类型 1:端口授权  2:月租授权
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.WxCount">
+        <member name="P:JwSale.Model.Dto.Request.SetUserAuth.WxCount">
             <summary>
             微信号数量
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserAuth.ExpiredTime">
+        <member name="P:JwSale.Model.Dto.Request.SetUserAuth.ExpiredTime">
             <summary>
             过期时间
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.SetUserProfile">
+        <member name="T:JwSale.Model.Dto.Request.SetUserProfile">
             <summary>
             修改用户简介
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Phone">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Phone">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Email">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Email">
             <summary>
             邮箱
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.RealName">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.RealName">
             <summary>
             真实姓名
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Qq">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Qq">
             <summary>
             qq号
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.WxNo">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.WxNo">
             <summary>
             微信号
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.TelPhone">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.TelPhone">
             <summary>
             座机
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.PositionName">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.PositionName">
             <summary>
             职位名称
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Province">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Province">
             <summary>
             省
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.City">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.City">
             <summary>
             市
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Area">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Area">
             <summary>
             区
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Address">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Address">
             <summary>
             详细地址
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.HeadImageUrl">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.HeadImageUrl">
             <summary>
             头像
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserProfile.Remark">
+        <member name="P:JwSale.Model.Dto.Request.SetUserProfile.Remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Request.User.SetUserStatus">
+        <member name="T:JwSale.Model.Dto.Request.SetUserStatus">
             <summary>
             设置用户状态
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserStatus.UserId">
+        <member name="P:JwSale.Model.Dto.Request.SetUserStatus.UserId">
             <summary>
             用户Id
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Request.User.SetUserStatus.Status">
+        <member name="P:JwSale.Model.Dto.Request.SetUserStatus.Status">
             <summary>
             状态：0：启用 1：停用
             </summary> 
@@ -1565,52 +1565,52 @@
             扩展数据
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Id">
+        <member name="P:JwSale.Model.Dto.Response.Function.Id">
             <summary>
             ID
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Code">
+        <member name="P:JwSale.Model.Dto.Response.Function.Code">
             <summary>
             编码
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Name">
+        <member name="P:JwSale.Model.Dto.Response.Function.Name">
             <summary>
             名字
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.Path">
+        <member name="P:JwSale.Model.Dto.Response.Function.Path">
             <summary>
             路径
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.UserRole.Function.IsPermission">
+        <member name="P:JwSale.Model.Dto.Response.Function.IsPermission">
             <summary>
             是否有权限
             </summary>
         </member>
-        <member name="T:JwSale.Model.Dto.Response.User.LoginResponse">
+        <member name="T:JwSale.Model.Dto.Response.LoginResponse">
             <summary>
             登录
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.Token">
+        <member name="P:JwSale.Model.Dto.Response.LoginResponse.Token">
             <summary>
             token
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.ExpiredTime">
+        <member name="P:JwSale.Model.Dto.Response.LoginResponse.ExpiredTime">
             <summary>
             过期时间
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.UserInfo">
+        <member name="P:JwSale.Model.Dto.Response.LoginResponse.UserInfo">
             <summary>
             用户信息
             </summary>
         </member>
-        <member name="P:JwSale.Model.Dto.Response.User.LoginResponse.Permissions">
+        <member name="P:JwSale.Model.Dto.Response.LoginResponse.Permissions">
             <summary>
             角色权限列表
             </summary>

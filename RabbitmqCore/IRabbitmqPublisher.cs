@@ -2,21 +2,27 @@
 
 namespace RabbitmqCore
 {
-    public interface IRabbitmqPublisher : IRabbitmq
+    public interface IRabbitmqPublisher<T> : IRabbitmqPublisher where T : Event
     {
-        IConnectionFactory ConnectionFactory { get; }
+
         /// <summary>
         /// 发布消息
         /// </summary>
         /// <param name="message"></param>
-        void Publish(string message);
+        void Publish(T @event);
 
+  
+
+
+
+    }
+
+    public interface IRabbitmqPublisher : IRabbitmq
+    {
+        IConnectionFactory ConnectionFactory { get; }
         /// <summary>
         /// 初始化队列信息
         /// </summary>
         void Initialization();
-
-
-
     }
 }

@@ -4,6 +4,21 @@
         <name>JwSale.Api</name>
     </assembly>
     <members>
+        <member name="F:JwSale.Api.Const.JwSale.Api.Const.QueueConst.TEST">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.JwSale.Api.Const.QueueConst.ADDUSERSUCCEED">
+            <summary>
+            添加用户陈宫
+            </summary>
+        </member>
+        <member name="F:JwSale.Api.Const.JwSale.Api.Const.QueueConst.BINDWECHATUSERSUCCEED">
+            <summary>
+            绑定微信小程序成功
+            </summary>
+        </member>
         <member name="T:JwSale.Api.Controllers.JwSaleControllerBase">
             <summary>
             基类
@@ -18,6 +33,13 @@
             <summary>
             微信控制器
             </summary> 
+        </member>
+        <member name="M:JwSale.Api.Controllers.ManagementController.QueryUsers(JwSale.Model.Dto.Request.QueryUsersRequest)">
+            <summary>
+            查询用户列表
+            </summary>
+            <param name="getUsers"></param>
+            <returns></returns>
         </member>
         <member name="T:JwSale.Api.Controllers.TestController">
             <summary>
@@ -54,13 +76,21 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:JwSale.Api.Controllers.TestController.TestLocalizedString" -->
+        <member name="M:JwSale.Api.Controllers.TestController.TestLocalizedString">
+            <summary>
+            多语言本地化测试------------------------------  
+            例1：【 url：?culture=en-US  ui-culture=zh-CN】  
+            例2：【cookie：键名称：.AspNetCore.Culture 值内容：c=en-US|uic=zh-CN 】
+            例3：【Header:Accept-Language:zh-CN,zh;q=0.9】
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:JwSale.Api.Controllers.UserController">
             <summary>
             用户管理
             </summary>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.Login(JwSale.Model.Dto.Request.User.LoginRequest)">
+        <member name="M:JwSale.Api.Controllers.UserController.Login(JwSale.Model.Dto.Request.LoginRequest)">
             <summary>
             登录获取令牌（填入Authorize）
             </summary>
@@ -79,71 +109,108 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserFunctions">
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissionTree">
             <summary>
-            获取用户功能列表
+            获取用户角色权限树
             </summary> 
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.AddRole">
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissions">
+            <summary>
+            获取用户角色权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddRole(JwSale.Model.Dto.Request.AddRoleRequest)">
             <summary>
             添加角色
             </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.UpdateRole">
+        <member name="M:JwSale.Api.Controllers.UserController.UpdateRole(JwSale.Model.Dto.Request.UpdateRoleRequest)">
             <summary>
             修改角色
             </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.DeleteRole">
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteRole(System.String)">
             <summary>
             删除角色
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermission">
+        <member name="M:JwSale.Api.Controllers.UserController.AddUserRole(JwSale.Model.Dto.Request.AddUserRoleRequest)">
             <summary>
-            获取角色权限
+            添加用户角色
             </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.AddUser(JwSale.Model.Dto.Request.User.AddUserRequest)">
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteUserRole(System.String)">
+            <summary>
+            删除用户角色
+            </summary>
+            <param name="id">用户角色id</param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddRolePermission(JwSale.Model.Dto.Request.AddRolePermissionRequest)">
+            <summary>
+            添加角色权限
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.BatchAddRolePermission(JwSale.Model.Dto.Request.BatchAddRolePermissionRequest)">
+            <summary>
+            批量添加角色权限
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddRoleAllPermission(JwSale.Model.Dto.Request.AddRoleAllPermissionRequest)">
+            <summary>
+            添加角色所有权限
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.DeleteRolePermission(System.String)">
+            <summary>
+            删除角色权限
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.AddUser(JwSale.Model.Dto.Request.AddUserRequest)">
             <summary>
             添加用户
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUsers(JwSale.Model.Dto.Request.User.GetUsersRequest)">
-            <summary>
-            获取用户列表
-            </summary>
-            <param name="getUsers"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JwSale.Api.Controllers.UserController.SetUserStatus(JwSale.Model.Dto.Request.User.SetUserStatusRequest)">
+        <member name="M:JwSale.Api.Controllers.UserController.SetUserStatus(JwSale.Model.Dto.Request.SetUserStatusRequest)">
             <summary>
             设置用户状态
             </summary>
             <param name="setUserStatus"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.ResetUserPwd(JwSale.Model.Dto.Request.User.ResetUserPwdRequest)">
+        <member name="M:JwSale.Api.Controllers.UserController.ResetUserPwd(JwSale.Model.Dto.Request.ResetUserPwdRequest)">
             <summary>
             重置用户密码
             </summary>
             <param name="resetUserPwd"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.SetUserProfile(JwSale.Model.Dto.Request.User.SetUserProfileRequest)">
+        <member name="M:JwSale.Api.Controllers.UserController.SetUserProfile(JwSale.Model.Dto.Request.SetUserProfileRequest)">
             <summary>
             修改用户简介
             </summary>
             <param name="setUserProfile"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.SetUserAuth(JwSale.Model.Dto.Request.User.SetUserAuthRequest)">
+        <member name="M:JwSale.Api.Controllers.UserController.SetUserAuth(JwSale.Model.Dto.Request.SetUserAuthRequest)">
             <summary>
             修改用户授权
             </summary>
@@ -162,25 +229,87 @@
             微信小程序
             </summary>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.Login(JwSale.Model.Dto.Request.Wechat.WechatLoginRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.Login(JwSale.Model.Dto.Request.WechatLoginRequest)">
             <summary>
             微信小程序授权登录
             </summary>
             <param name="login"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.BindWechatUser(JwSale.Model.Dto.Request.User.BindWechatUserRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.BindWechatUser(JwSale.Model.Dto.Request.BindWechatUserRequest)">
             <summary>
             绑定微信小程序
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.WechatController.UnBindWechatUser(JwSale.Model.Dto.Request.User.UnBindWechatUserRequest)">
+        <member name="M:JwSale.Api.Controllers.WechatController.UnBindWechatUser(JwSale.Model.Dto.Request.UnBindWechatUserRequest)">
             <summary>
             解绑微信小程序
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:JwSale.Api.Events.AddUserSucceedConsumer">
+            <summary>
+            消费者
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.AddUserSucceedConsumer.Subscripe">
+            <summary>
+            订阅消息
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.AddUserSucceedEvent">
+            <summary>
+            测试事件
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.AddUserSucceedPublisher">
+            <summary>
+            发布者
+            </summary> 
+        </member>
+        <member name="M:JwSale.Api.Events.AddUserSucceedPublisher.Initialization">
+            <summary>
+            初始化队列信息
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.AddUserSucceedPublisher.Publish(JwSale.Api.Events.AddUserSucceedEvent)">
+            <summary>
+            发布消息
+            </summary>
+            <param name="event"></param>
+        </member>
+        <member name="T:JwSale.Api.Events.BindWechatUserSucceedConsumer">
+            <summary>
+            消费者
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.BindWechatUserSucceedConsumer.Subscripe">
+            <summary>
+            订阅消息
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.BindWechatUserSucceedEvent">
+            <summary>
+            绑定微信小程序成功
+            </summary>
+        </member>
+        <member name="T:JwSale.Api.Events.BindWechatUserSucceedPublisher">
+            <summary>
+            发布者
+            </summary> 
+        </member>
+        <member name="M:JwSale.Api.Events.BindWechatUserSucceedPublisher.Initialization">
+            <summary>
+            初始化队列信息
+            </summary>
+        </member>
+        <member name="M:JwSale.Api.Events.BindWechatUserSucceedPublisher.Publish(JwSale.Api.Events.BindWechatUserSucceedEvent)">
+            <summary>
+            发布消息
+            </summary>
+            <param name="event"></param>
         </member>
         <member name="T:JwSale.Api.Events.TestConsumer">
             <summary>
@@ -207,11 +336,11 @@
             初始化队列信息
             </summary>
         </member>
-        <member name="M:JwSale.Api.Events.TestPublisher.Publish(System.String)">
+        <member name="M:JwSale.Api.Events.TestPublisher.Publish(JwSale.Api.Events.TestEvent)">
             <summary>
             发布消息
             </summary>
-            <param name="message"></param>
+            <param name="event"></param>
         </member>
         <member name="T:JwSale.Api.Filters.PermissionRequiredFilterAttribute">
             <summary>

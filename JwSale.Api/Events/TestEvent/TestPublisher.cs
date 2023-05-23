@@ -1,17 +1,9 @@
-﻿using JwSale.Api.Const;
-using JwSale.Api.Const.JwSale.Api.Const;
-using JwSale.Packs.Attributes;
-using JwSale.Packs.Manager;
+﻿using JwSale.Api.Const.JwSale.Api.Const;
 using JwSale.Util.Attributes;
 using JwSale.Util.Extensions;
 using RabbitMQ.Client;
 using RabbitmqCore;
-using System;
-using System.Collections.Generic;
-
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JwSale.Api.Events
 {
@@ -19,7 +11,7 @@ namespace JwSale.Api.Events
     /// 发布者
     /// </summary> 
     [Event("Test", true)]
-    public class TestPublisher : IRabbitmqPublisher
+    public class TestPublisher : IRabbitmqPublisher<TestEvent>
     {
         public IConnectionFactory ConnectionFactory { get; }
         public TestPublisher(IConnectionFactory connectionFactory)
@@ -37,7 +29,7 @@ namespace JwSale.Api.Events
             {
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: QueueConst.TESTQUEUENAME,
+                    channel.QueueDeclare(queue: QueueConst.TEST,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -50,18 +42,17 @@ namespace JwSale.Api.Events
         /// <summary>
         /// 发布消息
         /// </summary>
-        /// <param name="message"></param>
-        public void Publish(string message)
+        /// <param name="event"></param>
+        public void Publish(TestEvent @event)
         {
             using (var connection = ConnectionFactory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
-                    var testEvent = new TestEvent(message);
-                    var body = Encoding.UTF8.GetBytes(testEvent.ToJson());
+                    var body = Encoding.UTF8.GetBytes(@event.ToJson());
 
                     channel.BasicPublish(exchange: "",
-                                         routingKey: QueueConst.TESTQUEUENAME,
+                                         routingKey: QueueConst.TEST,
                                          basicProperties: null,
                                          body: body);
 

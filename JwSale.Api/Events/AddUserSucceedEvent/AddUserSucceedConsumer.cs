@@ -18,13 +18,13 @@ namespace JwSale.Api.Events
     /// <summary>
     /// 消费者
     /// </summary>
-    [Event("Test", true)]
-    public class TestConsumer : IRabbitmqConsumer
+    [Event("AddUserSucceed", true)]
+    public class AddUserSucceedConsumer : IRabbitmqConsumer
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<TestConsumer> _logger;
+        private readonly ILogger<AddUserSucceedConsumer> _logger;
         private readonly IConnectionFactory _connectionFactory;
-        public TestConsumer(IMediator mediator, ILogger<TestConsumer> logger, IConnectionFactory connectionFactory)
+        public AddUserSucceedConsumer(IMediator mediator, ILogger<AddUserSucceedConsumer> logger, IConnectionFactory connectionFactory)
         {
             _mediator = mediator;
             _logger = logger;
@@ -42,22 +42,25 @@ namespace JwSale.Api.Events
             EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
 
             //接收到消息事件
-            consumer.Received += (ch, ea) =>
-            {
-                try
-                {
-                    var message = Encoding.UTF8.GetString(ea.Body.Span);
-                    var refreshWxInfoEvent = message.ToObj<TestEvent>();
-                    _mediator.Publish(refreshWxInfoEvent);
+            consumer.Received += async (ch, ea) =>
+             {
+                 try
+                 {
+                     var message = Encoding.UTF8.GetString(ea.Body.Span);
+                     var @event = message.ToObj<AddUserSucceedEvent>();
+                     await _mediator.Publish(@event);
                     //确认该消息已被消费
                     channel.BasicAck(ea.DeliveryTag, false);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, ex.Message);
-                }
-            };
-            channel.BasicConsume(QueueConst.TESTQUEUENAME, false, consumer);
+                 }
+                 catch (Exception ex)
+                 {
+                     _logger.LogError(ex, ex.Message);
+                 }
+             };
+            channel.BasicConsume(QueueConst.ADDUSERSUCCEED, false, consumer);
         }
+
+
+
     }
 }

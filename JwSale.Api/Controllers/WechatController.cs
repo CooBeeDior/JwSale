@@ -1,13 +1,13 @@
 ﻿using FeignCore.Apis;
 using JsSaleService;
 using JwSale.Api.Attributes;
+using JwSale.Api.Events;
 using JwSale.Api.Extensions;
 using JwSale.Model;
 using JwSale.Model.DbModel;
 using JwSale.Model.Dto;
 using JwSale.Model.Dto.Cache;
-using JwSale.Model.Dto.Request.User;
-using JwSale.Model.Dto.Request.Wechat;
+using JwSale.Model.Dto.Request;
 using JwSale.Model.Dto.Service;
 using JwSale.Model.Dto.Wechat;
 using JwSale.Packs.Options;
@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RabbitmqCore;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -35,18 +36,16 @@ namespace JwSale.Api.Controllers
         private readonly IWxMiniProgram _wxMiniProgram;
         private readonly JwSaleOptions _jwSaleOptions;
         private readonly IDistributedCache _cache;
-
         private readonly IUserService _userService;
-
+        private readonly IRabbitmqPublisher<BindWechatUserSucceedEvent> _rabbitmqPublisher;
         public WechatController(IWxMiniProgram wxMiniProgram,
-            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IUserService userService)
+            IOptions<JwSaleOptions> jwSaleOptions, IDistributedCache cache, IUserService userService, IRabbitmqPublisher<BindWechatUserSucceedEvent> rabbitmqPublisher)
         {
             _wxMiniProgram = wxMiniProgram;
             _jwSaleOptions = jwSaleOptions.Value;
             _cache = cache;
             _userService = userService;
-
-
+            _rabbitmqPublisher = rabbitmqPublisher;
         }
 
         /// <summary>
@@ -163,7 +162,11 @@ namespace JwSale.Api.Controllers
                             UnionId = wxLoginCache.UnionId
                         };
                         wechatUserInfo.InitAddBaseEntityData();
-                        count = FreeSql.Insert(wechatUserInfo).ExecuteAffrows();
+                        count += FreeSql.Insert(wechatUserInfo).ExecuteAffrows();
+                        if (count > 0)
+                        {
+                            _rabbitmqPublisher.Publish(new BindWechatUserSucceedEvent(userInfo, wechatUserInfo));
+                        }
                     });
 
                 }

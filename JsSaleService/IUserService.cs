@@ -1,8 +1,6 @@
 ﻿using JwSale.Model;
 using JwSale.Model.Dto.Common;
-using JwSale.Model.Dto.Response.UserRole;
-using JwSale.Model.Dto.Service;
-using System;
+using JwSale.Model.Dto.Response;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +13,7 @@ namespace JsSaleService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IList<FunctionTreeResponse>> GetUserPermissionTree(string userId);
+        Task<IList<UserPermissionTreeResponse>> GetUserPermissionTree(string userId);
 
 
 

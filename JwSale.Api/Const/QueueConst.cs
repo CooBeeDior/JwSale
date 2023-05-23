@@ -14,7 +14,21 @@ namespace JwSale.Api.Const
     {
         public class QueueConst
         {
-            public const string TESTQUEUENAME = "testqueuename";
+            /// <summary>
+            /// 测试
+            /// </summary>
+            public const string TEST = "test";
+
+            /// <summary>
+            /// 添加用户陈宫
+            /// </summary>
+            public const string ADDUSERSUCCEED = "addusersucceed";
+
+            /// <summary>
+            /// 绑定微信小程序成功
+            /// </summary>
+            public const string BINDWECHATUSERSUCCEED = "bindwechatusersucceed";
+
         }
     }
 }

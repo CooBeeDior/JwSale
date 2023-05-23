@@ -29,27 +29,10 @@ namespace JwSale.Packs.Packs
             using (var scope = app.ApplicationServices.CreateScope())
             {
 
-                var userService = scope.ServiceProvider.GetService<IUserService>(); 
-                userService.InitAdminUserAndRole(true);
- 
-                //初始化系统模块信息
+                var userService = scope.ServiceProvider.GetService<IUserService>();
 
-                //--SELECT * FROM dbo.FunctionInfo
-                //--SELECT* FROM UserInfo
-                //--SELECT* FROM RoleInfo
-                //--SELECT* FROM UserRoleInfo
-                //--SELECT* FROM RolePermissionInfo
-                //--SELECT* FROM UserPermissionInfo
-
-                //--DELETE FROM dbo.FunctionInfo
-                //--DELETE FROM UserInfo
-                //--DELETE FROM RoleInfo
-                //--DELETE FROM UserRoleInfo
-                //--DELETE FROM RolePermissionInfo
-                //--DELETE FROM UserPermissionInfo
-
-
-
+                //初始化系统模块 用户信息
+                userService.InitAdminUserAndRole(false);
 
             }
         }

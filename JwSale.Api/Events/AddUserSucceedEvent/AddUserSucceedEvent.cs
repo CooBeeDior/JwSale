@@ -1,5 +1,6 @@
 ﻿using JwSale.Model;
 using MediatR;
+using RabbitmqCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,17 @@ namespace JwSale.Api.Events
     /// <summary>
     /// 测试事件
     /// </summary>
-    public class TestEvent : INotification
+    public class AddUserSucceedEvent : Event, INotification
     {
-        public TestEvent()
+        public AddUserSucceedEvent()
         {
 
         }
-        public TestEvent(string message)
+        public AddUserSucceedEvent(UserInfo userInfo)
         {
-            Message = message;
+            UserInfo = userInfo;
         }
-        public string Message { get; set; }
+        public UserInfo UserInfo { get; set; }
 
     }
 

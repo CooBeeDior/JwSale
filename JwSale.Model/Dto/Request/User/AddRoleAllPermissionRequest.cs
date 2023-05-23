@@ -5,12 +5,13 @@ using System.Text;
 
 namespace JwSale.Model.Dto.Request
 {
-    public class WechatLoginRequest: RequestBase
+    public class AddRoleAllPermissionRequest : RequestBase
     {
         /// <summary>
-        /// 登录Code
+        /// 角色Id
         /// </summary>
         [Required]
-        public string Code { get; set; }
+        public string RoleId { get; set; }
+ 
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace JwSale.Model.Dto.Request.Wechat
+namespace JwSale.Model.Dto.Request
 {
     public class WechatLoginRequest: RequestBase
     {

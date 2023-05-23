@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JwSale.Util.Extensions;
 
 namespace JwSale.Util
 {
@@ -26,7 +27,7 @@ namespace JwSale.Util
         }
         public static string GetLoginUserKey(string userName, string loginDevice)
         {
-            string loginDeviceStr = string.IsNullOrWhiteSpace(loginDevice) ? null : $"_{loginDevice}";
+            string loginDeviceStr = loginDevice.IsNullOrWhiteSpace() ? null : $"_{loginDevice}";
             return $"user:token:{userName}{loginDeviceStr}";
         }
 

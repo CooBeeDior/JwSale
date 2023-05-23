@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace JwSale.Model.Dto.Request.User
+namespace JwSale.Model.Dto.Request
 {
     /// <summary>
     /// 添加用户

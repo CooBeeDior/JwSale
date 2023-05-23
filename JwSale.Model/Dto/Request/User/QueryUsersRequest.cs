@@ -1,24 +1,35 @@
-﻿using System;
+﻿using JwSale.Util.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Model.Dto.Request.User
+namespace JwSale.Model.Dto.Request
 {
     /// <summary>
     /// 获取用户
     /// </summary>
-    public class GetUsersRequest : RequestPageBase
+    public class QueryUsersRequest : RequestPageBase
     {
-
+        /// <summary>
+        /// 姓名
+        /// </summary>
         public string Name { get; set; }
-
+        /// <summary>
+        /// 手机号
+        /// </summary>
         public string Phone { get; set; }
-
+        /// <summary>
+        /// 邮箱
+        /// </summary>
         public string Email { get; set; }
-
+        /// <summary>
+        /// 身份证
+        /// </summary>
         public string IdCard { get; set; }
-
-        public int? Sex { get; set; }
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public SexType? Sex { get; set; }
 
         /// <summary>
         /// 生日
@@ -33,10 +44,10 @@ namespace JwSale.Model.Dto.Request.User
         public int? Status { get; set; }
 
 
-      
+
 
     }
 
 
- 
+
 }

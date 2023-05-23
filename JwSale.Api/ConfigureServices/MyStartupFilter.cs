@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-
+using JwSale.Util.Extensions;
 namespace JwSale.Api.ConfigureServices
 {
     public class MyStartupFilter : IStartupFilter
@@ -36,8 +36,8 @@ namespace JwSale.Api.ConfigureServices
 
         public Task Invoke(HttpContext context)
         {
-            var cultureQuery = context.Request.Query["culture"];
-            if (!string.IsNullOrWhiteSpace(cultureQuery))
+            var cultureQuery = context.Request.Query["culture"].ToString();
+            if (!cultureQuery.IsNullOrWhiteSpace())
             {
                 var culture = new CultureInfo(cultureQuery);
 

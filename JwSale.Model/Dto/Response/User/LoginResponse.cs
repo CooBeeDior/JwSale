@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using JwSale.Model.Dto.Common;
 
-namespace JwSale.Model.Dto.Response.User
+namespace JwSale.Model.Dto.Response
 {
     /// <summary>
     /// 登录

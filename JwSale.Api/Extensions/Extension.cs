@@ -184,6 +184,10 @@ namespace JwSale.Api.Extensions
 
         public static T InitAddBaseEntityData<T>(this T entity, UserInfo userinfo) where T : Entity
         {
+            if (entity.Id.IsNullOrWhiteSpace())
+            {
+                entity.Id = Guid.NewGuid().ToString();
+            }
             entity.AddTime = DateTime.Now;
             entity.AddUserId = userinfo.Id;
             entity.AddUserRealName = userinfo.RealName;
@@ -195,6 +199,10 @@ namespace JwSale.Api.Extensions
 
         public static T InitAddBaseEntityData<T>(this T entity) where T : Entity
         {
+            if (entity.Id.IsNullOrWhiteSpace())
+            {
+                entity.Id = Guid.NewGuid().ToString();
+            }
             entity.AddTime = DateTime.Now;
             entity.AddUserId = DefaultUserInfo.UserInfo.Id;
             entity.AddUserRealName = DefaultUserInfo.UserInfo.RealName;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwSale.Model.Dto.Response.UserRole
+namespace JwSale.Model.Dto.Response
 {
     /// <summary>
     /// 权限

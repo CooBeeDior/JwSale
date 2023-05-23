@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JwSale.Util.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -30,7 +31,7 @@ namespace JwSale.Util.Attributes
         /// <summary>
         /// 类型 1增 2删 4：改 8：查  16：导入 32：导出
         /// </summary>
-        public int Type { get; set; }
+        public FunctionType Type { get; set; }
 
         /// <summary>
         /// 构造
@@ -40,7 +41,7 @@ namespace JwSale.Util.Attributes
         /// <param name="IsFunction">是否功能</param>
         /// <param name="Order">排序</param>
         /// <param name="Type">类型 1增 2删 4：改 8：查  16：导入 32：导出</param>
-        public MoudleInfoAttribute(string Name, string Code, bool IsFunction, int Order = 0, int Type = 8)
+        public MoudleInfoAttribute(string Name, string Code, bool IsFunction, int Order = 0, FunctionType Type = FunctionType.Select)
         {
             this.Name = Name;
             this.Code = Code;
@@ -56,9 +57,10 @@ namespace JwSale.Util.Attributes
         /// 构造
         /// </summary>
         /// <param name="Name">名称</param> 
+        /// <param name="IsFunction">是否功能模块</param>
         /// <param name="Order">排序</param>
         /// <param name="Type">类型 1增 2删 4：改 8：查  16：导入 32：导出</param>
-        public MoudleInfoAttribute(string Name, bool IsFunction = true, int Order = 0, int Type = 8) : this(Name, null, IsFunction, Order, Type)
+        public MoudleInfoAttribute(string Name, bool IsFunction = true, int Order = 0, FunctionType Type = FunctionType.Select) : this(Name, null, IsFunction, Order, Type)
         {
 
         }
@@ -68,7 +70,7 @@ namespace JwSale.Util.Attributes
         /// </summary>
         /// <param name="Name">名称</param>
         /// <param name="Order">排序</param>
-        public MoudleInfoAttribute(string Name, int Order) : this(Name, null, true, Order, 8)
+        public MoudleInfoAttribute(string Name, int Order) : this(Name, null, true, Order, FunctionType.Select)
         {
 
         }

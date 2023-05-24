@@ -53,6 +53,7 @@
     <ProjectReference Include="..\JwSale.Repository\JwSale.Repository.csproj" />
     <ProjectReference Include="..\JwSale.Util\JwSale.Util.csproj" />
     <ProjectReference Include="..\LocalizerCore\LocalizerCore.csproj" />
+    <ProjectReference Include="..\OfficeCore\OfficeCore.csproj" />
     <ProjectReference Include="..\RabbitmqCore\RabbitmqCore.csproj" />
   </ItemGroup>
 

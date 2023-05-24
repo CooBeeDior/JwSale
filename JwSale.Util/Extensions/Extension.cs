@@ -1,5 +1,4 @@
 ﻿using JwSale.Util.Attributes;
-using JwSale.Util.Excels;
 using JwSale.Util.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -844,115 +843,6 @@ namespace JwSale.Util.Extensions
             return nvc;
         }
 
-        /// <summary>
-        /// 导出Excel
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="sheetName"></param>
-        /// <param name="isNo"></param>
-        public static ExcelPackage AddSheet<T>(this ExcelPackage ep, IList<T> list) where T : class, new()
-        {
-            ExcelWorkbook wb = ep.Workbook;
-            string sheetName = null;
-            IExcelTypeFormater defaultExcelTypeFormater = null;
-            var excelAttribute = typeof(T).GetCustomAttribute<ExcelAttribute>();
-            if (excelAttribute == null)
-            {
-                sheetName = typeof(T).Name;
-                defaultExcelTypeFormater = new DefaultExcelTypeFormater();
-            }
-            else
-            {
-                if (excelAttribute.IsIncrease)
-                {
-                    sheetName = $"{excelAttribute.SheetName}{wb.Worksheets.Count + 1}";
-                }
-                else
-                {
-                    sheetName = excelAttribute.SheetName;
-                }
-                if (excelAttribute.ExcelType != null)
-                {
-                    defaultExcelTypeFormater = Activator.CreateInstance(excelAttribute.ExcelType) as IExcelTypeFormater;
-                }
-                else
-                {
-                    defaultExcelTypeFormater = new DefaultExcelTypeFormater();
-                }
-            }
-
-            ExcelWorksheet ws1 = wb.Worksheets.Add(sheetName);
-            Dictionary<PropertyInfo, ExportColumnAttribute> mainDic = new Dictionary<PropertyInfo, ExportColumnAttribute>();
-
-            typeof(T).GetProperties().ToList().ForEach(o =>
-            {
-                var attribute = o.GetCustomAttribute<ExportColumnAttribute>();
-                if (attribute != null)
-                {
-                    mainDic.Add(o, attribute);
-                }
-            });
-            var mainPropertieList = mainDic.OrderBy(o => o.Value.Order).ToList();
-
-
-            IList<IExcelTypeFormater> excelTypes = new List<IExcelTypeFormater>();
-            int row = 1;
-            int column = 1;
-
-            //表头行
-            foreach (var item in mainPropertieList)
-            {
-                IExcelTypeFormater excelType = null;
-                if (item.Value.ExcelType != null)
-                {
-                    excelType = excelTypes.Where(o => o.GetType().FullName == item.Value.ExcelType.FullName).FirstOrDefault();
-                    if (excelType == null)
-                    {
-                        excelType = Activator.CreateInstance(item.Value.ExcelType) as IExcelTypeFormater;
-                        excelTypes.Add(excelType);
-                    }
-                }
-                else
-                {
-                    excelType = defaultExcelTypeFormater;
-                }
-                excelType.SetHeaderCell()?.Invoke(ws1.Cells[row, column], item.Value.Name);
-                column++;
-            }
-
-            row++;
-
-            //数据行 
-            foreach (var item in list)
-            {
-                column = 1;
-                foreach (var mainPropertie in mainPropertieList)
-                {
-                    IExcelTypeFormater excelType = null;
-                    var mainValue = mainPropertie.Key.GetValue(item);
-                    if (mainPropertie.Value.ExcelType != null)
-                    {
-                        excelType = excelTypes.Where(o => o.GetType().FullName == mainPropertie.Value.ExcelType.FullName).FirstOrDefault();
-                        if (excelType == null)
-                        {
-                            excelType = Activator.CreateInstance(mainPropertie.Value.ExcelType) as IExcelTypeFormater;
-                            excelTypes.Add(excelType);
-                        }
-                    }
-                    else
-                    {
-                        excelType = defaultExcelTypeFormater;
-                    }
-                    excelType.SetBodyCell()?.Invoke(ws1.Cells[row, column], mainValue);
-                    column++;
-                }
-                row++;
-            }
-
-            return ep;
-
-        }
 
         public static IList<T> ToList<T>(this ExcelPackage ep, string sheetName = null) where T : class, new()
         {
@@ -1058,7 +948,7 @@ namespace JwSale.Util.Extensions
             return (urlArr[0], port);
         }
 
-  
+
 
         /// <summary>
         /// 获取微信号openId
@@ -1099,7 +989,7 @@ namespace JwSale.Util.Extensions
 
         }
 
-   
+
 
     }
 }

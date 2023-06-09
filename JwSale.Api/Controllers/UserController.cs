@@ -147,7 +147,7 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [MoudleInfo("获取用户信息")]
-        [HttpPost("api/user/getuserinfo")]
+        [HttpGet("api/user/getuserinfo")]
         public async Task<ActionResult<ResponseBase<UserInfo>>> GetUserInfo()
         {
             ResponseBase<UserInfo> response = new ResponseBase<UserInfo>();
@@ -165,19 +165,7 @@ namespace JwSale.Api.Controllers
             }
             return await response.ToJsonResultAsync();
         }
-        /// <summary>
-        /// 获取用户角色权限树
-        /// </summary> 
-        /// <returns></returns>
-        [MoudleInfo("获取用户角色权限树")]
-        [HttpPost("api/userrole/getuserpermissiontree")]
-        public async Task<ActionResult<ResponseBase<IList<UserPermissionTreeResponse>>>> GetUserPermissionTree()
-        {
-            ResponseBase<IList<UserPermissionTreeResponse>> response = new ResponseBase<IList<UserPermissionTreeResponse>>();
 
-            response.Data = await _userService.GetUserPermissionTree(CurrentUserInfo.Id);
-            return await response.ToJsonResultAsync();
-        }
 
 
 
@@ -186,7 +174,7 @@ namespace JwSale.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [MoudleInfo("获取用户角色权限")]
-        [HttpPost("api/user/getuserpermissions")]
+        [HttpGet("api/user/getuserpermissions")]
         public async Task<ActionResult<ResponseBase<IList<BriefInfo>>>> GetUserPermissions()
         {
             ResponseBase<IList<BriefInfo>> response = new ResponseBase<IList<BriefInfo>>();
@@ -197,7 +185,25 @@ namespace JwSale.Api.Controllers
         }
 
 
-
+        /// <summary>
+        /// 获取用户角色权限树
+        /// </summary> 
+        /// <returns></returns>
+        [MoudleInfo("获取用户角色权限树")]
+        [HttpGet("api/userrole/getuserpermissiontree")]
+        public async Task<ActionResult<ResponseBase<IList<UserPermissionTreeResponse>>>> GetUserPermissionTree(string userId)
+        {
+            ResponseBase<IList<UserPermissionTreeResponse>> response = new ResponseBase<IList<UserPermissionTreeResponse>>();
+            bool isExsitUserInfo = await FreeSql.Select<UserInfo>().WhereIf(userId.IsNullOrWhiteSpace(), o => o.Id == userId).AnyAsync();
+            if (isExsitUserInfo)
+            {
+                response.Success = false;
+                response.Code = HttpStatusCode.BadRequest;
+                response.Message = $"【{userId}】用户已存在";
+            }
+            response.Data = await _userService.GetUserPermissionTree(userId);
+            return await response.ToJsonResultAsync();
+        }
 
         /// <summary>
         /// 添加角色

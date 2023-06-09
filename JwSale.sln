@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizerCore", "LocalizerC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsSaleService", "JsSaleService\JsSaleService.csproj", "{767E6767-BD7D-45EE-8AB4-F17CADDF64A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongodbCore", "MongodbCore\MongodbCore.csproj", "{F7806495-DE1D-4783-B30D-2BB5A5343112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongodbCore", "MongodbCore\MongodbCore.csproj", "{F7806495-DE1D-4783-B30D-2BB5A5343112}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeCore", "OfficeCore\OfficeCore.csproj", "{C7BFB831-56D1-43FA-8568-BDB676A88C64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7806495-DE1D-4783-B30D-2BB5A5343112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BFB831-56D1-43FA-8568-BDB676A88C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BFB831-56D1-43FA-8568-BDB676A88C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BFB831-56D1-43FA-8568-BDB676A88C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BFB831-56D1-43FA-8568-BDB676A88C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

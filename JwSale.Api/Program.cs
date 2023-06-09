@@ -1,12 +1,8 @@
-﻿using JwSale.Api.Http;
-using JwSale.Model.Dto.Cache;
-using JwSale.Model.Dto.Service;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using OfficeCore.Excel.Test;
 using System;
 using System.IO;
-using System.Net.Http;
-using System.Text;
 
 namespace JwSale.Api
 {
@@ -15,7 +11,7 @@ namespace JwSale.Api
     {
 
         public static void Main(string[] args)
-        {
+        {      
             Console.WriteLine(@"
             _________              ___.                 ________  .__              
             \_   ___ \  ____   ____\_ |__   ____   ____ \______ \ |__| ___________ 

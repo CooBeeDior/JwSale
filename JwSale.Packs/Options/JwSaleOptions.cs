@@ -1,8 +1,8 @@
-﻿using FreesqlCore;
+﻿﻿using FreesqlCore;
 using JwSale.Model.Enums;
 using LocalizerAbstraction;
 using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,7 +44,7 @@ namespace JwSale.Packs.Options
         /// <summary>
         /// rabbitmq消息队列配置
         /// </summary>
-        public RabbitmqOptions Rabbitmq { get; set; }
+        public RabbitmqCore.RabbitmqOptions Rabbitmq { get; set; }
 
 
         /// <summary>
@@ -122,9 +122,9 @@ namespace JwSale.Packs.Options
 
     public class SwaggerOptions
     {
-        public Info Info { get; set; }
+        public OpenApiInfo Info { get; set; }
 
-        public ApiKeyScheme ApiKeyScheme { get; set; }
+        public OpenApiSecurityScheme ApiKeyScheme { get; set; }
 
         public IList<string> XmlCommentPaths { get; set; }
 
@@ -169,25 +169,6 @@ namespace JwSale.Packs.Options
         public string ApiKey { get; set; }
 
         public string ServerUrl { get; set; }
-    }
-
-    public class RabbitmqOptions
-    {
-        /// <summary>
-        /// 连接地址
-        /// </summary>
-        public string HostUrl { get; set; }
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        public string UserName { get; set; }
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; }
-
-
-
     }
 
     public class WxMiniProgramOptions

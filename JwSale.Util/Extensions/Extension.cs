@@ -1,4 +1,4 @@
-﻿using JwSale.Util.Attributes;
+﻿﻿using JwSale.Util.Attributes;
 using JwSale.Util.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -326,7 +326,19 @@ namespace JwSale.Util.Extensions
         /// </summary>
         public static T GetSingletonInstanceOrNull<T>(this IServiceCollection services)
         {
-            return (T)services.FirstOrDefault(d => d.ServiceType == typeof(T))?.ImplementationInstance;
+            var service = services.FirstOrDefault(d => d.ServiceType == typeof(T));
+            if (service != null)
+            {
+                if (service.ImplementationInstance != null)
+                {
+                    return (T)service.ImplementationInstance;
+                }
+                if (service.ImplementationFactory != null)
+                {
+                    return (T)service.ImplementationFactory.Invoke(null);
+                }
+            }
+            return default;
         }
 
         /// <summary>

@@ -109,16 +109,16 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissionTree">
-            <summary>
-            获取用户角色权限树
-            </summary> 
-            <returns></returns>
-        </member>
         <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissions">
             <summary>
             获取用户角色权限
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JwSale.Api.Controllers.UserController.GetUserPermissionTree(System.String)">
+            <summary>
+            获取用户角色权限树
+            </summary> 
             <returns></returns>
         </member>
         <member name="M:JwSale.Api.Controllers.UserController.AddRole(JwSale.Model.Dto.Request.AddRoleRequest)">
@@ -345,11 +345,6 @@
         <member name="T:JwSale.Api.Filters.PermissionRequiredFilterAttribute">
             <summary>
             模块授权验证
-            </summary>
-        </member>
-        <member name="T:JwSale.Api.Startup">
-            <summary>
-            Exceptionless日志对象提供者
             </summary>
         </member>
     </members>

@@ -1,11 +1,12 @@
-﻿using JwSale.Packs.Attributes;
+﻿﻿using JwSale.Packs.Attributes;
 using JwSale.Packs.Options;
 using JwSale.Packs.Pack;
 using JwSale.Util.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,7 @@ namespace JwSale.Packs.Packs
                 //    Description = "QQ：506599090",
 
                 //});
-                options.SwaggerDoc("v1", new Info
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = @"Api 标题",
@@ -68,24 +69,33 @@ namespace JwSale.Packs.Packs
                 }
 
 
-                options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new ApiKeyScheme
+                options.AddSecurityDefinition("Bearer", jwSaleOptions?.Swagger?.ApiKeyScheme ?? new OpenApiSecurityScheme
                 {
                     Description = "请输入Token",
                     Name = "Authorization",
-                    In = "Header",
-                    Type = "apiKey",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
                 });
 
-                //Json Token认证方式，此方式为全局添加
-                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { "Bearer", Enumerable.Empty<string>() }
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
                 });
             });
 
             return services;
         }
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
 
             //启用中间件服务生成Swagger作为JSON终结点

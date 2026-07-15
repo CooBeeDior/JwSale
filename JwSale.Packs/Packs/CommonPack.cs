@@ -7,7 +7,7 @@ namespace JwSale.Packs.Packs
     [Pack("Common模块")]
     public class CommonPack : JwSalePack
     {
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
             //var env = ServiceLocator.Instance.GetService<IHostingEnvironment>();
 

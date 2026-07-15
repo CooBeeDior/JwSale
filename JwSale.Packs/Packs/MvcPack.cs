@@ -1,4 +1,4 @@
-﻿using JwSale.Packs.Attributes;
+using JwSale.Packs.Attributes;
 using JwSale.Packs.Pack;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace JwSale.Packs.Packs
         protected override IServiceCollection AddServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddMvc();
+            services.AddControllers();
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
             return services;
         }
@@ -26,9 +26,15 @@ namespace JwSale.Packs.Packs
         /// 应用AspNetCore的服务业务
         /// </summary>
         /// <param name="app">Asp应用程序构建器</param>
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
-            app.UseMvc();
+            // 2. 默认访问 / 时，返回 index.html
+            app.MapGet("/", async context =>
+            {
+                context.Response.Redirect("/index.html");
+            });
+
+            app.MapControllers();
 
         }
     }

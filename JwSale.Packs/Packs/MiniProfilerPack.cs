@@ -7,7 +7,7 @@ using StackExchange.Profiling;
 namespace JwSale.Packs.Packs
 {
 
-    [Pack("MiniProfile模块", IsInitialization = false)]
+    [Pack("MiniProfile模块")]
     [PackDependecy(typeof(JwSaleDbContextPack))]
     public class MiniProfilerPack : JwSalePack
     {
@@ -36,7 +36,7 @@ namespace JwSale.Packs.Packs
         /// 应用AspNetCore的服务业务
         /// </summary>
         /// <param name="app">Asp应用程序构建器</param>
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
             app.UseMiniProfiler();
 

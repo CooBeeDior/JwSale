@@ -67,12 +67,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
 
-        public static void UseJwSale(this IApplicationBuilder app)
+        public static void UseJwSale(this WebApplication app)
         {
-            var packBuilder = app.ApplicationServices.GetService<IJwSalePackBuilder>();
+            var packBuilder = app.Services.GetService<IJwSalePackBuilder>();
             foreach (var packType in packBuilder.Packs.OrderBy(o => o.Level))
             {
-                var pack = app.ApplicationServices.GetService(packType.Type) as JwSalePack;
+                var pack = app.Services.GetService(packType.Type) as JwSalePack;
                 pack?.UseBasePack(app);
             }
         }

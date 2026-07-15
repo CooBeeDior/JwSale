@@ -9,22 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JwSale.Util.Extensions;
 namespace JwSale.Api.ConfigureServices
-{
-    public class MyStartupFilter : IStartupFilter
-    {
-        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
-        {
-            next = Configure;
-            return next;
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-            app.UseMiddleware<RequestCultureMiddleware>();
-            app.UseJwSale();
-        }
-    }
-
+{ 
     public class RequestCultureMiddleware
     {
         private readonly RequestDelegate _next;

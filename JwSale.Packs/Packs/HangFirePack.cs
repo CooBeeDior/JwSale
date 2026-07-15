@@ -56,9 +56,9 @@ namespace JwSale.Packs.Packs
         /// 应用AspNetCore的服务业务
         /// </summary>
         /// <param name="app">Asp应用程序构建器</param>
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
-            JwSaleOptions jwSaleOptions = app.ApplicationServices.GetService<IOptions<JwSaleOptions>>()?.Value;
+            JwSaleOptions jwSaleOptions = app.Services.GetService<IOptions<JwSaleOptions>>()?.Value;
             if (jwSaleOptions?.HangFire?.Enabled == true)
             {
                 app.UseHangfireServer();//启动Hangfire服务

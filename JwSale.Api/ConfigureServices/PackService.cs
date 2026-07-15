@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace JwSale.Api.ConfigureServices
         {
             builder.ConfigureServices((context,services) =>
             {
-                services.AddJwSalePackManager(o => o.AddPackWithPackAttribute<PackAttribute>());
-                services.AddTransient<IStartupFilter, MyStartupFilter>();
+                services.AddSingleton<IConfiguration>(context.Configuration);
+                services.AddJwSalePackManager(o => o.AddPackWithPackAttribute<PackAttribute>());       
 
             });
         }

@@ -44,7 +44,7 @@ namespace JwSale.Packs.Pack
         /// 应用模块服务
         /// </summary>
         /// <param name="provider">服务提供者</param>
-        public void UseBasePack(IApplicationBuilder app)
+        public void UseBasePack(WebApplication app)
         {
             IsEnabled = true;
             UsePack(app);
@@ -56,7 +56,7 @@ namespace JwSale.Packs.Pack
         /// 应用模块服务
         /// </summary>
         /// <param name="provider">服务提供者</param>
-        protected virtual void UsePack(IApplicationBuilder app)
+        protected virtual void UsePack(WebApplication app)
         {
 
         }

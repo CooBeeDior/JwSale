@@ -1,4 +1,4 @@
-﻿using JwSale.Packs.Attributes;
+﻿﻿using JwSale.Packs.Attributes;
 using JwSale.Packs.Enums;
 using JwSale.Packs.Manager;
 using JwSale.Packs.Options;
@@ -24,7 +24,7 @@ namespace JwSale.Packs.Packs
     /// <summary>
     /// Rabbitmq模块
     /// </summary>
-    [Pack("Rabbitmq模块")]
+    [Pack("Rabbitmq模块", IsInitialization = false)]
     [PackDependecy(typeof(JwSaleOptionsPack))]
     public class RabbitmqPack : JwSalePack
     {
@@ -41,7 +41,7 @@ namespace JwSale.Packs.Packs
 
             if (jwSaleOptions.Rabbitmq != null && !jwSaleOptions.Rabbitmq.HostUrl.IsNullOrWhiteSpace())
             {
-                services.AddSingleton(jwSaleOptions.Rabbitmq);
+                services.AddSingleton<RabbitmqCore.RabbitmqOptions>(jwSaleOptions.Rabbitmq);
                 //创建连接工厂
                 IConnectionFactory factory = new ConnectionFactory
                 {
@@ -64,11 +64,11 @@ namespace JwSale.Packs.Packs
                 foreach (var type in types)
                 {
 
-                    var interfaces = type.GetInterfaces().Where(o => typeof(IRabbitmqPublisher).IsAssignableFrom(o)|| typeof(IRabbitmqConsumer).IsAssignableFrom(o)).ToList();
+                    var interfaces = type.GetInterfaces().Where(o => typeof(IRabbitmqPublisher).IsAssignableFrom(o) || typeof(IRabbitmqConsumer).IsAssignableFrom(o)).ToList();
                     foreach (var rabbitmqInterface in interfaces)
                     {
                         services.AddSingleton(rabbitmqInterface, type);
-         
+
                     }
                     //services.AddSingleton(typeof(IRabbitmq), type);
                 }
@@ -76,11 +76,11 @@ namespace JwSale.Packs.Packs
             return services;
         }
 
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
             List<Type> types = new List<Type>();
-            var rabbitmqPublishers = app.ApplicationServices.GetServices<IRabbitmqPublisher>();
-            var rbbitmqConsumers = app.ApplicationServices.GetServices<IRabbitmqConsumer>();
+            var rabbitmqPublishers = app.Services.GetServices<IRabbitmqPublisher>();
+            var rbbitmqConsumers = app.Services.GetServices<IRabbitmqConsumer>();
             foreach (var rabbitmqPublisher in rabbitmqPublishers)
             {
                 var eventAttribute = rabbitmqPublisher.GetType().GetCustomAttribute<EventAttribute>();
@@ -98,7 +98,7 @@ namespace JwSale.Packs.Packs
                 }
             }
 
-  
+
 
         }
 

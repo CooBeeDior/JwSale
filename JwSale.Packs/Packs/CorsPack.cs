@@ -1,4 +1,4 @@
-﻿using JwSale.Packs.Attributes;
+﻿﻿using JwSale.Packs.Attributes;
 using JwSale.Packs.Pack;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,7 @@ namespace JwSale.Packs.Packs
         /// 应用AspNetCore的服务业务
         /// </summary>
         /// <param name="app">Asp应用程序构建器</param>
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
             app.UseCors(builder =>
             {
@@ -32,7 +32,7 @@ namespace JwSale.Packs.Packs
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .AllowAnyOrigin();
+                    .SetIsOriginAllowed(_ => true);
             });// 启用CORS服务
 
         }

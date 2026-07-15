@@ -1,0 +1,15 @@
+None of the specified endpoints were reachable   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection()
+   at JwSale.Api.Events.AddUserSucceedPublisher.Initialization() in d:\project\JwSale\JwSale.Api\Events\AddUserSucceedEvent\AddUserSucceedPublisher.cs:line 36
+   at JwSale.Packs.Packs.RabbitmqPack.UsePack(IApplicationBuilder app) in d:\project\JwSale\JwSale.Packs\Packs\RabbitmqPack.cs:line 89
+   at JwSale.Packs.Pack.JwSalePack.UseBasePack(IApplicationBuilder app) in d:\project\JwSale\JwSale.Packs\Packs\Base\JwSalePack.cs:line 50
+   at Microsoft.Extensions.DependencyInjection.ServiceExtensions.UseJwSale(IApplicationBuilder app) in d:\project\JwSale\JwSale.Packs\ServiceExtensions.cs:line 76
+   at JwSale.Api.Program.Main(String[] args) in d:\project\JwSale\JwSale.Api\Program.cs:line 42None of the specified endpoints were reachable   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection()
+   at JwSale.Api.Events.AddUserSucceedPublisher.Initialization() in d:\project\JwSale\JwSale.Api\Events\AddUserSucceedEvent\AddUserSucceedPublisher.cs:line 36
+   at JwSale.Packs.Packs.RabbitmqPack.UsePack(IApplicationBuilder app) in d:\project\JwSale\JwSale.Packs\Packs\RabbitmqPack.cs:line 89
+   at JwSale.Packs.Pack.JwSalePack.UseBasePack(IApplicationBuilder app) in d:\project\JwSale\JwSale.Packs\Packs\Base\JwSalePack.cs:line 50
+   at Microsoft.Extensions.DependencyInjection.ServiceExtensions.UseJwSale(IApplicationBuilder app) in d:\project\JwSale\JwSale.Packs\ServiceExtensions.cs:line 76
+   at JwSale.Api.Program.Main(String[] args) in d:\project\JwSale\JwSale.Api\Program.cs:line 42None of the specified endpoints were reachable

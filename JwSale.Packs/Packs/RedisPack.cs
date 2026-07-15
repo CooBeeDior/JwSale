@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 namespace JwSale.Packs.Packs
 {
-    [Pack("Redis模块")]
+    [Pack("Redis模块", IsInitialization = false)]
     [PackDependecy(typeof(JwSaleOptionsPack))]
     public class RedisPack : JwSalePack
     {
@@ -38,7 +38,7 @@ namespace JwSale.Packs.Packs
         /// 应用AspNetCore的服务业务
         /// </summary>
         /// <param name="app">Asp应用程序构建器</param>
-        protected override void UsePack(IApplicationBuilder app)
+        protected override void UsePack(WebApplication app)
         {
         
         }

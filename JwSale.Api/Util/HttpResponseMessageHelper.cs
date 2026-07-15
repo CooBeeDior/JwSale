@@ -9,7 +9,7 @@ namespace JwSale.Api.Util
 {
     public class HttpResponseMessageHelper
     {
-        public static HttpResponseMessage Get(HttpStatusCode StatusCode, HttpContent Content, IDictionary<string, string> Headers = null, IEnumerable<CookieHeaderValue> Cookies = null)
+        public static HttpResponseMessage Get(HttpStatusCode StatusCode, HttpContent Content, IDictionary<string, string> Headers = null)
         {
             var response = CreateHttpResponseMessage();
             response.Content = Content;
@@ -20,10 +20,6 @@ namespace JwSale.Api.Util
                 {
                     response.Headers.Add(item.Key, item.Value);
                 }
-            }
-            if (Cookies != null)
-            {
-                response.Headers.AddCookies(Cookies);
             }
             return response;
 

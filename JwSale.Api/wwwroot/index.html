@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全制度管理系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/layui@2.8.18/dist/css/layui.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .system-container {
+            display: flex;
+            height: 100vh;
+        }
+        .left-sidebar {
+            width: 280px;
+            background-color: #2f363c;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .sidebar-header {
+            padding: 15px 20px;
+            background-color: #23292e;
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 1px solid #1a1f24;
+        }
+        .tree-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .tree-node {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 2px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .tree-node:hover {
+            background-color: #3a424a;
+        }
+        .tree-node.active {
+            background-color: #16b777;
+        }
+        .tree-node.has-files {
+            background-color: rgba(22, 183, 119, 0.2);
+        }
+        .tree-node.has-files.active {
+            background-color: #16b777;
+        }
+        .tree-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        .tree-indent {
+            display: inline-block;
+            width: 16px;
+        }
+        .tree-expand {
+            margin-right: 4px;
+            cursor: pointer;
+            color: #888;
+            font-size: 12px;
+        }
+        .tree-expand:hover {
+            color: #fff;
+        }
+        .right-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #f5f5f5;
+        }
+        .content-header {
+            padding: 15px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .content-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .content-toolbar {
+            display: flex;
+            gap: 10px;
+        }
+        .content-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        .file-list {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .file-list-header {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            font-weight: bold;
+            color: #666;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .file-item:hover {
+            background-color: #fafafa;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-right: 12px;
+            color: #16b777;
+        }
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .file-name {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .file-meta {
+            font-size: 12px;
+            color: #999;
+        }
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .preview-container {
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .preview-header {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .preview-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .preview-body {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .preview-pdf {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .preview-office {
+            text-align: center;
+            color: #999;
+        }
+        .context-menu {
+            position: fixed;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            padding: 4px 0;
+            z-index: 9999;
+            min-width: 120px;
+        }
+        .context-menu-item {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .context-menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        .context-menu-divider {
+            height: 1px;
+            background-color: #f0f0f0;
+            margin: 4px 0;
+        }
+        .upload-modal {
+            display: none;
+        }
+        .layui-form-label {
+            width: 90px;
+        }
+        .layui-input-block {
+            margin-left: 120px;
+        }
+        .file-preview-box {
+            border: 1px dashed #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .file-preview-info {
+            margin-top: 10px;
+            text-align: left;
+            font-size: 12px;
+            color: #666;
+        }
+        .file-preview-info p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="system-container">
+        <div class="left-sidebar">
+            <div class="sidebar-header">
+                <i class="layui-icon layui-icon-folder"></i> 安全制度管理
+            </div>
+            <div class="tree-container" id="treeContainer"></div>
+        </div>
+        
+        <div class="right-content">
+            <div class="content-header">
+                <div class="content-title" id="contentTitle">安全制度管理</div>
+                <div class="content-toolbar">
+                    <button class="layui-btn layui-btn-sm" id="btnAddDir">
+                        <i class="layui-icon layui-icon-folder-add"></i> 添加目录
+                    </button>
+                    <button class="layui-btn layui-btn-sm" id="btnAddFile">
+                        <i class="layui-icon layui-icon-upload"></i> 添加文件
+                    </button>
+                </div>
+            </div>
+            <div class="content-body" id="contentBody">
+                <div class="file-list">
+                    <div class="file-list-header">请选择左侧目录查看文件</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="context-menu" id="contextMenu" style="display: none;">
+        <div class="context-menu-item" data-action="addFile">添加文件</div>
+        <div class="context-menu-item" data-action="addDir">添加目录</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" data-action="deleteDir">删除目录</div>
+    </div>
+
+    <div id="uploadModal" class="layui-modal upload-modal">
+        <div class="layui-modal-dialog">
+            <div class="layui-modal-header">
+                <span class="layui-modal-title">上传文件</span>
+                <a class="layui-modal-close" href="javascript:;"></a>
+            </div>
+            <div class="layui-modal-body">
+                <form class="layui-form" id="uploadForm">
+                    <input type="hidden" name="directoryId" id="uploadDirectoryId">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择文件</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn" id="btnSelectFile">
+                                <i class="layui-icon layui-icon-upload"></i> 选择文件
+                            </button>
+                            <input type="file" id="fileInput" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="file-preview-box" id="filePreviewBox">
+                        <i class="layui-icon layui-icon-file" style="font-size: 48px; color: #ddd;"></i>
+                        <div id="filePreviewInfo" class="file-preview-info"></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="remark" id="uploadRemark" class="layui-textarea" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-modal-footer">
+                <button class="layui-btn layui-btn-primary" id="btnCancelUpload">取消</button>
+                <button class="layui-btn" id="btnConfirmUpload">上传</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="addDirModal" class="layui-modal upload-modal">
+        <div class="layui-modal-dialog">
+            <div class="layui-modal-header">
+                <span class="layui-modal-title">添加目录</span>
+                <a class="layui-modal-close" href="javascript:;"></a>
+            </div>
+            <div class="layui-modal-body">
+                <form class="layui-form" id="addDirForm">
+                    <input type="hidden" name="parentId" id="addDirParentId">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">父级目录</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="parentName" id="addDirParentName" readonly class="layui-input" style="background-color: #f5f5f5;">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">目录名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" id="addDirName" class="layui-input" placeholder="请输入目录名称">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="remark" id="addDirRemark" class="layui-textarea" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-modal-footer">
+                <button class="layui-btn layui-btn-primary" id="btnCancelAddDir">取消</button>
+                <button class="layui-btn" id="btnConfirmAddDir">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/layui@2.8.18/dist/layui.js"></script>
+    <script src="/js/safety-system.js"></script>
+</body>
+</html>
